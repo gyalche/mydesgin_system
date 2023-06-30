@@ -13,7 +13,7 @@ export default {
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Evergreen-v6-(Community)-(Copy)?type=design&node-id=2806-1732&mode=design&t=6IRBGZxc4phRX9n1-4',
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Evergreen-v6-(Community)-(Copy)?type=design&node-id=6044-15271&mode=design&t=9NHRiv6uwxtagOEf-4',
    },
 
   }
