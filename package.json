@@ -1,9 +1,14 @@
 {
-  "name": "receptionist-design-system",
+  "name": "@franckgaud/testdesignsystem",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.2",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3",
     "@storybook/addon-essentials": "^7.0.24",
     "@storybook/addon-interactions": "^7.0.24",
     "@storybook/addon-links": "^7.0.24",
@@ -20,16 +25,30 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "storybook": "^7.0.24",
     "storybook-addon-designs": "^7.0.0-beta.2"
   },
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "lint": "npx eslint ./src"
+    "lint": "npx eslint ./src",
+    "build": "rollup -c --bundleConfigAsCjs"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "styled-components": "^6.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d-lighted/receptionist-design-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/d-lighted/receptionist-design-system/issues"
+  },
+  "homepage": "https://github.com/d-lighted/receptionist-design-system#readme"
 }
