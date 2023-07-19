@@ -1,4 +1,4 @@
-# receptionist-design-sytem
+# receptionist-design-system
 
 
 ## Project Setup

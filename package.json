@@ -1,9 +1,15 @@
 {
   "name": "testdesignsystem",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
   "version": "1.0.0",
   "description": "",
   "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "dependencies": {
+    "prettier": "3.0.0",
+    "styled-components": "6.0.3"
+  },
   "devDependencies": {
     "@storybook/addon-essentials": "7.0.24",
     "@storybook/addon-interactions": "7.0.24",
@@ -37,14 +43,6 @@
     "lint": "eslint --ext .js,.jsx src",
     "lint:fix": "eslint --ext .js,.jsx src --fix",
     "postinstall": "husky install",
-    "prepare": "husky install"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "prettier": "^3.0.0",
-    "styled-components": "^6.0.3"
   },
   "repository": {
     "type": "git",
