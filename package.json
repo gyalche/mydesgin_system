@@ -1,0 +1,55 @@
+{
+  "name": "testdesignsystem",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/cjs/index.js",
+  "dependencies": {
+    "prettier": "3.0.0",
+    "styled-components": "6.0.3"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "7.0.24",
+    "@storybook/addon-interactions": "7.0.24",
+    "@storybook/addon-links": "7.0.24",
+    "@storybook/blocks": "7.0.24",
+    "@storybook/react": "7.0.24",
+    "@storybook/react-vite": "7.0.24",
+    "@storybook/testing-library": "0.0.14-next.2",
+    "eslint": "8.45.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-config-standard": "17.1.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-n": "16.0.1",
+    "eslint-plugin-prettier": "5.0.0",
+    "eslint-plugin-promise": "6.1.1",
+    "eslint-plugin-react": "7.32.2",
+    "husky": "7.0.2",
+    "prop-types": "15.8.1",
+    "storybook": "7.0.24",
+    "storybook-addon-designs": "7.0.0-beta.2"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "eslint --ext .js,.jsx src",
+    "lint:fix": "eslint --ext .js,.jsx src --fix",
+    "postinstall": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d-lighted/receptionist-design-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/d-lighted/receptionist-design-system/issues"
+  },
+  "homepage": "https://github.com/d-lighted/receptionist-design-system#readme"
+}

@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "prettier"
+  ],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "max-len": [2, 150],
+    "no-param-reassign": ["error", { "props": false }],
+    "prettier/prettier": "error",
+    "quotes": ["error", "double"],
+    "semi": [2, "always"],
+    "react/jsx-props-no-spreading": "off",
+    "no-console": [2],
+    "import/no-cycle": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  }
+}
