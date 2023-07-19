@@ -1,4 +1,4 @@
-import { Button } from "../src/components/Atoms/Buttons/Button";
+import { Button } from "../../src/components/Atoms/Buttons/Button";
 import { withDesign } from "storybook-addon-designs";
 
 export default {
