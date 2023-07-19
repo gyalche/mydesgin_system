@@ -42,7 +42,7 @@
     "build-storybook": "storybook build",
     "lint": "eslint --ext .js,.jsx src",
     "lint:fix": "eslint --ext .js,.jsx src --fix",
-    "postinstall": "husky install",
+    "postinstall": "husky install"
   },
   "repository": {
     "type": "git",
