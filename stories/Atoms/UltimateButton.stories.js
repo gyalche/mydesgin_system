@@ -1,9 +1,9 @@
-import { Button } from "../../src/components/Atoms/Buttons/Button";
+import { UltimateButton } from "../../src/components/Atoms/UltimateButton/UltimateButton";
 import { withDesign } from "storybook-addon-designs";
 
 export default {
   title: "Example/Button",
-  component: Button,
+  component: UltimateButton,
   argTypes: {
     backgroundColor: { control: "color" }
   },
@@ -20,12 +20,12 @@ export default {
 export const Primary = {
   args: {
     primary: true,
-    label: "Button"
+    label: "UltimateButton"
   }
 };
 
 export const Secondary = {
   args: {
-    label: "Button"
+    label: "UltimateButton"
   }
 };

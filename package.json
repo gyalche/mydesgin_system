@@ -1,16 +1,45 @@
 {
-  "name": "testdesignsystem",
+  "name": "receptionist-designsystem",
   "keywords": [],
   "author": "",
   "license": "MIT",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/cjs/index.js",
-  "dependencies": {
-    "prettier": "3.0.0",
-    "styled-components": "6.0.3"
+  "main": "dist/receptionist-designsystem.cjs.js",
+  "module": "dist/receptionist-designsystem.esm.js",
+  "browser": {
+    "./dist/receptionist-designsystem.esm.js": "./dist/receptionist-designsystem.browser.esm.js"
+  },
+  "exports": {
+    ".": {
+      "module": {
+        "worker": "./dist/receptionist-designsystem.worker.esm.js",
+        "browser": "./dist/receptionist-designsystem.browser.esm.js",
+        "default": "./dist/receptionist-designsystem.esm.js"
+      },
+      "default": "./dist/receptionist-designsystem.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "preconstruct": {
+    "exports": {
+      "envConditions": [
+        "browser",
+        "worker"
+      ]
+    },
+    "entrypoints": [
+      "index.js"
+    ]
   },
   "devDependencies": {
+    "@babel/cli": "7.22.9",
+    "@babel/core": "7.22.9",
+    "@babel/plugin-syntax-jsx": "7.22.5",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "7.22.9",
+    "@babel/preset-react": "7.22.5",
+    "@preconstruct/cli": "2.8.1",
     "@storybook/addon-essentials": "7.0.24",
     "@storybook/addon-interactions": "7.0.24",
     "@storybook/addon-links": "7.0.24",
@@ -18,6 +47,7 @@
     "@storybook/react": "7.0.24",
     "@storybook/react-vite": "7.0.24",
     "@storybook/testing-library": "0.0.14-next.2",
+    "babel-plugin-styled-components": "^2.1.4",
     "eslint": "8.45.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-config-standard": "17.1.0",
@@ -26,14 +56,17 @@
     "eslint-plugin-prettier": "5.0.0",
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.32.2",
-    "husky": "7.0.2",
+    "husky": "^7.0.4",
+    "prettier": "3.0.0",
     "prop-types": "15.8.1",
     "storybook": "7.0.24",
-    "storybook-addon-designs": "7.0.0-beta.2"
+    "storybook-addon-designs": "7.0.0-beta.2",
+    "styled-components": "6.0.3"
   },
   "peerDependencies": {
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0"
+    "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "styled-components": "^6.0.3"
   },
   "type": "module",
   "scripts": {
@@ -42,6 +75,7 @@
     "build-storybook": "storybook build",
     "lint": "eslint --ext .js,.jsx src",
     "lint:fix": "eslint --ext .js,.jsx src --fix",
+    "build": "preconstruct build",
     "postinstall": "husky install"
   },
   "repository": {
