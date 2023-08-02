@@ -61,6 +61,7 @@
     "prop-types": "15.8.1",
     "storybook": "7.0.24",
     "storybook-addon-designs": "7.0.0-beta.2",
+    "style-dictionary": "^3.8.0",
     "styled-components": "6.0.3"
   },
   "peerDependencies": {
@@ -76,7 +77,8 @@
     "lint": "eslint --ext .js,.jsx src",
     "lint:fix": "eslint --ext .js,.jsx src --fix",
     "build": "preconstruct build",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "token:update": "style-dictionary build --config sd.config.json"
   },
   "repository": {
     "type": "git",
