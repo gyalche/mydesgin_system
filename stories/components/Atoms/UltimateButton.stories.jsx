@@ -1,4 +1,4 @@
-import { UltimateButton } from "../../src/components/Atoms/UltimateButton/UltimateButton";
+import UltimateButton from "../../../src/components/Atoms/UltimateButton/UltimateButton.jsx";
 import { withDesign } from "storybook-addon-designs";
 
 export default {
