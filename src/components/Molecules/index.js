@@ -1,1 +1,1 @@
-export { default as UltimateText } from "./UltimateText/UltimateText";
+export { default as UltimateText } from './UltimateText/UltimateText';

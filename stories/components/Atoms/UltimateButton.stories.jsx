@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:stories/components/Atoms/UltimateButton.stories.js
+import UltimateButton from "../../../src/components/Atoms/UltimateButton/UltimateButton";
+========
 import UltimateButton from "../../../src/components/Atoms/UltimateButton/UltimateButton.jsx";
+>>>>>>>> develop:stories/components/Atoms/UltimateButton.stories.jsx
 import { withDesign } from "storybook-addon-designs";
 
 export default {
