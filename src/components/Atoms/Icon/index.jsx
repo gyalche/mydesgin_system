@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import icons from '../../../icons/rds-icons.module.css';
+import icons from 'src/shared/css/icons.module.css';
 
 export const Icon = ({ name }) => {
   return <i className={['rds', icons[`rds-${name}`]].join(' ')}></i>;

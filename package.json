@@ -5,33 +5,8 @@
   "license": "MIT",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/receptionist-designsystem.cjs.js",
-  "module": "dist/receptionist-designsystem.esm.js",
-  "browser": {
-    "./dist/receptionist-designsystem.esm.js": "./dist/receptionist-designsystem.browser.esm.js"
-  },
-  "exports": {
-    ".": {
-      "module": {
-        "worker": "./dist/receptionist-designsystem.worker.esm.js",
-        "browser": "./dist/receptionist-designsystem.browser.esm.js",
-        "default": "./dist/receptionist-designsystem.esm.js"
-      },
-      "default": "./dist/receptionist-designsystem.cjs.js"
-    },
-    "./package.json": "./package.json"
-  },
-  "preconstruct": {
-    "exports": {
-      "envConditions": [
-        "browser",
-        "worker"
-      ]
-    },
-    "entrypoints": [
-      "index.js"
-    ]
-  },
+  "main": "dist/receptionist-designsystem.js",
+  "module": "dist/receptionist-designsystem.js",
   "devDependencies": {
     "@babel/cli": "7.22.9",
     "@babel/core": "7.22.9",
@@ -39,7 +14,10 @@
     "@babel/polyfill": "7.12.1",
     "@babel/preset-env": "7.22.9",
     "@babel/preset-react": "7.22.5",
-    "@preconstruct/cli": "2.8.1",
+    "@rollup/plugin-babel": "6.0.3",
+    "@rollup/plugin-commonjs": "25.0.3",
+    "@rollup/plugin-node-resolve": "15.1.0",
+    "@rollup/plugin-terser": "0.4.3",
     "@storybook/addon-essentials": "7.1.1",
     "@storybook/addon-interactions": "7.1.1",
     "@storybook/addon-links": "7.1.1",
@@ -56,31 +34,41 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-storybook": "0.6.13",
-    "fantasticon": "^2.0.0",
+    "fantasticon": "2.0.0",
     "husky": "7.0.4",
     "prop-types": "15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "rimraf": "5.0.1",
+    "rollup": "3.27.0",
+    "rollup-plugin-includepaths": "0.2.4",
+    "rollup-plugin-peer-deps-external": "2.2.4",
+    "rollup-plugin-postcss": "4.0.2",
     "storybook": "7.1.1",
-    "storybook-addon-designs": "^6.3.1",
+    "storybook-addon-designs": "6.3.1",
+    "style-dictionary": "3.8.0",
     "styled-components": "6.0.3",
     "vite": "4.4.4"
   },
   "peerDependencies": {
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "prop-types": "^15.0.0",
     "styled-components": "^6.0.3"
   },
   "scripts": {
-    "build": "preconstruct build",
-    "build-storybook": "storybook build",
-    "font": "fantasticon && sh ./prepare_fonts.sh",
+    "build:dev": "rimraf dist && NODE_ENV=development rollup -c rollup.config.js --bundleConfigAsCjs",
+    "build:prod": "rimraf dist && rollup -c rollup.config.js --bundleConfigAsCjs",
+    "build:storybook": "storybook build",
     "lint": "eslint --ext .js,.jsx src",
     "lint:fix": "eslint --ext .js,.jsx src --fix",
-    "logo": "npx @svgr/cli --ext jsx --out-dir src/components/Atoms/Logo -- assets/svg/logo",
     "postinstall": "husky install",
-    "storybook": "storybook dev -p 6006",
-    "svg:prepare": "npm run logo && npm run font",
+    "prepare:all": "npm run prepare:svg && npm run prepare:token",
+    "prepare:font": "fantasticon && sh ./prepare_fonts.sh",
+    "prepare:logo": "npx @svgr/cli --ext jsx --out-dir src/components/Atoms/Logo -- assets/svg/logo",
+    "prepare:svg": "npm run prepare:logo && npm run prepare:font",
+    "prepare:token": "style-dictionary build --config sd.config.json",
+    "run:storybook": "storybook dev -p 6006",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

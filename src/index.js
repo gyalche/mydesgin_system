@@ -1,5 +1,3 @@
-import * as Atoms from './components/Atoms';
-import * as Molecules from './components/Molecules';
-import * as Organisms from './components/Organisms';
+export * from './components';
 
-export { Atoms, Molecules, Organisms };
+import './shared/css/variables.css';

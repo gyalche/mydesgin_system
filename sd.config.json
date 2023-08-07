@@ -4,7 +4,7 @@
     "css": {
       "transformGroup": "css",
       "prefix": "rds",
-      "buildPath": "src/shared/",
+      "buildPath": "src/shared/css/",
       "files": [
         {
           "destination": "variables.css",
