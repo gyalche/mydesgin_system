@@ -1,9 +1,9 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from '../../../src/components/Atoms/Icon';
-import * as logos from '../../../src/components/Atoms/Logo'
-import icons from "../../../src/icons/rds-icons.module.css";
+import { Icon } from 'src/components/Atoms/Icon';
+import * as logos from 'src/components/Atoms/Logo'
+import icons from "src/icons/rds-icons.module.css";
 
 export default {
   title: "Atoms/Icon",

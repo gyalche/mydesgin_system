@@ -1,5 +1,4 @@
-import * as Layout from "../../../src/components/Atoms/Layout";
-import styled from 'styled-components';
+import * as Layout from "src/components/Atoms/Layout";
 
 export default {
   title: "Atoms/Layout",
