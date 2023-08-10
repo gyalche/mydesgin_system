@@ -2,21 +2,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Icon } from 'src/components/Atoms/Icon';
-import * as logos from 'src/components/Atoms/Logo'
-import icons from "src/icons/rds-icons.module.css";
+import * as logos from 'src/components/Atoms/Logo';
+import icons from 'src/shared/css/icons.module.css';
 
 export default {
-  title: "Atoms/Icon",
+  title: 'Atoms/Icon',
   component: Icon,
 };
 
 export const IndividualTest = {
-  title: "Icon",
+  title: 'Icon',
   render: ({ name }) => (
     <Icon name={name}></Icon>
   ),
   args: {
-    name: "global-cog",
+    name: 'global-cog',
   }
 };
 
@@ -54,7 +54,13 @@ const Label = styled.span`
 `;
 
 export const IconList = {
-  title: "Icon List",
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=131-1294&mode=design&t=g6nxjdQUCysTShhd-0'
+    }
+  },
+  title: 'Icon List',
   render: () => {
     const iconNameList = Object.getOwnPropertyNames(icons).map(key => key.substring(4,key.length));
     return (
@@ -68,20 +74,26 @@ export const IconList = {
           </PreviewItem>
         ))}
       </div>
-    )
+    );
   },
   args: null,
 };
 
 export const LogoList = {
-  title: "Logo List",
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=131-1294&mode=design&t=g6nxjdQUCysTShhd-0'
+    }
+  },
+  title: 'Logo List',
   render: () => {
     const logoNameList = Object.getOwnPropertyNames(logos);
 
     return (
       <div>
         {logoNameList.map(key => {
-          const Logo = logos[key]
+          const Logo = logos[key];
           return (
             <PreviewItem title={key}>
               <Content>
@@ -92,7 +104,7 @@ export const LogoList = {
           );
         })}
       </div>
-    )
+    );
   },
   args: null,
 };

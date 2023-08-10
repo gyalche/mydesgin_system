@@ -1,12 +1,12 @@
-import * as Layout from "src/components/Atoms/Layout";
+import * as Layout from 'src/components/Atoms/Layout';
 
 export default {
-  title: "Atoms/Layout",
+  title: 'Atoms/Layout',
   component: Layout.Flex,
 };
 
 export const Samples = {
-  title: "Samples",
+  title: 'Samples',
   parameters: {
     options: { showPanel: false },
     controls: { hideNoControlsWarning: true },

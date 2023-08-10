@@ -18,6 +18,7 @@
     "@rollup/plugin-commonjs": "25.0.3",
     "@rollup/plugin-node-resolve": "15.1.0",
     "@rollup/plugin-terser": "0.4.3",
+    "@storybook/addon-designs": "7.0.1",
     "@storybook/addon-essentials": "7.1.1",
     "@storybook/addon-interactions": "7.1.1",
     "@storybook/addon-links": "7.1.1",
@@ -33,7 +34,6 @@
     "eslint-plugin-n": "16.0.1",
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.32.2",
-    "eslint-plugin-storybook": "0.6.13",
     "fantasticon": "2.0.0",
     "husky": "7.0.4",
     "prop-types": "15.8.1",
@@ -51,17 +51,17 @@
     "vite": "4.4.4"
   },
   "peerDependencies": {
+    "prop-types": "^15.0.0",
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0",
-    "prop-types": "^15.0.0",
     "styled-components": "^6.0.3"
   },
   "scripts": {
     "build:dev": "rimraf dist && NODE_ENV=development rollup -c rollup.config.js --bundleConfigAsCjs",
     "build:prod": "rimraf dist && rollup -c rollup.config.js --bundleConfigAsCjs",
     "build:storybook": "storybook build",
-    "lint": "eslint --ext .js,.jsx src",
-    "lint:fix": "eslint --ext .js,.jsx src --fix",
+    "lint": "eslint --ext .js,.jsx {src,stories,.storybook}",
+    "lint:fix": "eslint --ext .js,.jsx {src,stories,.storybook} --fix",
     "postinstall": "husky install",
     "prepare:all": "npm run prepare:svg && npm run prepare:token",
     "prepare:font": "fantasticon && sh ./prepare_fonts.sh",
