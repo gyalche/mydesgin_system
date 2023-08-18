@@ -7,9 +7,10 @@ export default {
 };
 
 export const Buttons =  {
-  title: 'Atoms',
+  title: 'Buttons',
   component: Button,
   parameters: {
+    layout: 'centered',
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=6044-14890&mode=design&t=g6nxjdQUCysTShhd-0'
@@ -38,32 +39,26 @@ export const Buttons =  {
   },
   render: (args) => {
     return  (
-      <Layout.Flex justifyContent='center' alignItems='center'>
-        <Layout.Item flex="4"></Layout.Item>
-        <Layout.Item flex="3">
-          <Layout.Block>
-            <Layout.Item mt="20px">
-              <Button {...args}>{args.content || 'Primary'}</Button>
-            </Layout.Item>
-            <Layout.Item mt="20px">
-              <Button.Secondary {...args}>{args.content || 'Secondary'}</Button.Secondary>
-            </Layout.Item>
-            <Layout.Item mt="20px">
-              <Button.Danger {...args}>{args.content || 'Danger'}</Button.Danger>
-            </Layout.Item>
-            <Layout.Item mt="20px">
-              <Button.Warning {...args}>{args.content || 'Warning'}</Button.Warning>
-            </Layout.Item>
-            <Layout.Item mt="20px">
-              <Button.Link {...args}>{args.content || 'Link'}</Button.Link>
-            </Layout.Item>
-            <Layout.Item mt="30px">
-              <Button.SubtleLink {...args}>{args.content || 'SubtleLink'}</Button.SubtleLink>
-            </Layout.Item>
-          </Layout.Block>
+      <Layout.Block>
+        <Layout.Item mt="20px">
+          <Button {...args}>{args.content || 'Primary'}</Button>
         </Layout.Item>
-        <Layout.Item flex="4"></Layout.Item>
-      </Layout.Flex>
+        <Layout.Item mt="20px">
+          <Button.Secondary {...args}>{args.content || 'Secondary'}</Button.Secondary>
+        </Layout.Item>
+        <Layout.Item mt="20px">
+          <Button.Danger {...args}>{args.content || 'Danger'}</Button.Danger>
+        </Layout.Item>
+        <Layout.Item mt="20px">
+          <Button.Warning {...args}>{args.content || 'Warning'}</Button.Warning>
+        </Layout.Item>
+        <Layout.Item mt="20px">
+          <Button.Link {...args}>{args.content || 'Link'}</Button.Link>
+        </Layout.Item>
+        <Layout.Item mt="30px">
+          <Button.SubtleLink {...args}>{args.content || 'SubtleLink'}</Button.SubtleLink>
+        </Layout.Item>
+      </Layout.Block>
     );
   }
 };
