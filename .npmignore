@@ -7,3 +7,4 @@ preconstruct.config.js
 babel.config.json
 .husky
 .env
+storybook-static
