@@ -1,9 +1,9 @@
-import { default as Primary } from './Primary.jsx';
-import { default as Secondary } from './Secondary.jsx';
-import { default as Warning } from './Warning.jsx';
-import { default as Danger } from './Danger.jsx';
-import { default as Link } from './Link.jsx';
-import { default as SubtleLink } from './SubtleLink.jsx';
+import { default as Primary } from './Primary';
+import { default as Secondary } from './Secondary';
+import { default as Warning } from './Warning';
+import { default as Danger } from './Danger';
+import { default as Link } from './Link';
+import { default as SubtleLink } from './SubtleLink';
 
 const Button = Primary;
 
