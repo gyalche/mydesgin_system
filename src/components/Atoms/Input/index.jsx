@@ -34,7 +34,7 @@ const Input = styled.input`
   &:disabled {
     border: 1px solid var(--rds-neutral-300);
     color: var(--rds-neutral-500);
-    background-color: var(--rds-neutral-200)
+    background-color: var(--rds-neutral-200);
   }
 `;
 
