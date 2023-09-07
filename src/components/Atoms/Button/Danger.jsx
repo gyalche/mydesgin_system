@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import CommonButtonStyle from './CommonButtonStyle';
 
 const Danger = styled(CommonButtonStyle)`
-  padding: ${({ compact }) => compact ? '0px 8px' : '0px 16px'};
+  padding: ${({ compact }) => compact ? '0 8px' : '0 16px'};
   border: 1px solid var(--rds-red-500);
   color: var(--rds-neutral-0);
   background-color: var(--rds-red-500);
