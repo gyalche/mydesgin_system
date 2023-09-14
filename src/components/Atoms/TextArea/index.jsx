@@ -22,11 +22,6 @@ const TextArea = styled.textarea`
     border: 1px solid var(--rds-teal-400);
   }
 
-  &:focus {
-    outline: none;
-    border: 1px solid var(--rds-teal-500);
-  }
-
   &:invalid {
     border: 1px solid var(--rds-red-400);
   }
