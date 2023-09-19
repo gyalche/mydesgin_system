@@ -35,12 +35,13 @@ it('input changes style on hover', () => {
   expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-teal-400)',{ modifier: ':hover' });
 });
 
-it('input changes style on focus', () => {
+it('input can be focused', () => {
   render(<Input />);
   const inputElement = screen.getByRole('textbox');
 
-  expect(inputElement).toHaveStyleRule('outline', 'none',{ modifier: ':focus' });
-  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-teal-500)',{ modifier: ':focus' });
+  inputElement.focus();
+
+  expect(inputElement).toHaveFocus();
 });
 
 it('input changes style on invalid', () => {

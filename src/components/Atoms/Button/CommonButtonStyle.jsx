@@ -139,7 +139,7 @@ CommonButtonStyle.defaultProps = {
   mr: '0',
   mb: '0',
   ml: '0',
-  compact: false,
+  compact: null,
 };
 
 export default CommonButtonStyle;
