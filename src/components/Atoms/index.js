@@ -4,6 +4,7 @@ export { default as Icon } from './Icon';
 export { default as Input } from './Input';
 export { default as Label } from './Label';
 export { default as TextArea } from './TextArea';
+export { default as Dropdown } from './Dropdown';
 
 export * as Layout from './Layout';
 export * as Logo from './Logo';

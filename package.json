@@ -69,8 +69,8 @@
   "scripts": {
     "build:dev": "rimraf dist && NODE_ENV=development rollup -c rollup.config.js --bundleConfigAsCjs",
     "build:prod": "rimraf dist && rollup -c rollup.config.js --bundleConfigAsCjs",
-    "lint": "eslint --ext .js,.jsx {src,stories,.storybook}",
-    "lint:fix": "eslint --ext .js,.jsx {src,stories,.storybook} --fix",
+    "lint": "eslint ./{src,stories}/**/*.{js,jsx}",
+    "lint:fix": "eslint ./{src,stories}/**/*.{js,jsx} --fix",
     "postinstall": "husky install",
     "prepare:all": "npm run prepare:svg && npm run prepare:token",
     "prepare:font": "fantasticon && sh ./prepare_fonts.sh",
@@ -90,5 +90,8 @@
   "bugs": {
     "url": "https://github.com/d-lighted/receptionist-design-system/issues"
   },
-  "homepage": "https://github.com/d-lighted/receptionist-design-system#readme"
+  "homepage": "https://github.com/d-lighted/receptionist-design-system#readme",
+  "dependencies": {
+    "downshift": "8.1.0"
+  }
 }
