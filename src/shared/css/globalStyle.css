@@ -1,5 +1,10 @@
 
 :focus {
   border-radius: 4px;
-  outline: 3px solid var(--rds-color-primary-1-pale); 
+  outline: 3px solid var(--rds-color-primary-1-pale);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Noto Sans JP', sans-serif;
 }

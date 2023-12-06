@@ -5,6 +5,8 @@ import terser from '@rollup/plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import includePaths from 'rollup-plugin-includepaths';
 import postcss from 'rollup-plugin-postcss'
+import discardComments from 'postcss-discard-comments';
+import cssnano from 'cssnano';
 import pkg from './package.json'
 
 const dev = process.env.NODE_ENV === "development";
@@ -39,6 +41,12 @@ export default {
       modules: true,
       sourceMap: dev,
       extract: true,
+      plugins: [
+        discardComments({
+          removeAll: true,
+        }),
+        !dev && cssnano(),
+      ]
     }),
     !dev && terser(),
   ],
