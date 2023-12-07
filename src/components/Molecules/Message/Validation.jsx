@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import { Icon } from 'src/components/Atoms/Icon';
+import Icon from 'src/components/Atoms/Icon';
 import PropTypes from 'prop-types';
 
 const Message = styled.div`
@@ -21,7 +21,7 @@ export const Validation = ({ children, isValid }) => {
       <Icon name={isValid ? 'alert-circle-solid-check' : 'alert-circle-solid-cross'} />
       <Message>
         {children}
-      </Message>  
+      </Message>
     </MessageContainer>
   );
 };

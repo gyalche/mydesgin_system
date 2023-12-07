@@ -1,7 +1,9 @@
-import resolve from '@rollup/plugin-node-resolve'
+import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
 import terser from '@rollup/plugin-terser';
+import path from 'path';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import includePaths from 'rollup-plugin-includepaths';
 import postcss from 'rollup-plugin-postcss'
@@ -10,6 +12,8 @@ import cssnano from 'cssnano';
 import pkg from './package.json'
 
 const dev = process.env.NODE_ENV === "development";
+
+const projectRootDir = path.resolve(__dirname);
 
 export default {
   input: 'src/index.js',
@@ -25,6 +29,14 @@ export default {
   },
   plugins: [
     peerDepsExternal(),
+    alias({
+      entries: [
+        {
+          find: 'src',
+          replacement: path.resolve(projectRootDir, 'src')
+        }
+      ],
+    }),
     includePaths({ paths: ["./"] }),
     commonjs({
       include: 'node_modules/**',
