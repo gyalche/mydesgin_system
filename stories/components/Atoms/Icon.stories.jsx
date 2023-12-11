@@ -1,7 +1,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from 'src/components/Atoms/Icon';
+import Icon from 'src/components/Atoms/Icon';
 import * as logos from 'src/components/Atoms/Logo';
 import icons from 'src/shared/css/icons.module.css';
 
