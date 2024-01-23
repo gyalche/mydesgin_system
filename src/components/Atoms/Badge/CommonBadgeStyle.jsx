@@ -1,16 +1,23 @@
-import styled , { css }from 'styled-components';
+import styled , { css } from 'styled-components';
 
 export const CommonBadgeStyle = styled.span`
-  display: inline-flex;
-  font-size: 12px;
-  height: 20px;
-  padding: 0 4px;
-  justify-content: center;
   align-items: center;
-  color: var(--rds-color-neutral-10);
   border-radius: 4px;
-  background-color: var(--rds-color-neutral-2);
-
+  font-size: ${{fontSize} => fontSize || '12px'};
+  font-weight: 700;
+  justify-content: center;
+  padding: 2px 6px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: ${props => props.width};
+  height: ${props => props.height};
+  margin-bottom: ${props => props.mb};
+  margin-top: ${props => props.mt};
+  margin-right: ${props => props.mr};
+  margin-left: ${props => props.ml};
   ${props => props.appearance === 'blue' && Blue}
   ${props => props.appearance === 'green' && Green}
   ${props => props.appearance === 'yellow' && Yellow}
@@ -22,43 +29,43 @@ export const CommonBadgeStyle = styled.span`
 `;
 
 export const Blue = css`
-  color: var(--rds-color-tertiary-2-deep);
   background-color: var(--rds-color-teritary-2-subtle);
+  color: var(--rds-color-tertiary-2-deep);
 `;
 
 export const Green = css`
-  color: var(--rds-color-secondary-2-deep);
   background-color: var(--rds-color-secondary-2-subtle);
+  color: var(--rds-color-secondary-2-deep);
 `;
 
 export const Yellow = css`
-  color: var(--rds-color-tertiary-1-deep);
   background-color: var(--rds-color-tertiary-1-subtle);
+  color: var(--rds-color-tertiary-1-deep);
 `;
 
 export const Red = css`
-  color: var(--rds-color-secondary-3-deep);
   background-color: var(--rds-color-secondary-3-subtle);
+  color: var(--rds-color-secondary-3-deep);
 `;
 
 export const Violet = css`
-  color: var(--rds-color-secondary-1-deep);
   background-color: var(--rds-color-secondary-1-subtle);
+  color: var(--rds-color-secondary-1-deep);
 `;
 
 export const Teal = css`
-  color: var(--rds-color-primary-1-deep);
   background-color: var(--rds-color-primary-1-subtle);
+  color: var(--rds-color-primary-1-deep);
 `;
 
 export const Pink = css`
-  color: var(--rds-color-teritary-3-deep);
   background-color: var(--rds-color-teritary-3-subtle);
+  color: var(--rds-color-teritary-3-deep);
 `;
 
 export const Orange = css`
-  color: var(--rds-color-teritary-4-deep);
   background-color: var(--rds-color-teritary-4-subtle);
+  color: var(--rds-color-teritary-4-deep);
 `;
 
 export default CommonBadgeStyle;
