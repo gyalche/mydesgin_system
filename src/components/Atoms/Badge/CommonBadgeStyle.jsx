@@ -3,7 +3,7 @@ import styled , { css } from 'styled-components';
 export const CommonBadgeStyle = styled.span`
   align-items: center;
   border-radius: 4px;
-  font-size: ${{fontSize} => fontSize || '12px'};
+  font-size: ${({fontSize}) => fontSize || '12px'};
   font-weight: 700;
   justify-content: center;
   padding: 2px 6px;

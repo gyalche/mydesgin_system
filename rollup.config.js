@@ -60,6 +60,12 @@ export default {
         !dev && cssnano(),
       ]
     }),
+    removeTestIdAttribute({ 
+      include: [/\.[tj]sx$/],
+      exclude: ['**/node_modules/**'],
+      attributes: ['data-testid'],
+      usage: 'vite',
+    }),
     !dev && terser(),
   ],
 }
