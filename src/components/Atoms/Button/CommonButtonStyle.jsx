@@ -1,128 +1,129 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types'; 
 
 export const primaryStyles = css`
-  border: 1px solid var(--rds-teal-500);
-  color: var(--rds-neutral-0);
-  background-color: var(--rds-teal-500);
+  background-color: var(--rds-color-primary-1-dark);
+  border: 1px solid var(--rds-color-primary-1-dark);
+  color: var(--rds-color-neutral-0);
 
   &:hover {
-    background-color: var(--rds-teal-600);
-    border-color: var(--rds-teal-600);
+    background-color: var(--rds-color-primary-1-deep);
+    border-color: var(--rds-color-primary-1-deep);
   }
 
   &:active {
-    background-color: var(--rds-teal-700);
-    border-color: var(--rds-teal-700);
+    background-color: var(--rds-color-primary-1-intense);
+    border-color: var(--rds-color-primary-1-intense);
   }
 `;
 
 export const secondaryStyles = css`
-  border: 1px solid var(--rds-teal-500);
-  color: var(--rds-teal-500);
-  background-color: var(--rds-neutral-0);
+  background-color: var(--rds-color-neutral-0);
+  border: 1px solid var(--rds-color-primary-1-dark);
+  color: var(--rds-color-primary-1-dark);
   height: ${({ compact }) => compact ? '32px' : '40px'};
   
   &:hover {
-    background-color: var(--rds-neutral-100);
-    border-color: var(--rds-teal-600);
+    background-color: var(--rds-color-neutral-1);
+    border-color: var(--rds-color-primary-1-deep);
   }
 
   &:active {
-    background-color: var(--rds-neutral-200);
-    border-color: var(--rds-teal-700);
+    background-color: var(--rds-color-neutral-2);
+    border-color: var(--rds-color-primary-1-intense);
   }
 `;
 
 export const warningStyles = css`
-  border: 1px solid var(--rds-yellow-500);
-  color: var(--rds-neutral-0);
-  background-color: var(--rds-yellow-500);
+  background-color: var(--rds-color-tertiary-1-dark);
+  border: 1px solid var(--rds-color-tertiary-1-dark);
+  color: var(--rds-color-neutral-0);
   height: ${({ compact }) => compact ? '32px' : '40px'};
   
   &:hover {
-    background-color: var(--rds-yellow-600);
-    border-color: var(--rds-yellow-600)
+    background-color: var(--rds-color-tertiary-1-deep);
+    border-color: var(--rds-color-tertiary-1-deep)
   }
 
   &:active {
-    background-color: var(--rds-yellow-700);
-    border-color: var(--rds-yellow-700);
+    background-color: var(--rds-color-tertiary-1-intense);
+    border-color: var(--rds-color-tertiary-1-intense);
   }
 `;
 
 export const dangerStyles = css`
-  border: 1px solid var(--rds-red-500);
-  color: var(--rds-neutral-0);
-  background-color: var(--rds-red-500);
+  background-color: var(--rds-color-secondary-3-dark);
+  border: 1px solid var(--rds-color-secondary-3-dark);
+  color: var(--rds-color-neutral-0);
   height: ${({ compact }) => compact ? '32px' : '40px'};
   
   &:hover {
-    background-color: var(--rds-red-600);
-    border-color: var(--rds-red-600)
+    background-color: var(--rds-color-secondary-3-deep);
+    border-color: var(--rds-color-secondary-3-deep)
   }
 
   &:active {
-    background-color: var(--rds-red-700);
-    border-color: var(--rds-red-700);
+    background-color: var(--rds-color-secondary-3-intense);
+    border-color: var(--rds-color-secondary-3-intense);
   }
 `;
 
 export const linkStyles = css`
-  padding: 0; 
-  border: none;
-  color: var(--rds-teal-500);
   background-color: transparent;
+  border: none;
+  color: var(--rds-color-primary-1-dark);
+  padding: 0;
   
   &:hover {
     background-color: transparent;
-    color: var(--rds-teal-600);
+    color: var(--rds-color-primary-1-deep);
     text-decoration: underline;
   }
 
   &:active {
     background-color: transparent;
-    color: var(--rds-teal-700);
+    color: var(--rds-color-primary-1-intense);
     text-decoration: underline;
   }
 `;
 
 export const subtleLinkStyles = css`
-  padding: 0;
-  border: none;
-  color: var(--rds-neutral-900);
   background-color: transparent;
+  border: none;
+  color: var(--rds-color-neutral-9);
+  padding: 0;
 
   &:hover {
-    color: var(--rds-neutral-1000);
     background-color: transparent;
+    color: var(--rds-color-neutral-10);
     text-decoration: none;
   }
 
   &:active {
-    color: var(--rds-neutral-800);
     background-color: transparent;
+    color: var(--rds-color-neutral-8);
     text-decoration: underline;
   }
 `;
 
 export const CommonButtonStyle = styled.button`
-  justify-content: center;
   align-items: center;
-  display: flex;
   border-radius: 4px;
   cursor: pointer;
-  padding: ${({ compact }) => compact ? '0 8px' : '0 16px'};
+  display: flex;
   height: ${({ compact }) => compact ? '32px' : '40px'};
-  width: ${({ w }) => w };
+  justify-content: center;
   margin-top: ${({ mt }) => mt};
   margin-right: ${({ mr }) => mr};
   margin-bottom: ${({ mb }) => mb};
   margin-left: ${({ ml }) => ml};
+  padding: ${({ compact }) => compact ? '0 8px' : '0 16px'};
+  width: ${({ w }) => w };
 
   &:disabled {
-    background-color: var(--rds-neutral-200);
-    border-color: var(--rds-neutral-400);
-    color: var(--rds-neutral-700);
+    background-color: var(--rds-color-neutral-2);
+    border-color: var(--rds-color-neutral-4);
+    color: var(--rds-color-neutral-7);
   }
 
   ${props => props.appearance === 'primary' && primaryStyles}
@@ -133,13 +134,24 @@ export const CommonButtonStyle = styled.button`
   ${props => props.appearance === 'subtleLink' && subtleLinkStyles}
 `;
 
+CommonButtonStyle.propTypes = {
+  appearance: PropTypes.oneOf(['primary', 'secondary', 'warning', 'danger', 'link', 'subtleLink']),
+  compact: PropTypes.bool,
+  w: PropTypes.string, 
+  mt: PropTypes.string,
+  mr: PropTypes.string,
+  mb: PropTypes.string,
+  ml: PropTypes.string,
+};
+
 CommonButtonStyle.defaultProps = {
+  appearance: false,
+  compact: false,
   w: 'auto',
   mt: '0',
   mr: '0',
   mb: '0',
   ml: '0',
-  compact: null,
 };
 
 export default CommonButtonStyle;

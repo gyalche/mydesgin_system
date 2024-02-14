@@ -22,19 +22,19 @@ it('onClick event is triggered when button is clicked', () => {
 it('button changes style on hover', () => {
   render(<Button />);
   const button = screen.getByRole('button');
-  expect(button).toHaveStyleRule('background-color', 'var(--rds-teal-600)',{ modifier: ':hover' });
+  expect(button).toHaveStyleRule('background-color', 'var(--rds-color-primary-1-deep)',{ modifier: ':hover' });
 });
 
 it('button changes style on click', () => {
   render(<Button />);
   const button = screen.getByRole('button');
-  expect(button).toHaveStyleRule('background-color', 'var(--rds-teal-700)',{ modifier: ':active' });
+  expect(button).toHaveStyleRule('background-color', 'var(--rds-color-primary-1-intense)',{ modifier: ':active' });
 });
 
 it('button changes style on disabled', () => {
   render(<Button />);
   const button = screen.getByRole('button');
-  expect(button).toHaveStyleRule('background-color', 'var(--rds-neutral-200)',{ modifier: ':disabled' });
+  expect(button).toHaveStyleRule('background-color', 'var(--rds-color-neutral-2)',{ modifier: ':disabled' });
 });
 
 it('button changes style when mt has value', () => {

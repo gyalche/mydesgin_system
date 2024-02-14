@@ -5,9 +5,9 @@ import Button from 'src/components/Atoms/Button';
 import styled from 'styled-components';
 
 export const BaseStyle = styled(Button)`
-  font-size: ${({ compact, hasText }) => (compact || hasText ? '24px' : '32px')};
   display: flex;
   flex-direction: ${({ position }) => (position === 'right' ? 'row-reverse' : 'row')};
+  font-size: ${({ compact, hasText }) => (compact || hasText ? '24px' : '32px')};
   padding: ${({ hasText }) => (hasText ? '' : '4px')};
   padding-bottom: 0;
 
@@ -15,13 +15,13 @@ export const BaseStyle = styled(Button)`
     text-decoration: none;
   }
 
+  i {
+    margin-bottom: ${({ hasText }) => (hasText ? '-2px' : '0')};
+  }
+
   span {
     font-size: 14px;
     ${({ position }) => position === 'right' ? 'margin-right: 4px;' : 'margin-left: 4px;'}
-  }
-  
-  i {
-    margin-bottom: ${({ hasText }) => (hasText ? '-2px' : '0')};
   }
 `;
 
@@ -34,8 +34,14 @@ export function StyledIconButton({ iconName, text, appearance, ...props }) {
   );
 };
 
+StyledIconButton.defaultProps = {
+  appearance: 'primary',
+  iconName: 'navigation-users',
+  text: '',
+};
+
 StyledIconButton.propTypes = {
+  appearance: PropTypes.string,
   iconName: PropTypes.string,
   text: PropTypes.string,
-  appearance: PropTypes.string,
 };

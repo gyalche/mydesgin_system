@@ -2,22 +2,13 @@ import styled , { css } from 'styled-components';
 
 export const CommonBadgeStyle = styled.span`
   align-items: center;
+  background-color: var(--rds-color-neutral-2);
   border-radius: 4px;
+  color: var(--rds-color-neutral-10);
   font-size: ${({fontSize}) => fontSize || '12px'};
   font-weight: 700;
   justify-content: center;
-  padding: 2px 6px;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: ${props => props.width};
-  height: ${props => props.height};
-  margin-bottom: ${props => props.mb};
-  margin-top: ${props => props.mt};
-  margin-right: ${props => props.mr};
-  margin-left: ${props => props.ml};
+  padding: 0 4px;
   ${props => props.appearance === 'blue' && Blue}
   ${props => props.appearance === 'green' && Green}
   ${props => props.appearance === 'yellow' && Yellow}

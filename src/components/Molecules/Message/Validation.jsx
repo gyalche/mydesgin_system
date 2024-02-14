@@ -9,10 +9,9 @@ const Message = styled.div`
 `;
 
 const MessageContainer = styled.p`
-  display: flex;
   align-items: center;
-  color: ${({ isValid }) =>
-    isValid ? 'var(--rds-green-600)' : 'var(--rds-red-600)'};
+  color: ${({ isValid }) => isValid ? 'var(--rds-green-600)' : 'var(--rds-color-secondary-3-deep)'};
+  display: flex;
 `;
 
 export const Validation = ({ children, isValid }) => {
@@ -24,6 +23,11 @@ export const Validation = ({ children, isValid }) => {
       </Message>
     </MessageContainer>
   );
+};
+
+Validation.defaultProps = {
+  children: null,
+  isValid: true,
 };
 
 Validation.propTypes = {

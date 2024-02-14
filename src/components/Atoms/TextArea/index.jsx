@@ -1,6 +1,11 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const TextArea = styled.textarea`
+  background: var(--rds-color-neutral-0);
+  border:${({ invalid }) => invalid ? '1px solid var(--rds-color-secondary-3-normal);': '1px solid var(--rds-color-neutral-3);'}
+  border-radius: 4px;
+  color: var(--rds-color-neutral-10);
   height: ${({ h }) => h };
   width: ${({ w }) => w };
   margin-top: ${({ mt }) => mt};
@@ -8,33 +13,45 @@ const TextArea = styled.textarea`
   margin-bottom: ${({ mb }) => mb};
   margin-left: ${({ ml }) => ml};
   padding: 8px;
-  border-radius: 4px;
-  color: var(--rds-neutral-1000);
-  background: var(--rds-neutral-0);
   resize: none;
-  border:${({ invalid }) => invalid ? '1px solid var(--rds-red-400);': '1px solid var(--rds-neutral-300);'}
 
   &::placeholder {
-    color: var(--rds-neutral-500);
+    color: var(--rds-color-neutral-5);
   }
 
   &:hover {
-    border: 1px solid var(--rds-teal-400);
+    border: 1px solid var(--rds-color-primary-1-normal);
   }
 
   &:invalid {
-    border: 1px solid var(--rds-red-400);
+    border: 1px solid var(--rds-color-secondary-3-normal);
   }
 
   &:disabled {
-    border: 1px solid var(--rds-neutral-300);
-    color: var(--rds-neutral-500);
-    background-color: var(--rds-neutral-200)
+    background-color: var(--rds-color-neutral-2)
+    border: 1px solid var(--rds-color-neutral-3);
+    color: var(--rds-color-neutral-5);
   }
 `;
 
+TextArea.propTypes = {
+  invalid: PropTypes.bool,
+  h: PropTypes.string,
+  w: PropTypes.string,
+  mt: PropTypes.string,
+  mr: PropTypes.string,
+  mb: PropTypes.string,
+  ml: PropTypes.string,
+};
+
 TextArea.defaultProps = {
-  h: '5000px'
+  invalid: false,
+  h: '500px',
+  w: '200px',
+  mt: '0',
+  mr: '0',
+  mb: '0',
+  ml: '0',
 };
 
 export default TextArea;

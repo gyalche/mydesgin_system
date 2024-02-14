@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 const Helper = styled.p`
-  display: flex;
   align-items: center;
-  color: var(--rds-neutral-900)
+  color: var(--rds-color-neutral-9);
+  display: flex;
 `;
 
 export default Helper;

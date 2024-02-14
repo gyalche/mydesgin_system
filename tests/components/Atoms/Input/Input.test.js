@@ -32,7 +32,7 @@ it('input changes style on hover', () => {
   render(<Input />);
   const inputElement = screen.getByRole('textbox');
 
-  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-teal-400)',{ modifier: ':hover' });
+  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-color-primary-1-normal)',{ modifier: ':hover' });
 });
 
 it('input can be focused', () => {
@@ -48,16 +48,16 @@ it('input changes style on invalid', () => {
   render(<Input />);
   const inputElement = screen.getByRole('textbox');
 
-  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-red-400)',{ modifier: ':invalid' });
+  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-color-secondary-3-normal)',{ modifier: ':invalid' });
 });
 
 it('input changes style on disabled', () => {
   render(<Input />);
   const inputElement = screen.getByRole('textbox');
 
-  expect(inputElement).toHaveStyleRule('color', 'var(--rds-neutral-500)',{ modifier: ':disabled' });
-  expect(inputElement).toHaveStyleRule('background-color', 'var(--rds-neutral-200)',{ modifier: ':disabled' });
-  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-neutral-300)',{ modifier: ':disabled' });
+  expect(inputElement).toHaveStyleRule('color', 'var(--rds-color-neutral-5)',{ modifier: ':disabled' });
+  expect(inputElement).toHaveStyleRule('background-color', 'var(--rds-color-neutral-2)',{ modifier: ':disabled' });
+  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-color-neutral-3)',{ modifier: ':disabled' });
 });
 
 it('input changes style when mt has value', () => {
