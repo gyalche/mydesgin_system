@@ -1,17 +1,17 @@
 import alias from '@rollup/plugin-alias';
-import babel from '@rollup/plugin-babel'
-import commonjs from '@rollup/plugin-commonjs'
-import resolve from '@rollup/plugin-node-resolve'
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import path from 'path';
-import peerDepsExternal from 'rollup-plugin-peer-deps-external'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import includePaths from 'rollup-plugin-includepaths';
-import postcss from 'rollup-plugin-postcss'
+import postcss from 'rollup-plugin-postcss';
 import discardComments from 'postcss-discard-comments';
 import cssnano from 'cssnano';
-import pkg from './package.json'
+import pkg from './package.json';
 
-const dev = process.env.NODE_ENV === "development";
+const dev = process.env.NODE_ENV === 'development';
 
 const projectRootDir = path.resolve(__dirname);
 
@@ -37,7 +37,7 @@ export default {
         }
       ],
     }),
-    includePaths({ paths: ["./"] }),
+    includePaths({ paths: ['./'] }),
     commonjs({
       include: 'node_modules/**',
     }),
@@ -60,12 +60,6 @@ export default {
         !dev && cssnano(),
       ]
     }),
-    removeTestIdAttribute({ 
-      include: [/\.[tj]sx$/],
-      exclude: ['**/node_modules/**'],
-      attributes: ['data-testid'],
-      usage: 'vite',
-    }),
     !dev && terser(),
   ],
-}
+};
