@@ -8,7 +8,11 @@ export const CommonBadgeStyle = styled.span`
   font-size: ${({fontSize}) => fontSize || '12px'};
   font-weight: 700;
   justify-content: center;
-  padding: 0 4px;
+  margin-right:${({mr}) => mr};
+  margin-left:${({ml}) => ml};
+  margin-top:${({mt}) => mt};
+  margin-bottom:${({mb}) => mb};
+  padding:${({padding}) => padding || '0 4px' };
   ${props => props.appearance === 'blue' && Blue}
   ${props => props.appearance === 'green' && Green}
   ${props => props.appearance === 'yellow' && Yellow}
