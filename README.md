@@ -2,7 +2,7 @@
 
 This Design System is to be used in most Receptionist products, it's a bridge in between development and design teams. And it’s made using thinking in using Storybook so everybody can check it's possibilities.
 
-### Who install the last version
+### How to install the last version
 ```
 npm install -s @d-lighted/receptionist-design-system
 ```
