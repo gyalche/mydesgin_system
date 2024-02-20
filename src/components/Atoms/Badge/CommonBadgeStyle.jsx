@@ -1,14 +1,19 @@
 import styled , { css } from 'styled-components';
+import PropTypes from 'prop-types'; 
 
-export const CommonBadgeStyle = styled.span`
+export const CommonBadgeStyle = styled.div`
   align-items: center;
   background-color: var(--rds-color-neutral-2);
   border-radius: 4px;
   color: var(--rds-color-neutral-10);
-  font-size: ${({fontSize}) => fontSize || '12px'};
+  font-size: ${({fontSize}) => fontSize };
   font-weight: 700;
   justify-content: center;
-  padding: 0 4px;
+  margin-right:${({mr}) => mr};
+  margin-left:${({ml}) => ml};
+  margin-top:${({mt}) => mt};
+  margin-bottom:${({mb}) => mb};
+  padding:${({padding}) => padding};
   ${props => props.appearance === 'blue' && Blue}
   ${props => props.appearance === 'green' && Green}
   ${props => props.appearance === 'yellow' && Yellow}
@@ -58,5 +63,25 @@ export const Orange = css`
   background-color: var(--rds-color-teritary-4-subtle);
   color: var(--rds-color-teritary-4-deep);
 `;
+
+CommonBadgeStyle.propTypes = {
+  appearance: PropTypes.oneOf(['blue', 'green', 'yellow', 'red', 'violet', 'teal', 'pink', 'orange']),
+  padding: PropTypes.string,
+  fontSize: PropTypes.string,
+  mt: PropTypes.string,
+  mr: PropTypes.string,
+  mb: PropTypes.string,
+  ml: PropTypes.string,
+};
+
+CommonBadgeStyle.defaultProps = {
+  appearance: false,
+  padding: '0 4px',
+  fontSize: '12px',
+  mt: '0',
+  mr: '0',
+  mb: '0',
+  ml: '0',
+};
 
 export default CommonBadgeStyle;
