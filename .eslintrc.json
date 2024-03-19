@@ -1,0 +1,54 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "ignorePatterns": ["src/components/Atoms/Logo/**"],
+  "rules": {
+    "eol-last": ["error", "always"],
+    "import/prefer-default-export": "off",
+    "max-len": [2, 150],
+    "no-param-reassign": ["error", { "props": false }],
+    "quotes": [2, "single", {
+      "avoidEscape": true,
+      "allowTemplateLiterals": false
+    }],
+    "semi": [2, "always"],
+    "react/jsx-props-no-spreading": "off",
+    "no-console": [2],
+    "import/no-cycle": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
+  "overrides": [
+    {
+      // or whatever matches stories specified in .storybook/main.js
+      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
+      "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-key": "off"
+      }
+    }
+  ]
+}
