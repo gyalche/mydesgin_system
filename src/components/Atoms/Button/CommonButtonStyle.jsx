@@ -96,7 +96,7 @@ export const subtleLinkStyles = css`
   &:hover {
     background-color: transparent;
     color: var(--rds-color-neutral-10);
-    text-decoration: none;
+    text-decoration: underline;
   }
 
   &:active {
