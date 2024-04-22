@@ -2,7 +2,7 @@ const Flex = styled.div`
   display: flex;
   flex-direction: ${({ direction }) => direction || 'row'};
   justify-content: ${({ justifyContent }) => justifyContent || 'flex-start'};
-  align-items: ${({ alignItems }) => alignItems || 'left'};
+  align-items: ${({ alignItems }) => alignItems || 'flex-start'};
   width: ${({ w }) => w || '100%'};
   height: ${({ h }) => h || 'auto'};
   min-width: ${({ minW }) => minW || 'unset'};
