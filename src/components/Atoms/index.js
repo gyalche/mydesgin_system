@@ -7,6 +7,7 @@ export { default as Input } from './Input';
 export { default as Label } from './Label';
 export { default as Tabs } from './Tabs';
 export { default as TextArea } from './TextArea';
+export { default as Typography } from './Typography';
 
 export * as Layout from './Layout';
 export * as Logo from './Logo';

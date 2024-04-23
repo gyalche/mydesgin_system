@@ -1,6 +1,6 @@
 import styled , { css } from 'styled-components';
 
-export const CommonBadgeStyle = styled.span`
+export const CommonBadgeStyle = styled.div`
   align-items: center;
   background-color: var(--rds-color-neutral-2);
   border-radius: 4px;

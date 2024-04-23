@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 import Icon from 'src/components/Atoms/Icon';
 import PropTypes from 'prop-types';
+import Typography from 'src/components/Atoms/Typography';
 
 const Message = styled.div`
   margin-top: -2px;
@@ -16,12 +17,15 @@ const MessageContainer = styled.p`
 
 export const Validation = ({ children, isValid }) => {
   return (
-    <MessageContainer isValid={isValid}>
-      <Icon name={isValid ? 'alert-circle-solid-check' : 'alert-circle-solid-cross'} />
-      <Message>
-        {children}
-      </Message>
-    </MessageContainer>
+    <Typography level='p4'>
+      <MessageContainer isValid={ isValid }>
+        <Icon name={isValid ? 'alert-circle-solid-check' : 'alert-circle-solid-cross'} />
+        <Message>
+            {children}
+        </Message>
+      </MessageContainer>
+    </Typography>
+      
   );
 };
 
