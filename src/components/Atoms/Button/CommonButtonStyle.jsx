@@ -68,12 +68,30 @@ export const dangerStyles = css`
   }
 `;
 
+export const subtleStyles = css`
+  background-color: transparent;
+  border: none;
+  color: var(--rds-color-neutral-9);
+  height: ${({ compact }) => compact ? '32px' : '40px'};
+  
+  &:hover {
+    background-color: var(--rds-color-neutral-2);
+    color: var(--rds-color-neutral-10);
+  }
+
+  &:active {
+    background-color: var(--rds-color-neutral-3);
+    color: var(--rds-color-neutral-11);
+  }
+`;
+
 export const linkStyles = css`
   background-color: transparent;
   border: none;
   color: var(--rds-color-primary-1-dark);
+  height: 20px;
   padding: 0;
-  
+
   &:hover {
     background-color: transparent;
     color: var(--rds-color-primary-1-deep);
@@ -92,7 +110,8 @@ export const subtleLinkStyles = css`
   border: none;
   color: var(--rds-color-neutral-9);
   padding: 0;
-
+  height: 20px;
+  
   &:hover {
     background-color: transparent;
     color: var(--rds-color-neutral-10);
@@ -111,6 +130,7 @@ export const CommonButtonStyle = styled.button`
   border-radius: 4px;
   cursor: pointer;
   display: flex;
+  font-weight: 700;
   height: ${({ compact }) => compact ? '32px' : '40px'};
   justify-content: center;
   margin-top: ${({ mt }) => mt};
@@ -130,12 +150,13 @@ export const CommonButtonStyle = styled.button`
   ${props => props.appearance === 'secondary' && secondaryStyles}
   ${props => props.appearance === 'warning' && warningStyles}
   ${props => props.appearance === 'danger' && dangerStyles}
+  ${props => props.appearance === 'subtle' && subtleStyles}
   ${props => props.appearance === 'link' && linkStyles}
   ${props => props.appearance === 'subtleLink' && subtleLinkStyles}
 `;
 
 CommonButtonStyle.propTypes = {
-  appearance: PropTypes.oneOf(['primary', 'secondary', 'warning', 'danger', 'link', 'subtleLink']),
+  appearance: PropTypes.oneOf(['primary', 'secondary', 'warning', 'danger', 'subtle', 'link', 'subtleLink']),
   compact: PropTypes.bool,
   w: PropTypes.string, 
   mt: PropTypes.string,

@@ -53,6 +53,9 @@ export const Buttons =  {
           <Button.Warning {...args}>{args.content || 'Warning'}</Button.Warning>
         </Layout.Item>
         <Layout.Item mt="20px">
+          <Button.Subtle {...args}>{args.content || 'Subtle'}</Button.Subtle>
+        </Layout.Item>
+        <Layout.Item mt="20px">
           <Button.Link {...args}>{args.content || 'Link'}</Button.Link>
         </Layout.Item>
         <Layout.Item mt="30px">

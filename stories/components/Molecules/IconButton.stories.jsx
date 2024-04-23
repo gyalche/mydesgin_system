@@ -61,6 +61,9 @@ export const IconButtons =  {
           <IconButton.Warning {...args} ></IconButton.Warning>
         </Layout.Item>
         <Layout.Item mt="20px">
+          <IconButton.Subtle {...args} ></IconButton.Subtle>
+        </Layout.Item>
+        <Layout.Item mt="20px">
           <IconButton.Link {...args} ></IconButton.Link>
         </Layout.Item>
         <Layout.Item mt="20px">
