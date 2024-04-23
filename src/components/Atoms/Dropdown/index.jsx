@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from 'styled-components';
 
 const DropdownContainer = styled.div`
   background: var(--rds-color-neutral-0);
-  border: 1px solid var(--rds-color-neutral-3);
+  border: ${({ $border }) => $border};
   border-radius: 4px;
-  box-shadow: 0 4px 8px 0 rgba(156, 168, 184, 0.48);
+  box-shadow: ${({ $boxShadow }) => $boxShadow};
   overflow-y: auto;
-  padding: 0;
+  padding: ${({ $p }) => $p};
   position: absolute;
   z-index: 10;
+  right: ${({ $right }) => $right};
   margin-top: ${({ $mt }) => $mt};
   margin-right: ${({ $mr }) => $mr};
   margin-bottom: ${({ $mb }) => $mb};
@@ -39,19 +40,26 @@ const DropdownContainer = styled.div`
   }
 `;
 
-export const Dropdown = ({
-  isOpen,
-  w,
-  h,
-  scroll,
-  children,
-  mt,
-  mr,
-  mb,
-  ml,
-  ...rest
-}) => {
-  return (
+const Dropdown = forwardRef(
+  (
+    {
+      isOpen,
+      w,
+      h,
+      scroll,
+      children,
+      mt,
+      mr,
+      mb,
+      ml,
+      border,
+      boxShadow,
+      p,
+      right,
+      ...rest
+    },
+    ref
+  ) => (
     <DropdownContainer
       $scroll={scroll}
       $isOpen={isOpen}
@@ -61,13 +69,20 @@ export const Dropdown = ({
       $mr={mr}
       $mb={mb}
       $ml={ml}
+      $border={border}
+      $boxShadow={boxShadow}
+      $p={p}
+      $right={right}
       data-testid="dropdown"
       {...rest}
+      ref={ref}
     >
       {isOpen && children}
     </DropdownContainer>
-  );
-};
+  )
+);
+
+Dropdown.displayName = 'Dropdown';
 
 Dropdown.defaultProps = {
   isOpen: false,
@@ -77,6 +92,9 @@ Dropdown.defaultProps = {
   mr: '0',
   mb: '0',
   ml: '0',
+  p: '0',
+  border: '1px solid var(--rds-color-neutral-3)',
+  boxShadow: '0 4px 8px 0 rgba(156, 168, 184, 0.48)',
   scroll: true,
 };
 
@@ -88,6 +106,10 @@ Dropdown.propTypes = {
   mr: PropTypes.string,
   mb: PropTypes.string,
   ml: PropTypes.string,
+  border: PropTypes.string,
+  boxShadow: PropTypes.string,
+  right: PropTypes.string,
+  p: PropTypes.string,
   scroll: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.bool,

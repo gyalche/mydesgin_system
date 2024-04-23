@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Icon } from 'src/components/Atoms';
 
 export const DialogContainer = styled.dialog`
   border: none;
@@ -38,4 +39,8 @@ export const CloseIconPlacement = styled.span`
   position: absolute;
   right: 4px;
   top: 4px;
+`;
+
+export const StyledIcon = styled(Icon)`
+  color: ${({ $color }) => $color};
 `;

@@ -4,7 +4,7 @@ import { Button, Icon } from 'src/components/Atoms';
 import { Flex } from 'src/components/Atoms/Layout';
 import Dialog from 'src/components/Molecules/Dialog';
 
-import { ContentText, TitleText } from './styles';
+import { ContentText, StyledIcon, TitleText } from './styles';
 
 const DialogAlert = forwardRef(function DialogAlert(
   { title, titleIcon, titleIconColor, content, maxWidth, onOK, ...rest },
@@ -35,7 +35,7 @@ const DialogAlert = forwardRef(function DialogAlert(
             w="auto"
             data-testid="icon-container"
           >
-            <Icon name={titleIcon} color={titleIconColor} />
+            <StyledIcon name={titleIcon} $color={titleIconColor} />
           </Flex>
           <TitleText>{title}</TitleText>
         </Flex>

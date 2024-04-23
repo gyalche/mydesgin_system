@@ -84,10 +84,7 @@ export const Dialogs = {
         <Dialog buttons={buttons} ref={ref} {...args}>
           <Flex alignItems="center" mb="16px">
             <Flex alignItems="center" mr="12px" mt="4px" w="auto">
-              <Icon
-                name="alert-circle-solid-check"
-                color="var(--rds-color-secondary-2-deep)"
-              />
+              <Icon name="alert-circle-solid-check" />
             </Flex>
             <TitleText>メッセージを送信しました</TitleText>
           </Flex>

@@ -1,28 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import icons from 'src/shared/css/icons.module.css';
 
-const StyledIcon = styled.i`
-  color: ${({ color }) => color};
-`;
-
-const Icon = ({ name, color }) => {
+const Icon = ({ name, className, ...props }) => {
   return (
-    <StyledIcon
-      color={color}
-      className={`rds ${icons[`rds-${name}`]}`}
-    ></StyledIcon>
+    <i className={`rds ${icons[`rds-${name}`]} ${className}`} {...props} />
   );
 };
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
-  color: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Icon.defaultProps = {
-  color: null,
+  className: '',
 };
 
 export default Icon;
