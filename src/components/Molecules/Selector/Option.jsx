@@ -8,7 +8,9 @@ const ListItem = styled.li`
   margin: 8px 0;
   padding: 8px 20px;
   color: ${({ $isHighlighted }) =>
-    $isHighlighted ? 'var(--rds-color-primary-1-dark)' : 'var(--rds-color-neutral-10)'};
+    $isHighlighted
+      ? 'var(--rds-color-primary-1-dark)'
+      : 'var(--rds-color-neutral-10)'};
 
   &:hover {
     background: rgba(226, 231, 239, 0.32);
@@ -28,7 +30,7 @@ export const Option = ({
       $isHighlighted={highlightedIndex === index}
       {...getItemProps({ item, index })}
     >
-      <span>{children}</span>
+      {children}
     </ListItem>
   );
 };

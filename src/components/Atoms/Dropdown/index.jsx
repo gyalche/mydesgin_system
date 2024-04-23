@@ -8,6 +8,7 @@ const DropdownContainer = styled.div`
   border-radius: 4px;
   box-shadow: ${({ $boxShadow }) => $boxShadow};
   overflow-y: auto;
+  overflow-x: ${({ $overflowX }) => $overflowX};
   padding: ${({ $p }) => $p};
   position: absolute;
   z-index: 10;
@@ -47,6 +48,7 @@ const Dropdown = forwardRef(
       w,
       h,
       scroll,
+      overflowX,
       children,
       mt,
       mr,
@@ -63,6 +65,7 @@ const Dropdown = forwardRef(
     <DropdownContainer
       $scroll={scroll}
       $isOpen={isOpen}
+      $overflowX={overflowX}
       $w={w}
       $h={h}
       $mt={mt}
@@ -96,6 +99,7 @@ Dropdown.defaultProps = {
   border: '1px solid var(--rds-color-neutral-3)',
   boxShadow: '0 4px 8px 0 rgba(156, 168, 184, 0.48)',
   scroll: true,
+  overflowX: 'visible',
 };
 
 Dropdown.propTypes = {
@@ -111,6 +115,7 @@ Dropdown.propTypes = {
   right: PropTypes.string,
   p: PropTypes.string,
   scroll: PropTypes.bool,
+  overflowX: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array,
