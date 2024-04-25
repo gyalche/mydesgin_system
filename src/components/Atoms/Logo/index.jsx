@@ -12,7 +12,7 @@ export { default as Microsoft365 } from "./Microsoft365";
 export { default as ReceptionistDiscovery } from "./ReceptionistDiscovery";
 export { default as ReceptionistScheduling } from "./ReceptionistScheduling";
 export { default as Receptionist } from "./Receptionist";
-export { default as RedeptionistRooms } from "./RedeptionistRooms";
+export { default as ReceptionistRooms } from "./ReceptionistRooms";
 export { default as Salesforce } from "./Salesforce";
 export { default as Slack } from "./Slack";
 export { default as Webex } from "./Webex";
