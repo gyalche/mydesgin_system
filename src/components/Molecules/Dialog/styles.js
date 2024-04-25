@@ -42,5 +42,5 @@ export const CloseIconPlacement = styled.span`
 `;
 
 export const StyledIcon = styled(Icon)`
-  color: ${({ $color }) => $color};
+  color: ${({ color }) => color};
 `;

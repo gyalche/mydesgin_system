@@ -1,3 +1,4 @@
+export { default as AppSwitcher } from './AppSwitcher';
 export { default as Dialog } from './Dialog';
 export { default as IconButton } from './IconButton';
 export { default as Message } from './Message';

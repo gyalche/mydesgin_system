@@ -17,6 +17,7 @@ const IconWrapper = styled.div`
   position: absolute;
   top: ${({ $isInputCompact }) => ($isInputCompact ? '55%' : '53%')};
   transform: translateY(-50%);
+  color: var(--rds-color-neutral-5);
 `;
 
 const SearchInput = ({ compact, placeholder, icon, input, ...props }) => {
@@ -37,7 +38,6 @@ const SearchInput = ({ compact, placeholder, icon, input, ...props }) => {
       <IconWrapper $isInputCompact={compact}>
         <Icon
           name={icon}
-          color="var(--rds-color-neutral-5)"
           data-testid={`icon-${icon}`}
         />
       </IconWrapper>

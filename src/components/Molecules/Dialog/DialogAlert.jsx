@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'src/components/Atoms';
+import { Button } from 'src/components/Atoms';
 import { Flex } from 'src/components/Atoms/Layout';
 import Dialog from 'src/components/Molecules/Dialog';
 
@@ -35,7 +35,7 @@ const DialogAlert = forwardRef(function DialogAlert(
             w="auto"
             data-testid="icon-container"
           >
-            <StyledIcon name={titleIcon} $color={titleIconColor} />
+            <StyledIcon name={titleIcon} color={titleIconColor} />
           </Flex>
           <TitleText>{title}</TitleText>
         </Flex>

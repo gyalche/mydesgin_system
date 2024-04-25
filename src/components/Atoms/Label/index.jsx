@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Typography from 'src/components/Atoms/Typography';
 
 const Label= styled(Typography).attrs(() => ({ level: 'p2' }))`

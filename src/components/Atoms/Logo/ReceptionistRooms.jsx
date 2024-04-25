@@ -1,5 +1,5 @@
 import * as React from "react";
-const SvgRedeptionistRooms = (props) => (
+const SvgReceptionistRooms = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
@@ -35,4 +35,4 @@ const SvgRedeptionistRooms = (props) => (
     />
   </svg>
 );
-export default SvgRedeptionistRooms;
+export default SvgReceptionistRooms;
