@@ -31,11 +31,6 @@
         description: 'set if the component is disabled or not',
         control: { type: 'boolean' }
       },
-      invalid: {
-        name: 'Invalid',
-        description: 'set if the component is invalid or not',
-        control: { type: 'boolean' }
-      },
     },
     args:{
       w: 'auto',

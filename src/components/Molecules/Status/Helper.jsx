@@ -13,7 +13,7 @@ export const Helper = ({ children }) => {
   return (
     <Typography level='p4'>
       <HelperStyle>
-          {children}
+        {children}
       </HelperStyle>
     </Typography>
       

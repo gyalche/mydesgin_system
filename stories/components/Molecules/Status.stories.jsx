@@ -1,14 +1,14 @@
 import React from 'react';
-import Message from 'src/components/Molecules/Message';
+import Status from 'src/components/Molecules/Status';
 import * as Layout from 'src/components/Atoms/Layout';
 
 export default {
-  title: 'Molecules/Messages',
+  title: 'Molecules',
 };
 
-export const Messages =  {
-  title: 'Messages',
-  component: Message,
+export const StatusMessage =  {
+  title: 'Status',
+  component: Status,
   parameters: {
     layout: 'centered',
     design: {
@@ -30,10 +30,10 @@ export const Messages =  {
     return  ( 
       <Layout.Block>
         <Layout.Item>
-          <Message {...args} >Initial State</Message>
+          <Status {...args} >Initial State</Status>
         </Layout.Item>
         <Layout.Item>
-          <Message.Validation {...args} >Validation State</Message.Validation>
+          <Status.Validation {...args} >Validation State</Status.Validation>
         </Layout.Item>
       </Layout.Block>
     );
