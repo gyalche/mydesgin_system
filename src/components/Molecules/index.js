@@ -9,4 +9,5 @@ export { default as RadioButton } from './RadioButton';
 export { default as SearchInput } from './SearchInput';
 export { default as Selector } from './Selector';
 export { default as Table } from './Table';
+export { Toast, ToastProvider, useToast } from './Toast';
 export { default as Tooltip } from './Tooltip';

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Icon } from 'src/components/Atoms';
+import { Icon, Typography } from 'src/components/Atoms';
 
 export const DialogContainer = styled.dialog`
   border: none;
@@ -14,25 +14,16 @@ export const DialogContainer = styled.dialog`
   }
 `;
 
-// TODO: Replace with Typography component once it's done
-export const TitleText = styled.span`
+export const TitleText = styled(Typography).attrs(() => ({ level: 'h6' }))`
   color: var(--rds-color-neutral-11);
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
   line-height: 120%;
 `;
 
-// TODO: Replace with Typography component once it's done
-export const ContentText = styled.span`
+export const ContentText = styled(Typography).attrs(() => ({ level: 'p2' }))`
   color: var(--rds-color-neutral-9);
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
   line-height: 160%;
 `;
 
-// TODO: Replace with Typography component once it's done
 export const CloseIconPlacement = styled.span`
   cursor: pointer;
   font-size: 24px;
