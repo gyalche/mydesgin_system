@@ -7,6 +7,7 @@ const config = {
     '\\.css$': 'identity-obj-proxy',
     '^src/(.*)$': '<rootDir>/src/$1',
   },
+  moduleDirectories: ['node_modules', 'src'],
   setupFilesAfterEnv: ['<rootDir>/tests/importHelpers.js'],
 };
 
