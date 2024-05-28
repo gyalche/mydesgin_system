@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import * as Logo from 'src/components/Atoms/Logo';
+import * as Logo from 'components/Atoms/Logo';
 
 const ProductLogo = styled.div`
   width: 32px;
@@ -53,7 +53,7 @@ function AppLink({
   isActive,
   description,
 }) {
-  
+
   const logoMap = {
     reception: <Logo.Receptionist />,
     meetingroom: <Logo.ReceptionistRooms />,
@@ -64,7 +64,7 @@ function AppLink({
   const logo = logoMap[product] || null;
 
   return (
-    <DropDownItem 
+    <DropDownItem
       href={!isActive ? link : null}
       onClick={isActive ? () => onClick() : null}
       target="_blank"

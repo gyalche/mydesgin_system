@@ -1,6 +1,6 @@
 import React from 'react';
-import Tabs from 'src/components/Atoms/Tabs';
-import * as Layout from 'src/components/Atoms/Layout';
+import Tabs from 'components/Atoms/Tabs';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Atoms',

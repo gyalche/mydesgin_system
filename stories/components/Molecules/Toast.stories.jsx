@@ -1,7 +1,7 @@
 import React from 'react';
-import * as Layout from 'src/components/Atoms/Layout';
-import Button from 'src/components/Atoms/Button';
-import { Toast, ToastProvider, useToast } from 'src/components/Molecules/Toast';
+import * as Layout from 'components/Atoms/Layout';
+import Button from 'components/Atoms/Button';
+import { Toast, ToastProvider, useToast } from 'components/Molecules/Toast';
 
 export default {
   title: 'Molecules',

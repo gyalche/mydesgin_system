@@ -1,6 +1,6 @@
 import React from 'react';
-import Toggle from 'src/components/Molecules/Toggle';
-import * as Layout from 'src/components/Atoms/Layout';
+import Toggle from 'components/Molecules/Toggle';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Molecules/Toggles',

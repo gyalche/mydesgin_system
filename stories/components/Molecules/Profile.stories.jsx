@@ -1,6 +1,6 @@
 import React from 'react';
-import Profile from 'src/components/Molecules/Profile';
-import * as Layout from 'src/components/Atoms/Layout';
+import Profile from 'components/Molecules/Profile';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Molecules/Profiles',

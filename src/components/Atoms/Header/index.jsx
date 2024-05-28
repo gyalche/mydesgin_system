@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import * as Layout from 'src/components/Atoms/Layout';
+import * as Layout from 'components/Atoms/Layout';
 
 const HeaderContainer = styled.header`
   background-color: var(--rds-color-neutral-1);

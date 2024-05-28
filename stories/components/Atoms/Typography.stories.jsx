@@ -1,5 +1,5 @@
 import React from 'react';
-import Typography from 'src/components/Atoms/Typography';
+import Typography from 'components/Atoms/Typography';
 
 export default {
   title: 'Atoms',
@@ -27,7 +27,7 @@ export const Typographies =  {
     level: 'p1',
   },
   render: (args) => {
-    return  ( 
+    return  (
       <Typography {...args}>Receptionist is Great</Typography>
     );
   }

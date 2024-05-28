@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'src/components/Atoms';
+import { Icon } from 'components/Atoms';
 
 import { IconWrapper, ItemWrapper, MainText } from './styles';
 

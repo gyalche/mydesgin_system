@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { Flex } from 'src/components/Atoms/Layout';
-import { Icon, Typography } from 'src/components/Atoms';
+import { Flex } from 'components/Atoms/Layout';
+import { Icon, Typography } from 'components/Atoms';
 
 export const successStyles = css`
   background-color: var(--rds-color-secondary-2-intense);

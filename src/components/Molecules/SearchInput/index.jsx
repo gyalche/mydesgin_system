@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Icon, Input } from 'src/components/Atoms';
+import { Icon, Input } from 'components/Atoms';
 
 const InputWrapper = styled.div`
   position: relative;

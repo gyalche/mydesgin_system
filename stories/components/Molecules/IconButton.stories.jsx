@@ -1,6 +1,6 @@
 import React from 'react';
-import IconButton from 'src/components/Molecules/IconButton';
-import * as Layout from 'src/components/Atoms/Layout';
+import IconButton from 'components/Molecules/IconButton';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Molecules',
@@ -19,7 +19,7 @@ export const IconButtons =  {
   argTypes: {
     compact: {
       description: 'Change the height of the button',
-      control: { type: 'boolean' }  
+      control: { type: 'boolean' }
     },
     iconName: {
       description: 'name of the Icon from the Icons list',

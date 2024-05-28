@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'src/components/Atoms';
-import { Flex } from 'src/components/Atoms/Layout';
+import { Icon } from 'components/Atoms';
+import { Flex } from 'components/Atoms/Layout';
 import { CloseIconPlacement, DialogContainer } from './styles';
 
 const Dialog = forwardRef(function Dialog(

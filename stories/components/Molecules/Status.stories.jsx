@@ -1,6 +1,6 @@
 import React from 'react';
-import Status from 'src/components/Molecules/Status';
-import * as Layout from 'src/components/Atoms/Layout';
+import Status from 'components/Molecules/Status';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Molecules',
@@ -27,7 +27,7 @@ export const StatusMessage =  {
     isValid: true,
   },
   render: (args) => {
-    return  ( 
+    return  (
       <Layout.Block>
         <Layout.Item>
           <Status {...args} >Initial State</Status>

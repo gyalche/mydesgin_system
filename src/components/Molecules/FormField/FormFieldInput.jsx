@@ -1,6 +1,6 @@
 import React from 'react';
 import CommonFormField from './CommonFormField';
-import Input from 'src/components/Atoms/Input';
+import Input from 'components/Atoms/Input';
 
 const FormFieldInput = (props) => {
   return (

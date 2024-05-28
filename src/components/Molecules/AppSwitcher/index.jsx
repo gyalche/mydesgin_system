@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Icon from 'src/components/Atoms/Icon';
+import Icon from 'components/Atoms/Icon';
 import AppLink from './AppLink.jsx';
 
 const IconContainer = styled.div`

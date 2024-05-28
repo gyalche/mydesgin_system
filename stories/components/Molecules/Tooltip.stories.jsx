@@ -1,7 +1,7 @@
 import React from 'react';
-import { Icon } from 'src/components/Atoms';
-import * as Layout from 'src/components/Atoms/Layout';
-import { Tooltip } from 'src/components/Molecules';
+import { Icon } from 'components/Atoms';
+import * as Layout from 'components/Atoms/Layout';
+import { Tooltip } from 'components/Molecules';
 
 export default {
   title: 'Molecules',

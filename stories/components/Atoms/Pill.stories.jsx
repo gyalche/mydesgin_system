@@ -1,6 +1,6 @@
 import React from 'react';
-import Pill from 'src/components/Atoms/Pill';
-import * as Layout from 'src/components/Atoms/Layout';
+import Pill from 'components/Atoms/Pill';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Atoms',

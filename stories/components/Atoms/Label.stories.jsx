@@ -1,6 +1,6 @@
 import React from 'react';
-import Label from 'src/components/Atoms/Label';
-import * as Layout from 'src/components/Atoms/Layout';
+import Label from 'components/Atoms/Label';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Atoms',

@@ -1,6 +1,6 @@
 import React from 'react';
 import CommonFormField from './CommonFormField';
-import TextArea from 'src/components/Atoms/TextArea';
+import TextArea from 'components/Atoms/TextArea';
 
 const FormFieldTextArea = (props) => {
   return (

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Icon, Layout } from 'src/components/Atoms';
+import { Icon, Layout } from 'components/Atoms';
 
 const { Flex } = Layout;
 

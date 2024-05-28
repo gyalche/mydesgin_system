@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import Dialog from 'src/components/Molecules/Dialog';
-import { Button, Icon } from 'src/components/Atoms';
-import { Flex } from 'src/components/Atoms/Layout';
+import Dialog from 'components/Molecules/Dialog';
+import { Button, Icon } from 'components/Atoms';
+import { Flex } from 'components/Atoms/Layout';
 
 export default {
   title: 'Molecules/Dialog',

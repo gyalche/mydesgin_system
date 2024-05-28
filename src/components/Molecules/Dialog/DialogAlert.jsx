@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'src/components/Atoms';
-import { Flex } from 'src/components/Atoms/Layout';
-import Dialog from 'src/components/Molecules/Dialog';
+import { Button } from 'components/Atoms';
+import { Flex } from 'components/Atoms/Layout';
+import Dialog from './Dialog';
 
 import { ContentText, StyledIcon, TitleText } from './styles';
 

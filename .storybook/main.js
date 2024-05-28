@@ -20,7 +20,8 @@ const config = {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          src: '/src',
+          shared: '/src/shared',
+          components: '/src/components',
         },
       },
     });

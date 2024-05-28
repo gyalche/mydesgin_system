@@ -1,5 +1,5 @@
 import React from 'react';
-import AppSwitcher from 'src/components/Molecules/AppSwitcher';
+import AppSwitcher from 'components/Molecules/AppSwitcher';
 
 export default {
   title: 'Molecules',
@@ -23,7 +23,7 @@ export const ApplicationSwitcher = {
     },
     other: {
       description:
-        `Object of all the products not owned yet by the current user, all the fields need to be entered to properly 
+        `Object of all the products not owned yet by the current user, all the fields need to be entered to properly
         render the dropdown menu this should also include the Other product link which will send the user to the product page`,
     },
     ownedLabel: {

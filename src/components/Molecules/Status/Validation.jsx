@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import React from 'react';
-import Icon from 'src/components/Atoms/Icon';
+import Icon from 'components/Atoms/Icon';
 import PropTypes from 'prop-types';
-import Typography from 'src/components/Atoms/Typography';
+import Typography from 'components/Atoms/Typography';
 
 const ValidText = styled.div`
   font-size: 11px;

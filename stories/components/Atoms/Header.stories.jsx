@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from 'src/components/Atoms/Header';
+import Header from 'components/Atoms/Header';
 
 export default {
   title: 'Atoms/Headers',

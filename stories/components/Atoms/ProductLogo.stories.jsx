@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductLogo from 'src/components/Atoms/ProductLogo';
-import * as Layout from 'src/components/Atoms/Layout';
+import ProductLogo from 'components/Atoms/ProductLogo';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Atoms',

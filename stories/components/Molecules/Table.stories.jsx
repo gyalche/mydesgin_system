@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Table from 'src/components/Molecules/Table';
-import * as Layout from 'src/components/Atoms/Layout';
+import Table from 'components/Molecules/Table';
+import * as Layout from 'components/Atoms/Layout';
 
 const { Pagination } = Table;
 

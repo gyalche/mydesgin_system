@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'src/components/Atoms';
-import { Typography } from 'src/components/Atoms';
+import { Icon } from 'components/Atoms';
+import { Typography } from 'components/Atoms';
 
 import StyledToast, {
   CloseIcon,

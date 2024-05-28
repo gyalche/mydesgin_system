@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Icon } from 'src/components/Atoms';
+import { Icon } from 'components/Atoms';
 
 const PaginationContainer = styled.div`
   display: flex;

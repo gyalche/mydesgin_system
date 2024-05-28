@@ -1,6 +1,6 @@
 import React from 'react';
-import Badge from 'src/components/Atoms/Badge';
-import * as Layout from 'src/components/Atoms/Layout';
+import Badge from 'components/Atoms/Badge';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Atoms',

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from 'src/components/Molecules/IconButton';
+import IconButton from 'components/Molecules/IconButton';
 
 import {
   Anchor,

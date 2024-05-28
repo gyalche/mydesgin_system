@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Status from 'src/components/Molecules/Status';
-import Label from 'src/components/Atoms/Label';
+import Status from 'components/Molecules/Status';
+import Label from 'components/Atoms/Label';
 
 const MainContainer = styled.div`
   width: ${({ w }) => w};

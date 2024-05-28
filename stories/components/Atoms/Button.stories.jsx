@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from 'src/components/Atoms/Button';
-import * as Layout from 'src/components/Atoms/Layout';
+import Button from 'components/Atoms/Button';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Atoms',
@@ -25,7 +25,7 @@ export const Buttons =  {
     compact: {
       name: 'Compact Mode',
       description: 'Change the height of the button',
-      control: { type: 'boolean' }  
+      control: { type: 'boolean' }
     },
     w: {
       name: 'Width',

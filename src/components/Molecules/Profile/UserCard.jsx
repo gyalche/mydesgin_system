@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Flex } from 'src/components/Atoms/Layout';
+import { Flex } from 'components/Atoms/Layout';
 
 import {
   DefaultIcon,

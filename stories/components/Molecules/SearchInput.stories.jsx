@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchInput from 'src/components/Molecules/SearchInput';
+import SearchInput from 'components/Molecules/SearchInput';
 
 export default {
   title: 'Molecules',

@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from 'src/components/Atoms/Card';
+import Card from 'components/Atoms/Card';
 
 export default {
   title: 'Atoms',
@@ -27,7 +27,7 @@ export const Cards =  {
     padding: '8px',
   },
   render: (args) => {
-    return  ( 
+    return  (
       <Card {...args} >Content</Card>
     );
   }

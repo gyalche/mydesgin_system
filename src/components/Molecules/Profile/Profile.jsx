@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown } from 'src/components/Atoms';
+import { Dropdown } from 'components/Atoms';
 
 import UserCard from './UserCard';
 import { Container, DefaultIcon, IconWrapper, UserCardImg } from './styles';

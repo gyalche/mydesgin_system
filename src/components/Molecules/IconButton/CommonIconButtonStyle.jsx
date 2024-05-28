@@ -1,7 +1,7 @@
 import React from 'react';
-import Icon from 'src/components/Atoms/Icon';
+import Icon from 'components/Atoms/Icon';
 import PropTypes from 'prop-types';
-import Button from 'src/components/Atoms/Button';
+import Button from 'components/Atoms/Button';
 import styled from 'styled-components';
 
 export const BaseStyle = styled(Button)`

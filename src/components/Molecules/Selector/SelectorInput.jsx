@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelect } from 'downshift';
-import Dropdown from 'src/components/Atoms/Dropdown';
+import Dropdown from 'components/Atoms/Dropdown';
 
 import Option from './Option';
 import DefaultDisplay from './DefaultDisplay';

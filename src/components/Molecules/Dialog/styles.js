@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Icon, Typography } from 'src/components/Atoms';
+import { Icon, Typography } from 'components/Atoms';
 
 export const DialogContainer = styled.dialog`
   border: none;

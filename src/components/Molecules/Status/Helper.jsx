@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Typography from 'src/components/Atoms/Typography';
+import Typography from 'components/Atoms/Typography';
 
 const HelperStyle = styled.p`
   align-items: center;
@@ -16,7 +16,7 @@ export const Helper = ({ children }) => {
         {children}
       </HelperStyle>
     </Typography>
-      
+
   );
 };
 

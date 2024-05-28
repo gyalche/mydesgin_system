@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import RadioButton from 'src/components/Molecules/RadioButton';
-import * as Layout from 'src/components/Atoms/Layout';
+import RadioButton from 'components/Molecules/RadioButton';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
   title: 'Molecules',
@@ -52,7 +52,7 @@ export const RadioButtons =  {
       setSelectedOption(event.target.value);
     };
 
-    return ( 
+    return (
       <Layout.Block>
         <Layout.Item>
           <RadioButton
@@ -70,7 +70,7 @@ export const RadioButtons =  {
             label={args.Content2}
             checked={selectedOption === 'Option 2'}
             onChange={handleOptionChange}
-            value="Option 2" 
+            value="Option 2"
             disabled={args.Disabled}
           />
         </Layout.Item>

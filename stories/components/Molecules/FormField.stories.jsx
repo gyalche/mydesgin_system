@@ -1,6 +1,6 @@
 import React from 'react';
-import FormField from 'src/components/Molecules/FormField';
-import * as Layout from 'src/components/Atoms/Layout';
+import FormField from 'components/Molecules/FormField';
+import * as Layout from 'components/Atoms/Layout';
 
 const mockMeta = {
   error: 'error',
@@ -61,7 +61,7 @@ export const Field =  {
     w: '416px'
   },
   render: (args) => {
-    return  ( 
+    return  (
       <Layout.Block>
           <Layout.Item >
             <FormField.Input  {...args} />

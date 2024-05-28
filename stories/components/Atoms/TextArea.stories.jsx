@@ -1,5 +1,5 @@
   import React from 'react';
-  import TextArea from 'src/components/Atoms/TextArea';
+  import TextArea from 'components/Atoms/TextArea';
 
   export default {
     title: 'Atoms',
@@ -37,7 +37,7 @@
       h: '160px',
     },
     render: (args) => {
-      return  ( 
+      return  (
         <TextArea {...args} placeholder="Active"></TextArea>
       );
     }

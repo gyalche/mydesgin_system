@@ -1,6 +1,6 @@
 import React from 'react';
-import Input from 'src/components/Atoms/Input';
-import * as Layout from 'src/components/Atoms/Layout';
+import Input from 'components/Atoms/Input';
+import * as Layout from 'components/Atoms/Layout';
 
 
 export default {
