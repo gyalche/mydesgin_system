@@ -1,4 +1,22 @@
-const Flex = styled.div`
+const Flex = styled.div.withConfig({
+  shouldForwardProp: prop =>
+    ![
+      'justifyContent',
+      'alignItems',
+      'maxH',
+      'minH',
+      'w',
+      'h',
+      'mt',
+      'mr',
+      'mb',
+      'ml',
+      'pt',
+      'pr',
+      'pb',
+      'pl',
+    ].includes(prop),
+})`
   display: flex;
   flex-direction: ${({ direction }) => direction || 'row'};
   justify-content: ${({ justifyContent }) => justifyContent || 'flex-start'};

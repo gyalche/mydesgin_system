@@ -5,13 +5,14 @@ import Status from 'src/components/Molecules/Status';
 import Label from 'src/components/Atoms/Label';
 
 const MainContainer = styled.div`
-  width: ${({w}) => w};
+  width: ${({ w }) => w};
   display: flex;
-  flex-direction: ${({ isLeftSideLabel }) => isLeftSideLabel ? 'row' : 'column'};
+  flex-direction: ${({ $isLeftSideLabel }) =>
+    $isLeftSideLabel ? 'row' : 'column'};
 `;
 
 const TopContainer = styled.div`
-  margin-right: ${({ isLeftSideLabel }) => (isLeftSideLabel ? '8px' : '')};
+  margin-right: ${({ $isLeftSideLabel }) => ($isLeftSideLabel ? '8px' : '')};
   display: flex;
 `;
 
@@ -20,7 +21,7 @@ const BottomContainer = styled.div`
 `;
 
 const InputLabel = styled(Label)`
-  width: ${({ isLeftSideLabel }) => (isLeftSideLabel ? '160px' : '100%')};
+  width: ${({ $isLeftSideLabel }) => ($isLeftSideLabel ? '160px' : '100%')};
   margin-right: 4px;
   margin-bottom: 4px;
 `;
@@ -41,17 +42,21 @@ const CommonFormField = ({
   const { touched, error } = meta;
 
   const getStatusComponent = () => {
-    if (error && touched) return <Status.Validation isValid={ false }>{ error }</Status.Validation>;
-    
-    if (validText && touched) return <Status.Validation isValid={true}>{validText}</Status.Validation>;
-      
+    if (error && touched)
+      return <Status.Validation isValid={false}>{error}</Status.Validation>;
+
+    if (validText && touched)
+      return <Status.Validation isValid={true}>{validText}</Status.Validation>;
+
     return <Status.Helper>{helperText}</Status.Helper>;
   };
 
   return (
-    <MainContainer isLeftSideLabel={isLeftSideLabel} w={inputProps.w}>
-      <TopContainer isLeftSideLabel={isLeftSideLabel}>
-        <InputLabel disabled={disabled} isLeftSideLabel={isLeftSideLabel}>{labelText}</InputLabel>
+    <MainContainer $isLeftSideLabel={isLeftSideLabel} w={inputProps.w}>
+      <TopContainer $isLeftSideLabel={isLeftSideLabel}>
+        <InputLabel disabled={disabled} $isLeftSideLabel={isLeftSideLabel}>
+          {labelText}
+        </InputLabel>
         {Tooltip && <Tooltip />}
       </TopContainer>
       <BottomContainer>
@@ -71,7 +76,7 @@ const CommonFormField = ({
 CommonFormField.propTypes = {
   CustomField: PropTypes.elementType.isRequired,
   Tooltip: PropTypes.elementType,
-  input: PropTypes.obj,
+  input: PropTypes.object,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,

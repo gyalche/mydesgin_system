@@ -6,6 +6,10 @@ import * as productComponents from './Logos';
 function ProductLogo({ product, ...rest }) {
   const ProductComponent = productComponents[product];
 
+  if (!ProductComponent) {
+    throw new Error(`${product} does not exist.`);
+  }
+
   return <ProductComponent {...rest} />;
 }
 

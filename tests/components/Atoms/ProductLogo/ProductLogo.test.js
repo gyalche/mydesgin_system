@@ -26,7 +26,13 @@ it('should render the Scheduling product logo', () => {
 });
 
 it("should throw error if product doesn't exist", () => {
+  const consoleErrorSpy = jest
+    .spyOn(global.console, 'error')
+    .mockImplementation(jest.fn());
+
   const product = 'NotExistingProduct';
 
   expect(() => render(<ProductLogo product={product} />)).toThrowError();
+
+  consoleErrorSpy.mockRestore();
 });

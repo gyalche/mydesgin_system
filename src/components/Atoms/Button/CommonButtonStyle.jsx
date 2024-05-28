@@ -125,7 +125,10 @@ export const subtleLinkStyles = css`
   }
 `;
 
-export const CommonButtonStyle = styled.button`
+export const CommonButtonStyle = styled.button.withConfig({
+  shouldForwardProp: prop =>
+    !['compact', 'w', 'mt', 'mr', 'mb', 'ml'].includes(prop),
+})`
   align-items: center;
   border-radius: 4px;
   cursor: pointer;
@@ -157,7 +160,7 @@ export const CommonButtonStyle = styled.button`
 
 CommonButtonStyle.propTypes = {
   appearance: PropTypes.oneOf(['primary', 'secondary', 'warning', 'danger', 'subtle', 'link', 'subtleLink']),
-  compact: PropTypes.bool,
+  compact: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   w: PropTypes.string, 
   mt: PropTypes.string,
   mr: PropTypes.string,

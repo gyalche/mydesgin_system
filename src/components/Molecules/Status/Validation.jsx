@@ -13,14 +13,14 @@ const ValidText = styled.div`
 const ValidTextContainer = styled.div`
   height: 22px;
   align-items: center;
-  color: ${({ isValid }) => isValid ? 'var(--rds-green-600)' : 'var(--rds-color-secondary-3-deep)'};
+  color: ${({ $isValid }) => $isValid ? 'var(--rds-green-600)' : 'var(--rds-color-secondary-3-deep)'};
   display: flex;
 `;
 
 export const Validation = ({ children, isValid }) => {
   return (
     <Typography level='p4'>
-      <ValidTextContainer isValid={isValid}>
+      <ValidTextContainer $isValid={isValid}>
         <Icon name={isValid ? 'alert-circle-solid-check' : 'alert-circle-solid-cross'} />
         <ValidText>
           {children}

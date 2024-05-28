@@ -3,7 +3,6 @@ export { default as Dialog } from './Dialog';
 export { default as IconButton } from './IconButton';
 export { default as Status } from './Status';
 export { default as FormField } from './FormField';
-export { default as Message } from './Message';
 export { default as Profile } from './Profile';
 export { default as RadioButton } from './RadioButton';
 export { default as SearchInput } from './SearchInput';

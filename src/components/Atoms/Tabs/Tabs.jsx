@@ -9,7 +9,7 @@ const primaryStyles = css`
   padding: 4px 8px 12px 8px;
   cursor: pointer;
   ${(props) =>
-    props.active &&
+    props.$active &&
     `
     color: var(--rds-color-primary-1-dark);
     border-bottom: 1px solid var(--rds-color-primary-1-normal);
@@ -21,7 +21,7 @@ const secondaryStyles = css`
   cursor: pointer;
   border-radius: 4px;
   ${(props) =>
-    props.active &&
+    props.$active &&
     `
     color: var(--rds-color-primary-1-dark);
     background-color: var(--rds-color-primary-1-subtle);
@@ -61,7 +61,7 @@ const Tabs = ({ defaultTab, appearance, gap, mt, mb, ml, mr, children }) => {
         {React.Children.map(children, (child) => (
           <TabItem
             key={child.props.tabKey}
-            active={ activeTab === child.props.tabKey }
+            $active={ activeTab === child.props.tabKey }
             appearance={appearance}
             onClick={() => handleTabClick(child.props.tabKey)}
           >

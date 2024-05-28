@@ -96,10 +96,10 @@ AppLink.defaultProps = {
 AppLink.propTypes = {
   link: PropTypes.string,
   product: PropTypes.string,
-  productName: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  productName: PropTypes.string,
   onClick: PropTypes.func,
   isActive: PropTypes.bool,
-  description: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  description: PropTypes.string,
 };
 
 export default AppLink;

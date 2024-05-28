@@ -8,15 +8,15 @@ it('applies default styles', () => {
   render(<Input />);
   const inputElement = screen.getByRole('textbox');
 
-  expect(inputElement).toHaveStyleRule('height', '20px');
-  expect(inputElement).toHaveStyleRule('padding', '8px');
+  expect(inputElement).toHaveStyleRule('height', '40px');
+  expect(inputElement).toHaveStyleRule('padding', '10px 8px');
 });
 
 it('applies custom styles when compact is true', () => {
   render(<Input compact="true" />);
   const inputElement = screen.getByRole('textbox');
 
-  expect(inputElement).toHaveStyleRule('padding', '4px');
+  expect(inputElement).toHaveStyleRule('padding', '6px 8px');
 });
 
 it('handles user interaction', () => {
@@ -45,10 +45,10 @@ it('input can be focused', () => {
 });
 
 it('input changes style on invalid', () => {
-  render(<Input />);
+  render(<Input isInvalid />);
   const inputElement = screen.getByRole('textbox');
 
-  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-color-secondary-3-normal)',{ modifier: ':invalid' });
+  expect(inputElement).toHaveStyleRule('border', '1px solid var(--rds-color-secondary-3-normal)');
 });
 
 it('input changes style on disabled', () => {

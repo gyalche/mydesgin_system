@@ -43,6 +43,10 @@ describe('Tabs component', () => {
   });
 
   it('should not render components that are not Tab inside Tabs and doesnt have a tabkey', () => {
+    const consoleErrorSpy = jest
+      .spyOn(global.console, 'error')
+      .mockImplementation(jest.fn());
+
     render(
       <Tabs defaultTab="tab1">
         <Tabs.Tab tabKey="tab1" label="Tab 1">
@@ -51,10 +55,13 @@ describe('Tabs component', () => {
         <Tabs.Tab tabKey="tab2" label="Tab 2">
           <div>This is Tab 2 content.</div>
         </Tabs.Tab>
-        <div tabKey="tab3" label="Tab 3">Fake</div>
+        <div tabKey="tab3" label="Tab 3">
+          Fake
+        </div>
       </Tabs>
     );
-  
+
     expect(screen.queryByText('Fake')).not.toBeInTheDocument();
+    consoleErrorSpy.mockRestore();
   });
 });

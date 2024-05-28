@@ -51,9 +51,9 @@ SearchInput.defaultProps = {
   mr: '0',
   mb: '0',
   ml: '0',
-  compact: false,
   placeholder: null,
-  invalid: false,
+  compact: false,
+  isInvalid: false,
   icon: 'action-loupe',
 };
 
@@ -63,8 +63,8 @@ SearchInput.propTypes = {
   mr: PropTypes.string,
   mb: PropTypes.string,
   ml: PropTypes.string,
-  compact: PropTypes.bool,
-  invalid: PropTypes.bool,
+  compact: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  isInvalid: PropTypes.bool,
   placeholder: PropTypes.string,
   icon: PropTypes.string,
   input: PropTypes.object,

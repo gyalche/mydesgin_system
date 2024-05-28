@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const StyledInput = styled.input`
+const StyledInput = styled.input.withConfig({
+  shouldForwardProp: prop =>
+    !['isInvalid', 'compact', 'w', 'mt', 'mr', 'mb', 'ml'].includes(prop),
+})`
   background: var(--rds-color-neutral-0);
   border: ${({ isInvalid }) =>
-    isInvalid ? '1px solid var(--rds-color-secondary-3-normal)' : '1px solid var(--rds-color-neutral-3)'};
+    isInvalid
+      ? '1px solid var(--rds-color-secondary-3-normal)'
+      : '1px solid var(--rds-color-neutral-3)'};
   border-radius: 4px;
   color: var(--rds-color-neutral-10);
   height: ${({ compact }) => (compact ? '32px' : '40px')};
@@ -14,7 +19,7 @@ const StyledInput = styled.input`
   margin-bottom: ${({ mb }) => mb};
   margin-left: ${({ ml }) => ml};
   padding: ${({ compact }) => (compact ? '6px 8px' : '10px 8px')};
-  width: ${({ w }) => w };
+  width: ${({ w }) => w};
 
   &::placeholder {
     color: var(--rds-color-neutral-5);
@@ -32,7 +37,18 @@ const StyledInput = styled.input`
 `;
 
 const Input = ({ mt, mr, mb, ml, w, compact, isInvalid, ...inputProps }) => {
-  return <StyledInput {...inputProps} mt={mt} mr={mr} mb={mb} ml={ml} w={w} compact={compact} isInvalid={isInvalid} />;
+  return (
+    <StyledInput
+      {...inputProps}
+      mt={mt}
+      mr={mr}
+      mb={mb}
+      ml={ml}
+      w={w}
+      compact={compact}
+      isInvalid={isInvalid}
+    />
+  );
 };
 
 Input.propTypes = {
@@ -41,8 +57,8 @@ Input.propTypes = {
   mb: PropTypes.string,
   ml: PropTypes.string,
   w: PropTypes.string,
-  compact: PropTypes.bool,
-  isInvalid: PropTypes.bool,
+  compact: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  isInvalid: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 Input.defaultProps = {

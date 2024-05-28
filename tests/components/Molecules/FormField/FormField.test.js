@@ -4,18 +4,16 @@ import { render, screen } from '@testing-library/react';
 import FormField from 'src/components/Molecules/FormField';
 
 describe('FormField component', () => {
-  const helperText = "helperText";
-  const labelText = "labelText";
-  const validText = "validText";
+  const helperText = 'helperText';
+  const labelText = 'labelText';
+  const validText = 'validText';
 
   it('Should render Helper Text', () => {
     const mockMeta = {
       error: 'error',
       touched: false,
     };
-    render(
-      <FormField.Input meta={ mockMeta } helperText={ helperText } />
-    );
+    render(<FormField.Input meta={mockMeta} helperText={helperText} />);
     const helperTextDiv = screen.getByText(helperText);
     expect(helperTextDiv).toHaveTextContent('helperText');
   });
@@ -26,11 +24,9 @@ describe('FormField component', () => {
       touched: true,
     };
 
-    render(
-      <FormField.Input meta={ mockMeta } validText={ validText } />
-    );
+    render(<FormField.Input meta={mockMeta} validText={validText} />);
 
-    const validTextDiv = screen.queryByText(validText)
+    const validTextDiv = screen.queryByText(validText);
     expect(validTextDiv).toHaveTextContent('validText');
   });
 
@@ -40,11 +36,9 @@ describe('FormField component', () => {
       touched: true,
     };
 
-    render(
-      <FormField.Input meta={ mockMeta } validText={ validText } />
-    );
+    render(<FormField.Input meta={mockMeta} validText={validText} />);
 
-    const errorTextDiv = screen.queryByText('error')
+    const errorTextDiv = screen.queryByText('error');
     expect(errorTextDiv).toHaveTextContent('error');
   });
 
@@ -55,10 +49,14 @@ describe('FormField component', () => {
     };
 
     render(
-      <FormField.Input meta={ mockMeta } labelText={ labelText } />
+      <FormField.Input
+        meta={mockMeta}
+        labelText={labelText}
+        helperText={helperText}
+      />
     );
 
-    const labelTextDiv = screen.queryByText(labelText)
+    const labelTextDiv = screen.queryByText(labelText);
     expect(labelTextDiv).toHaveTextContent('labelText');
   });
 
@@ -68,9 +66,7 @@ describe('FormField component', () => {
       touched: false,
     };
 
-    render(
-      <FormField.Input meta={ mockMeta } />
-    );
+    render(<FormField.Input meta={mockMeta} helperText={helperText} />);
 
     const inputElement = screen.getByRole('textbox');
 
@@ -84,12 +80,12 @@ describe('FormField component', () => {
     };
 
     render(
-      <FormField.Input meta={ mockMeta } w='200px'/>
+      <FormField.Input meta={mockMeta} w="200px" helperText={helperText} />
     );
 
     const inputElement = screen.getByRole('textbox');
 
-    expect(inputElement).toHaveStyleRule(`width`, '200px');
+    expect(inputElement).toHaveStyleRule('width', '200px');
   });
 
   it('Should render an textarea field', () => {
@@ -98,9 +94,7 @@ describe('FormField component', () => {
       touched: false,
     };
 
-    render(
-      <FormField.TextArea meta={ mockMeta } />
-    );
+    render(<FormField.TextArea meta={mockMeta} helperText={helperText} />);
 
     const inputElement = screen.getByRole('textbox');
 
@@ -114,11 +108,11 @@ describe('FormField component', () => {
     };
 
     render(
-      <FormField.TextArea meta={ mockMeta } h='200px'/>
+      <FormField.TextArea meta={mockMeta} h="200px" helperText={helperText} />
     );
 
     const inputElement = screen.getByRole('textbox');
 
-    expect(inputElement).toHaveStyleRule(`height`, '200px');
+    expect(inputElement).toHaveStyleRule('height', '200px');
   });
 });

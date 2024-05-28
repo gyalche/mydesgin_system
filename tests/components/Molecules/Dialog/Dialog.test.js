@@ -58,7 +58,7 @@ it('should have backdrop when backdrop prop is true', async () => {
 
     expect(dialogElement).toHaveStyleRule(
       'background',
-      'rgba(71, 77, 102, 0.64)',
+      'rgba(71,77,102,0.64)',
       {
         modifier: '::backdrop',
       }

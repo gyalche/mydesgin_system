@@ -18,7 +18,7 @@ const IconContainer = styled.div`
 const Divider = styled.div`
   margin: 12px 0 12px -20px;
   width: ${props => props.width};
-  border-bottom: ${props => props.displayLine ? '2px solid var(--rds-color-neutral-3)' : ''};
+  border-bottom: ${props => props.$displayLine ? '2px solid var(--rds-color-neutral-3)' : ''};
 `;
 
 const OwnedProduct = styled.div``;
@@ -75,7 +75,6 @@ function AppSwitcher({
     <div ref={ appSwitcherRef }>
       <IconContainer
         onClick={() => setToggled(!toggled)}
-        toggled={ toggled }
         data-testid="grid-icon-button"
       >
         <Icon
@@ -106,7 +105,7 @@ function AppSwitcher({
               return null;
             })}
               </OwnedProduct>
-              <Divider displayLine={owned.length > 0 && other.length > 0} width={width}/>
+              <Divider $displayLine={owned.length > 0 && other.length > 0} width={width}/>
           </>)}
           {other.length > 0 && (
             <>

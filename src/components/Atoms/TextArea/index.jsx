@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const StyledTextArea = styled.textarea`
+const StyledTextArea = styled.textarea.withConfig({
+  shouldForwardProp: prop =>
+    !['isInvalid', 'compact', 'w', 'h', 'mt', 'mr', 'mb', 'ml'].includes(prop),
+})`
   background: var(--rds-color-neutral-0);
   border: ${({ isInvalid }) =>
-    isInvalid ? '1px solid var(--rds-color-secondary-3-normal)' : '1px solid var(--rds-color-neutral-3)'};
+    isInvalid
+      ? '1px solid var(--rds-color-secondary-3-normal)'
+      : '1px solid var(--rds-color-neutral-3)'};
   border-radius: 4px;
   color: var(--rds-color-neutral-10);
   height: ${({ h }) => h};
@@ -33,7 +38,18 @@ const StyledTextArea = styled.textarea`
 `;
 
 const TextArea = ({ mt, mr, mb, ml, w, h, isInvalid, ...inputProps }) => {
-  return <StyledTextArea {...inputProps} mt={mt} mr={mr} mb={mb} ml={ml} w={w} h={h} isInvalid={isInvalid} />;
+  return (
+    <StyledTextArea
+      {...inputProps}
+      mt={mt}
+      mr={mr}
+      mb={mb}
+      ml={ml}
+      w={w}
+      h={h}
+      isInvalid={isInvalid}
+    />
+  );
 };
 
 TextArea.propTypes = {
@@ -43,7 +59,7 @@ TextArea.propTypes = {
   ml: PropTypes.string,
   w: PropTypes.string,
   h: PropTypes.string,
-  isInvalid: PropTypes.bool,
+  isInvalid: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 TextArea.defaultProps = {

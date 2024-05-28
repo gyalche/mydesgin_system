@@ -8,13 +8,13 @@ const onClickMock = jest.fn();
 const mockOwned = [
   { name: 'Reception', product_type: 'reception', isActive: true, link: 'https://receptionist.jp', onClick: onClickMock},
   { name: 'scheduling', product_type: 'scheduling', isActive: true, link: 'https://scheduling.receptionist.jp', onClick: onClickMock }
-]
+];
 const mockOther =  [
   { name: 'Rooms', description: 'This is the Rooms App', product_type: 'meetingroom', isActive: false, link: 'https://rooms.receptionist.jp' },
   { name: 'Other', description: 'Other Reception Products', product_type: 'other', isActive: true, link: '/product' }
-]
-const ownedLabel = 'Owned Products'
-const otherLabel = 'Other Products'
+];
+const ownedLabel = 'Owned Products';
+const otherLabel = 'Other Products';
 
 const Switcher = <AppSwitcher
   owned = {mockOwned}
@@ -23,7 +23,7 @@ const Switcher = <AppSwitcher
   otherLabel = {otherLabel}
 />;
 
-describe("app switcher", () => {
+describe('app switcher', () => {
   it('renders the grid icon correctly', () => {
     render(Switcher);
     const gridIconButton = screen.getByTestId('grid-icon-button');
@@ -34,9 +34,9 @@ describe("app switcher", () => {
   it('opens the drop down menu when the button is clicked', () => {
     render(Switcher);
     const gridIconButton = screen.getByTestId('grid-icon-button');
-    fireEvent.click(gridIconButton)
+    fireEvent.click(gridIconButton);
 
-    const receptionLink = screen.getByText("Reception")
+    const receptionLink = screen.getByText('Reception');
     expect(receptionLink).toBeInTheDocument();
   });
 
@@ -44,10 +44,10 @@ describe("app switcher", () => {
     render(Switcher);
 
     const gridIconButton = screen.getByTestId('grid-icon-button');
-    fireEvent.click(gridIconButton)
+    fireEvent.click(gridIconButton);
 
-    const receptionLink = screen.getByText("Reception")
-    fireEvent.click(receptionLink)
+    const receptionLink = screen.getByText('Reception');
+    fireEvent.click(receptionLink);
 
     expect(onClickMock).toHaveBeenCalledTimes(1);
   });

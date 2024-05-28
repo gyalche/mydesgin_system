@@ -8,12 +8,8 @@ it('should render with a label', () => {
 
   render(
     <div>
-      <RadioButton
-        label={option1.label}
-        value={option1.label}
-      />
+      <RadioButton label={option1.label} value={option1.label} />
     </div>
-
   );
   const option = screen.getByText(option1.label);
 
@@ -22,7 +18,7 @@ it('should render with a label', () => {
 
 it('should change position', () => {
   const option1 = { label: 'Test 1', value: 1 };
-  const position = 'right'
+  const position = 'right';
   render(
     <div>
       <RadioButton
@@ -31,25 +27,19 @@ it('should change position', () => {
         value={option1.label}
       />
     </div>
-
   );
   const option = screen.getByText(option1.label);
 
   expect(option).toHaveStyleRule(`padding-${position}`, '32px');
-
 });
 
 test('should be disabled', () => {
   const option1 = { label: 'Test 1', value: 1 };
   render(
-    <RadioButton
-      disabled={true}
-      label={option1.label}
-      value={option1.label}
-    />
+    <RadioButton disabled={true} label={option1.label} value={option1.label} />
   );
 
-  const hiddenRadio = screen.getByRole('radio', { hidden: true }); 
+  const hiddenRadio = screen.getByRole('radio', { hidden: true });
 
   expect(hiddenRadio).toHaveAttribute('disabled');
 });
@@ -59,11 +49,7 @@ test('should be checked', () => {
 
   render(
     <div>
-      <RadioButton
-        checked
-        label={option1.label}
-        value={option1.label}
-      />
+      <RadioButton checked label={option1.label} value={option1.label} />
     </div>
   );
 
@@ -77,10 +63,7 @@ test('should have the correct value', () => {
 
   render(
     <div>
-      <RadioButton
-        value={option1.value}
-        label={option1.label}
-      />
+      <RadioButton value={option1.value} label={option1.label} />
     </div>
   );
 
