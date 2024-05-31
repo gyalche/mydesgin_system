@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'components/Atoms';
 import { Flex } from 'components/Atoms/Layout';
-import Dialog from 'components/Molecules/Dialog';
+import Dialog from './Dialog';
 import * as logos from 'components/Atoms/Logo';
 
 import { ContentText, StyledIcon, TitleText } from './styles';
