@@ -16,7 +16,7 @@
   "plugins": [
     "react"
   ],
-  "ignorePatterns": ["src/components/Atoms/Logo/**"],
+  "ignorePatterns": ["src/components/Atoms/Logo/**", "src/components/Atoms/ProductLogo/Logos/**"],
   "rules": {
     "eol-last": ["error", "always"],
     "import/prefer-default-export": "off",

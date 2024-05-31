@@ -1,8 +1,26 @@
-const Flex = styled.div`
+const Flex = styled.div.withConfig({
+  shouldForwardProp: prop =>
+    ![
+      'justifyContent',
+      'alignItems',
+      'maxH',
+      'minH',
+      'w',
+      'h',
+      'mt',
+      'mr',
+      'mb',
+      'ml',
+      'pt',
+      'pr',
+      'pb',
+      'pl',
+    ].includes(prop),
+})`
   display: flex;
   flex-direction: ${({ direction }) => direction || 'row'};
   justify-content: ${({ justifyContent }) => justifyContent || 'flex-start'};
-  align-items: ${({ alignItems }) => alignItems || 'left'};
+  align-items: ${({ alignItems }) => alignItems || 'flex-start'};
   width: ${({ w }) => w || '100%'};
   height: ${({ h }) => h || 'auto'};
   min-width: ${({ minW }) => minW || 'unset'};

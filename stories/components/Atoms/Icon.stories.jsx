@@ -1,12 +1,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import Icon from 'src/components/Atoms/Icon';
-import * as logos from 'src/components/Atoms/Logo';
-import icons from 'src/shared/css/icons.module.css';
+import Icon from 'components/Atoms/Icon';
+import * as logos from 'components/Atoms/Logo';
+import icons from 'shared/css/icons.module.css';
 
 export default {
-  title: 'Atoms/Icon',
+  title: 'Design System/Atoms/Icon',
   component: Icon,
 };
 

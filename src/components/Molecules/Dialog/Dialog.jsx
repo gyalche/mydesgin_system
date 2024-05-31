@@ -1,11 +1,11 @@
 import React, { forwardRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'src/components/Atoms';
-import { Flex } from 'src/components/Atoms/Layout';
+import { Icon } from 'components/Atoms';
+import { Flex } from 'components/Atoms/Layout';
 import { CloseIconPlacement, DialogContainer } from './styles';
 
 const Dialog = forwardRef(function Dialog(
-  { showClose, maxWidth, buttons, children, ...rest },
+  { showClose, w, maxW, buttons, children, ...rest },
   ref
 ) {
   const handleDialogClose = () => {
@@ -30,8 +30,10 @@ const Dialog = forwardRef(function Dialog(
     ref && (
       <DialogContainer
         ref={ref}
-        $maxWidth={maxWidth}
+        $w={w}
+        $maxW={maxW}
         data-testid="dialog"
+        {...rest}
       >
         {showClose && (
           <CloseIconPlacement
@@ -56,7 +58,11 @@ const Dialog = forwardRef(function Dialog(
               };
 
               return (
-                <BtnComponent onClick={() => handleClick()} key={text} {...props}>
+                <BtnComponent
+                  onClick={() => handleClick()}
+                  key={text}
+                  {...props}
+                >
                   {text}
                 </BtnComponent>
               );
@@ -71,14 +77,16 @@ const Dialog = forwardRef(function Dialog(
 Dialog.defaultProps = {
   showClose: false,
   buttons: [],
-  maxWidth: '400px',
+  w: '400px',
+  maxW: null,
 };
 
 Dialog.propTypes = {
   showClose: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.node]).isRequired,
   buttons: PropTypes.oneOfType([PropTypes.array]),
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  w: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  maxW: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default Dialog;

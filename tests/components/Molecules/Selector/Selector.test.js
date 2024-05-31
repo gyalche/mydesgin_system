@@ -15,14 +15,14 @@ it('should change selector style when w has value', () => {
 it('should change selector style when h has value', () => {
   const height = '50px';
   render(<Selector h={height} />);
-  const selector = screen.getByTestId('selector');
+  const selector = screen.getByTestId('selector-value-wrapper');
 
   expect(selector).toHaveStyleRule('height', height);
 });
 
 it('should change style on focus', () => {
   render(<Selector />);
-  const selectorInput = screen.getByTestId('selector-input');
+  const selectorInput = screen.getByTestId('selector-value-wrapper');
 
   expect(selectorInput).toHaveStyleRule(
     'outline',
@@ -52,7 +52,7 @@ it('should render dropdown, ul and all the list items when clicked', () => {
   ];
   render(<Selector options={options} />);
 
-  const selectorInput = screen.getByTestId('selector-input');
+  const selectorInput = screen.getByTestId('selector-value-wrapper');
   const dropdownElement = screen.getByTestId('dropdown');
 
   expect(dropdownElement).toHaveStyleRule('visibility', 'hidden');
@@ -98,4 +98,3 @@ it('should change style when ml has value', () => {
 
   expect(selector).toHaveStyleRule('margin-left', margin);
 });
-

@@ -1,4 +1,3 @@
-import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
@@ -22,28 +21,21 @@ export default {
     format: 'es',
     sourcemap: dev,
     globals: {
-      'react': 'React',
+      react: 'React',
       'styled-components': 'styled',
-      'prop-types': 'PropTypes'
+      'prop-types': 'PropTypes',
     },
   },
   plugins: [
     peerDepsExternal(),
-    alias({
-      entries: [
-        {
-          find: 'src',
-          replacement: path.resolve(projectRootDir, 'src')
-        }
-      ],
-    }),
     includePaths({ paths: ['./'] }),
     commonjs({
       include: 'node_modules/**',
     }),
     resolve({
       module: true,
-      extensions: ['.js', '.jsx', '.css']
+      moduleDirectories: ['node_modules', 'src'],
+      extensions: ['.js', '.jsx', '.css'],
     }),
     babel({
       exclude: 'node_modules/**',
@@ -58,7 +50,7 @@ export default {
           removeAll: true,
         }),
         !dev && cssnano(),
-      ]
+      ],
     }),
     !dev && terser(),
   ],

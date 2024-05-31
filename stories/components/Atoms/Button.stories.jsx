@@ -1,9 +1,10 @@
 import React from 'react';
-import Button from 'src/components/Atoms/Button';
-import * as Layout from 'src/components/Atoms/Layout';
+import Button from 'components/Atoms/Button';
+import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
+  component: Button
 };
 
 export const Buttons =  {
@@ -25,7 +26,7 @@ export const Buttons =  {
     compact: {
       name: 'Compact Mode',
       description: 'Change the height of the button',
-      control: { type: 'boolean' }  
+      control: { type: 'boolean' }
     },
     w: {
       name: 'Width',
@@ -51,6 +52,9 @@ export const Buttons =  {
         </Layout.Item>
         <Layout.Item mt="20px">
           <Button.Warning {...args}>{args.content || 'Warning'}</Button.Warning>
+        </Layout.Item>
+        <Layout.Item mt="20px">
+          <Button.Subtle {...args}>{args.content || 'Subtle'}</Button.Subtle>
         </Layout.Item>
         <Layout.Item mt="20px">
           <Button.Link {...args}>{args.content || 'Link'}</Button.Link>

@@ -1,8 +1,9 @@
   import React from 'react';
-  import TextArea from 'src/components/Atoms/TextArea';
+  import TextArea from 'components/Atoms/TextArea';
 
   export default {
-    title: 'Atoms',
+    title: 'Design System/Atoms',
+    component: TextArea,
   };
 
   export const TextAreas =  {
@@ -31,18 +32,13 @@
         description: 'set if the component is disabled or not',
         control: { type: 'boolean' }
       },
-      invalid: {
-        name: 'Invalid',
-        description: 'set if the component is invalid or not',
-        control: { type: 'boolean' }
-      },
     },
     args:{
       w: 'auto',
       h: '160px',
     },
     render: (args) => {
-      return  ( 
+      return  (
         <TextArea {...args} placeholder="Active"></TextArea>
       );
     }

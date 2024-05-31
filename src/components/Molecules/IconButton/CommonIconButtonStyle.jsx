@@ -1,35 +1,50 @@
 import React from 'react';
-import Icon from 'src/components/Atoms/Icon';
+import Icon from 'components/Atoms/Icon';
 import PropTypes from 'prop-types';
-import Button from 'src/components/Atoms/Button';
+import Button from 'components/Atoms/Button';
+import { Typography } from 'components/Atoms';
 import styled from 'styled-components';
 
+// TODO- FIX ME the handling of the underline is messy, it needs to be reworked.
+
 export const BaseStyle = styled(Button)`
+  align-items: center;
+  cursor: pointer;
   display: flex;
   flex-direction: ${({ position }) => (position === 'right' ? 'row-reverse' : 'row')};
-  font-size: ${({ compact, hasText }) => (compact || hasText ? '24px' : '32px')};
-  padding: ${({ hasText }) => (hasText ? '' : '4px')};
-  padding-bottom: 0;
+  font-size: ${({ compact, hastext }) => (compact || hastext ? '24px' : '32px')};
+  padding: ${({ hastext }) => (hastext ? '' : '4px')};
+  text-decoration: none;
 
-  &:hover, &:active {
-    text-decoration: none;
+  &:active {
+    outline: none;
+  }
+
+  &:hover {
+    text-decoration: none !important;
   }
 
   i {
-    margin-bottom: ${({ hasText }) => (hasText ? '-2px' : '0')};
-  }
-
-  span {
-    font-size: 14px;
-    ${({ position }) => position === 'right' ? 'margin-right: 4px;' : 'margin-left: 4px;'}
+    margin-bottom: ${({ hastext }) => (hastext ? '-2px' : '0')};
   }
 `;
 
-export function StyledIconButton({ iconName, text, appearance, ...props }) {
+const TextContainer = styled(Typography)`
+  ${({ appearance }) => (appearance === 'subtleLink' || appearance === 'link') &&
+    `
+    margin-right: 4px;
+    margin-left: 4px;
+    &:hover {
+      text-decoration: underline;
+    }`
+  }
+`;
+
+export function StyledIconButton({ iconName, text, appearance, as, ...props }) {
   return (
-    <BaseStyle appearance={appearance} hasText={text} {...props}>
+    <BaseStyle appearance={appearance} hastext={text} forwardedAs={as} {...props}>
       <Icon name={iconName} />
-      {text && <span>{text}</span>}
+      {text && <TextContainer appearance={appearance}>{text}</TextContainer>}
     </BaseStyle>
   );
 };
@@ -38,10 +53,12 @@ StyledIconButton.defaultProps = {
   appearance: 'primary',
   iconName: 'navigation-users',
   text: '',
+  as: undefined,
 };
 
 StyledIconButton.propTypes = {
   appearance: PropTypes.string,
   iconName: PropTypes.string,
   text: PropTypes.string,
+  as: PropTypes.string,
 };

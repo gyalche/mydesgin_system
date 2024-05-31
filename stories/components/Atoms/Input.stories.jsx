@@ -1,10 +1,11 @@
 import React from 'react';
-import Input from 'src/components/Atoms/Input';
-import * as Layout from 'src/components/Atoms/Layout';
+import Input from 'components/Atoms/Input';
+import * as Layout from 'components/Atoms/Layout';
 
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
+  component: Input,
 };
 
 export const Inputs =  {
@@ -30,11 +31,6 @@ export const Inputs =  {
     disabled: {
       name: 'Disabled',
       description: 'set if the component is disabled or not',
-      control: { type: 'boolean' }
-    },
-    invalid: {
-      name: 'Invalid',
-      description: 'set if the component is invalid or not',
       control: { type: 'boolean' }
     },
   },

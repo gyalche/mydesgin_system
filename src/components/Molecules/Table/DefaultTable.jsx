@@ -12,13 +12,13 @@ const TableContainer = styled.table`
   width: ${props => props.width};
 `;
 
-const Table = ({ data, columns, RowComponent, HeaderComponent, ...style }) => {
+const Table = ({ data, columns, onRowClick, RowComponent, HeaderComponent, ...style }) => {
   return (
     <TableContainer {...style}>
       {HeaderComponent && <HeaderComponent columns={columns}/>}
       <TableBodyContainer>
         {data.map((rowData, index) => (
-          <RowComponent key={index} data={rowData} columns={columns}/>
+          <RowComponent key={index} data={rowData} columns={columns} onRowClick={onRowClick} />
         ))}
       </TableBodyContainer>
     </TableContainer>
@@ -47,6 +47,7 @@ Table.propTypes = {
   padding: PropTypes.string,
   RowComponent: PropTypes.elementType,
   width: PropTypes.string,
+  onRowClick: PropTypes.func,
 };
 
 export default Table;

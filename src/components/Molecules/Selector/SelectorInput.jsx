@@ -1,43 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelect } from 'downshift';
-import Dropdown from 'src/components/Atoms/Dropdown';
-import Icon from 'src/components/Atoms/Icon';
+import Dropdown from 'components/Atoms/Dropdown';
+
 import Option from './Option';
+import DefaultDisplay from './DefaultDisplay';
 
 const SelectorContainer = styled.div`
   color: var(--rds-color-neutral-10);
-  height: ${({ $h }) => $h};
+  height: 100%;
   width: ${({ $w }) => $w};
   margin-top: ${({ $mt }) => $mt};
   margin-right: ${({ $mr }) => $mr};
   margin-bottom: ${({ $mb }) => $mb};
   margin-left: ${({ $ml }) => $ml};
-`;
-
-const ValueWrapper = styled.div`
-  align-items: center;
-  background: var(--rds-color-neutral-0);
-  border: 1px solid var(--rds-color-primary-1-dark);
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  height: 100%;
-  justify-content: space-between;
-  padding: 0 8px;
-
-  &:focus {
-    outline: 3px solid var(--rds-color-primary-1-pale);
-  }
-
-  &:focus-visible {
-    outline: 3px solid var(--rds-color-primary-1-pale);
-  }
-`;
-
-const IconWrapper = styled.span`
-  margin-top: 4px;
 `;
 
 const SelectorList = styled.ul`
@@ -74,12 +51,34 @@ const SelectorInput = ({
   mb,
   ml,
   dropdownHeight,
-  name,
   options,
   optionsComponent,
+  display,
+  label,
+  input,
+  name,
+  value,
   onChange,
+  initialSelectedItem,
   ...rest
 }) => {
+  const handleOnChange = selectedItem => {
+    if (onChange) {
+      onChange(selectedItem);
+      return;
+    }
+
+    input?.onChange(selectedItem);
+  };
+
+  // Initial item from react-final-form
+  const initialItem = options.find(
+    option =>
+      option.value === value?.value || option.value === input?.value?.value
+  );
+
+  const firstItem = options[0];
+
   const {
     isOpen,
     selectedItem,
@@ -87,34 +86,46 @@ const SelectorInput = ({
     getMenuProps,
     highlightedIndex,
     getItemProps,
-  } = useSelect({ items: options, onSelectedItemChange: onChange });
+  } = useSelect({
+    items: options,
+    onSelectedItemChange: ({ selectedItem }) => handleOnChange(selectedItem),
+    initialSelectedItem: initialItem || initialSelectedItem || firstItem,
+  });
+
+  // Trigger handleOnChange with initially selected item's value on mount
+  useEffect(() => {
+    handleOnChange(selectedItem);
+  }, []);
 
   const OptionsComponent = optionsComponent;
 
+  const DisplayComponent = display || DefaultDisplay;
+
   return (
     <SelectorContainer
-      $h={h}
       $w={w}
       $mt={mt}
       $mr={mr}
       $mb={mb}
       $ml={ml}
-      name={name}
+      name={name || input?.name}
       data-testid="selector"
       {...rest}
     >
-      <ValueWrapper {...getToggleButtonProps()} data-testid="selector-input">
-        <span>{selectedItem?.label}</span>
-        <IconWrapper>
-          <Icon name={`global-chevron-large-${isOpen ? 'up' : 'down'}`} />
-        </IconWrapper>
-      </ValueWrapper>
+      <DisplayComponent
+        h={h}
+        selectedItem={selectedItem}
+        isOpen={isOpen}
+        label={label}
+        {...getToggleButtonProps()}
+      />
       <Dropdown
         scroll={false}
         isOpen={isOpen}
         w={w}
         h={dropdownHeight}
         mt="4px"
+        overflowX="hidden"
       >
         {/* downshift checks if getMenuProps was called and that there is a menu node in existence,
          since Dropdown unmounts the menu node when isOpen is false, it gives a console error */}
@@ -149,10 +160,9 @@ SelectorInput.defaultProps = {
   mb: '0',
   ml: '0',
   dropdownHeight: '200px',
-  name: null,
   options: [],
   optionsComponent: Option,
-  onChange: () => {},
+  label: null,
 };
 
 SelectorInput.propTypes = {
@@ -164,9 +174,14 @@ SelectorInput.propTypes = {
   ml: PropTypes.string,
   dropdownHeight: PropTypes.string,
   name: PropTypes.string,
+  value: PropTypes.object,
   options: PropTypes.array,
   optionsComponent: PropTypes.func,
   onChange: PropTypes.func,
+  display: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  label: PropTypes.string,
+  input: PropTypes.object,
+  initialSelectedItem: PropTypes.object,
 };
 
 export default SelectorInput;

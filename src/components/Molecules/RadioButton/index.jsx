@@ -1,4 +1,4 @@
-import Icon from 'src/components/Atoms/Icon';
+import Icon from 'components/Atoms/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';

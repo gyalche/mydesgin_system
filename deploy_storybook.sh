@@ -75,12 +75,12 @@ function build() {
   text="$APPNAME web deploy :starting"
   notifiy_slack "start" "$text" ""
   echo "BUILDING for $target_env"
-  npm run build:${target_env}
+  npm run storybook:build
 }
 
 function deploy() {
   echo "DEPLOYING for $target_env"
-  aws s3 sync storybook-static/ s3://$s3_bucket --profile receptionist
+  aws s3 sync ./storybook-static/ s3://$s3_bucket --profile receptionist
 }
 
 function remove_cache() {

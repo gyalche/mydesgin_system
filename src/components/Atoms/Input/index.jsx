@@ -1,18 +1,25 @@
-import styled from 'styled-components';
+import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-const Input = styled.input`
+const StyledInput = styled.input.withConfig({
+  shouldForwardProp: prop =>
+    !['isInvalid', 'compact', 'w', 'mt', 'mr', 'mb', 'ml'].includes(prop),
+})`
   background: var(--rds-color-neutral-0);
-  border:${({ invalid }) => invalid ? '1px solid var(--rds-color-secondary-3-normal);': '1px solid var(--rds-color-neutral-3);'}
+  border: ${({ isInvalid }) =>
+    isInvalid
+      ? '1px solid var(--rds-color-secondary-3-normal)'
+      : '1px solid var(--rds-color-neutral-3)'};
   border-radius: 4px;
   color: var(--rds-color-neutral-10);
-  height: ${({ compact }) => compact ? '32px' : '40px'};;
+  height: ${({ compact }) => (compact ? '32px' : '40px')};
   margin-top: ${({ mt }) => mt};
   margin-right: ${({ mr }) => mr};
   margin-bottom: ${({ mb }) => mb};
   margin-left: ${({ ml }) => ml};
-  padding: ${({ compact }) => compact ? '6px 8px 6px 8px' : '10px 8px 10px 8px'};
-  width: ${({ w }) => w };
+  padding: ${({ compact }) => (compact ? '6px 8px' : '10px 8px')};
+  width: ${({ w }) => w};
 
   &::placeholder {
     color: var(--rds-color-neutral-5);
@@ -22,10 +29,6 @@ const Input = styled.input`
     border: 1px solid var(--rds-color-primary-1-normal);
   }
 
-  &:invalid {
-    border: 1px solid var(--rds-color-secondary-3-normal);
-  }
-
   &:disabled {
     background-color: var(--rds-color-neutral-2);
     border: 1px solid var(--rds-color-neutral-3);
@@ -33,24 +36,39 @@ const Input = styled.input`
   }
 `;
 
+const Input = ({ mt, mr, mb, ml, w, compact, isInvalid, ...inputProps }) => {
+  return (
+    <StyledInput
+      {...inputProps}
+      mt={mt}
+      mr={mr}
+      mb={mb}
+      ml={ml}
+      w={w}
+      compact={compact}
+      isInvalid={isInvalid}
+    />
+  );
+};
+
 Input.propTypes = {
-  w: PropTypes.string,
   mt: PropTypes.string,
   mr: PropTypes.string,
   mb: PropTypes.string,
   ml: PropTypes.string,
-  compact: PropTypes.bool,
-  invalid: PropTypes.bool,
+  w: PropTypes.string,
+  compact: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  isInvalid: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 Input.defaultProps = {
-  w: 'auto',
   mt: '0',
   mr: '0',
   mb: '0',
   ml: '0',
+  w: 'auto',
   compact: false,
-  invalid: false,
+  isInvalid: false,
 };
 
 export default Input;
