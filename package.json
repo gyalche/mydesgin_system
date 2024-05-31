@@ -74,7 +74,7 @@
     "build:prod": "rimraf dist && rollup -c rollup.config.js --bundleConfigAsCjs",
     "lint": "eslint \"./{src,stories}/**/*.{jsx,js}\"",
     "lint:fix": "eslint \"./{src,stories}/**/*.{jsx,js}\" --fix",
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "prepare:all": "npm run prepare:svg && npm run prepare:token",
     "prepare:font": "fantasticon && sh ./prepare_fonts.sh",
     "prepare:logo": "npx @svgr/cli --ext jsx --out-dir src/components/Atoms/Logo -- assets/svg/logo",
