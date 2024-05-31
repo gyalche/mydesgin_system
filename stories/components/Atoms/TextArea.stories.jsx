@@ -2,7 +2,8 @@
   import TextArea from 'components/Atoms/TextArea';
 
   export default {
-    title: 'Atoms',
+    title: 'Design System/Atoms',
+    component: TextArea,
   };
 
   export const TextAreas =  {

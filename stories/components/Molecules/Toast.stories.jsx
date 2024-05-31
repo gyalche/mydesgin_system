@@ -4,7 +4,7 @@ import Button from 'components/Atoms/Button';
 import { Toast, ToastProvider, useToast } from 'components/Molecules/Toast';
 
 export default {
-  title: 'Molecules',
+  title: 'Design System/Molecules',
 };
 
 export const Toasts = {

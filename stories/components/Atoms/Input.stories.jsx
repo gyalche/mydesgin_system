@@ -4,7 +4,8 @@ import * as Layout from 'components/Atoms/Layout';
 
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
+  component: Input,
 };
 
 export const Inputs =  {

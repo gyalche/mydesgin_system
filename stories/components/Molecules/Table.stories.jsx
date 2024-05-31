@@ -5,7 +5,8 @@ import * as Layout from 'components/Atoms/Layout';
 const { Pagination } = Table;
 
 export default {
-  title: 'Molecules/Tables',
+  title: 'Design System/Molecules/Tables',
+  component: Table,
 };
 
 export const DefaultTable = {

@@ -5,17 +5,16 @@ import { Button, Icon } from 'components/Atoms';
 import { Flex } from 'components/Atoms/Layout';
 
 export default {
-  title: 'Molecules/Dialog',
+  title: 'Design System/Molecules/Dialogs',
   component: Dialog,
 };
 
 const { Alert } = Dialog;
 
 export const Dialogs = {
-  title: 'Dialogs',
+  title: 'Dialog',
   component: Dialog,
   parameters: {
-    layout: 'centered',
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=2826-1795&mode=design&t=973V53j1FkUyBkzs-0',
@@ -32,7 +31,11 @@ export const Dialogs = {
         'if present an X icon will be displayed on the top right corner',
       control: { type: 'boolean' },
     },
-    maxWidth: {
+    w: {
+      description: 'width of the dialog in px',
+      control: { type: 'text' },
+    },
+    maxW: {
       description: 'max-width of the dialog in px',
       control: { type: 'text' },
     },
@@ -40,7 +43,8 @@ export const Dialogs = {
   args: {
     modal: false,
     showClose: false,
-    maxWidth: '400px',
+    w: '400px',
+    maxW: '500px',
   },
   render: args => {
     const TitleText = styled.span`
@@ -101,7 +105,6 @@ export const DialogAlerts = {
   title: 'Alerts',
   component: Alert,
   parameters: {
-    layout: 'centered',
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=2826-1795&mode=design&t=973V53j1FkUyBkzs-0',
@@ -113,18 +116,22 @@ export const DialogAlerts = {
       control: { type: 'text' },
     },
     titleIcon: {
-      description: 'name of the title icon for the dialog alert',
+      description: 'name of the title or logo for the dialog alert title',
       control: { type: 'text' },
     },
     titleIconColor: {
-      description: 'color of the title icon for the dialog alert',
+      description: 'color of the title icon for the dialog alert title',
       control: { type: 'text' },
     },
     content: {
       description: 'content of the dialog alert',
       control: { type: 'text' },
     },
-    maxWidth: {
+    w: {
+      description: 'width of the dialog in px',
+      control: { type: 'text' },
+    },
+    maxW: {
       description: 'max-width of the dialog in px',
       control: { type: 'text' },
     },
@@ -140,7 +147,8 @@ export const DialogAlerts = {
     content: `Used for multiline pieces of content. Lorem ipsum dolor sit amet,
        ex lucilius hendrerit vim, tempor scaevola iudicabit ei ius, te eum illud impetus antiopam.
        Eu wisi commune volutpat pro, usu at alii magna aperiam.`,
-    maxWidth: '400px',
+    w: '400px',
+    maxW: '500px',
     onOK: () => alert('OK'),
   },
   render: args => {

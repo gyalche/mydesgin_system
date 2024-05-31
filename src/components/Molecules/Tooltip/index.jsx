@@ -70,6 +70,8 @@ function Tooltip({
   fontColor,
   iconName,
   children,
+  placement,
+  ...rest
 }) {
   const [offsetLeft, setOffsetLeft] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -108,7 +110,7 @@ function Tooltip({
   }, []);
 
   return (
-    <Wrapper ref={elem => setOffsetLeft(elem?.offsetLeft)}>
+    <Wrapper ref={elem => setOffsetLeft(elem?.offsetLeft)} {...rest}>
       <ContentWrapper
         ref={contentRef}
         onMouseEnter={() => {
@@ -127,6 +129,7 @@ function Tooltip({
           $width={width}
           $left={windowWidth <= 599 ? offsetLeft : contentWidth}
           $windowWidth={windowWidth}
+          $placement={placement}
           data-testid="tooltip-display-text"
           onMouseEnter={() => {
             anchorDisplayed = true;
@@ -171,6 +174,7 @@ Tooltip.defaultProps = {
   bgColor: 'var(--rds-color-neutral-9)',
   fontColor: 'var(--rds-color-neutral-0)',
   iconName: 'global-circle-question',
+  placement: 'right',
 };
 
 Tooltip.propTypes = {
@@ -185,6 +189,7 @@ Tooltip.propTypes = {
   bgColor: PropTypes.string,
   fontColor: PropTypes.string,
   iconName: PropTypes.string,
+  placement: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array,

@@ -3,7 +3,7 @@ import Pill from 'components/Atoms/Pill';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
 };
 
 export const Pills = {

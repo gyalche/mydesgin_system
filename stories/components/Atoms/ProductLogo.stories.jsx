@@ -3,7 +3,7 @@ import ProductLogo from 'components/Atoms/ProductLogo';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
 };
 
 export const ProductLogos = {

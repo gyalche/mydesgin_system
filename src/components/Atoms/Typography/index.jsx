@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -17,13 +18,14 @@ const typographyStyles = {
   p4: { fontSize: '11px', fontWeight: 400 },
 };
 
-const Typography = styled.div`
+const Typography = styled(({ as, ...rest }) => React.createElement(as || 'div', rest))`
   font-size: ${({ level }) => typographyStyles[level]?.fontSize || typographyStyles.p1.fontSize};
   font-weight: ${({ level }) => typographyStyles[level]?.fontWeight || typographyStyles.p1.fontWeight};
 `;
 
 Typography.propTypes = {
   level: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'p1', 'p2', 'p3', 'p4']),
+  as: PropTypes.string,
 };
 
 Typography.defaultProps = {

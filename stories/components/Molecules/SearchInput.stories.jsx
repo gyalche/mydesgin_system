@@ -2,7 +2,7 @@ import React from 'react';
 import SearchInput from 'components/Molecules/SearchInput';
 
 export default {
-  title: 'Molecules',
+  title: 'Design System/Molecules',
 };
 
 export const SearchInputs = {
@@ -22,8 +22,8 @@ export const SearchInputs = {
       control: { type: 'text' },
     },
     icon: {
-      name: 'Icon name',
-      description: 'Name of the icon to be displayed',
+      name: 'Icon/Logo name',
+      description: 'Name of the icon or logo to be displayed',
       control: { type: 'text' },
     },
     compact: {

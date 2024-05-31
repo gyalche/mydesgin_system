@@ -2,7 +2,7 @@ import React from 'react';
 import Card from 'components/Atoms/Card';
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
 };
 
 export const Cards =  {

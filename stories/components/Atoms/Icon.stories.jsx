@@ -6,7 +6,7 @@ import * as logos from 'components/Atoms/Logo';
 import icons from 'shared/css/icons.module.css';
 
 export default {
-  title: 'Atoms/Icon',
+  title: 'Design System/Atoms/Icon',
   component: Icon,
 };
 

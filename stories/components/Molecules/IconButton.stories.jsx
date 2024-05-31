@@ -3,7 +3,8 @@ import IconButton from 'components/Molecules/IconButton';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Molecules',
+  title: 'Design System/Molecules',
+  component: IconButton,
 };
 
 export const IconButtons =  {

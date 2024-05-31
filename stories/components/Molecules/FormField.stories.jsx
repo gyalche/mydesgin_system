@@ -8,7 +8,7 @@ const mockMeta = {
 };
 
 export default {
-  title: 'Molecules/Field',
+  title: 'Design System/Molecules/Field',
 };
 
 export const Field =  {

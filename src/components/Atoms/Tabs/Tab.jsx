@@ -20,7 +20,10 @@ Tab.defaultProps = {
 
 Tab.propTypes = {
   tabKey: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
+  ]),
   children: PropTypes.node,
 };
 

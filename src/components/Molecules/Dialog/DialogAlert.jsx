@@ -2,14 +2,40 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'components/Atoms';
 import { Flex } from 'components/Atoms/Layout';
-import Dialog from './Dialog';
+import Dialog from 'components/Molecules/Dialog';
+import * as logos from 'components/Atoms/Logo';
 
 import { ContentText, StyledIcon, TitleText } from './styles';
 
 const DialogAlert = forwardRef(function DialogAlert(
-  { title, titleIcon, titleIconColor, content, maxWidth, onOK, ...rest },
+  { title, titleIcon, titleIconColor, content, w, maxW, onOK, ...rest },
   ref
 ) {
+  const LogoList = [
+    'Chatwork',
+    'Garoon',
+    'GoogleCalendar',
+    'GoogleChat',
+    'GoogleMeet',
+    'Google',
+    'Lineworks',
+    'MicrosoftAzureActiveDirectory',
+    'MicrosoftOutlook',
+    'MicrosoftTeams',
+    'Microsoft365',
+    'ReceptionistDiscovery',
+    'ReceptionistScheduling',
+    'Receptionist',
+    'ReceptionistRooms',
+    'Salesforce',
+    'Slack',
+    'Webex',
+    'Workplace',
+    'Zoom',
+  ];
+
+  const Logo = logos[titleIcon];
+
   const buttons = [
     {
       text: 'キャンセル',
@@ -20,13 +46,12 @@ const DialogAlert = forwardRef(function DialogAlert(
       text: 'OK',
       button: Button,
       onClick: () => onOK(),
-      props: { w: '112px' },
     },
   ];
 
   return (
     ref && (
-      <Dialog ref={ref} maxWidth={maxWidth} buttons={buttons}>
+      <Dialog ref={ref} w={w} maxW={maxW} buttons={buttons} {...rest}>
         <Flex alignItems="center" mb="16px" data-testid="title-container">
           <Flex
             alignItems="center"
@@ -35,7 +60,11 @@ const DialogAlert = forwardRef(function DialogAlert(
             w="auto"
             data-testid="icon-container"
           >
-            <StyledIcon name={titleIcon} color={titleIconColor} />
+            {LogoList.includes(titleIcon) ? (
+              <Logo style={{ width: '16px' }} />
+            ) : (
+              <StyledIcon name={titleIcon} color={titleIconColor} />
+            )}
           </Flex>
           <TitleText>{title}</TitleText>
         </Flex>
@@ -52,7 +81,8 @@ DialogAlert.defaultProps = {
   titleIcon: 'alert-circle-solid-check',
   titleIconColor: 'var(--rds-color-secondary-2-deep)',
   content: '',
-  maxWidth: '400px',
+  w: '400px',
+  maxW: null,
   onOK: 'close',
 };
 
@@ -61,7 +91,8 @@ DialogAlert.propTypes = {
   titleIcon: PropTypes.string.isRequired,
   titleIconColor: PropTypes.string,
   content: PropTypes.string.isRequired,
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  w: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  maxW: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onOK: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 };
 

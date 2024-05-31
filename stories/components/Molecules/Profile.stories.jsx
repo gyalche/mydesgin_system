@@ -3,7 +3,7 @@ import Profile from 'components/Molecules/Profile';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Molecules/Profiles',
+  title: 'Design System/Molecules/Profiles',
 };
 
 export const Profiles = {

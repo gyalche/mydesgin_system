@@ -16,8 +16,9 @@ const HeaderContainer = styled.header`
   align-items: center;
 `;
 
+// this will offset the page vertically when the header is used it needs to be the same as the HeaderContainer's height
 const MainContentWrapper = styled.div`
-  padding-top: 48px; /* this will offset the page vertically when the header is used it needs to be the same as the HeaderContainer's height */
+  height: 48px;
 `;
 
 const Header = ({ leftContent, centerContent, rightContent }) => {
@@ -26,18 +27,18 @@ const Header = ({ leftContent, centerContent, rightContent }) => {
     <HeaderContainer>
       <MainContentWrapper />
       <Layout.Flex>
-        <Layout.Item flex="1">
-          <Layout.Flex gap="18px" data-testid="leftSection">
+        <Layout.Item $flex="1">
+          <Layout.Flex $gap="18px" data-testid="leftSection">
             {leftContent}
           </Layout.Flex>
         </Layout.Item>
-        <Layout.Item flex="1">
-          <Layout.Flex gap="18px" justifyContent="center" data-testid="centerSection">
+        <Layout.Item $flex="1">
+          <Layout.Flex $gap="18px" justifyContent="center" data-testid="centerSection">
             {centerContent}
           </Layout.Flex>
         </Layout.Item>
-        <Layout.Item flex="1">
-          <Layout.Flex gap="18px" justifyContent="flex-end" data-testid="rightSection">
+        <Layout.Item $flex="1">
+          <Layout.Flex $gap="18px" justifyContent="flex-end" data-testid="rightSection">
             {rightContent}
           </Layout.Flex>
         </Layout.Item>

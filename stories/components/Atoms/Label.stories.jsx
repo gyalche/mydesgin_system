@@ -3,7 +3,8 @@ import Label from 'components/Atoms/Label';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
+  component: Label,
 };
 
 export const Labels =  {

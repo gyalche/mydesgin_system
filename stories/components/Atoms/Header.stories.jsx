@@ -2,7 +2,7 @@ import React from 'react';
 import Header from 'components/Atoms/Header';
 
 export default {
-  title: 'Atoms/Headers',
+  title: 'Design System/Atoms/Headers',
   component: Header
 };
 

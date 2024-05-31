@@ -4,7 +4,7 @@ import * as Layout from 'components/Atoms/Layout';
 import { Tooltip } from 'components/Molecules';
 
 export default {
-  title: 'Molecules',
+  title: 'Design System/Molecules',
 };
 
 export const Tooltips = {
@@ -68,6 +68,22 @@ export const Tooltips = {
       description: 'Font Color of the Tooltip',
       control: { type: 'text' },
     },
+    placement: {
+      name: 'Placement',
+      description: 'Placement of the Tooltip',
+      control: {
+        type: 'select',
+      },
+      options: [
+        'right',
+        'topLeft',
+        'top',
+        'topRight',
+        'bottomLeft',
+        'bottom',
+        'bottomRight',
+      ],
+    },
     content: {
       name: 'Tooltip Content',
       description: 'Content of the Tooltip',
@@ -85,9 +101,10 @@ export const Tooltips = {
       'https://scheduling.help.receptionist.jp/how-to-create-pages/#time2',
     onHelpLinkClick: () => alert('Help Link Clicked'),
     onHover: () => {},
-    moreDetails: 'More Details',
+    btnText: 'More Details',
     bgColor: 'var(--rds-color-neutral-9)',
     fontColor: 'var(--rds-color-neutral-0)',
+    placement: 'right',
   },
   render: args => {
     return (

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Icon, Input } from 'components/Atoms';
+import * as logos from 'components/Atoms/Logo';
 
 const InputWrapper = styled.div`
   position: relative;
@@ -20,26 +21,70 @@ const IconWrapper = styled.div`
   color: var(--rds-color-neutral-5);
 `;
 
-const SearchInput = ({ compact, placeholder, icon, input, ...props }) => {
+const SearchInput = ({
+  compact,
+  placeholder,
+  icon,
+  name,
+  value,
+  onChange,
+  input,
+  ...props
+}) => {
+  const LogoList = [
+    'Chatwork',
+    'Garoon',
+    'GoogleCalendar',
+    'GoogleChat',
+    'GoogleMeet',
+    'Google',
+    'Lineworks',
+    'MicrosoftAzureActiveDirectory',
+    'MicrosoftOutlook',
+    'MicrosoftTeams',
+    'Microsoft365',
+    'ReceptionistDiscovery',
+    'ReceptionistScheduling',
+    'Receptionist',
+    'ReceptionistRooms',
+    'Salesforce',
+    'Slack',
+    'Webex',
+    'Workplace',
+    'Zoom',
+  ];
+
+  const Logo = logos[icon];
+
   const handleOnChange = event => {
-    input?.onChange(event);
+    const inputValue = event;
+    if (onChange) {
+      onChange(inputValue);
+      return;
+    }
+
+    input?.onChange(inputValue);
   };
 
   return (
     <InputWrapper>
       <StyledInput
-        name={input?.name}
-        value={input?.value}
+        name={name ?? input?.name}
+        value={value ?? input?.value}
         onChange={handleOnChange}
         compact={compact}
         placeholder={placeholder}
         {...props}
       />
       <IconWrapper $isInputCompact={compact}>
-        <Icon
-          name={icon}
-          data-testid={`icon-${icon}`}
-        />
+        {LogoList.includes(icon) ? (
+          <Logo
+            style={{ width: compact ? '16px' : '24px' }}
+            data-testid={`icon-${icon}`}
+          />
+        ) : (
+          <Icon name={icon} data-testid={`icon-${icon}`} />
+        )}
       </IconWrapper>
     </InputWrapper>
   );
@@ -67,6 +112,9 @@ SearchInput.propTypes = {
   isInvalid: PropTypes.bool,
   placeholder: PropTypes.string,
   icon: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func,
   input: PropTypes.object,
 };
 

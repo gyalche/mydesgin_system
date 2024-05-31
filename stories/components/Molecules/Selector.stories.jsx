@@ -2,7 +2,7 @@ import React from 'react';
 import Selector from 'components/Molecules/Selector';
 
 export default {
-  title: 'Molecules/Selector',
+  title: 'Design System/Molecules/Selector',
   component: Selector,
 };
 

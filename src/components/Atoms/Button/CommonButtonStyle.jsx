@@ -89,7 +89,7 @@ export const linkStyles = css`
   background-color: transparent;
   border: none;
   color: var(--rds-color-primary-1-dark);
-  height: 20px;
+  height: ${({ compact }) => compact ? '24px' : '32px'};
   padding: 0;
 
   &:hover {
@@ -110,7 +110,7 @@ export const subtleLinkStyles = css`
   border: none;
   color: var(--rds-color-neutral-9);
   padding: 0;
-  height: 20px;
+  height: ${({ compact }) => compact ? '24px' : '32px'};
   
   &:hover {
     background-color: transparent;

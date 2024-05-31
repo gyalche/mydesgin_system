@@ -2,7 +2,8 @@ import React from 'react';
 import Dropdown from 'components/Atoms/Dropdown';
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
+  component: Dropdown,
 };
 
 export const Dropdowns = {

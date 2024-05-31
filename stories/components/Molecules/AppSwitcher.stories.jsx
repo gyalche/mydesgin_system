@@ -2,7 +2,7 @@ import React from 'react';
 import AppSwitcher from 'components/Molecules/AppSwitcher';
 
 export default {
-  title: 'Molecules',
+  title: 'Design System/Molecules',
   component: AppSwitcher,
 };
 

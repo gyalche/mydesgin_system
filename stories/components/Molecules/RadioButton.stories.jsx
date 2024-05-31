@@ -3,7 +3,7 @@ import RadioButton from 'components/Molecules/RadioButton';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Molecules',
+  title: 'Design System/Molecules',
 };
 
 export const RadioButtons =  {

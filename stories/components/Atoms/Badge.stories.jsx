@@ -3,7 +3,8 @@ import Badge from 'components/Atoms/Badge';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
+  component: Badge,
 };
 
 export const Badges =  {

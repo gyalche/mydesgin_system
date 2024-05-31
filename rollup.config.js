@@ -21,9 +21,9 @@ export default {
     format: 'es',
     sourcemap: dev,
     globals: {
-      'react': 'React',
+      react: 'React',
       'styled-components': 'styled',
-      'prop-types': 'PropTypes'
+      'prop-types': 'PropTypes',
     },
   },
   plugins: [
@@ -35,7 +35,7 @@ export default {
     resolve({
       module: true,
       moduleDirectories: ['node_modules', 'src'],
-      extensions: ['.js', '.jsx', '.css']
+      extensions: ['.js', '.jsx', '.css'],
     }),
     babel({
       exclude: 'node_modules/**',
@@ -50,7 +50,7 @@ export default {
           removeAll: true,
         }),
         !dev && cssnano(),
-      ]
+      ],
     }),
     !dev && terser(),
   ],

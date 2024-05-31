@@ -3,7 +3,7 @@ import Status from 'components/Molecules/Status';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Molecules',
+  title: 'Design System/Molecules',
 };
 
 export const StatusMessage =  {

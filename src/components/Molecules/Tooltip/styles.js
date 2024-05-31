@@ -1,9 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
   display: inline-grid;
   position: relative;
-  left: 8px;
 `;
 
 export const ContentWrapper = styled.div`
@@ -31,18 +30,70 @@ export const Anchor = styled.div`
   }
 `;
 
+const handlePlacement = placement => {
+  switch (placement) {
+    case 'topLeft':
+      return css`
+        bottom: 100%;
+        right: 0;
+        margin-bottom: 2px;
+      `;
+
+    case 'top':
+      return css`
+        bottom: 100%;
+        transform: translateX(-50%);
+        margin-bottom: 2px;
+      `;
+
+    case 'topRight':
+      return css`
+        bottom: 100%;
+        left: 0;
+        margin-bottom: 2px;
+      `;
+
+    case 'bottomLeft':
+      return css`
+        top: 100%;
+        left: 0;
+        margin-top: 2px;
+      `;
+
+    case 'bottom':
+      return css`
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 2px;
+      `;
+
+    case 'bottomRight':
+      return css`
+        top: 100%;
+        right: 0;
+        margin-top: 2px;
+      `;
+
+    default:
+      return css`
+        top: -10px;
+        left: ${props => props.$left + 8}px;
+      `;
+  }
+};
+
 export const DisplayText = styled.div`
   background-color: ${({ $bgColor }) => $bgColor};
   border-radius: 4px;
   box-shadow: 0px 2px 4px 0px rgba(156, 168, 184, 0.48);
   color: ${({ $fontColor }) => $fontColor};
   max-width: ${({ $width }) => $width};
-  left: ${props => props.$left + 8}px;
   padding: 12px;
   position: absolute;
-  top: -10px;
   width: ${({ $width }) => $width};
   z-index: 2;
+  ${({ $placement }) => handlePlacement($placement)};
 
   @media (max-width: 599px) {
     top: 22px;

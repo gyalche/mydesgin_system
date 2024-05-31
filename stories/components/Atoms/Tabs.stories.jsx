@@ -3,7 +3,7 @@ import Tabs from 'components/Atoms/Tabs';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
-  title: 'Atoms',
+  title: 'Design System/Atoms',
 };
 
 export const TabsComponent = {
@@ -50,28 +50,33 @@ export const TabsComponent = {
       name: 'Margin Right',
       description: 'Set the Right Margin of the list of tab'
     },
+    tabBgColor: {
+      name: 'Tab background color',
+      description: 'Background color of the tab'
+    },
   },
   args: {
     appearance: 'primary',
     gap: '12px',
-    defaultTab: 'tab1',
+    defaultTab: '1',
     mt: '0',
     mb: '0',
     ml: '0',
-    mr: '0'
+    mr: '0',
+    tabBgColor: 'transparent'
   },
   render: (args) => {
     return (
       <Layout.Block mt="20px">
         <Layout.Item>
           <Tabs { ...args }>
-            <Tabs.Tab tabKey="tab1" label="Tab 1">
+            <Tabs.Tab tabKey="1" label="Tab 1">
               <div>This is Tab 1 content.</div>
             </Tabs.Tab>
-            <Tabs.Tab tabKey="tab2" label="Tab 2">
+            <Tabs.Tab tabKey="2" label="Tab 2">
               <div>This is Tab 2 content.</div>
             </Tabs.Tab>
-            <Tabs.Tab tabKey="tab3" label="Tab 3">
+            <Tabs.Tab tabKey="3" label="Tab 3">
               <div>This is Tab 3 content.</div>
             </Tabs.Tab>
           </Tabs>
