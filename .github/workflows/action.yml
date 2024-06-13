@@ -1,0 +1,40 @@
+name: Design-System Pipeline
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        node-version: [18.0.0]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Set up Node.js with the specified version
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@d-lighted'
+
+      # Cache node_modules to speed up builds
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Run Jest tests
+        run: npm run test:silent
