@@ -14,7 +14,8 @@ const ToastContext = createContext();
 
 const useToast = () => {
   const context = useContext(ToastContext);
-  return context;
+  const memoizedToast = useMemo(() => context, []);
+  return memoizedToast;
 };
 
 const ToastProvider = ({ children }) => {

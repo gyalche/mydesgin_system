@@ -3,7 +3,7 @@ const SvgReceptionistRooms = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
-    id="redeptionist-rooms_svg__\u30EC\u30A4\u30E4\u30FC_1"
+    id="receptionist-rooms_svg__\u30EC\u30A4\u30E4\u30FC_1"
     x={0}
     y={0}
     style={{
@@ -14,24 +14,24 @@ const SvgReceptionistRooms = (props) => (
   >
     <style>
       {
-        ".redeptionist-rooms_svg__st0{fill:#00afd5}.redeptionist-rooms_svg__st1{fill:#57c3ea}"
+        ".receptionist-rooms_svg__st0{fill:#00afd5}.receptionist-rooms_svg__st1{fill:#57c3ea}"
       }
     </style>
     <path
       d="M22.608 17.85 19.9 16.209v3.793l1.367-.792c.07-.038.14-.083.211-.128a3.157 3.157 0 0 0 .198-.141c.006-.006.019-.013.026-.019.057-.045.109-.089.16-.134.006 0 .006-.006.013-.006.286-.274.535-.587.733-.932z"
-      className="redeptionist-rooms_svg__st0"
+      className="receptionist-rooms_svg__st0"
     />
     <path
       d="M21.323 5.027 13.903.531a3.671 3.671 0 0 0-3.806 0l-7.42 4.503A3.66 3.66 0 0 0 .908 8.169v7.868c0 .639.166 1.264.485 1.82L12 11.426l3.583 2.171c.166-.326.415-.6.728-.792l2.133-1.36a.949.949 0 0 1 1.309.287.951.951 0 0 1 .147.511v3.978l2.708 1.641a3.822 3.822 0 0 1-.741.92 3.674 3.674 0 0 0 1.226-2.74v-7.88a3.681 3.681 0 0 0-1.77-3.135z"
-      className="redeptionist-rooms_svg__st1"
+      className="receptionist-rooms_svg__st1"
     />
     <path
       d="M15.359 14.505c0-.319.077-.632.224-.92L12 11.414l-10.613 6.43c.16.275.351.53.575.76.051.051.109.102.16.153l.013.013c.051.045.109.089.16.134.006.006.019.013.026.019.057.045.109.083.166.121.013.006.019.013.026.019.07.045.14.089.211.128l7.42 4.31.249.134.077.038c.057.026.121.051.179.077.032.013.057.025.089.032.064.019.121.045.185.057.026.006.057.019.083.026a3.845 3.845 0 0 0 .741.128 4.056 4.056 0 0 0 .713-.025c.109-.013.211-.032.313-.057l.077-.019c.102-.025.204-.051.307-.089a2.61 2.61 0 0 0 .3-.121c.026-.013.051-.019.077-.032.096-.045.198-.096.294-.153l1.514-.881v-8.11l.017-.001z"
-      className="redeptionist-rooms_svg__st0"
+      className="receptionist-rooms_svg__st0"
     />
     <path
       d="m15.359 22.64 2.969-1.724 1.571-.913v-3.8l-4.317-2.618c-.147.287-.224.6-.224.92v8.135z"
-      className="redeptionist-rooms_svg__st1"
+      className="receptionist-rooms_svg__st1"
     />
   </svg>
 );

@@ -25,7 +25,7 @@ export const BaseStyle = styled(Button)`
   }
 
   i {
-    margin-bottom: ${({ hastext }) => (hastext ? '-2px' : '0')};
+    margin-bottom: ${({ hastext }) => (hastext ? '-6px' : '0')};
   }
 `;
 

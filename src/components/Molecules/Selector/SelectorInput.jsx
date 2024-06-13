@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelect } from 'downshift';
 import Dropdown from 'components/Atoms/Dropdown';
-
 import Option from './Option';
 import DefaultDisplay from './DefaultDisplay';
 
@@ -59,10 +58,15 @@ const SelectorInput = ({
   name,
   value,
   onChange,
-  initialSelectedItem,
   ...rest
 }) => {
+  const [controlledSelectedItem, setControlledSelectedItem] = useState(
+    value || input?.value || options[0]
+  );
+
+  // Handle item selection changes
   const handleOnChange = selectedItem => {
+    setControlledSelectedItem(selectedItem);
     if (onChange) {
       onChange(selectedItem);
       return;
@@ -71,13 +75,10 @@ const SelectorInput = ({
     input?.onChange(selectedItem);
   };
 
-  // Initial item from react-final-form
-  const initialItem = options.find(
-    option =>
-      option.value === value?.value || option.value === input?.value?.value
-  );
+  useEffect(() => {
+    handleOnChange(value || input?.value || options[0]);
+  }, [value, input?.value, options, handleOnChange]);
 
-  const firstItem = options[0];
 
   const {
     isOpen,
@@ -88,17 +89,12 @@ const SelectorInput = ({
     getItemProps,
   } = useSelect({
     items: options,
+    selectedItem: controlledSelectedItem,
     onSelectedItemChange: ({ selectedItem }) => handleOnChange(selectedItem),
-    initialSelectedItem: initialItem || initialSelectedItem || firstItem,
+    initialSelectedItem: controlledSelectedItem,
   });
 
-  // Trigger handleOnChange with initially selected item's value on mount
-  useEffect(() => {
-    handleOnChange(selectedItem);
-  }, []);
-
   const OptionsComponent = optionsComponent;
-
   const DisplayComponent = display || DefaultDisplay;
 
   return (
@@ -174,14 +170,13 @@ SelectorInput.propTypes = {
   ml: PropTypes.string,
   dropdownHeight: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   options: PropTypes.array,
   optionsComponent: PropTypes.func,
   onChange: PropTypes.func,
   display: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   label: PropTypes.string,
   input: PropTypes.object,
-  initialSelectedItem: PropTypes.object,
 };
 
 export default SelectorInput;

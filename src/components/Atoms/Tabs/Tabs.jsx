@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import Tab from './Tab';
@@ -12,7 +12,7 @@ const TabsContainer = styled.div`
 const primaryStyles = css`
   padding: 4px 8px 12px 8px;
   cursor: pointer;
-  background-color: ${({ $tabBgColor }) => $tabBgColor};
+  background-color: transparent;
   ${(props) =>
     props.$active &&
     `
@@ -48,8 +48,12 @@ const TabItem = styled.div`
 
 const TabContent = styled.div``;
 
-const Tabs = ({ defaultTab, appearance, gap, mt, mb, ml, mr, tabBgColor, onClick, children }) => {
+const Tabs = ({ defaultTab, appearance, gap, mt, mb, ml, mr, onClick, children }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
+
+  useEffect(() => {
+    setActiveTab(defaultTab);
+  }, [defaultTab, setActiveTab]);
 
   const handleTabClick = (tabKey) => {
     setActiveTab(tabKey);
@@ -68,17 +72,20 @@ const Tabs = ({ defaultTab, appearance, gap, mt, mb, ml, mr, tabBgColor, onClick
   return (
     <TabsContainer mt={mt} ml={ml} mr={mr}>
       <TabList gap={gap} mb={mb}>
-        {React.Children.map(children, (child) => (
-          <TabItem
-            key={child.props.tabKey}
-            $active={activeTab === child.props.tabKey}
-            appearance={appearance}
-            $tabBgColor={tabBgColor}
-            onClick={() => handleTabClick(child.props.tabKey)}
-          >
-            {child.props.label}
-          </TabItem>
-        ))}
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child)) {
+            return (
+              <TabItem
+                key={child.props.tabKey}
+                $active={activeTab === child.props.tabKey}
+                appearance={appearance}
+                onClick={() => handleTabClick(child.props.tabKey)}
+              >
+                {child.props.label}
+              </TabItem>
+            );
+          }
+        })}
       </TabList>
       <TabContent>{renderTabContent()}</TabContent>
     </TabsContainer>
@@ -93,7 +100,6 @@ Tabs.defaultProps = {
   mb: '0px',
   ml: '0px',
   mr: '0px',
-  tabBgColor: 'transparent',
 };
 
 Tabs.propTypes = {
@@ -104,7 +110,6 @@ Tabs.propTypes = {
   mb: PropTypes.string,
   ml: PropTypes.string,
   mr: PropTypes.string,
-  tabBgColor: PropTypes.string,
   onClick: PropTypes.func,
   children: (props, propName, componentName) => {
     const prop = props[propName];

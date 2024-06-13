@@ -16,7 +16,7 @@ const IconWrapper = styled.div`
   font-size: ${({ $isInputCompact }) => ($isInputCompact ? '16px' : '24px')};
   left: 8px;
   position: absolute;
-  top: ${({ $isInputCompact }) => ($isInputCompact ? '55%' : '53%')};
+  top: ${({ $isInputCompact }) => ($isInputCompact ? '17px' : '22px')};
   transform: translateY(-50%);
   color: var(--rds-color-neutral-5);
 `;

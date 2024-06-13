@@ -6,7 +6,7 @@ import Icon from 'components/Atoms/Icon';
 const ValueWrapper = styled.div`
   align-items: center;
   background: var(--rds-color-neutral-0);
-  border: 1px solid var(--rds-color-primary-1-dark);
+  border: 1px solid var(--rds-color-neutral-3);
   border-radius: 4px;
   cursor: pointer;
   display: flex;
@@ -59,7 +59,7 @@ DefaultDisplay.defaultProps = {
 
 DefaultDisplay.propTypes = {
   h: PropTypes.string,
-  selectedItem: PropTypes.object,
+  selectedItem: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   isOpen: PropTypes.bool,
 };
 

@@ -22,6 +22,45 @@ describe('Tabs component', () => {
     expect(tab2Label).toBeInTheDocument();
   });
 
+  it('should render positive conditional Tab components correctly', () => {
+    render(
+      <Tabs defaultTab="tab1">
+        <Tabs.Tab tabKey="tab1" label="Tab 1">
+          <div>This is Tab 1 content.</div>
+        </Tabs.Tab>
+        {true && 
+          <Tabs.Tab tabKey="tab2" label="Tab 2">
+            <div>This is Tab 2 content.</div>
+          </Tabs.Tab>
+        }
+      </Tabs>
+    );
+
+    const tab1Label = screen.getByText('Tab 1');
+    const tab2Label = screen.getByText('Tab 2');
+    expect(tab1Label).toBeInTheDocument();
+    expect(tab2Label).toBeInTheDocument();
+  });
+
+  it('should not render false conditional Tab components correctly', () => {
+    render(
+      <Tabs defaultTab="tab1">
+        <Tabs.Tab tabKey="tab1" label="Tab 1">
+          <div>This is Tab 1 content.</div>
+        </Tabs.Tab>
+        {false && 
+          <Tabs.Tab tabKey="tab2" label="Tab 2">
+            <div>This is Tab 2 content.</div>
+          </Tabs.Tab>
+        }
+      </Tabs>
+    );
+
+    const tab1Label = screen.getByText('Tab 1');
+    expect(tab1Label).toBeInTheDocument();
+    expect(screen.queryByText('This is Tab 2 content.')).not.toBeInTheDocument();
+  });
+
   it('should switch tabs properly when clicked', () => {
     render(
       <Tabs defaultTab="tab1">

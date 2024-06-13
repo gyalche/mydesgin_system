@@ -48,7 +48,7 @@ OptionSelectDisplay.defaultProps = {
 OptionSelectDisplay.propTypes = {
   h: PropTypes.string,
   label: PropTypes.string,
-  selectedItem: PropTypes.object,
+  selectedItem: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   isOpen: PropTypes.bool,
 };
 

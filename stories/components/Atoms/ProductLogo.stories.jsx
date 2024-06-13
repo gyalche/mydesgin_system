@@ -22,7 +22,7 @@ export const ProductLogos = {
       control: {
         type: 'select',
       },
-      options: ['Receptionist', 'Meetingrooms', 'Scheduling'],
+      options: ['Receptionist', 'Meetingrooms', 'Scheduling', 'Safetycheck'],
     },
   },
   args: {

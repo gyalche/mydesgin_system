@@ -28,17 +28,17 @@ const Header = ({ leftContent, centerContent, rightContent }) => {
       <MainContentWrapper />
       <Layout.Flex>
         <Layout.Item $flex="1">
-          <Layout.Flex $gap="18px" data-testid="leftSection">
+          <Layout.Flex gap="18px" alignItems="center" data-testid="leftSection">
             {leftContent}
           </Layout.Flex>
         </Layout.Item>
         <Layout.Item $flex="1">
-          <Layout.Flex $gap="18px" justifyContent="center" data-testid="centerSection">
+          <Layout.Flex gap="18px" alignItems="center" justifyContent="center" data-testid="centerSection">
             {centerContent}
           </Layout.Flex>
         </Layout.Item>
         <Layout.Item $flex="1">
-          <Layout.Flex $gap="18px" justifyContent="flex-end" data-testid="rightSection">
+          <Layout.Flex gap="18px" alignItems="center" justifyContent="flex-end" data-testid="rightSection">
             {rightContent}
           </Layout.Flex>
         </Layout.Item>

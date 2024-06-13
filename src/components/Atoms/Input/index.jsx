@@ -36,10 +36,25 @@ const StyledInput = styled.input.withConfig({
   }
 `;
 
-const Input = ({ mt, mr, mb, ml, w, compact, isInvalid, ...inputProps }) => {
+const Input = ({
+  mt,
+  mr,
+  mb,
+  ml,
+  w,
+  compact,
+  isInvalid,
+  name,
+  value,
+  onChange,
+  input,
+  ...props
+}) => {
   return (
     <StyledInput
-      {...inputProps}
+      name={name ?? input?.name}
+      value={value ?? input?.value}
+      onChange={onChange ?? input?.onChange}
       mt={mt}
       mr={mr}
       mb={mb}
@@ -47,6 +62,7 @@ const Input = ({ mt, mr, mb, ml, w, compact, isInvalid, ...inputProps }) => {
       w={w}
       compact={compact}
       isInvalid={isInvalid}
+      {...props}
     />
   );
 };
@@ -59,6 +75,10 @@ Input.propTypes = {
   w: PropTypes.string,
   compact: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   isInvalid: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func,
+  input: PropTypes.object,
 };
 
 Input.defaultProps = {

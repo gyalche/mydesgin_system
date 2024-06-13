@@ -50,9 +50,10 @@ export const TabsComponent = {
       name: 'Margin Right',
       description: 'Set the Right Margin of the list of tab'
     },
-    tabBgColor: {
-      name: 'Tab background color',
-      description: 'Background color of the tab'
+    showTab: {
+      name: 'Show Tab 4',
+      description: 'Conditional rendering of Tab 4',
+      control: { type: 'boolean' },
     },
   },
   args: {
@@ -63,7 +64,7 @@ export const TabsComponent = {
     mb: '0',
     ml: '0',
     mr: '0',
-    tabBgColor: 'transparent'
+    showTab: true,
   },
   render: (args) => {
     return (
@@ -79,6 +80,11 @@ export const TabsComponent = {
             <Tabs.Tab tabKey="3" label="Tab 3">
               <div>This is Tab 3 content.</div>
             </Tabs.Tab>
+            {args.showTab &&
+              <Tabs.Tab tabKey="4" label="Tab 4">
+                <div>This is Tab 4 content.</div>
+              </Tabs.Tab>
+            }
           </Tabs>
         </Layout.Item>
       </Layout.Block>
