@@ -6,6 +6,7 @@ export { default as Header } from './Header';
 export { default as Icon } from './Icon';
 export { default as Input } from './Input';
 export { default as Label } from './Label';
+export { default as ProductLogo } from './ProductLogo';
 export { default as Tabs } from './Tabs';
 export { default as TextArea } from './TextArea';
 export { default as Typography } from './Typography';
