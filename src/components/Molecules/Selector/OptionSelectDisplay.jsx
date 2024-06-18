@@ -1,12 +1,17 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Typography } from 'components/Atoms';
 
 import { SelectorIcon } from './DefaultDisplay';
 
 const ValueWrapper = styled.div`
   align-items: center;
-  background: var(--rds-color-neutral-0);
+
+  background: ${({ $isOpen }) =>
+    $isOpen
+      ? 'var(--rds-color-neutral-alpha-1)'
+      : 'var(--rds-color-neutral-0)'};
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -18,6 +23,11 @@ const ValueWrapper = styled.div`
   &:focus {
     outline: none;
   }
+
+  &:hover {
+    border-radius: 4px;
+    background: var(--rds-color-neutral-alpha-1);
+  }
 `;
 
 const OptionSelectDisplay = forwardRef(function DefaultDisplay(
@@ -27,13 +37,14 @@ const OptionSelectDisplay = forwardRef(function DefaultDisplay(
   return (
     <ValueWrapper
       $h={h}
+      $isOpen={isOpen}
       ref={ref}
       data-testid="selector-value-wrapper"
       {...rest}
     >
-      <div>
+      <Typography level="h8">
         {label}: {selectedItem?.label}
-      </div>
+      </Typography>
       <SelectorIcon isOpen={isOpen} />
     </ValueWrapper>
   );
