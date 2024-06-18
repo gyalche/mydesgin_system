@@ -21,6 +21,7 @@ const ValueWrapper = styled.div`
 
 const IconWrapper = styled.div`
   margin-top: 4px;
+  margin-left: 4px;
 `;
 
 export const SelectorIcon = ({ isOpen }) => {
