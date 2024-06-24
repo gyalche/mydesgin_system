@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelect } from 'downshift';
@@ -65,7 +65,7 @@ const SelectorInput = ({
   );
 
   // Handle item selection changes
-  const handleOnChange = useCallback((selectedItem) => {
+  const handleOnChange = selectedItem => {
     setControlledSelectedItem(selectedItem);
     if (onChange) {
       onChange(selectedItem);
@@ -73,11 +73,11 @@ const SelectorInput = ({
     }
 
     input?.onChange(selectedItem);
-  }, [onChange, input?.onChange]);
-  
+  };
+
   useEffect(() => {
     handleOnChange(value || input?.value || options[0]);
-  }, [value, input?.value, options, handleOnChange]);
+  }, [value, input?.value, options]);
 
   const {
     isOpen,
