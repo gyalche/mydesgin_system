@@ -3,7 +3,7 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "",
   "main": "dist/receptionist-designsystem.js",
   "module": "dist/receptionist-designsystem.js",
