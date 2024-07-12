@@ -6,36 +6,55 @@ export default {
   title: 'Design System/Molecules',
 };
 
-export const StatusMessage =  {
+export const StatusMessage = {
   title: 'Status',
   component: Status,
   parameters: {
     layout: 'centered',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6087%3A12412&mode=dev'
-    }
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6087%3A12412&mode=dev',
+    },
   },
   argTypes: {
-    isValid: {
-      name: 'Is Valid',
-      description: 'Put it in Valid or invalid state',
-      control: { type: 'boolean' }
-    }
+    text: {
+      name: 'Text',
+      description: 'Label text for the Status',
+      control: { type: 'text' },
+    },
   },
-  args:{
-    isValid: true,
+  args: {
+    text: 'Label',
   },
-  render: (args) => {
-    return  (
-      <Layout.Block>
+  render: args => {
+    const { text } = args;
+    return (
+      <Layout.Flex gap="20px">
         <Layout.Item>
-          <Status {...args} >Initial State</Status>
+          <Status appearance="disabled">{text}</Status>
         </Layout.Item>
         <Layout.Item>
-          <Status.Validation {...args} >Validation State</Status.Validation>
+          <Status appearance="enabled">{text}</Status>
         </Layout.Item>
-      </Layout.Block>
+        <Layout.Item>
+          <Status appearance="info">{text}</Status>
+        </Layout.Item>
+        <Layout.Item>
+          <Status appearance="warning">{text}</Status>
+        </Layout.Item>
+        <Layout.Item>
+          <Status appearance="nodata">{text}</Status>
+        </Layout.Item>
+        <Layout.Item>
+          <Status appearance="error">{text}</Status>
+        </Layout.Item>
+        <Layout.Item>
+          <Status appearance="success">{text}</Status>
+        </Layout.Item>
+        <Layout.Item>
+          <Status>{text}</Status>
+        </Layout.Item>
+      </Layout.Flex>
     );
-  }
+  },
 };

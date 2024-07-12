@@ -12,7 +12,9 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-right: 12px;
+  background-color: ${props => props.$open ? 'var(--rds-color-neutral-3)' : 'transparent'};
+  box-shadow: ${props => props.$open ? '0px 4px 4px 0px var(--rds-color-neutral-3)' : 'none'};
+  border-radius: ${props => props.$open ? '4px' : 'none'};
 `;
 
 const Divider = styled.div`
@@ -76,6 +78,7 @@ function AppSwitcher({
       <IconContainer
         onClick={() => setToggled(!toggled)}
         data-testid="grid-icon-button"
+        $open={toggled}
       >
         <Icon
           name='global-menu-grid'
@@ -89,7 +92,7 @@ function AppSwitcher({
             {ownedLabel}
           </DropDownSectionTitle>
           <OwnedProduct>
-            {owned.map(({ product_type, name, onClick }) => {
+            {owned.map(({ product_type, name, onClick, description }) => {
               if (product_type !== currentApp) {
                 return (
                   <AppLink
@@ -99,6 +102,7 @@ function AppSwitcher({
                     onClick={() => onClick()}
                     isActive
                     currentApp={currentApp}
+                    description={description}
                   />
                 );
               }

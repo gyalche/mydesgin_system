@@ -3,6 +3,7 @@ const Flex = styled.div.withConfig({
     ![
       'justifyContent',
       'alignItems',
+      'minW',
       'maxH',
       'minH',
       'w',

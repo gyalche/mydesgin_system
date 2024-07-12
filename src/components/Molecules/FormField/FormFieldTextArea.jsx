@@ -4,7 +4,7 @@ import TextArea from 'components/Atoms/TextArea';
 
 const FormFieldTextArea = (props) => {
   return (
-    <CommonFormField CustomField={TextArea} {...props} />
+    <CommonFormField customField={TextArea} {...props} />
   );
 };
 

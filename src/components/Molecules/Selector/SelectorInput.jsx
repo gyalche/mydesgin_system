@@ -64,20 +64,17 @@ const SelectorInput = ({
     value || input?.value || options[0]
   );
 
-  // Handle item selection changes
-  const handleOnChange = selectedItem => {
-    setControlledSelectedItem(selectedItem);
+  useEffect(() => {
+    setControlledSelectedItem(value || input?.value || options[0]);
+  }, [value, input?.value, options, setControlledSelectedItem]);
+
+  useEffect(() => {
     if (onChange) {
       onChange(selectedItem);
       return;
     }
-
     input?.onChange(selectedItem);
-  };
-
-  useEffect(() => {
-    handleOnChange(value || input?.value || options[0]);
-  }, [value, input?.value, options]);
+  }, [controlledSelectedItem, onChange, input?.onChange]);
 
   const {
     isOpen,
@@ -89,7 +86,7 @@ const SelectorInput = ({
   } = useSelect({
     items: options,
     selectedItem: controlledSelectedItem,
-    onSelectedItemChange: ({ selectedItem }) => handleOnChange(selectedItem),
+    onSelectedItemChange: ({ selectedItem }) => setControlledSelectedItem(selectedItem),
     initialSelectedItem: controlledSelectedItem,
   });
 

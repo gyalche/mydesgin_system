@@ -4,7 +4,7 @@ import Input from 'components/Atoms/Input';
 
 const FormFieldInput = (props) => {
   return (
-    <CommonFormField CustomField={Input} {...props} />
+    <CommonFormField customField={Input} {...props} />
   );
 };
 

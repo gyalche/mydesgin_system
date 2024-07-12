@@ -22,6 +22,10 @@ export const UserCardEmail = styled.div`
   line-height: 17.6px;
   text-align: left;
   color: var(--rds-color-neutral-7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 `;
 
 export const IconWrapper = styled.div`
