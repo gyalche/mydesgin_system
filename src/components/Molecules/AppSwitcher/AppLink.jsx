@@ -77,7 +77,7 @@ function AppLink({
           <DropDownProductTitle>
             {productName}
           </DropDownProductTitle>
-          {!isActive && <DropDownProductSubtitle>{description}</DropDownProductSubtitle>}
+          {description && <DropDownProductSubtitle>{description}</DropDownProductSubtitle>}
         </TextContainer>
       </LinkContainer>
     </DropDownItem>

@@ -22,7 +22,7 @@ const UserCard = ({ account }) => {
           <DefaultIcon name="Interface-avatar" />
         </IconWrapper>
       )}
-      <Flex direction="column">
+      <Flex direction="column" minW="0px">
         <MainText>{name}</MainText>
         <UserCardEmail>{email}</UserCardEmail>
       </Flex>

@@ -57,7 +57,7 @@ export const ApplicationSwitcher = {
   },
   args: {
     owned: [
-      { name: 'Reception', product_type: 'reception', isActive: true, link: 'https://receptionist.jp' },
+      { name: 'Reception', product_type: 'reception', description: 'This is the Reception app', isActive: true, link: 'https://receptionist.jp' },
       { name: 'scheduling', product_type: 'scheduling', isActive: true, link: 'https://scheduling.receptionist.jp' }
     ],
     other: [

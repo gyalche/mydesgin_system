@@ -27,8 +27,8 @@ const InputLabel = styled(Label)`
 `;
 
 const CommonFormField = ({
-  CustomField,
-  Tooltip,
+  customField: CustomField,
+  tooltip: Tooltip,
   input,
   meta,
   disabled,
@@ -43,12 +43,12 @@ const CommonFormField = ({
 
   const getStatusComponent = () => {
     if (error && touched)
-      return <Status.Validation isValid={false}>{error}</Status.Validation>;
+      return <Status appearance="error">{error}</Status>;
 
     if (validText && touched)
-      return <Status.Validation isValid={true}>{validText}</Status.Validation>;
+      return <Status appearance="success">{validText}</Status>;
 
-    return <Status.Helper>{helperText}</Status.Helper>;
+    return <Status>{helperText}</Status>;
   };
 
   return (
@@ -74,8 +74,8 @@ const CommonFormField = ({
 };
 
 CommonFormField.propTypes = {
-  CustomField: PropTypes.elementType.isRequired,
-  Tooltip: PropTypes.elementType,
+  customField: PropTypes.elementType.isRequired,
+  tooltip: PropTypes.elementType,
   input: PropTypes.object,
   meta: PropTypes.shape({
     touched: PropTypes.bool.isRequired,
