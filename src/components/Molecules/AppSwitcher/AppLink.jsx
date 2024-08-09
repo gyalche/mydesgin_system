@@ -58,6 +58,7 @@ function AppLink({
     reception: <Logo.Receptionist />,
     meetingroom: <Logo.ReceptionistRooms />,
     scheduling: <Logo.ReceptionistScheduling />,
+    safety_check: <Logo.ReceptionistSafetycheck />,
     other: <Logo.ReceptionistDiscovery />,
   };
 

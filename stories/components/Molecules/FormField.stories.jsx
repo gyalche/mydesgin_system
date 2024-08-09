@@ -11,13 +11,13 @@ export default {
   title: 'Design System/Molecules/Field',
 };
 
-export const Field =  {
+export const Field = {
   component: FormField,
   parameters: {
     layout: 'centered',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6087%3A12412&mode=dev'
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6087%3A12412&mode=dev',
     }
   },
   argTypes: {
@@ -51,24 +51,24 @@ export const Field =  {
       control: { type: 'text' }
     },
   },
-  args:{
+  args: {
     labelText: 'Label on top',
     helperText: 'Enter value',
     validText: 'Correct',
     meta: mockMeta,
     placeholder: 'Name',
     isLeftSideLabel: false,
-    w: '416px'
+    w: '416px',
   },
   render: (args) => {
-    return  (
+    return (
       <Layout.Block>
-          <Layout.Item >
-            <FormField.Input  {...args} />
-          </Layout.Item>
-          <Layout.Item>
-            <FormField.TextArea  {...args} />
-          </Layout.Item>
+        <Layout.Item>
+          <FormField.Input {...args} />
+        </Layout.Item>
+        <Layout.Item>
+          <FormField.TextArea {...args} />
+        </Layout.Item>
       </Layout.Block>
     );
   }

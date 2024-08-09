@@ -16,6 +16,8 @@ const Flex = styled.div.withConfig({
       'pr',
       'pb',
       'pl',
+      'overflowX',
+      'overflowY'
     ].includes(prop),
 })`
   display: flex;
@@ -40,6 +42,8 @@ const Flex = styled.div.withConfig({
   cursor: ${({ cursor }) => cursor || 'auto'};
   border: ${({ border }) => border || 'none'};
   border-radius: ${({ borderRadius }) => borderRadius || 'unset'};
+  overflow-x: ${({ overflowX }) => overflowX || 'visible'};
+  overflow-y: ${({ overflowY }) => overflowY || 'visible'};
 
   ${({ disabled }) =>
     disabled &&

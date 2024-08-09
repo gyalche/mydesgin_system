@@ -39,7 +39,7 @@ const CommonFormField = ({
   validText,
   ...inputProps
 }) => {
-  const { touched, error } = meta;
+  const { touched, error } = meta || {};
 
   const getStatusComponent = () => {
     if (error && touched)
@@ -78,14 +78,13 @@ CommonFormField.propTypes = {
   tooltip: PropTypes.elementType,
   input: PropTypes.object,
   meta: PropTypes.shape({
-    touched: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
+    touched: PropTypes.bool,
+    error: PropTypes.string,
   }),
   isLeftSideLabel: PropTypes.bool,
   labelText: PropTypes.string,
   helperText: PropTypes.string,
   validText: PropTypes.string,
-  invalidText: PropTypes.string,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   //Input and TextArea props
@@ -104,6 +103,7 @@ CommonFormField.defaultProps = {
   disabled: false,
   w: '416px',
   compact: false,
+  meta: {},
 };
 
 export default CommonFormField;
