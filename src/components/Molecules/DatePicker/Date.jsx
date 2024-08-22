@@ -8,10 +8,9 @@ const DatePickerContainer = styled.div`
   gap: 20px;
   align-items: center;
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 8px;
-  min-width: 220px;
-  max-width:500px;
+  // min-width: 390px;
+  // max-width:500px;
 `;
 
 const InputContainer = styled.div`
@@ -33,8 +32,10 @@ const InputField = styled.input`
 
 const CalendarContainer = styled.div`
   border-radius: 4px;
-  width: 200px;
+  width: 321px;
+  height: 293px;
   padding: 10px; 
+  border: 1px solid gray;
 `;
 
 const CalendarHeader = styled.div`
@@ -48,17 +49,18 @@ const CalendarHeader = styled.div`
 const DaysContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
+  gap: 5px;
 `;
 
 const Day = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px; 
-  height: 25px;
+  width: 41.29px; 
+  height: 32px;
   text-align: center;
   font-size: 12px;
+  border: ${(currentDate)=>(currentDate ? '1px solid red' : '')}
   cursor: ${(props) => (props.isDisabled ? 'not-allowed' : 'pointer')};
   border-radius: 4px;
   background: ${(props) => 
@@ -81,6 +83,7 @@ const CalenderWrapper=styled.div`
 const DatePicker = ({ isDoubleView }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [openCalender, setOpenCalender]=useState(false);
 
   const handleDayClick = (date) => {
     if (date < new Date()) return; // Disable past dates
@@ -133,6 +136,7 @@ const DatePicker = ({ isDoubleView }) => {
           {days.map((day, index) => (
             <Day
               key={index}
+              currentDate={new Date(Date.now())}
               isSelected={day.getTime() === startDate?.getTime() || day.getTime() === endDate?.getTime()}
               isInRange={isInRange(day)}
               isDisabled={day < new Date()}
@@ -141,6 +145,7 @@ const DatePicker = ({ isDoubleView }) => {
               {day.getDate()}
             </Day>
           ))}
+       
         </DaysContainer>
       </CalendarContainer>
     );
@@ -156,8 +161,10 @@ const DatePicker = ({ isDoubleView }) => {
           type="text"
           readOnly
           value={startDate ? startDate.toLocaleDateString('ja-JP') : 'yyyy/mm/dd'}
+          onClick={()=>setOpenCalender(!openCalender)}
         />
-        {isDoubleView && (
+        
+        {(isDoubleView || (startDate && endDate) ) && (
           <>
             <span>～</span>
             <InputField
@@ -169,8 +176,12 @@ const DatePicker = ({ isDoubleView }) => {
         )}
       </InputContainer>
      <CalenderWrapper>
-     {renderCalendar(currentDate)}
-     {isDoubleView && renderCalendar(nextMonth)}
+      {openCalender && (
+        <>
+           {renderCalendar(currentDate)}
+           {isDoubleView && renderCalendar(nextMonth)}
+        </>
+      )}
      </CalenderWrapper>
     </DatePickerContainer>
   );
