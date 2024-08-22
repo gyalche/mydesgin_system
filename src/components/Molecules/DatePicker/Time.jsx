@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 const TimePickerContainer = styled.div`
   display: inline-block;
   position: relative;
-  font-family: Arial, sans-serif;
 `;
 
 const TimeInputWrapper = styled.div`

@@ -9,8 +9,7 @@ const DatePickerContainer = styled.div`
   align-items: center;
   padding: 10px;
   border-radius: 8px;
-  // min-width: 390px;
-  // max-width:500px;
+  height:360px;
 `;
 
 const InputContainer = styled.div`
@@ -28,14 +27,17 @@ const InputField = styled.input`
   width: 90px;
   font-size: 12px;
   background-color: #f9f9f9;
+  display: inline-block;
+  position: relative;
 `;
 
 const CalendarContainer = styled.div`
   border-radius: 4px;
-  width: 321px;
+  width: 340px;
   height: 293px;
   padding: 10px; 
-  border: 1px solid gray;
+  border: 1px solid var(--rds-neutral-300);
+  box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
 `;
 
 const CalendarHeader = styled.div`
@@ -192,7 +194,7 @@ DatePicker.propTypes = {
 };
 
 DatePicker.defaultProps = {
-  isDoubleView: true,
+  isDoubleView: false,
 };
 
 export default DatePicker;
