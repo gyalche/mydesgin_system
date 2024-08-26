@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Icon } from 'components/Atoms';
 
 const DatePickerContainer = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ const DatePickerContainer = styled.div`
   align-items: center;
   padding: 10px;
   border-radius: 8px;
-  height:360px;
+  height: 360px;
 `;
 
 const InputContainer = styled.div`
@@ -21,31 +22,47 @@ const InputContainer = styled.div`
 
 const InputField = styled.input`
   padding: 4px 5px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--rds-neutral-300);
   border-radius: 4px;
   text-align: center;
-  width: 90px;
+  width: 83px;
+  height: 40px;
   font-size: 12px;
-  background-color: #f9f9f9;
   display: inline-block;
   position: relative;
 `;
 
-const CalendarContainer = styled.div`
-  border-radius: 4px;
-  width: 340px;
-  height: 293px;
-  padding: 10px; 
-  border: 1px solid var(--rds-neutral-300);
-  box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
-`;
-
 const CalendarHeader = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--rds-neutral-800);
+  padding: 12px 12px 0 12px;
+`;
+
+const WeekdayHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 12px;
+  font-weight: 700;
+  color: ${(props) => 
+    props.isSaturday ? 'var(--rds-color-teritary-2-dark)' : props.isSunday ? 'var(--rds-red-600)' : 'var(--rds-neutral-700)'};
+`;
+
+const HeaderIcons = styled.div`
+  gap: 10px;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
+const CalendarContainer = styled.div`
+  width: 340px;
+  height: 230px; 
+  padding: 10px;
 `;
 
 const DaysContainer = styled.div`
@@ -62,38 +79,54 @@ const Day = styled.div`
   height: 32px;
   text-align: center;
   font-size: 12px;
-  border: ${(currentDate)=>(currentDate ? '1px solid red' : '')}
+  border: ${(props) => (props.currentDate ? '1px solid var(--rds-teal-400)' : '')};
   cursor: ${(props) => (props.isDisabled ? 'not-allowed' : 'pointer')};
   border-radius: 4px;
   background: ${(props) => 
-    props.isSelected ? '#00AED4' :
-    props.isInRange ? '#00AED4' : 'transparent'};
+    props.isSelected ? 'var(--rds-teal-500)' :
+    props.isInRange ? 'var(--rds-teal-200)' : 'transparent'};
   color: ${(props) => 
-    props.isSelected || props.isInRange ? '#fff' : (props.isDisabled ? '#aaa' : '#000')};
+  props.isSelected || props.isInRange ? '#fff' : (props.isDisabled ? 'var(--rds-neutral-400)' : props.currentDate && 'var(--rds-teal-400)')};
+  pointer-events: ${(props) => (props.isDisabled ? 'none' : 'auto')};
   &:hover {
-    background-color: ${(props) => !props.isDisabled && '#00AED4'};
+    background-color: ${(props) => !props.isDisabled && !props.isSelected && 'var(--rds-teal-100)'};
   }
 `;
 
-const CalenderWrapper=styled.div`
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
+const CalendarWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  border: 1px solid var(--rds-neutral-300);
+  box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
+  align-items: center;
+  justify-content: center;
 `;
 
-const DatePicker = ({ isDoubleView }) => {
+const Calenders = styled.div`
+  display: flex;
+  gap: 5px;
+  borderRadius: 4px;
+`;
+
+const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
+
+const DatePicker = ({ isDoubleView, isRange }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [openCalender, setOpenCalender]=useState(false);
+  const [openCalender, setOpenCalender] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const handleDayClick = (date) => {
-    if (date < new Date()) return; // Disable past dates
+    const normalizedDate = normalizeDate(date);
+    const today = normalizeDate(new Date());
+
+    if (normalizedDate < today) return; // Disable past dates
 
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate(null);
-    } else if (date < startDate) {
+    } else if (normalizedDate < normalizeDate(startDate)) {
       setStartDate(date);
     } else {
       setEndDate(date);
@@ -101,7 +134,10 @@ const DatePicker = ({ isDoubleView }) => {
   };
 
   const isInRange = (day) => {
-    return startDate && endDate && day > startDate && day < endDate;
+    const normalizedDay = normalizeDate(day);
+    const normalizedStartDate = normalizeDate(startDate);
+    const normalizedEndDate = normalizeDate(endDate);
+    return normalizedStartDate && normalizedEndDate && normalizedDay > normalizedStartDate && normalizedDay < normalizedEndDate;
   };
 
   const getDaysInMonth = (date) => {
@@ -113,41 +149,44 @@ const DatePicker = ({ isDoubleView }) => {
     return days;
   };
 
+  const handlePrevMonth = () => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
+  };
+  
+  const handleNextMonth = () => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
+  };
+  
+
   const renderCalendar = (date) => {
     const days = getDaysInMonth(date);
     return (
       <CalendarContainer>
-        <CalendarHeader>
-          <div>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</div>
-        </CalendarHeader>
+         <div>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</div>
         <DaysContainer>
           {['月', '火', '水', '木', '金', '土', '日'].map((day, index) => (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: day === '土' ? '#0A47F2' : day === '日' ? '#EF0729' : 'gray',
-                fontSize: '10px',
-              }}
-              key={index}
+            <WeekdayHeader
+            key={index}
+            isSaturday={day === '土'}
+            isSunday={day === '日'}
             >
               {day}
-            </div>
+            </WeekdayHeader>
           ))}
+        
           {days.map((day, index) => (
-            <Day
-              key={index}
-              currentDate={new Date(Date.now())}
-              isSelected={day.getTime() === startDate?.getTime() || day.getTime() === endDate?.getTime()}
-              isInRange={isInRange(day)}
-              isDisabled={day < new Date()}
-              onClick={() => !day < new Date() && handleDayClick(day)}
-            >
-              {day.getDate()}
-            </Day>
-          ))}
-       
+              <Day
+                key={`${day-index}`}
+                currentDate={normalizeDate(new Date()) === normalizeDate(day)}
+                isSelected={normalizeDate(day) === normalizeDate(startDate) || normalizeDate(day) === normalizeDate(endDate)}
+                isInRange={isInRange(day)}
+                isDisabled={normalizeDate(day) < normalizeDate(new Date())}
+                isSaturday={day.getDay() === 6}
+                onClick={() => handleDayClick(day)}
+              >
+                {day.getDate()}
+              </Day>
+            ))}
         </DaysContainer>
       </CalendarContainer>
     );
@@ -163,38 +202,55 @@ const DatePicker = ({ isDoubleView }) => {
           type="text"
           readOnly
           value={startDate ? startDate.toLocaleDateString('ja-JP') : 'yyyy/mm/dd'}
-          onClick={()=>setOpenCalender(!openCalender)}
+          onClick={() => setOpenCalender(!openCalender)}
         />
         
-        {(isDoubleView || (startDate && endDate) ) && (
+        {(startDate && endDate) && (
           <>
             <span>～</span>
             <InputField
               type="text"
               readOnly
               value={endDate ? endDate.toLocaleDateString('ja-JP') : 'yyyy/mm/dd'}
+              onClick={() => setOpenCalender(!openCalender)}
             />
           </>
         )}
       </InputContainer>
-     <CalenderWrapper>
-      {openCalender && (
-        <>
-           {renderCalendar(currentDate)}
-           {isDoubleView && renderCalendar(nextMonth)}
-        </>
-      )}
-     </CalenderWrapper>
+          {openCalender && (
+              <CalendarWrapper>
+                  <CalendarHeader>
+                      <HeaderIcons>
+                        <Icon name='Interface-chevron-double-left' onClick={handlePrevMonth}/>
+                        <Icon name='Interface-chevron-left' onClick={handlePrevMonth}/>
+                      </HeaderIcons>
+                     
+                      <HeaderIcons>
+                        <Icon name='Interface-chevron-double-right' onClick={handleNextMonth}/>
+                        <Icon name='Interface-chevron-right' onClick={handleNextMonth}/>
+                      </HeaderIcons>
+                  </CalendarHeader>
+                  <Calenders>
+                      {/* {renderCalendar(currentDate)}
+                      {isDoubleView && renderCalendar(nextMonth)} */}
+                      {renderCalendar(currentMonth)}
+                      {isDoubleView && renderCalendar(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
+                  </Calenders>
+              </CalendarWrapper>
+          )}
+    
     </DatePickerContainer>
   );
 };
 
 DatePicker.propTypes = {
   isDoubleView: PropTypes.bool,
+  isRange: PropTypes.bool,
 };
 
 DatePicker.defaultProps = {
-  isDoubleView: false,
+  isDoubleView: true,
+  isRange: false,
 };
 
 export default DatePicker;

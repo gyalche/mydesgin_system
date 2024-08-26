@@ -1,45 +1,39 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Icon } from 'components/Atoms';
 
 const TimePickerContainer = styled.div`
   display: inline-block;
   position: relative;
+
 `;
 
 const TimeInputWrapper = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid var(--rds-neutral-300);
   border-radius: 4px;
   padding: 5px 10px;
   width: 100px;
-  background-color: #f9f9f9;
 `;
 
 const TimeInput = styled.input`
   border: none;
   background: none;
-  font-size: 12px;
+  font-size: 14px;
   width: 60px;
   text-align: center;
   outline: none;
-
-  &::placeholder {
-    color: #bbb;
-  }
 `;
 
 const ClearButton = styled.button`
-  background: none;
+  color: gray;
+  font-size: 18px;
   border: none;
+  background: none;
   font-size: 14px;
-  color: #ccc;
   cursor: pointer;
-
-  &:hover {
-    color: #999;
-  }
 `;
 
 const Dropdown = styled.div`
@@ -48,12 +42,12 @@ const Dropdown = styled.div`
   left: 0;
   width: 100%;
   background: white;
-  border: 1px solid #ccc;
   border-radius: 4px;
   z-index: 1000;
   display: flex;
   max-height: 200px;
   overflow-y: auto;
+  box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
 `;
 
 const Column = styled.ul`
@@ -61,10 +55,7 @@ const Column = styled.ul`
   padding: 0;
   margin: 0;
   width: 50%;
-  border-left: 1px solid #ccc;
-  &:first-child {
-    border-left: none;
-  }
+  max-height: 200px;
 `;
 
 const TimeOption = styled.li`
@@ -72,10 +63,10 @@ const TimeOption = styled.li`
   cursor: pointer;
   text-align: center;
   font-size: 12px;
-  color: #333;
-
+  position: sticky;
+  border-right: 1px solid var(--rds-neutral-200);
   &:hover {
-    background-color: #f0f0f0;
+    background-color: var(--rds-color-neutral-1);
   }
 `;
 
@@ -114,7 +105,11 @@ const TimePicker = ({ is24Hour, step }) => {
           placeholder="hh:mm"
         />
         {selectedHour !== '' && (
-          <ClearButton onClick={clearSelection}>&times;</ClearButton>
+          <ClearButton onClick={clearSelection}>
+             <Icon
+                name='alert-circle-solid-cross'
+              />
+          </ClearButton>
         )}
       </TimeInputWrapper>
       {isDropdownOpen && (
