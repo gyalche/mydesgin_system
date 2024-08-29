@@ -57,11 +57,12 @@ const HeaderIcons = styled.div`
   gap: 10px;
   font-size: 24px;
   cursor: pointer;
+  z-index: 9999;
 `;
 
 const CalendarContainer = styled.div`
   width: 340px;
-  height: 230px; 
+  height: 250px; 
   padding: 10px;
 `;
 
@@ -109,6 +110,12 @@ const Calenders = styled.div`
   borderRadius: 4px;
 `;
 
+const CalenderMonths = styled.div`
+  margin-top: -55px;
+  postion: absolute;
+  text-align: center;
+  padding-bottom: 20px;
+`
 const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
 
 const DatePicker = ({ isDoubleView, isRange }) => {
@@ -158,13 +165,14 @@ const DatePicker = ({ isDoubleView, isRange }) => {
   const handleNextMonth = (val) => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + val, 1));
   };
-  
 
   const renderCalendar = (date) => {
     const days = getDaysInMonth(date);
     return (
       <CalendarContainer>
-         <div>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</div>
+         <CalenderMonths>
+            {date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}
+          </CalenderMonths>
         <DaysContainer>
           {['月', '火', '水', '木', '金', '土', '日'].map((day, index) => (
             <WeekdayHeader
@@ -189,13 +197,13 @@ const DatePicker = ({ isDoubleView, isRange }) => {
                 {day.getDate()}
               </Day>
             ))}
+          
         </DaysContainer>
       </CalendarContainer>
     );
   };
 
-  const currentDate = new Date();
-  const nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
 
   return (
     <DatePickerContainer>
@@ -233,10 +241,8 @@ const DatePicker = ({ isDoubleView, isRange }) => {
                       </HeaderIcons>
                   </CalendarHeader>
                   <Calenders>
-                      {/* {renderCalendar(currentDate)}
-                      {isDoubleView && renderCalendar(nextMonth)} */}
                       {renderCalendar(currentMonth)}
-                      {isDoubleView && renderCalendar(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
+                      {isDoubleView && renderCalendar(nextMonth)}
                   </Calenders>
               </CalendarWrapper>
           )}
@@ -251,7 +257,7 @@ DatePicker.propTypes = {
 };
 
 DatePicker.defaultProps = {
-  isDoubleView: true,
+  isDoubleView: false,
   isRange: false,
 };
 
