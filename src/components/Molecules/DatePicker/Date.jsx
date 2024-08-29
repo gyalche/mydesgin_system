@@ -115,7 +115,8 @@ const CalenderMonths = styled.div`
   postion: absolute;
   text-align: center;
   padding-bottom: 20px;
-`
+`;
+
 const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
 
 const DatePicker = ({ isDoubleView, isRange }) => {
@@ -123,8 +124,6 @@ const DatePicker = ({ isDoubleView, isRange }) => {
   const [endDate, setEndDate] = useState(null);
   const [openCalender, setOpenCalender] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-
-  const skipMonthCheck = isDoubleView  ? 2 : 1;
 
   const handleDayClick = (date) => {
     const normalizedDate = normalizeDate(date);
@@ -158,12 +157,12 @@ const DatePicker = ({ isDoubleView, isRange }) => {
     return days;
   };
 
-  const handlePrevMonth = (val) => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - val, 1));
+  const handlePrevMonth = () => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
   };
   
-  const handleNextMonth = (val) => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + val, 1));
+  const handleNextMonth = () => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
   };
 
   const renderCalendar = (date) => {
@@ -203,7 +202,7 @@ const DatePicker = ({ isDoubleView, isRange }) => {
     );
   };
 
-  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
+  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
   return (
     <DatePickerContainer>
@@ -231,13 +230,13 @@ const DatePicker = ({ isDoubleView, isRange }) => {
               <CalendarWrapper>
                   <CalendarHeader>
                       <HeaderIcons>
-                        <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth(skipMonthCheck)}/>
-                        <Icon name='Interface-chevron-left' onClick={() => handlePrevMonth(skipMonthCheck)}/>
+                        <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
+                        <Icon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
                       </HeaderIcons>
                      
                       <HeaderIcons>
-                        <Icon name='Interface-chevron-double-right' onClick={() => handleNextMonth(skipMonthCheck)}/>
-                        <Icon name='Interface-chevron-right' onClick={() => handleNextMonth(skipMonthCheck)}/>
+                        <Icon name='Interface-chevron-double-right' onClick={() => handleNextMonth()}/>
+                        <Icon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
                       </HeaderIcons>
                   </CalendarHeader>
                   <Calenders>
