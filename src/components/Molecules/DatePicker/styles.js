@@ -32,6 +32,18 @@ export const InputField = styled.input`
   width: 83px;
   height: 40px;
   font-size: 12px;
+  color: var(--rds-neutral-600);
+`;
+
+export const TimeInputField = styled.input`
+  border: 1px solid var(--rds-neutral-200);
+  text-align: center;
+  outline: none;
+  width: 80px;
+  height: 40px;
+  font-size: 14px;
+  border-radius: 4px;
+  color: var(--rds-neutral-600)
 `;
 
 export const CalendarHeader = styled.div`
@@ -134,17 +146,17 @@ export const TimeInputWrapper = styled.div`
   align-items: center;
   border: 1px solid var(--rds-neutral-300);
   border-radius: 4px;
-  padding: 5px 10px;
   width: 100px;
+  height: 40px;
 `;
 
 export const TimeInput = styled.input`
-  border: none;
   background: none;
   font-size: 14px;
   width: 60px;
   text-align: center;
   outline: none;
+  border: none;
 `;
 
 export const ClearButton = styled.button`
@@ -159,24 +171,59 @@ export const ClearButton = styled.button`
 
 export const Dropdown = styled.div`
   position: absolute;
+  display: flex;
+  flex-direction: column;
   top: 45px;
   left: 0;
-  width: 100%;
+  width: 110px;
   background: white;
   border-radius: 4px;
   z-index: 1000;
   display: flex;
-  max-height: 200px;
-  overflow-y: auto;
+  max-height: 280px;
+  overflow-y: hidden;
   box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
 `;
 
-export const Column = styled.ul`
+export const DropdownHeader = styled.div`
+  width: 100%;
+  padding: 7px 5px;
+  border-bottom: 1px solid var(--rds-neutral-200);
+`;
+export const HourMinuteWrapper = styled.div`
+  display: flex;
+`;
+export const ScrollColumn = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
   width: 50%;
   max-height: 200px;
+  overflow-y: auto;
+    &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+  }
+`;
+
+export const StaticColumn = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 50%;
 `;
 
 export const TimeOption = styled.li`
@@ -184,10 +231,24 @@ export const TimeOption = styled.li`
   cursor: pointer;
   text-align: center;
   font-size: 12px;
-  position: sticky;
   border-right: 1px solid var(--rds-neutral-200);
-  background-color: ${({ selected }) => (selected ? 'var(--rds-teal-500)' : 'transparent')};
+  color: ${({ selected }) => (selected && 'var(--rds-teal-500)')};
   &:hover {
     background-color: var(--rds-color-neutral-1);
+  }
+`;
+
+export const PeriodToggle = styled.button`
+  width: 100%;
+  padding: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--rds-color-neutral-1);
+  color: var(--rds-neutral-500);
+  text-align: center;
+  border-top: 1px solid var(--rds-neutral-200);
+  &:hover {
+    background-color: var(--rds-color-neutral-2);
   }
 `;

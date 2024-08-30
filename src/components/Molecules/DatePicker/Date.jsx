@@ -24,7 +24,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
   const [endDate, setEndDate] = useState(prevEndDate);
   const [openCalender, setOpenCalender] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [dateRange, setDateRange] = useState([]);
+  const [dateRange, setDateRange] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
 
   const handleDateRangeClick = (date) => {
@@ -50,6 +50,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
     const today = normalizeDate(new Date());
     if (normalizedDate < today) return;
     setStartDate(date);
+    setDateRange(date);
   };
 
   const isInRange = (day) => {
@@ -60,14 +61,37 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
   };
 
   const getDaysInMonth = (date) => {
-    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    
+    // Get the first day of the month
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    
+    // Get the last day of the month
+    const lastDateOfMonth = new Date(year, month + 1, 0);
+
+    const daysInMonth = lastDateOfMonth.getDate();
+    
     const days = [];
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(new Date(date.getFullYear(), date.getMonth(), i));
+    
+    // Add the last few days of the previous month
+    for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+      days.push({date: new Date(year, month, -i), isCurrentMonth: false});
     }
+    
+    // Add all days in the current month
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({date: new Date(year, month, i), isCurrentMonth: true});
+    }
+    
+    // Add the first few days of the next month
+    const lastDayOfMonth = lastDateOfMonth.getDay();
+    for (let i = 1; i < 7 - lastDayOfMonth; i++) {
+      days.push({date: new Date(year, month + 1, i), isCurrentMonth: false});
+    }
+    
     return days;
   };
-
   const handlePrevMonth = () => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
   };
@@ -104,10 +128,12 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
 
   const renderCalendar = (date, locale) => {
     const days = getDaysInMonth(date);
+    const currentYear = new Date(Date.now()).getFullYear();
+    const displayNextYear = date.getFullYear() !== currentYear && date.getFullYear();
     return (
       <CalendarContainer>
         <CalenderMonths>
-          {getLocalizedMonthName(date, locale)}
+        {displayNextYear} {getLocalizedMonthName(date, locale)}
         </CalenderMonths>
         <DaysContainer>
           {['月', '火', '水', '木', '金', '土', '日'].map((day, index) => (
@@ -120,22 +146,26 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
             </WeekdayHeader>
           ))}
         
-          {days.map((day, index) => (
+          {days.map((day, index) => {
+            const date = day?.date;
+            const notCurrent = !day?.isCurrentMonth;
+            return (
               <Day
-                key={`${day-index}`}
-                currentDate={normalizeDate(new Date()) === normalizeDate(day)}
-                isSelected={normalizeDate(day) === normalizeDate(startDate) || normalizeDate(day) === normalizeDate(endDate)}
-                isInRange={isInRange(day)}
-                isDisabled={normalizeDate(day) < normalizeDate(new Date())}
-                isSaturday={day.getDay() === 6}
-                onClick={ !isRangePicker ? () => handleSingleDate(day) : () => handleDateRangeClick(day)}
-                isInHoverRange={isInHoverRange(day)}
-                onMouseEnter={() => handleMouseEnter(day)}
+                key={`${day?.date-index}`}
+                currentDate={normalizeDate(new Date()) === normalizeDate(date)}
+                isSelected={normalizeDate(date) === normalizeDate(startDate) || normalizeDate(date) === normalizeDate(endDate)}
+                isInRange={isInRange(date)}
+                isDisabled={normalizeDate(date) < normalizeDate(new Date()) || notCurrent}
+                isSaturday={date.getDay() === 6}
+                onClick={!isRangePicker ? () => handleSingleDate(date) : () => handleDateRangeClick(date)}
+                isInHoverRange={isInHoverRange(date)}
+                onMouseEnter={() => handleMouseEnter(date)}
                 onMouseLeave={() => handleMouseLeave()}
               >
-                {day.getDate()}
+                {date.getDate()}
               </Day>
-            ))}
+            );
+          })}
         </DaysContainer>
       </CalendarContainer>
     );
@@ -150,13 +180,13 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
           <InputField
             type="text"
             readOnly
-            value={startDate ? startDate.toLocaleDateString('ja-JP') : 'yyyy/mm/dd'}
+            value={startDate ? startDate.toLocaleDateString(dateTimeFormat) : 'yyyy/mm/dd'}
             onClick={() => setOpenCalender(!openCalender)}
           />
          {startDate && (
           <ClearButton onClick={()=>{
             setStartDate('');
-            dateRange.shift()
+            dateRange.shift();
           }}>
             <Icon name="alert-circle-solid-cross" />
           </ClearButton>
@@ -170,13 +200,13 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
               <InputField
                 type="text"
                 readOnly
-                value={endDate ? endDate.toLocaleDateString('ja-JP') : 'yyyy/mm/dd'}
+                value={endDate ? endDate.toLocaleDateString(dateTimeFormat) : 'yyyy/mm/dd'}
                 onClick={() => setOpenCalender(!openCalender)}
               />
                 {endDate && (
                   <ClearButton onClick={()=>{
-                    setEndDate('')
-                    dateRange.pop()
+                    setEndDate('');
+                    dateRange.pop();
                   }}>
                     <Icon name="alert-circle-solid-cross" />
                   </ClearButton>
@@ -218,8 +248,8 @@ DatePicker.propTypes = {
 };
 
 DatePicker.defaultProps = {
-  isDoubleView: false,
-  isRangePicker: false,
+  isDoubleView: true,
+  isRangePicker: true,
   prevStartDate: null,
   prevEndDate: null,
   dateTimeFormat: 'ja-JA'
