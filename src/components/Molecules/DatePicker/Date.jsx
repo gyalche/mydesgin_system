@@ -192,7 +192,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
   return (
-    <DatePickerContainer ref={datePickerRef}>
+    <DatePickerContainer>
       <InputContainer>
         <InputWrapper>
           <InputField
@@ -235,7 +235,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
       </InputContainer>
 
       {openCalender && (
-        <CalendarWrapper>
+        <CalendarWrapper ref={datePickerRef}>
             <CalendarHeader>
                 <HeaderIcons>
                   <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
