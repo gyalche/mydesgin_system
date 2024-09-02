@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import { CalendarContainer,
@@ -15,11 +15,11 @@ import { CalendarContainer,
   InputField,
   InputWrapper,
   WeekdayHeader } from './styles';
-import useClickOutside from './useClickOutside';
+import useClickOutside from '../../../hooks/useClickOutside';
 
 const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
 
-const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) => {
+const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
@@ -56,14 +56,14 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
     setSingleDate(date);
   };
 
-  const isInRange = (day) => {
+  const isInRange = useCallback((day) => {
     const normalizedDay = normalizeDate(day);
     const normalizedStartDate = normalizeDate(startDate);
     const normalizedEndDate = normalizeDate(endDate);
     return normalizedStartDate && normalizedEndDate && normalizedDay > normalizedStartDate && normalizedDay < normalizedEndDate;
-  };
+  },[startDate, endDate]);
 
-  const getDaysInMonth = (date) => {
+  const getDaysInMonth = useCallback((date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     
@@ -94,16 +94,17 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
     }
     
     return days;
-  };
-  const handlePrevMonth = () => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
-  };
-  
-  const handleNextMonth = () => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
-  };
+  },[]);
 
-  const isInHoverRange = (day) => {
+  const handlePrevMonth = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
+  },[]);
+  
+  const handleNextMonth = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
+  },[]);
+
+  const isInHoverRange = useCallback((day) => {
     if (!startDate || !hoveredDate) return false;
     const normalizedDay = normalizeDate(day);
     const normalizedStartDate = normalizeDate(startDate);
@@ -113,7 +114,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
       (normalizedDay >= normalizedStartDate && normalizedDay <= normalizedHoveredDate) ||
       (normalizedDay <= normalizedStartDate && normalizedDay >= normalizedHoveredDate)
     );
-  };
+  }, [startDate, hoveredDate]);
 
   const handleMouseEnter = (day) => {
     if (isRangePicker && startDate && !endDate) {
@@ -133,16 +134,17 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
   useClickOutside(datePickerRef, () => setOpenCalender(false));
 
   useEffect(()=>{
-    if(Array.isArray(prevValue) && isRangePicker){
-      setStartDate(prevValue[0]);
-      setEndDate(prevValue[1]);
-      setDateRange(prevValue);
+    if(Array.isArray(initialValue) && isRangePicker){
+      setStartDate(initialValue[0]);
+      setEndDate(initialValue[1]);
+      setDateRange(initialValue);
     }
     else if(!isRangePicker){
-      setStartDate(prevValue);
-      setSingleDate(prevValue);
+      setStartDate(initialValue);
+      setSingleDate(initialValue);
+      setEndDate(null);
     }
-  },[]);
+  },[initialValue, isRangePicker]);
 
   const renderCalendar = (date, locale) => {
     const days = getDaysInMonth(date);
@@ -260,7 +262,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
 DatePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
-  prevValue:  PropTypes.oneOfType([
+  initialValue:  PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
     PropTypes.instanceOf(Date),
   ]),
@@ -270,7 +272,7 @@ DatePicker.propTypes = {
 DatePicker.defaultProps = {
   isDoubleView: true,
   isRangePicker: true,
-  prevValue: null,
+  initialValue: null,
   dateTimeFormat: 'ja-JA',
 };
 

@@ -14,15 +14,15 @@ import {
   TimeOption,
   TimePickerContainer
 } from './styles';
-import useClickOutside from './useClickOutside';
+import useClickOutside from '../../../hooks/useClickOutside';
 
-const TimePicker = ({ is24Hour, step, prevTime }) => {
+const TimePicker = ({ is12Hour, step, initialValue }) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [amPm, setAmPm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [time, setTime] = useState('');
-  const hours = Array.from({ length: is24Hour ? 24 : 12 }, (_, i) => is24Hour ? i : (i + 1) % 12 || 12).filter(hour => hour !== 0);
+  const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
 
   const timeValue =
@@ -33,7 +33,7 @@ const TimePicker = ({ is24Hour, step, prevTime }) => {
   const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
   const formatTime = (hour, minute, amPmvalue) => {
-    if (is24Hour) {
+    if (!is12Hour) {
       return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
     } else {
       const formattedHour = hour % 12 || 12;
@@ -66,14 +66,14 @@ const TimePicker = ({ is24Hour, step, prevTime }) => {
   };
 
     //custom hook for outside click to close the model
-    useClickOutside(timePickerRef, () => setIsDropdownOpen(false));
+  useClickOutside(timePickerRef, () => setIsDropdownOpen(false));
 
   useEffect(()=>{
-    const prevTimeValue = prevTime?.split(':');
+    const prevTimeValue = initialValue?.split(':');
     setSelectedHour(prevTimeValue[0]);
     setSelectedMinute(prevTimeValue[1].split(' ')[0]);
-    {!is24Hour && setAmPm(prevTimeValue[1].split(' ')[1]);}
-    setTime(prevTime);
+    {is12Hour && setAmPm(prevTimeValue[1].split(' ')[1]);}
+    setTime(initialValue);
   },[]);
 
   return (
@@ -84,16 +84,16 @@ const TimePicker = ({ is24Hour, step, prevTime }) => {
           placeholder="hh:mm"
           onClick={toggleDropdown}
         />
-     
+
       {isDropdownOpen && (
-          <Dropdown is24Hour={is24Hour}> 
+          <Dropdown is12Hour={is12Hour}> 
               <DropdownHeader>
-                <TimeInputWrapper  is24Hour={is24Hour}>
+                <TimeInputWrapper  is12Hour={is12Hour}>
                   <TimeInput
                     value={timeValue}
                     readOnly
                     placeholder="hh:mm"
-                    is24Hour={is24Hour}
+                    is12Hour={is12Hour}
                   />
                   {selectedHour !== '' && (
                     <ClearButton onClick={clearSelection}>
@@ -126,7 +126,7 @@ const TimePicker = ({ is24Hour, step, prevTime }) => {
                     </TimeOption>
                   ))}
                 </ScrollColumn>
-                {!is24Hour && (
+                {is12Hour && (
                   <StaticColumn>
                     {AmPmValue.map(({name, value})=>(
                       <TimeOption
@@ -147,15 +147,15 @@ const TimePicker = ({ is24Hour, step, prevTime }) => {
 };
 
 TimePicker.propTypes = {
-  is24Hour: PropTypes.bool,
+  is12Hour: PropTypes.bool,
   step: PropTypes.number,
-  prevTime: PropTypes.string,
+  initialValue: PropTypes.string,
 };
 
 TimePicker.defaultProps = {
-  is24Hour: false,
+  is12Hour: false,
   step: 15,
-  prevTime: '12:15 AM'
+  initialValue: '12:15 AM'
 };
 
 export default TimePicker;

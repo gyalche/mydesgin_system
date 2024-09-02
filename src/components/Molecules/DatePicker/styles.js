@@ -146,7 +146,7 @@ export const TimeInputWrapper = styled.div`
   align-items: center;
   border: 1px solid var(--rds-neutral-300);
   border-radius: 4px;
-  width: ${(props) => props.is24Hour ? '100px' : '120px'};
+  width: ${(props) => props.is12Hour ? '120px' : '100px'};
   height: 40px;
   gap: 2px;
 `;
@@ -154,7 +154,7 @@ export const TimeInputWrapper = styled.div`
 export const TimeInput = styled.input`
   background: none;
   font-size: 14px;
-  width: ${(props) => props.is24Hour ? '60px' : '80px'};
+  width: ${(props) => props.is12Hour ? '85px' : '60px'};
   text-align: center;
   outline: none;
   border: none;
@@ -176,7 +176,7 @@ export const Dropdown = styled.div`
   flex-direction: column;
   top: 45px;
   left: 0;
-  width: ${(props)=>props.is24Hour ? '110px' : '130px'};
+  width: ${(props)=>props.is12Hour ? '130px' : '110px'};
   background: white;
   border-radius: 4px;
   z-index: 1000;
@@ -204,6 +204,7 @@ export const ScrollColumn = styled.ul`
   width: 50%;
   max-height: 200px;
   overflow-y: auto;
+  border-right: 1px solid var(--rds-neutral-200);
 `;
 
 export const StaticColumn = styled.ul`
@@ -218,7 +219,7 @@ export const TimeOption = styled.li`
   cursor: pointer;
   text-align: center;
   font-size: 12px;
-  border-right: 1px solid var(--rds-neutral-200);
+  // border-right: 1px solid var(--rds-neutral-200);
   color: ${({ selected }) => (selected && 'var(--rds-teal-500)')};
   &:hover {
     background-color: var(--rds-color-neutral-1);

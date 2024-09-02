@@ -8,6 +8,56 @@ export default {
 
 const { Time } = DatePicker;
 
+// export const DatePickers = {
+//   title: 'DatePicker',
+//   component: DatePicker,
+//   parameters: {
+//     layout: 'centered',
+//     design: {
+//       type: 'figma',
+//       url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6273%3A32042&mode=dev',
+//     },
+//   },
+//   argTypes: {
+//     isRange: {
+//       description: 'Ranged selection mode',
+//       control: { type: 'boolean' },
+//     },
+//     doubleMonthView: {
+//       description:
+//         'Ranged selection mode with the current month and next month, "isRange" value must be true',
+//       control: { type: 'boolean' },
+//     },
+//     locale: {
+//       description: 'Locale of the calendar. Default is ja',
+//       control: { type: 'text' },
+//     },
+//     textCancel: {
+//       description: 'Text to be shown for the Cancel action',
+//       control: { type: 'text' },
+//     },
+//     textOk: {
+//       description: 'Text to be shown for the Ok action',
+//       control: { type: 'text' },
+//     },
+//     initialValue: {
+//       description:
+//         'Initial Date value of the Datepicker, could be a date/date string or an array of date/date strings if in ranged mode',
+//       control: { type: 'date' },
+//     },
+//   },
+//   args: {
+//     isRange: false,
+//     doubleMonthView: true,
+//     textCancel: 'キャンセル',
+//     textOk: 'OK',
+//     initialValue: new Date(),
+//   },
+//   render: args => {
+//     return <DatePicker {...args} />;
+//   },
+// };
+
 export const DatePickers = {
   title: 'DatePicker',
   component: DatePicker,
@@ -19,43 +69,46 @@ export const DatePickers = {
     },
   },
   argTypes: {
-    isRange: {
+    isRangePicker: {
       description: 'Ranged selection mode',
       control: { type: 'boolean' },
     },
-    doubleMonthView: {
-      description:
-        'Ranged selection mode with the current month and next month, "isRange" value must be true',
+    isDoubleView: {
+      description: 'Display two months side by side, "isRangePicker" value must be true',
       control: { type: 'boolean' },
     },
-    locale: {
-      description: 'Locale of the calendar. Default is ja',
+    dateTimeFormat: {
+      description: 'Locale format of the calendar. Default is ja-JA',
       control: { type: 'text' },
     },
     textCancel: {
       description: 'Text to be shown for the Cancel action',
       control: { type: 'text' },
     },
-    textOk: {
-      description: 'Text to be shown for the Ok action',
-      control: { type: 'text' },
-    },
     initialValue: {
       description:
-        'Initial Date value of the Datepicker, could be a date/date string or an array of date/date strings if in ranged mode',
+        'Initial Date value of the Datepicker, could be a date or an array of dates if in ranged mode',
       control: { type: 'date' },
     },
   },
   args: {
-    isRange: false,
-    doubleMonthView: true,
+    isRangePicker: true,
+    isDoubleView: false,
+    dateTimeFormat: 'ja-JA',
     textCancel: 'キャンセル',
-    textOk: 'OK',
     initialValue: new Date(),
   },
-  render: args => {
-    return <DatePicker {...args} />;
-  },
+  render: (args) => {
+    const updatedArgs = {
+      ...args,
+      initialValue: args.isRangePicker
+        ? [new Date(), new Date(new Date().setDate(new Date().getDate() + 7))]
+        : new Date(),
+    };
+    return (
+      <DatePicker {...updatedArgs} />
+    );
+},
 };
 
 export const TimePickers = {
@@ -69,28 +122,24 @@ export const TimePickers = {
     },
   },
   argTypes: {
-    hour12: {
+    is12Hour: {
       description: '12 hour mode (true) or 24 hour mode (false)',
       control: { type: 'boolean' },
     },
-    interval: {
+    step: {
       description: 'Time interval in minutes',
       control: { type: 'number' },
     },
-    locale: {
-      description: 'Locale of the calendar. Default is ja',
-      control: { type: 'text' },
-    },
     initialValue: {
       description:
-        'Initial date and time value of the Timepicker in ISO date string format',
-      control: { type: 'date' },
+        'Initial time value of the TimePicker in "HH:mm AM/PM" format for 12-hour mode or "HH:mm" for 24-hour mode',
+      control: { type: 'text' },
     },
   },
   args: {
-    hour12: true,
-    interval: 15,
-    initialValue: new Date(),
+    is12Hour: true,
+    step: 15,
+    initialValue: '12:15 AM',
   },
   render: args => {
     return <Time {...args} />;

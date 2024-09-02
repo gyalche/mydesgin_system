@@ -1,5 +1,6 @@
 export { default as Checkbox } from './Checkbox';
 export { default as AppSwitcher } from './AppSwitcher';
+export { default as DatePicker } from './DatePicker';
 export { default as Dialog } from './Dialog';
 export { default as IconButton } from './IconButton';
 export { default as Status } from './Status';
@@ -12,4 +13,3 @@ export { default as Table } from './Table';
 export { Toast, ToastProvider, useToast } from './Toast';
 export { default as Toggle } from './Toggle';
 export { default as Tooltip } from './Tooltip';
-export { default as DatePicker } from './DatePicker';
