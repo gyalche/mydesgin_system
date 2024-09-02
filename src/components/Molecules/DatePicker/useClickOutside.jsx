@@ -8,10 +8,8 @@ const useClickOutside = (ref, callback) => {
       }
     };
 
-    // Add event listener
     document.addEventListener('mousedown', handleClickOutside);
 
-    // Remove event listener on cleanup
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
