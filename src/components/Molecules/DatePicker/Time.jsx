@@ -14,6 +14,7 @@ import {
   TimeOption,
   TimePickerContainer
 } from './styles';
+import useClickOutside from './useClickOutside';
 
 const TimePicker = ({ is24Hour, step, prevTime }) => {
   const [selectedHour, setSelectedHour] = useState('');
@@ -28,7 +29,6 @@ const TimePicker = ({ is24Hour, step, prevTime }) => {
    `${selectedHour ? String(selectedHour).padStart(2, '0') : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
 
   const timePickerRef = useRef(null); 
-  const dropdownRef = useRef(null);
 
   const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
@@ -65,27 +65,8 @@ const TimePicker = ({ is24Hour, step, prevTime }) => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleClickOutside = (event) => {
-    if (
-      timePickerRef.current &&
-      !timePickerRef.current.contains(event.target) &&
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target)
-    ) {
-      setIsDropdownOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isDropdownOpen]);
+    //custom hook for outside click to close the model
+    useClickOutside(timePickerRef, () => setIsDropdownOpen(false));
 
   useEffect(()=>{
     const prevTimeValue = prevTime?.split(':');
@@ -105,7 +86,7 @@ const TimePicker = ({ is24Hour, step, prevTime }) => {
         />
      
       {isDropdownOpen && (
-          <Dropdown is24Hour={is24Hour} ref={dropdownRef}> 
+          <Dropdown is24Hour={is24Hour}> 
               <DropdownHeader>
                 <TimeInputWrapper  is24Hour={is24Hour}>
                   <TimeInput

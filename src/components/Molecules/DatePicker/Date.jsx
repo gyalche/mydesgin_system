@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import { CalendarContainer,
@@ -15,6 +15,7 @@ import { CalendarContainer,
   InputField,
   InputWrapper,
   WeekdayHeader } from './styles';
+import useClickOutside from './useClickOutside';
 
 const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
 
@@ -24,7 +25,10 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
   const [openCalender, setOpenCalender] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [dateRange, setDateRange] = useState(null);
+  const [singleDate, setSingleDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
+
+  const datePickerRef = useRef();
 
   const handleDateRangeClick = (date) => {
     const normalizedDate = normalizeDate(date);
@@ -49,7 +53,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
     const today = normalizeDate(new Date());
     if (normalizedDate < today) return;
     setStartDate(date);
-    setDateRange(date);
+    setSingleDate(date);
   };
 
   const isInRange = (day) => {
@@ -125,13 +129,18 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
     return new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
   };
 
+  //custom hook for outside click to close the model
+  useClickOutside(datePickerRef, () => setOpenCalender(false));
+
   useEffect(()=>{
     if(Array.isArray(prevValue) && isRangePicker){
       setStartDate(prevValue[0]);
       setEndDate(prevValue[1]);
       setDateRange(prevValue);
-    }else{
+    }
+    else if(!isRangePicker){
       setStartDate(prevValue);
+      setSingleDate(prevValue);
     }
   },[]);
 
@@ -154,7 +163,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
               {day}
             </WeekdayHeader>
           ))}
-        
+
           {days.map((day, index) => {
             const date = day?.date;
             const notCurrent = !day?.isCurrentMonth;
@@ -183,7 +192,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
   return (
-    <DatePickerContainer>
+    <DatePickerContainer ref={datePickerRef}>
       <InputContainer>
         <InputWrapper>
           <InputField
@@ -232,7 +241,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) 
                   <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
                   <Icon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
                 </HeaderIcons>
-                
+
                 <HeaderIcons>
                   <Icon name='Interface-chevron-double-right' onClick={() => handleNextMonth()}/>
                   <Icon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
@@ -252,14 +261,14 @@ DatePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
   prevValue:  PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string), 
-    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
+    PropTypes.instanceOf(Date),
   ]),
   dateTimeFormat: PropTypes.string,
 };
 
 DatePicker.defaultProps = {
-  isDoubleView: false,
+  isDoubleView: true,
   isRangePicker: true,
   prevValue: null,
   dateTimeFormat: 'ja-JA',
