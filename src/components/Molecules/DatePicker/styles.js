@@ -154,7 +154,7 @@ export const TimeInputWrapper = styled.div`
 export const TimeInput = styled.input`
   background: none;
   font-size: 14px;
-  width: ${(props) => props.is12Hour ? '85px' : '60px'};
+  width: ${(props) => props.is12Hour ? '80px' : '60px'};
   text-align: center;
   outline: none;
   border: none;

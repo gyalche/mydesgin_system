@@ -105,9 +105,7 @@ export const DatePickers = {
         ? [new Date(), new Date(new Date().setDate(new Date().getDate() + 7))]
         : new Date(),
     };
-    return (
-      <DatePicker {...updatedArgs} />
-    );
+    return <DatePicker {...updatedArgs} />;
 },
 };
 

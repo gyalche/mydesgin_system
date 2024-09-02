@@ -66,15 +66,23 @@ const TimePicker = ({ is12Hour, step, initialValue }) => {
   };
 
     //custom hook for outside click to close the model
-  useClickOutside(timePickerRef, () => setIsDropdownOpen(false));
+    useClickOutside(timePickerRef, () => {
+      if (selectedHour && selectedMinute && (amPm || !is12Hour)) {
+        setIsDropdownOpen(false);
+      }
+    });
 
   useEffect(()=>{
     const prevTimeValue = initialValue?.split(':');
     setSelectedHour(prevTimeValue[0]);
     setSelectedMinute(prevTimeValue[1].split(' ')[0]);
-    {is12Hour && setAmPm(prevTimeValue[1].split(' ')[1]);}
+    if (is12Hour) {
+      setAmPm(prevTimeValue[1].split(' ')[1] || '');
+    } else {
+      setAmPm('');
+    }
     setTime(initialValue);
-  },[]);
+  },[initialValue, is12Hour]);
 
   return (
     <TimePickerContainer ref={timePickerRef}>
