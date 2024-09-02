@@ -204,23 +204,6 @@ export const ScrollColumn = styled.ul`
   width: 50%;
   max-height: 200px;
   overflow-y: auto;
-    &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--rds-neutral-700);
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: var(--rds-color-neutral-5);
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: var(--rds-color-neutral-2);
-    border-radius: 4px;
-  }
 `;
 
 export const StaticColumn = styled.ul`
