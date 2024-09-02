@@ -146,14 +146,15 @@ export const TimeInputWrapper = styled.div`
   align-items: center;
   border: 1px solid var(--rds-neutral-300);
   border-radius: 4px;
-  width: 100px;
+  width: ${(props) => props.is24Hour ? '100px' : '120px'};
   height: 40px;
+  gap: 2px;
 `;
 
 export const TimeInput = styled.input`
   background: none;
   font-size: 14px;
-  width: 60px;
+  width: ${(props) => props.is24Hour ? '60px' : '80px'};
   text-align: center;
   outline: none;
   border: none;
@@ -175,7 +176,7 @@ export const Dropdown = styled.div`
   flex-direction: column;
   top: 45px;
   left: 0;
-  width: 110px;
+  width: ${(props)=>props.is24Hour ? '110px' : '130px'};
   background: white;
   border-radius: 4px;
   z-index: 1000;
@@ -186,6 +187,9 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 7px 5px;
   border-bottom: 1px solid var(--rds-neutral-200);
@@ -201,20 +205,20 @@ export const ScrollColumn = styled.ul`
   max-height: 200px;
   overflow-y: auto;
     &::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #888;
+    background-color: var(--rds-neutral-700);
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
+    background-color: var(--rds-color-neutral-5);
   }
 
   &::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+    background-color: var(--rds-color-neutral-2);
     border-radius: 4px;
   }
 `;

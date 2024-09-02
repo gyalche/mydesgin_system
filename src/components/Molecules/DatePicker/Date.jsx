@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import { CalendarContainer,
@@ -19,9 +18,9 @@ import { CalendarContainer,
 
 const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
 
-const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, dateTimeFormat }) => {
-  const [startDate, setStartDate] = useState(prevStartDate);
-  const [endDate, setEndDate] = useState(prevEndDate);
+const DatePicker = ({ isDoubleView, isRangePicker, prevValue, dateTimeFormat }) => {
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [dateRange, setDateRange] = useState(null);
@@ -66,7 +65,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
     
     // Get the first day of the month
     const firstDayOfMonth = new Date(year, month, 1).getDay();
-    
+
     // Get the last day of the month
     const lastDateOfMonth = new Date(year, month + 1, 0);
 
@@ -126,6 +125,16 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
     return new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
   };
 
+  useEffect(()=>{
+    if(Array.isArray(prevValue) && isRangePicker){
+      setStartDate(prevValue[0]);
+      setEndDate(prevValue[1]);
+      setDateRange(prevValue);
+    }else{
+      setStartDate(prevValue);
+    }
+  },[]);
+
   const renderCalendar = (date, locale) => {
     const days = getDaysInMonth(date);
     const currentYear = new Date(Date.now()).getFullYear();
@@ -133,7 +142,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
     return (
       <CalendarContainer>
         <CalenderMonths>
-        {displayNextYear} {getLocalizedMonthName(date, locale)}
+          {displayNextYear} {getLocalizedMonthName(date, locale)}
         </CalenderMonths>
         <DaysContainer>
           {['月', '火', '水', '木', '金', '土', '日'].map((day, index) => (
@@ -242,17 +251,18 @@ const DatePicker = ({ isDoubleView, isRangePicker, prevStartDate, prevEndDate, d
 DatePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
-  prevStartDate: PropTypes.string,
-  prevEndDate: PropTypes.string,
+  prevValue:  PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string), 
+    PropTypes.string,
+  ]),
   dateTimeFormat: PropTypes.string,
 };
 
 DatePicker.defaultProps = {
-  isDoubleView: true,
+  isDoubleView: false,
   isRangePicker: true,
-  prevStartDate: null,
-  prevEndDate: null,
-  dateTimeFormat: 'ja-JA'
+  prevValue: null,
+  dateTimeFormat: 'ja-JA',
 };
 
 export default DatePicker;
