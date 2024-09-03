@@ -172,7 +172,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat 
           {days.map((day, index) => {
             const date = day?.date;
             const notCurrent = !day?.isCurrentMonth;
-            const myIndex = index+1;
+            const myIndex = index + 1;
             return (
               <Day
                 key={`${day?.date-index}`}
