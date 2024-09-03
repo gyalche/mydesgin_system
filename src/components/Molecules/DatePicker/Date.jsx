@@ -28,6 +28,9 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat 
   const [singleDate, setSingleDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
 
+  const saturday = [6, 13, 20, 27, 34, 41];
+  const sunday = [7, 14, 21, 28, 35, 42];
+
   const datePickerRef = useRef();
 
   const handleDateRangeClick = (date) => {
@@ -169,6 +172,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat 
           {days.map((day, index) => {
             const date = day?.date;
             const notCurrent = !day?.isCurrentMonth;
+            const myIndex = index+1;
             return (
               <Day
                 key={`${day?.date-index}`}
@@ -176,7 +180,8 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat 
                 isSelected={normalizeDate(date) === normalizeDate(startDate) || normalizeDate(date) === normalizeDate(endDate)}
                 isInRange={isInRange(date)}
                 isDisabled={normalizeDate(date) < normalizeDate(new Date()) || notCurrent}
-                isSaturday={date.getDay() === 6}
+                isSaturday={saturday.includes(myIndex)}
+                isSunday={sunday.includes(myIndex)}
                 onClick={!isRangePicker ? () => handleSingleDate(date) : () => handleDateRangeClick(date)}
                 isInHoverRange={isInHoverRange(date)}
                 onMouseEnter={() => handleMouseEnter(date)}

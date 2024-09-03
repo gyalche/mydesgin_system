@@ -101,7 +101,8 @@ export const Day = styled.div`
     props.isSelected ? 'var(--rds-teal-500)' :
     props.isInRange ? 'var(--rds-teal-200)' :
     props.isInHoverRange ? 'var(--rds-teal-100)' : 'transparent'};
-  color: ${(props) => 
+  color: ${(props) => props?.isSaturday && !props.isSelected && !props.isDisabled ? 'var(--rds-blue-400)' 
+    : props?.isSunday && !props.isSelected && !props.isDisabled? 'var(--rds-red-400)' :
    props.isSelected ? 'var(--rds-neutral-0)' : props.isDisabled ? 'var(--rds-neutral-400)' : props.currentDate && 'var(--rds-teal-400)'};
   pointer-events: ${(props) => (props.isDisabled ? 'none' : 'auto')};
   
