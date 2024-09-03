@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import { CalendarContainer,
@@ -19,13 +19,12 @@ import useClickOutside from '../../../hooks/useClickOutside';
 
 const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
 
-const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat }) => {
+const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat, onChange }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [dateRange, setDateRange] = useState(null);
-  const [singleDate, setSingleDate] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
 
   const saturday = [6, 13, 20, 27, 34, 41];
@@ -43,11 +42,14 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat 
       setStartDate(date);
       setDateRange([date]);
       setEndDate(null);
+      onChange([date]);
     } else if (normalizedDate < normalizeDate(startDate)) {
       setStartDate(date);
+      onChange([date, endDate]);
     } else {
       setEndDate(date);
       setDateRange([startDate, date]);
+      onChange([startDate, date]);
     }
   };
 
@@ -56,7 +58,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat 
     const today = normalizeDate(new Date());
     if (normalizedDate < today) return;
     setStartDate(date);
-    setSingleDate(date);
+    onChange(date);
   };
 
   const isInRange = useCallback((day) => {
@@ -144,7 +146,6 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat 
     }
     else if(!isRangePicker){
       setStartDate(initialValue);
-      setSingleDate(initialValue);
       setEndDate(null);
     }
   },[initialValue, isRangePicker]);
@@ -272,6 +273,7 @@ DatePicker.propTypes = {
     PropTypes.instanceOf(Date),
   ]),
   dateTimeFormat: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 };
 
 DatePicker.defaultProps = {
@@ -279,6 +281,7 @@ DatePicker.defaultProps = {
   isRangePicker: true,
   initialValue: null,
   dateTimeFormat: 'ja-JA',
+  onChange: () => {},
 };
 
 export default DatePicker;

@@ -20,17 +20,18 @@ export const InputContainer = styled.div`
 export const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid var(--rds-neutral-300);
+  border: 1px solid var(--rds-neutral-200);
   border-radius: 3px;
   text-align: center;
+  width: 110px;
 `;
 
 export const InputField = styled.input`
   border: none;
   text-align: center;
   outline: none;
-  width: 83px;
-  height: 40px;
+  width: 78px;
+  height: 38px;
   font-size: 12px;
   color: var(--rds-neutral-600);
 `;
@@ -38,7 +39,6 @@ export const InputField = styled.input`
 export const TimeInputField = styled.input`
   border: 1px solid var(--rds-neutral-200);
   text-align: center;
-  outline: none;
   width: 80px;
   height: 40px;
   font-size: 14px;
@@ -119,6 +119,9 @@ export const CalendarWrapper = styled.div`
   box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
   align-items: center;
   justify-content: center;
+  position: absolute;
+  z-index: 999;
+  margin-top: 50px;
 `;
 
 export const Calenders = styled.div`
@@ -138,8 +141,14 @@ export const CalenderMonths = styled.div`
 `;
 
 export const TimePickerContainer = styled.div`
-  display: inline-block;
+  display: flex;
   position: relative;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  height: 360px;
 `;
 
 export const TimeInputWrapper = styled.div`
@@ -185,6 +194,7 @@ export const Dropdown = styled.div`
   max-height: 280px;
   overflow-y: hidden;
   box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
+  margin-top: 10px;
 `;
 
 export const DropdownHeader = styled.div`
@@ -220,7 +230,6 @@ export const TimeOption = styled.li`
   cursor: pointer;
   text-align: center;
   font-size: 12px;
-  // border-right: 1px solid var(--rds-neutral-200);
   color: ${({ selected }) => (selected && 'var(--rds-teal-500)')};
   &:hover {
     background-color: var(--rds-color-neutral-1);

@@ -16,7 +16,7 @@ import {
 } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
 
-const TimePicker = ({ is12Hour, step, initialValue }) => {
+const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [amPm, setAmPm] = useState('');
@@ -42,17 +42,23 @@ const TimePicker = ({ is12Hour, step, initialValue }) => {
 
   const handleHourClick = (hour) => {
     setSelectedHour(String(hour));
-    setTime(formatTime(hour, selectedMinute));
+    const updatedTime = formatTime(hour, selectedMinute, amPm);
+    setTime(updatedTime);
+    onChange(updatedTime);
   };
 
   const handleMinuteClick = (minute) => {
     setSelectedMinute(String(minute));
-    setTime(formatTime(selectedHour, minute));
+    const updatedTime = formatTime(selectedHour, minute, amPm);
+    setTime(updatedTime);
+    onChange(updatedTime);
   };
 
   const handleAmPm = (value)=>{
     setAmPm(value);
-    setTime(formatTime(selectedHour, selectedMinute, value));
+    const updatedTime = formatTime(selectedHour, selectedMinute, value);
+    setTime(updatedTime);
+    onChange(updatedTime);
   };
 
   const clearSelection = () => {
@@ -159,12 +165,14 @@ TimePicker.propTypes = {
   is12Hour: PropTypes.bool,
   step: PropTypes.number,
   initialValue: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 };
 
 TimePicker.defaultProps = {
   is12Hour: false,
   step: 15,
-  initialValue: '1:15 AM'
+  initialValue: '1:15 AM',
+  onChange: () => {}
 };
 
 export default TimePicker;
