@@ -25,52 +25,53 @@ const TimePicker = ({ is12Hour, step, initialValue }) => {
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
 
-  const timeValue =
-   `${selectedHour ? String(selectedHour).padStart(2, '0') : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
+  const timeValue = `${selectedHour ? selectedHour : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
 
-  const timePickerRef = useRef(null); 
+  const timePickerRef = useRef(null);
 
   const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
   const formatTime = (hour, minute, amPmvalue) => {
     if (!is12Hour) {
-      return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      return `${hour}:${String(minute).padStart(2, '0')}`;
     } else {
       const formattedHour = hour % 12 || 12;
-      return `${String(formattedHour).padStart(2, '0')}:${String(minute).padStart(2, '0')} ${amPmvalue}`;
+      return `${formattedHour}:${String(minute).padStart(2, '0')} ${amPmvalue}`;
     }
   };
-  
+
   const handleHourClick = (hour) => {
-    setSelectedHour(hour);
-    setTime(formatTime(hour, selectedMinute || 0));
+    setSelectedHour(String(hour));
+    setTime(formatTime(hour, selectedMinute));
   };
 
   const handleMinuteClick = (minute) => {
-    setSelectedMinute(minute);
-    setTime(formatTime(selectedHour, minute || 0));
+    setSelectedMinute(String(minute));
+    setTime(formatTime(selectedHour, minute));
   };
 
   const handleAmPm = (value)=>{
     setAmPm(value);
-    setTime(formatTime(selectedHour || 0, selectedMinute, value));
+    setTime(formatTime(selectedHour, selectedMinute, value));
   };
+
   const clearSelection = () => {
     setSelectedHour('');
     setSelectedMinute('');
     setAmPm('');
     setTime('');
   };
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-    //custom hook for outside click to close the model
-    useClickOutside(timePickerRef, () => {
-      if (selectedHour && selectedMinute && (amPm || !is12Hour)) {
-        setIsDropdownOpen(false);
-      }
-    });
+  //custom hook for outside click to close the model
+  useClickOutside(timePickerRef, () => {
+    if ((selectedHour && selectedMinute && (amPm || !is12Hour)) || !time) {
+      setIsDropdownOpen(false);
+    }
+  });
 
   useEffect(()=>{
     const prevTimeValue = initialValue?.split(':');
@@ -119,7 +120,7 @@ const TimePicker = ({ is12Hour, step, initialValue }) => {
                       onClick={() => handleHourClick(hour)}
                       selected={String(hour) === String(selectedHour)}
                     >
-                      {String(hour).padStart(2, '0')}
+                      {hour}
                     </TimeOption>
                   ))}
                 </ScrollColumn>
@@ -163,7 +164,7 @@ TimePicker.propTypes = {
 TimePicker.defaultProps = {
   is12Hour: false,
   step: 15,
-  initialValue: '12:15 AM'
+  initialValue: '1:15 AM'
 };
 
 export default TimePicker;

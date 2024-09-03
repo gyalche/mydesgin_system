@@ -137,7 +137,7 @@ export const TimePickers = {
   args: {
     is12Hour: true,
     step: 15,
-    initialValue: '12:15 AM',
+    initialValue: '1:15 AM',
   },
   render: args => {
     return <Time {...args} />;
