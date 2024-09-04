@@ -139,7 +139,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
   useClickOutside(datePickerRef, () => setOpenCalender(false));
 
   useEffect(()=>{
-    if(Array.isArray(initialValue) && isRangePicker){
+    if(Array.isArray(initialValue)){
       setStartDate(initialValue[0]);
       setEndDate(initialValue[1]);
       setDateRange(initialValue);

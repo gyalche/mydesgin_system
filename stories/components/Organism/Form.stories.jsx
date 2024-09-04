@@ -16,4 +16,4 @@ export default {
       },
     },
     render: (args) => <Form {...args} />
-};
+  };

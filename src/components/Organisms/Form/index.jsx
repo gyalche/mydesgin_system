@@ -5,12 +5,12 @@ import TimePicker from 'components/Molecules/DatePicker/Time';
 
 const Form = () => {
   const initialValues = {
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() + 7)),
     time: '10:15 AM',
   };
 
   const onSubmit = values => {
-    console.log('this is my value', values);
+    // console.log('this is my value', values);
   };
 
   return (
@@ -24,14 +24,15 @@ const Form = () => {
                 <div>
                     <label>Date:</label>
                     <Field name="date" render={({ input }) => (
-                    <DatePicker 
-                      {...input} 
-                      initialValue={input.value}
-                      isRangePicker={true} 
-                      isDoubleView={true}
-                      onChange={input.onChange}
-                    />
-                  )} />
+                      <DatePicker 
+                        {...input}
+                        initialValue={input.value}
+                        isRangePicker={true} 
+                        isDoubleView={true}
+                        onChange={input.onChange}
+                      />
+                    )} 
+                  />
                   </div>
                 <div>
                     <label>Time:</label>
@@ -41,9 +42,9 @@ const Form = () => {
                           initialValue={input.value}
                           is12Hour={false}
                         />
-                    )} />
+                      )} 
+                    />
                 </div>
-
             </div>
             <div style={{marginTop: '20px'}}>
               <button type="submit">Submit</button>
