@@ -7,7 +7,6 @@ export const DatePickerContainer = styled.div`
   align-items: center;
   padding: 10px;
   border-radius: 8px;
-  height: 360px;
 `;
 
 export const InputContainer = styled.div`
@@ -148,7 +147,6 @@ export const TimePickerContainer = styled.div`
   align-items: center;
   padding: 10px;
   border-radius: 8px;
-  height: 360px;
 `;
 
 export const TimeInputWrapper = styled.div`
@@ -194,7 +192,7 @@ export const Dropdown = styled.div`
   max-height: 280px;
   overflow-y: hidden;
   box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
-  margin-top: 10px;
+  margin-top: 18px;
 `;
 
 export const DropdownHeader = styled.div`
