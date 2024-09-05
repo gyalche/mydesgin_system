@@ -29,3 +29,9 @@ export const getDaysInMonth = (date) => {
     }
     return days;
   };
+
+export const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
+
+export const getLocalizedMonthName = (date, locale) => {
+  return new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
+};

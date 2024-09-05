@@ -16,12 +16,10 @@ import { CalendarContainer,
   InputWrapper,
   WeekdayHeader } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
-import { getDaysInMonth } from '../../../utils';
+import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 
 const saturday = [6, 13, 20, 27, 34, 41];
 const sunday = [7, 14, 21, 28, 35, 42];
-
-const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
 
 const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat, onChange }) => {
   const [startDate, setStartDate] = useState('');
@@ -98,10 +96,6 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
 
   const handleMouseLeave = () => {
     setHoveredDate(null);
-  };
-
-  const getLocalizedMonthName = (date, locale) => {
-    return new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
   };
 
   //custom hook for outside click to close the model
