@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
@@ -16,6 +16,8 @@ import {
 } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
 
+const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
+
 const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
@@ -29,8 +31,6 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
 
   const timePickerRef = useRef(null);
 
-  const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
-
   const formatTime = (hour, minute, amPmvalue) => {
     if (!is12Hour) {
       return `${hour}:${String(minute).padStart(2, '0')}`;
@@ -40,26 +40,26 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
     }
   };
 
-  const handleHourClick = (hour) => {
+  const handleHourClick = useCallback((hour) => {
     setSelectedHour(String(hour));
     const updatedTime = formatTime(hour, selectedMinute, amPm);
     setTime(updatedTime);
     onChange(updatedTime);
-  };
+  }, [selectedMinute, amPm]);
 
-  const handleMinuteClick = (minute) => {
+  const handleMinuteClick = useCallback((minute) => {
     setSelectedMinute(String(minute));
     const updatedTime = formatTime(selectedHour, minute, amPm);
     setTime(updatedTime);
     onChange(updatedTime);
-  };
+  }, [selectedHour, amPm]);
 
-  const handleAmPm = (value)=>{
+  const handleAmPm = useCallback((value)=>{
     setAmPm(value);
     const updatedTime = formatTime(selectedHour, selectedMinute, value);
     setTime(updatedTime);
     onChange(updatedTime);
-  };
+  }, [selectedHour, selectedMinute]);
 
   const clearSelection = () => {
     setSelectedHour('');

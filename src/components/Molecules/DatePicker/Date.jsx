@@ -16,8 +16,10 @@ import { CalendarContainer,
   InputWrapper,
   WeekdayHeader } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
+import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 
-const normalizeDate = (date) => new Date(date).setHours(0, 0, 0, 0);
+const saturday = [6, 13, 20, 27, 34, 41];
+const sunday = [7, 14, 21, 28, 35, 42];
 
 const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat, onChange }) => {
   const [startDate, setStartDate] = useState('');
@@ -26,13 +28,11 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [dateRange, setDateRange] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
-
-  const saturday = [6, 13, 20, 27, 34, 41];
-  const sunday = [7, 14, 21, 28, 35, 42];
+  const [weekdays, setWeekdays] = useState([]);
 
   const datePickerRef = useRef();
 
-  const handleDateRangeClick = (date) => {
+  const handleDateRangeClick = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
 
@@ -51,15 +51,15 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
       setDateRange([startDate, date]);
       onChange([startDate, date]);
     }
-  };
+  }, [startDate, endDate]);
 
-  const handleSingleDate = (date) => {
+  const handleSingleDate = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
     if (normalizedDate < today) return;
     setStartDate(date);
     onChange(date);
-  };
+  }, [setStartDate]);
 
   const isInRange = useCallback((day) => {
     const normalizedDay = normalizeDate(day);
@@ -68,46 +68,13 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
     return normalizedStartDate && normalizedEndDate && normalizedDay > normalizedStartDate && normalizedDay < normalizedEndDate;
   },[startDate, endDate]);
 
-  const getDaysInMonth = useCallback((date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    
-    // Get the first day of the month
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
-
-    // Get the last day of the month
-    const lastDateOfMonth = new Date(year, month + 1, 0);
-
-    const daysInMonth = lastDateOfMonth.getDate();
-    
-    const days = [];
-    
-    // Add the last few days of the previous month
-    for (let i = firstDayOfMonth - 1; i >= 0; i--) {
-      days.push({date: new Date(year, month, -i), isCurrentMonth: false});
-    }
-    
-    // Add all days in the current month
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push({date: new Date(year, month, i), isCurrentMonth: true});
-    }
-    
-    // Add the first few days of the next month
-    const lastDayOfMonth = lastDateOfMonth.getDay();
-    for (let i = 1; i < 7 - lastDayOfMonth; i++) {
-      days.push({date: new Date(year, month + 1, i), isCurrentMonth: false});
-    }
-    
-    return days;
-  },[]);
-
   const handlePrevMonth = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
-  },[]);
+  },[setCurrentMonth]);
   
   const handleNextMonth = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
-  },[]);
+  },[setCurrentMonth]);
 
   const isInHoverRange = useCallback((day) => {
     if (!startDate || !hoveredDate) return false;
@@ -131,15 +98,11 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
     setHoveredDate(null);
   };
 
-  const getLocalizedMonthName = (date, locale) => {
-    return new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
-  };
-
   //custom hook for outside click to close the model
   useClickOutside(datePickerRef, () => setOpenCalender(false));
 
   useEffect(()=>{
-    if(Array.isArray(initialValue)){
+    if(Array.isArray(initialValue) && isRangePicker){
       setStartDate(initialValue[0]);
       setEndDate(initialValue[1]);
       setDateRange(initialValue);
@@ -149,6 +112,20 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
       setEndDate(null);
     }
   },[initialValue, isRangePicker]);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay();
+    const startOfWeek = new Date(currentDate); 
+    startOfWeek.setDate(currentDate.getDate() - currentDay + 1);
+
+    const calculatedWeekdays = [...Array(7).keys()].map((index) => {
+        const date = new Date(startOfWeek);
+        date.setDate(startOfWeek.getDate() + index);
+        return new Intl.DateTimeFormat(dateTimeFormat, { weekday: 'short' }).format(date); 
+    });
+    setWeekdays(calculatedWeekdays);
+  }, [dateTimeFormat]);
 
   const renderCalendar = (date, locale) => {
     const days = getDaysInMonth(date);
@@ -160,7 +137,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
           {displayNextYear} {getLocalizedMonthName(date, locale)}
         </CalenderMonths>
         <DaysContainer>
-          {['月', '火', '水', '木', '金', '土', '日'].map((day, index) => (
+          {weekdays.map((day, index) => (
             <WeekdayHeader
             key={index}
             isSaturday={day === '土'}
@@ -268,7 +245,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
 DatePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
-  initialValue:  PropTypes.oneOfType([
+  initialValue: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
     PropTypes.instanceOf(Date),
   ]),
@@ -278,9 +255,9 @@ DatePicker.propTypes = {
 
 DatePicker.defaultProps = {
   isDoubleView: true,
-  isRangePicker: true,
+  isRangePicker: false,
   initialValue: null,
-  dateTimeFormat: 'ja-JA',
+  dateTimeFormat: 'ja-JP',
   onChange: () => {},
 };
 

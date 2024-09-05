@@ -25,7 +25,8 @@ export const ReactForm = {
       },
       dateTimeFormat: {
         description: 'Format of the DatePicker (locale)',
-        control: { type: 'text' },
+        control: { type: 'radio' },
+        options: ['ja-JP', 'en-US']
       },
       initialValue: {
         description: 'Initial date value',

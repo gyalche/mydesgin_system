@@ -11,6 +11,7 @@ const Form = ({
   isDoubleView = true, 
   is12Hour = true,
   step = 15,
+  dateTimeFormat = 'ja-JP'
 }) => {
   const initialValues = {
     date: dateInitialValue,
@@ -40,6 +41,7 @@ const Form = ({
                     isRangePicker={isRangePicker} 
                     isDoubleView={isDoubleView}
                     onChange={input.onChange}
+                    dateTimeFormat={dateTimeFormat}
                   />
                 )}/>
               </div>
