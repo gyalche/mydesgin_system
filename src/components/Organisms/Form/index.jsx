@@ -89,7 +89,7 @@ Form.defaultProps = {
   isDoubleView: true,
   isRangePicker: true,
   initialValue: null,
-  dateTimeFormat: 'ja-JA',
+  dateTimeFormat: 'ja-JP',
   is12Hour: false,
   step: 15,
   initialValue: '1:15 AM',
