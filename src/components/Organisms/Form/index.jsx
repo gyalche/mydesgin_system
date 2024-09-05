@@ -30,7 +30,6 @@ const Form = ({
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <div style={{ minWidth: '200px', display: 'flex', alignItems: 'center', padding: '10px'}}>
-              
               {/* Date Field */}
               <div>
                 <label>Date:</label>

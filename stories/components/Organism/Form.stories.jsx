@@ -48,7 +48,7 @@ export const ReactForm = {
   args: {
       isRangePicker: true,
       isDoubleView: false,
-      dateTimeFormat: 'ja-JA',
+      dateTimeFormat: 'ja-JP',
       initialValue: new Date(),
       is12Hour: true,
       step: 15,
