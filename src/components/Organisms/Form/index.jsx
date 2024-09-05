@@ -9,7 +9,8 @@ const Form = ({
   timeInitialValue = '10:15 AM',
   isRangePicker = true, 
   isDoubleView = true, 
-  is12Hour = true 
+  is12Hour = true,
+  step = 15,
 }) => {
   const initialValues = {
     date: dateInitialValue,
@@ -51,6 +52,7 @@ const Form = ({
                     {...input} 
                     initialValue={input.value}
                     is12Hour={is12Hour}
+                    step = {step}
                   />
                 )}/>
               </div>
