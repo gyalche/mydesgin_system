@@ -7,7 +7,7 @@ export const DatePickerContainer = styled.div`
   align-items: center;
   padding: 10px;
   border-radius: 8px;
-  height: 360px;
+  z-index: 9999;
 `;
 
 export const InputContainer = styled.div`
@@ -120,8 +120,9 @@ export const CalendarWrapper = styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  z-index: 999;
+  z-index: 9999;
   margin-top: 50px;
+  background-color: var(--rds-neutral-0);
 `;
 
 export const Calenders = styled.div`
@@ -148,7 +149,6 @@ export const TimePickerContainer = styled.div`
   align-items: center;
   padding: 10px;
   border-radius: 8px;
-  height: 360px;
 `;
 
 export const TimeInputWrapper = styled.div`
@@ -187,7 +187,7 @@ export const Dropdown = styled.div`
   top: 45px;
   left: 0;
   width: ${(props)=>props.is12Hour ? '130px' : '110px'};
-  background: white;
+  background: var(--rds-neutral-0);;
   border-radius: 4px;
   z-index: 1000;
   display: flex;

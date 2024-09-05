@@ -2,51 +2,61 @@ import React from 'react';
 import { DatePicker } from 'components/Molecules';
 import { Field, Form as FinalForm } from 'react-final-form';
 import TimePicker from 'components/Molecules/DatePicker/Time';
+import PropTypes from 'prop-types';
 
-const Form = () => {
+const Form = ({ 
+  dateInitialValue = new Date(), 
+  timeInitialValue = '10:15 AM',
+  isRangePicker = true, 
+  isDoubleView = true, 
+  is12Hour = true 
+}) => {
   const initialValues = {
-    date: new Date(new Date().setDate(new Date().getDate() + 7)),
-    time: '10:15 AM',
+    date: dateInitialValue,
+    time: timeInitialValue,
   };
 
   const onSubmit = values => {
-    // console.log('this is my value', values);
+    // console.log('Form values submitted:', values);
   };
 
   return (
-    <div >
+    <div>
       <FinalForm
         initialValues={initialValues}
         onSubmit={onSubmit}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <div style={{ minWidth: '200px', display: 'flex', alignItems: 'center', padding: '10px'}}>
-                <div>
-                    <label>Date:</label>
-                    <Field name="date" render={({ input }) => (
-                      <DatePicker 
-                        {...input}
-                        initialValue={input.value}
-                        isRangePicker={true} 
-                        isDoubleView={true}
-                        onChange={input.onChange}
-                      />
-                    )} 
+              
+              {/* Date Field */}
+              <div>
+                <label>Date:</label>
+                <Field name="date" render={({ input }) => (
+                  <DatePicker 
+                    {...input}
+                    initialValue={input.value}
+                    isRangePicker={isRangePicker} 
+                    isDoubleView={isDoubleView}
+                    onChange={input.onChange}
                   />
-                  </div>
-                <div>
-                    <label>Time:</label>
-                    <Field name="time" render={({input}) => (
-                        <TimePicker 
-                          {...input} 
-                          initialValue={input.value}
-                          is12Hour={false}
-                        />
-                      )} 
-                    />
-                </div>
+                )}/>
+              </div>
+
+              {/* Time Field */}
+              <div>
+                <label>Time:</label>
+                <Field name="time" render={({input}) => (
+                  <TimePicker 
+                    {...input} 
+                    initialValue={input.value}
+                    is12Hour={is12Hour}
+                  />
+                )}/>
+              </div>
             </div>
-            <div style={{marginTop: '20px'}}>
+
+            <div style={{ marginTop: '20px' }}>
               <button type="submit">Submit</button>
             </div>
           </form>
@@ -55,5 +65,30 @@ const Form = () => {
     </div>
   );
 };
+Form.propTypes = {
+  dateInitialValue: PropTypes.date,
+  timeInitialValue : PropTypes.string,
+  isDoubleView: PropTypes.bool,
+  isRangePicker: PropTypes.bool,
+  initialValue:  PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
+    PropTypes.instanceOf(Date),
+  ]),
+  dateTimeFormat: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  is12Hour: PropTypes.bool,
+  step: PropTypes.number,
+  initialValue: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
 
+Form.defaultProps = {
+  isDoubleView: true,
+  isRangePicker: true,
+  initialValue: null,
+  dateTimeFormat: 'ja-JA',
+  is12Hour: false,
+  step: 15,
+  initialValue: '1:15 AM',
+};
 export default Form;
