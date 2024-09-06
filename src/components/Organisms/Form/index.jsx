@@ -14,7 +14,13 @@ const Form = ({
   dateTimeFormat = 'ja-JP'
 }) => {
   const initialValues = {
-    date: dateInitialValue,
+    date: isRangePicker 
+      ? Array.isArray(dateInitialValue) 
+        ? dateInitialValue 
+        : [new Date(), new Date()]
+      : dateInitialValue instanceof Date 
+        ? dateInitialValue 
+        : new Date(),
     time: timeInitialValue,
   };
 
@@ -30,19 +36,26 @@ const Form = ({
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <div style={{ minWidth: '200px', display: 'flex', alignItems: 'center', padding: '10px'}}>
+              
               {/* Date Field */}
               <div>
                 <label>Date:</label>
-                <Field name="date" render={({ input }) => (
-                  <DatePicker 
-                    {...input}
-                    initialValue={input.value}
-                    isRangePicker={isRangePicker} 
-                    isDoubleView={isDoubleView}
-                    onChange={input.onChange}
-                    dateTimeFormat={dateTimeFormat}
-                  />
-                )}/>
+                <Field name="date" render={({ input }) => {
+                  const dateValue = isRangePicker 
+                    ? input.value 
+                    : (input.value instanceof Date ? input.value : new Date());
+
+                  return (
+                    <DatePicker 
+                      {...input}
+                      initialValue={dateValue}
+                      isRangePicker={isRangePicker} 
+                      isDoubleView={isDoubleView}
+                      onChange={input.onChange}
+                      dateTimeFormat={dateTimeFormat}
+                    />
+                  );
+                }} />
               </div>
 
               {/* Time Field */}
@@ -53,7 +66,7 @@ const Form = ({
                     {...input} 
                     initialValue={input.value}
                     is12Hour={is12Hour}
-                    step = {step}
+                    step={step}
                   />
                 )}/>
               </div>
@@ -68,30 +81,30 @@ const Form = ({
     </div>
   );
 };
+
 Form.propTypes = {
-  dateInitialValue: PropTypes.date,
-  timeInitialValue : PropTypes.string,
-  isDoubleView: PropTypes.bool,
-  isRangePicker: PropTypes.bool,
-  initialValue:  PropTypes.oneOfType([
+  dateInitialValue: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
     PropTypes.instanceOf(Date),
   ]),
+  timeInitialValue : PropTypes.string,
+  isDoubleView: PropTypes.bool,
+  isRangePicker: PropTypes.bool,
   dateTimeFormat: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   is12Hour: PropTypes.bool,
   step: PropTypes.number,
-  initialValue: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
 };
 
 Form.defaultProps = {
-  isDoubleView: true,
-  isRangePicker: true,
-  initialValue: null,
-  dateTimeFormat: 'ja-JP',
-  is12Hour: false,
+  dateInitialValue: new Date(), 
+  timeInitialValue: '10:15 AM',
+  isRangePicker: true, 
+  isDoubleView: true, 
+  is12Hour: true,
   step: 15,
-  initialValue: '1:15 AM',
+  dateTimeFormat: 'ja-JP',
+  onChange: ()=>{}
 };
+
 export default Form;
