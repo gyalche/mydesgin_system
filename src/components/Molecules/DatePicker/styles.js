@@ -1,3 +1,4 @@
+import { Input } from 'components/Atoms';
 import styled from 'styled-components';
 
 export const DatePickerContainer = styled.div`
@@ -23,9 +24,12 @@ export const InputWrapper = styled.div`
   border-radius: 3px;
   text-align: center;
   width: 110px;
+  &:hover {
+    border: 1px solid var(--rds-color-primary-1-normal);
+  };
 `;
 
-export const InputField = styled.input`
+export const InputField = styled(Input)`
   border: none;
   text-align: center;
   outline: none;
@@ -33,16 +37,19 @@ export const InputField = styled.input`
   height: 38px;
   font-size: 12px;
   color: var(--rds-neutral-600);
+  &:hover {
+    border: none;
+  }
 `;
 
-export const TimeInputField = styled.input`
+export const TimeInputField = styled(Input)`
   border: 1px solid var(--rds-neutral-200);
   text-align: center;
   width: 80px;
   height: 40px;
   font-size: 14px;
   border-radius: 4px;
-  color: var(--rds-neutral-600)
+  color: var(--rds-neutral-600);
 `;
 
 export const CalendarHeader = styled.div`
@@ -231,20 +238,5 @@ export const TimeOption = styled.li`
   color: ${({ selected }) => (selected && 'var(--rds-teal-500)')};
   &:hover {
     background-color: var(--rds-color-neutral-1);
-  }
-`;
-
-export const PeriodToggle = styled.button`
-  width: 100%;
-  padding: 10px;
-  font-size: 12px;
-  cursor: pointer;
-  border: none;
-  background-color: var(--rds-color-neutral-1);
-  color: var(--rds-neutral-500);
-  text-align: center;
-  border-top: 1px solid var(--rds-neutral-200);
-  &:hover {
-    background-color: var(--rds-color-neutral-2);
   }
 `;
