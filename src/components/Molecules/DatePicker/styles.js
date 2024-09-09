@@ -20,7 +20,7 @@ export const InputContainer = styled.div`
 export const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid var(--rds-neutral-200);
+  border: 1px solid var(--rds-color-neutral-2);
   border-radius: 3px;
   text-align: center;
   width: 110px;
@@ -43,7 +43,7 @@ export const InputField = styled(Input)`
 `;
 
 export const TimeInputField = styled(Input)`
-  border: 1px solid var(--rds-neutral-200);
+  border: 1px solid var(--rds-color-neutral-2);
   text-align: center;
   width: 80px;
   height: 40px;
@@ -208,7 +208,7 @@ export const DropdownHeader = styled.div`
   justify-content: center;
   width: 100%;
   padding: 7px 5px;
-  border-bottom: 1px solid var(--rds-neutral-200);
+  border-bottom: 1px solid var(--rds-color-neutral-2);
 `;
 export const HourMinuteWrapper = styled.div`
   display: flex;
@@ -220,7 +220,7 @@ export const ScrollColumn = styled.ul`
   width: 50%;
   max-height: 200px;
   overflow-y: auto;
-  border-right: 1px solid var(--rds-neutral-200);
+  border-right: 1px solid var(--rds-color-neutral-2);
 `;
 
 export const StaticColumn = styled.ul`
