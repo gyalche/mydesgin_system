@@ -16,7 +16,7 @@ import { CalendarContainer,
   InputWrapper,
   WeekdayHeader } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
-import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
+import { getDaysInMonth, getLocalizedMonthName, normalizeDate, setLowerCase } from '../../../utils';
 
 const saturday = [6, 13, 20, 27, 34, 41];
 const sunday = [7, 14, 21, 28, 35, 42];
@@ -140,8 +140,8 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
           {weekdays.map((day, index) => (
             <WeekdayHeader
             key={index}
-            isSaturday={day === '土'}
-            isSunday={day === '日'}
+            isSaturday={day === '土' || setLowerCase(day) === 'sat'}
+            isSunday={day === '日' || setLowerCase(day) === 'sun'}
             >
               {day}
             </WeekdayHeader>

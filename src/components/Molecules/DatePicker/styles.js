@@ -36,7 +36,7 @@ export const InputField = styled(Input)`
   width: 78px;
   height: 38px;
   font-size: 12px;
-  color: var(--rds-neutral-600);
+  color: var(--rds-color-neutral-6);
   &:hover {
     border: none;
   }
@@ -49,7 +49,7 @@ export const TimeInputField = styled(Input)`
   height: 40px;
   font-size: 14px;
   border-radius: 4px;
-  color: var(--rds-neutral-600);
+  color: var(--rds-color-neutral-6);
 `;
 
 export const CalendarHeader = styled.div`
@@ -59,7 +59,7 @@ export const CalendarHeader = styled.div`
   margin-bottom: 10px;
   font-size: 16px;
   font-weight: bold;
-  color: var(--rds-neutral-800);
+  color: var(--rds-color-neutral-8);
   padding: 12px 12px 0 12px;
 `;
 
@@ -70,7 +70,7 @@ export const WeekdayHeader = styled.div`
   font-size: 12px;
   font-weight: 700;
   color: ${(props) => 
-    props.isSaturday ? 'var(--rds-color-teritary-2-dark)' : props.isSunday ? 'var(--rds-red-600)' : 'var(--rds-neutral-700)'};
+    props.isSaturday ? 'var(--rds-color-teritary-2-dark)' : props.isSunday ? 'var(--rds-color-secondary-3-deep)' : 'var(--rds-color-neutral-7)'};
 `;
 
 export const HeaderIcons = styled.div`
@@ -100,20 +100,21 @@ export const Day = styled.div`
   height: 32px;
   text-align: center;
   font-size: 12px;
-  border: ${(props) => (props.currentDate ? '1px solid var(--rds-teal-400)' : '')};
+  border: ${(props) => (props.currentDate ? '1px solid var(--rds-color-primary-1-normal)' : '')};
   cursor: ${(props) => (props.isDisabled ? 'not-allowed' : 'pointer')};
   border-radius: 4px;
   background: ${(props) => 
-    props.isSelected ? 'var(--rds-teal-500)' :
-    props.isInRange ? 'var(--rds-teal-200)' :
-    props.isInHoverRange ? 'var(--rds-teal-100)' : 'transparent'};
-  color: ${(props) => props?.isSaturday && !props.isSelected && !props.isDisabled ? 'var(--rds-blue-400)' 
-    : props?.isSunday && !props.isSelected && !props.isDisabled? 'var(--rds-red-400)' :
-   props.isSelected ? 'var(--rds-neutral-0)' : props.isDisabled ? 'var(--rds-neutral-400)' : props.currentDate && 'var(--rds-teal-400)'};
+    props.isSelected ? 'var(--rds-color-primary-1-dark)' :
+    props.isInRange ? 'var(--rds-color-primary-1-pale)' :
+    props.isInHoverRange ? 'var(--rds-color-primary-1-subtle)' : 'transparent'};
+  color: ${(props) => props?.isSaturday && !props.isSelected && !props.isDisabled ? 'var(--rds-color-teritary-2-normal)' 
+    : props?.isSunday && !props.isSelected && !props.isDisabled? 'var(--rds-color-secondary-3-normal)' :
+   props.isSelected ? 'var(--rds-color-neutral-0)' : props.isDisabled ? 'var(--rds-color-neutral-4)' : 
+   props.currentDate && 'var(--rds-color-primary-1-normal)'};
   pointer-events: ${(props) => (props.isDisabled ? 'none' : 'auto')};
   
   &:hover {
-    background-color: ${(props) => !props.isDisabled && !props.isSelected && 'var(--rds-teal-100)'};
+    background-color: ${(props) => !props.isDisabled && !props.isSelected && 'var(--rds-color-primary-1-subtle)'};
   }
 `;
 
@@ -121,8 +122,8 @@ export const CalendarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 4px;
-  border: 1px solid var(--rds-neutral-300);
-  box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
+  border: 1px solid var(--rds-color-neutral-3);
+  box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-5);
   align-items: center;
   justify-content: center;
   position: absolute;
@@ -137,7 +138,7 @@ export const Calenders = styled.div`
 `;
 
 export const CalenderMonths = styled.div`
-  color: var(--rds-neutral-900);
+  color: var(--rds-color-neutral-9);
   margin-top: -55px;
   postion: absolute;
   text-align: center;
@@ -159,14 +160,14 @@ export const TimePickerContainer = styled.div`
 export const TimeInputWrapper = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid var(--rds-neutral-300);
+  border: 1px solid var(--rds-color-neutral-3);
   border-radius: 4px;
   width: ${(props) => props.is12Hour ? '120px' : '100px'};
   height: 40px;
   gap: 2px;
 `;
 
-export const TimeInput = styled.input`
+export const TimeInput = styled(Input)`
   background: none;
   font-size: 14px;
   width: ${(props) => props.is12Hour ? '80px' : '60px'};
@@ -176,7 +177,7 @@ export const TimeInput = styled.input`
 `;
 
 export const ClearButton = styled.button`
-  color: var(--rds-neutral-500);
+  color: var(--rds-color-neutral-5);
   font-size: 18px;
   border: none;
   background: none;
@@ -198,7 +199,7 @@ export const Dropdown = styled.div`
   display: flex;
   max-height: 280px;
   overflow-y: hidden;
-  box-shadow: 0px 4px 8px 0px var(--rds-neutral-500);
+  box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-5);
   margin-top: 18px;
 `;
 
@@ -235,7 +236,7 @@ export const TimeOption = styled.li`
   cursor: pointer;
   text-align: center;
   font-size: 12px;
-  color: ${({ selected }) => (selected && 'var(--rds-teal-500)')};
+  color: ${({ selected }) => (selected && 'var(--rds-color-primary-1-dark)')};
   &:hover {
     background-color: var(--rds-color-neutral-1);
   }
