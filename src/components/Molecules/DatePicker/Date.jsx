@@ -132,7 +132,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
     const currentYear = new Date(Date.now()).getFullYear();
     const displayNextYear = date.getFullYear() !== currentYear && date.getFullYear();
     return (
-      <CalendarContainer>
+      <CalendarContainer data-testid='rendercal-id'>
         <CalenderMonths>
           {displayNextYear} {getLocalizedMonthName(date, locale)}
         </CalenderMonths>
@@ -164,6 +164,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
                 isInHoverRange={isInHoverRange(date)}
                 onMouseEnter={() => handleMouseEnter(date)}
                 onMouseLeave={() => handleMouseLeave()}
+                data-testid={`day-${date.getDate()}`}
               >
                 {date.getDate()}
               </Day>
@@ -181,6 +182,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
       <InputContainer>
         <InputWrapper>
           <InputField
+            data-testid="first-input"
             type="text"
             readOnly
             value={startDate ? startDate.toLocaleDateString(dateTimeFormat) : 'yyyy/mm/dd'}
@@ -190,7 +192,9 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
           <ClearButton onClick={()=>{
             setStartDate('');
             dateRange.shift();
-          }}>
+          }}
+          date-testid='icon-click'
+          >
             <Icon name="alert-circle-solid-cross" />
           </ClearButton>
          )}
@@ -207,10 +211,12 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
                 onClick={() => setOpenCalender(!openCalender)}
               />
                 {endDate && (
-                  <ClearButton onClick={()=>{
+                  <ClearButton onClick={() => {
                     setEndDate('');
                     dateRange.pop();
-                  }}>
+                  }}
+                  data-testid='icon-button'
+                  >
                     <Icon name="alert-circle-solid-cross" />
                   </ClearButton>
                 )}
@@ -220,7 +226,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
       </InputContainer>
 
       {openCalender && (
-        <CalendarWrapper ref={datePickerRef}>
+        <CalendarWrapper ref={datePickerRef} data-testid='calender-id'>
             <CalendarHeader>
                 <HeaderIcons>
                   <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
@@ -232,7 +238,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
                   <Icon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
                 </HeaderIcons>
             </CalendarHeader>
-            <Calenders>
+            <Calenders data-testid='container-id'>
                 {renderCalendar(currentMonth, dateTimeFormat)}
                 {isDoubleView && renderCalendar(nextMonth, dateTimeFormat)}
             </Calenders>

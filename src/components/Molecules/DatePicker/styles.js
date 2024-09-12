@@ -39,7 +39,7 @@ export const InputField = styled(Input)`
   color: var(--rds-color-neutral-6);
   &:hover {
     border: none;
-  }
+  };
 `;
 
 export const TimeInputField = styled(Input)`
