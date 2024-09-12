@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import DatePicker from 'src/components/Molecules/DatePicker';
 import expect from 'expect';
 
@@ -13,14 +13,14 @@ describe('DatePicker Component', () => {
     mockOnChange.mockClear();
   });
 
-  // 1. Renders correctly with default props
+  // Renders correctly with default props
   it('renders DatePicker with default props', () => {
     render(<DatePicker onChange={mockOnChange} />);
     expect(screen.getByTestId('first-input')).toBeInTheDocument();
     expect(screen.getByTestId('first-input')).toHaveValue('yyyy/mm/dd');
   });
 
-  // 2. Open Calendar on Input Click
+  // Open Calendar on Input Click
   it('opens calendar on clicking the input field', async () => {
     render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US'/>);
     const input = await screen.findByTestId('first-input');
@@ -30,7 +30,7 @@ describe('DatePicker Component', () => {
   });
   
 
-  // // 3. Close Calendar when clicked outside
+  // Close Calendar when clicked outside
   it('closes calendar when clicked outside', async () => {
     render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US'/>);
     const input = screen.getByTestId('first-input');
@@ -48,9 +48,9 @@ describe('DatePicker Component', () => {
     render(<DatePicker isRangePicker={false} onChange={mockOnChange} isDoubleView={false}/>);
 
     const input = screen.getByTestId('first-input');
-    fireEvent.click(input); // Open calendar
+    fireEvent.click(input);
 
-    const validDate = new Date().getDate(); // Today's date (valid)
+    const validDate = new Date().getDate();
     const dayButton = screen.getByTestId(`day-${validDate}`);
     fireEvent.click(dayButton);
 
@@ -60,15 +60,12 @@ describe('DatePicker Component', () => {
   });
 
   
-  // 5. Prevent selecting past dates
+  // Prevent selecting past dates
   it('prevents selecting past dates', () => {
     render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US' isDoubleView={false}/>);
-  
-    // Open the calendar by clicking the input
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
-  
-    // Calculate a past date (e.g., yesterday)
+
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
@@ -79,79 +76,74 @@ describe('DatePicker Component', () => {
   });
   
 
-  // 6. Range Picker mode: Select start and end date
-  // test('allows selecting a range in range picker mode', () => {
-  //   render(<DatePicker isRangePicker onChange={mockOnChange} />);
-  //   const input = screen.getByTestId('first-input');
-  //   fireEvent.click(input); // Open the calendar
+  // Range Picker mode: Select start and end date
+  test('allows selecting a range in range picker mode', () => {
+    render(<DatePicker isRangePicker onChange={mockOnChange} />);
+    const startDate = screen.getByTestId('first-input');
+    const endDate = screen.getByTestId('second-input');
+    expect (startDate).toBeInTheDocument();
+    expect(endDate).toBeInTheDocument();
+  });
 
-  //   const startDay = screen.getByText('5'); // Select start date
-  //   fireEvent.click(startDay);
-  //   expect(mockOnChange).toHaveBeenCalledWith([expect.any(Date)]); // onChange should be called with start date
+  // Display selected dates in inputs
+  it('displays selected start and end dates in inputs', async () => {
+    render(<DatePicker isRangePicker onChange={mockOnChange} />);
 
-  //   const endDay = screen.getByText('10'); // Select end date
-  //   fireEvent.click(endDay);
-  //   expect(mockOnChange).toHaveBeenCalledWith([expect.any(Date), expect.any(Date)]); // onChange should be called with start and end date
-  // });
+    const firstInput = screen.getByTestId('first-input');
+    fireEvent.click(firstInput);
 
-  // // 7. Display selected dates in inputs
-  // test('displays selected start and end dates in inputs', () => {
-  //   render(<DatePicker isRangePicker onChange={mockOnChange} />);
-  //   const input = screen.getByTestId('first-input');
-  //   fireEvent.click(input); // Open calendar
-
-  //   const startDay = screen.getByText('8');
-  //   fireEvent.click(startDay);
-  //   expect(screen.getByTestId('first-input')).toHaveValue(expect.any(String)); // Expect the input to show the selected start date
-
-  //   const endDay = screen.getByText('20');
-  //   fireEvent.click(endDay);
-  //   const secondInput = screen.getByText('～'); // Find the input for the end date (surrounding element)
-  //   expect(secondInput.nextSibling).toHaveValue(expect.any(String)); // Expect the second input to show the selected end date
-  // });
-
-  // // 8. Double calendar view
-  // test('renders two calendars when isDoubleView is true', () => {
-  //   render(<DatePicker isDoubleView onChange={mockOnChange} />);
-  //   const input = screen.getByTestId('first-input');
-  //   fireEvent.click(input);
-
-  //   const calendars = screen.getAllByText(/january/i); // Assuming January is the month
-  //   expect(calendars.length).toBe(2); // Double calendar view should render 2 months
-  // });
-
-  // // 9. Clear start date
-  // test('allows clearing the start date', () => {
-  //   render(<DatePicker onChange={mockOnChange} />);
-  //   const input = screen.getByTestId('first-input');
-  //   fireEvent.click(input);
-
-  //   const day = screen.getByText('12'); // Select a date
-  //   fireEvent.click(day);
-
-  //   const clearButton = screen.getByRole('button', { name: /clear/i }); // Assuming clear button has text 'clear'
-  //   fireEvent.click(clearButton);
-  //   expect(screen.getByTestId('first-input')).toHaveValue('yyyy/mm/dd'); // Input should reset after clearing
-  // });
-
-  // // 10. Hover date range in range picker
-  // test('displays hover range correctly in range picker mode', async() => {
-  //   render(<DatePicker isRangePicker onChange={mockOnChange} />);
-  //   const startInput = screen.getByTestId('first-input');
-  //   fireEvent.click(startInput);
+    const firstDay = new Date().getDate();
+    const secondDay = new Date().getDate() + 2;
   
-  //   // Log to check if the element is visible
-  //   console.log("check", screen.debug());
+    const startDay = screen.findByTestId(`day-${firstDay}`);
+    waitFor(()=>{
+      fireEvent.click(startDay);
+      expect(firstInput).toHaveValue(expect.stringContaining(`${firstDay}`));
+    });
+
+    const secondInput = screen.getByTestId('second-input');
+    fireEvent.click(secondInput);
   
-  //   // Use findByText with proper await handling
-  //   const startDay = await screen.getByText('5');
-  //   fireEvent.click(startDay); // Select start date
+    const endDay = screen.findByTestId(`day-${secondDay}`);
+
+    waitFor(() => {
+      fireEvent.click(endDay);
+      const middleComma = screen.getByText('～');
+      const nextInput = middleComma.nextSibling;
+      expect(nextInput).toHaveValue(expect.stringContaining(`${secondDay}`));
+    });
+  });
   
-  //   // Add a delay if needed to wait for UI updates
-  //   await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // Double calendar view
+  it('renders two calendars when isDoubleView is true', () => {
+    render(<DatePicker isDoubleView onChange={mockOnChange} dateTimeFormat='en-US'/>);
+    const input = screen.getByTestId('first-input');
+    fireEvent.click(input);
+    const calendars = screen.getAllByTestId('calender-container');
+    expect(calendars.length).toBe(2);
+  });
+
+  //Hover date range in range picker
+  it('displays hover range correctly in range picker mode', async () => {
+    render(<DatePicker isRangePicker onChange={mockOnChange} />);
+    const startInput = screen.getByTestId('first-input');
+    fireEvent.click(startInput);
   
-  //   const hoverDay = await screen.getByText('10');
-  //   fireEvent.mouseEnter(hoverDay);
-  //   expect(hoverDay).toHaveStyleRule('background-color: var(--rds-color-primary-1-subtle)'); // Expect the hover styling to apply
-  // });
+    const firstDay = new Date().getDate();
+    const secondDay = new Date().getDate() + 2;
+  
+    // Select start date
+    const startDay = screen.findByTestId(`day-${firstDay}`); 
+    waitFor(()=>{
+      fireEvent.click(startDay);
+       new Promise((resolve) => setTimeout(resolve, 1000));
+    });
+
+    const hoverDay = screen.findByTestId(`day-${secondDay}`);
+    waitFor(() => {
+      fireEvent.mouseEnter(hoverDay);
+      expect(hoverDay).toHaveStyleRule('background-color: var(--rds-color-primary-1-subtle)');
+    });
+  });
 });

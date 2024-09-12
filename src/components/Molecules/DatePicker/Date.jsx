@@ -132,7 +132,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
     const currentYear = new Date(Date.now()).getFullYear();
     const displayNextYear = date.getFullYear() !== currentYear && date.getFullYear();
     return (
-      <CalendarContainer>
+      <CalendarContainer data-testid='calender-container'>
         <CalenderMonths>
           {displayNextYear} {getLocalizedMonthName(date, locale)}
         </CalenderMonths>
@@ -205,6 +205,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
             <span>～</span>
             <InputWrapper>
               <InputField
+                data-testid="second-input"
                 type="text"
                 readOnly
                 value={endDate ? endDate.toLocaleDateString(dateTimeFormat) : 'yyyy/mm/dd'}
