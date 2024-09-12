@@ -101,7 +101,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
         />
 
       {isDropdownOpen && (
-          <Dropdown is12Hour={is12Hour}> 
+          <Dropdown is12Hour={is12Hour} data-testid='dropdown-id'>
               <DropdownHeader>
                 <TimeInputWrapper  is12Hour={is12Hour}>
                   <TimeInput
@@ -111,7 +111,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
                     is12Hour={is12Hour}
                   />
                   {selectedHour !== '' && (
-                    <ClearButton onClick={clearSelection}>
+                    <ClearButton onClick={clearSelection} data-testid='clear-btn'>
                       <Icon name="alert-circle-solid-cross" />
                     </ClearButton>
                   )}
