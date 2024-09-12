@@ -174,6 +174,9 @@ export const TimeInput = styled(Input)`
   text-align: center;
   outline: none;
   border: none;
+  &:hover {
+  border: none;
+};
 `;
 
 export const ClearButton = styled.button`
@@ -240,4 +243,5 @@ export const TimeOption = styled.li`
   &:hover {
     background-color: var(--rds-color-neutral-1);
   }
+  
 `;
