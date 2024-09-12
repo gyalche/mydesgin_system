@@ -28,7 +28,7 @@ export const DatePickers = {
       control: { type: 'boolean' },
     },
     dateTimeFormat: {
-      description: 'Locale format of the calendar. Default is ja-JA',
+      description: 'Locale format of the calendar. Default is ja-JP',
       control: { type: 'text' },
     },
     textCancel: {
@@ -44,7 +44,7 @@ export const DatePickers = {
   args: {
     isRangePicker: true,
     isDoubleView: false,
-    dateTimeFormat: 'ja-JA',
+    dateTimeFormat: 'ja-JP',
     textCancel: 'キャンセル',
     initialValue: new Date(),
   },

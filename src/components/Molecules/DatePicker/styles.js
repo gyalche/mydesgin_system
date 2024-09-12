@@ -175,8 +175,8 @@ export const TimeInput = styled(Input)`
   outline: none;
   border: none;
   &:hover {
-  border: none;
-};
+    border: none;
+  };
 `;
 
 export const ClearButton = styled.button`
@@ -214,9 +214,11 @@ export const DropdownHeader = styled.div`
   padding: 7px 5px;
   border-bottom: 1px solid var(--rds-color-neutral-2);
 `;
+
 export const HourMinuteWrapper = styled.div`
   display: flex;
 `;
+
 export const ScrollColumn = styled.ul`
   list-style: none;
   padding: 0;
