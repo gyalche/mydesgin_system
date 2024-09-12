@@ -132,7 +132,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
     const currentYear = new Date(Date.now()).getFullYear();
     const displayNextYear = date.getFullYear() !== currentYear && date.getFullYear();
     return (
-      <CalendarContainer data-testid='rendercal-id'>
+      <CalendarContainer>
         <CalenderMonths>
           {displayNextYear} {getLocalizedMonthName(date, locale)}
         </CalenderMonths>

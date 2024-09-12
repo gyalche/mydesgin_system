@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen, findByTestId } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import DatePicker from 'src/components/Molecules/DatePicker';
 import expect from 'expect';
 
@@ -43,41 +43,41 @@ describe('DatePicker Component', () => {
     // expect(calender).not.toBeInTheDocument();
   });
 
-  // 4. Select single date
-  // it('selects a single date', async () => {
-  //   render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US' isRangePicker={false} />);
+  //select a single date;
+  it('selects a single date and updates the input value', () => {
+    render(<DatePicker isRangePicker={false} onChange={mockOnChange} isDoubleView={false}/>);
 
-  //   const input = screen.getByTestId('first-input');
-  //   fireEvent.click(input);
+    const input = screen.getByTestId('first-input');
+    fireEvent.click(input); // Open calendar
 
-  //   const containers = screen.getByTestId('container-id');
-  //   expect(containers).toBeInTheDocument();
+    const validDate = new Date().getDate(); // Today's date (valid)
+    const dayButton = screen.getByTestId(`day-${validDate}`);
+    fireEvent.click(dayButton);
 
-  //   const recalender = screen.getByTestId('rendercal-id');
-  //   expect(recalender).toBeInTheDocument();
+    const selectedDate = new Date().toLocaleDateString('ja-JP');
+    expect(input.value).toBe(selectedDate);
+    expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date));
+  });
 
-  //   const calendar = screen.getByTestId('calender-id');
-  //   expect(calendar).toBeInTheDocument();
-
-  //   const day = screen.getByTestId('day-10');
-  //   expect(day).toBeInTheDocument();
-
-  //   fireEvent.click(day);
-
-  //   await waitFor(() => expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date)));
-  // });
   
   // 5. Prevent selecting past dates
-  // test('prevents selecting past dates', () => {
-  //   render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US'/>);
-  //   const input = screen.getByTestId('first-input');
-  //   fireEvent.click(input);
-
-  //   const pastDay = screen.getByText('1'); // Assuming 1st of the month is a past date
-  //   fireEvent.click(pastDay);
-
-  //   expect(mockOnChange).not.toHaveBeenCalled(); // Past date selection should be prevented
-  // });
+  it('prevents selecting past dates', () => {
+    render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US' isDoubleView={false}/>);
+  
+    // Open the calendar by clicking the input
+    const input = screen.getByTestId('first-input');
+    fireEvent.click(input);
+  
+    // Calculate a past date (e.g., yesterday)
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const pastDayButton = screen.getByTestId(`day-${yesterday.getDate()}`);
+  
+    fireEvent.click(pastDayButton);
+    expect(mockOnChange).not.toHaveBeenCalled();
+  });
+  
 
   // 6. Range Picker mode: Select start and end date
   // test('allows selecting a range in range picker mode', () => {
