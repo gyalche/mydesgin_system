@@ -105,7 +105,7 @@ export const Day = styled.div`
   border-radius: 4px;
   background: ${(props) => 
     props.isSelected ? 'var(--rds-color-primary-1-dark)' :
-    props.isInRange ? 'var(--rds-color-primary-1-pale)' :
+    props.isInRange ? 'var(--rds-color-primary-1-subtle)' :
     props.isInHoverRange ? 'var(--rds-color-primary-1-subtle)' : 'transparent'};
   color: ${(props) => props?.isSaturday && !props.isSelected && !props.isDisabled ? 'var(--rds-color-teritary-2-normal)' 
     : props?.isSunday && !props.isSelected && !props.isDisabled? 'var(--rds-color-secondary-3-normal)' :
@@ -162,7 +162,7 @@ export const TimeInputWrapper = styled.div`
   align-items: center;
   border: 1px solid var(--rds-color-neutral-3);
   border-radius: 4px;
-  width: ${(props) => props.is12Hour ? '120px' : '100px'};
+  width: ${({is12Hour}) => is12Hour ? '120px' : '100px'};
   height: 40px;
   gap: 2px;
 `;
@@ -170,7 +170,7 @@ export const TimeInputWrapper = styled.div`
 export const TimeInput = styled(Input)`
   background: none;
   font-size: 14px;
-  width: ${(props) => props.is12Hour ? '80px' : '60px'};
+  width: ${({is12Hour}) => is12Hour ? '80px' : '60px'};
   text-align: center;
   outline: none;
   border: none;
@@ -195,7 +195,7 @@ export const Dropdown = styled.div`
   flex-direction: column;
   top: 45px;
   left: 0;
-  width: ${(props)=>props.is12Hour ? '130px' : '110px'};
+  width: ${({is12Hour}) => is12Hour ? '130px' : '110px'};
   background: white;
   border-radius: 4px;
   z-index: 1000;

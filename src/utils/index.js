@@ -36,4 +36,31 @@ export const getLocalizedMonthName = (date, locale) => {
   return new Intl.DateTimeFormat(locale, { month: 'long' }).format(date);
 };
 
-export const setLowerCase = (value) => value.toLowerCase();
+export function convertToJapaneseYear(year) {
+  // Check for Reiwa era (starting from May 1, 2019)
+  if (year >= 2019) {
+    const reiwaYear = year - 2018;
+    return `Reiwa ${reiwaYear} (令和${reiwaYear}年)`;
+  } 
+  // Check for Heisei era (1989 - 2019)
+  else if (year >= 1989) {
+    const heiseiYear = year - 1988;
+    return `Heisei ${heiseiYear} (平成${heiseiYear}年)`;
+  } 
+  // Check for Showa era (1926 - 1989)
+  else if (year >= 1926) {
+    const showaYear = year - 1925;
+    return `Showa ${showaYear} (昭和${showaYear}年)`;
+  } 
+  // Check for Taisho era (1912 - 1926)
+  else if (year >= 1912) {
+    const taishoYear = year - 1911;
+    return `Taisho ${taishoYear} (大正${taishoYear}年)`;
+  } 
+  // Check for Meiji era (1868 - 1912)
+  else if (year >= 1868) {
+    const meijiYear = year - 1867;
+    return `Meiji ${meijiYear} (明治${meijiYear}年)`;
+  } 
+  else return;
+}

@@ -27,7 +27,7 @@ export const DatePickers = {
       description: 'Display two months side by side, "isRangePicker" value must be true',
       control: { type: 'boolean' },
     },
-    dateTimeFormat: {
+    locale: {
       description: 'Locale format of the calendar. Default is ja-JP',
       control: { type: 'text' },
     },
@@ -44,7 +44,7 @@ export const DatePickers = {
   args: {
     isRangePicker: true,
     isDoubleView: false,
-    dateTimeFormat: 'ja-JP',
+    locale: 'ja-JP',
     textCancel: 'キャンセル',
     initialValue: new Date(),
   },

@@ -1,27 +1,22 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
-import { CalendarContainer,
+import {
   CalendarHeader,
   CalendarWrapper,
-  CalenderMonths,
   Calenders,
   ClearButton,
   DatePickerContainer,
-  Day,
-  DaysContainer,
   HeaderIcons,
   InputContainer,
   InputField,
-  InputWrapper,
-  WeekdayHeader } from './styles';
-import useClickOutside from '../../../hooks/useClickOutside';
-import { getDaysInMonth, getLocalizedMonthName, normalizeDate, setLowerCase } from '../../../utils';
+  InputWrapper
+ } from './styles';
+import useClickOutside from '/src/hooks/useClickOutside';
+import { normalizeDate } from '/src/utils';;
+import Calendar from './Calender';
 
-const saturday = [6, 13, 20, 27, 34, 41];
-const sunday = [7, 14, 21, 28, 35, 42];
-
-const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat, onChange }) => {
+const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
@@ -36,7 +31,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
 
-    if (normalizedDate < today) return; // Disable past dates
+    if (normalizedDate < today) return;
 
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
@@ -88,16 +83,6 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
     );
   }, [startDate, hoveredDate]);
 
-  const handleMouseEnter = (day) => {
-    if (isRangePicker && startDate && !endDate) {
-      setHoveredDate(day);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredDate(null);
-  };
-
   //custom hook for outside click to close the model
   useClickOutside(datePickerRef, () => setOpenCalender(false));
 
@@ -120,60 +105,15 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
     startOfWeek.setDate(currentDate.getDate() - currentDay + 1);
 
     const calculatedWeekdays = [...Array(7).keys()].map((index) => {
-        const date = new Date(startOfWeek);
-        date.setDate(startOfWeek.getDate() + index);
-        return new Intl.DateTimeFormat(dateTimeFormat, { weekday: 'short' }).format(date); 
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + index);
+      return {
+        day: new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(date),
+        dayIndex: date.getDay(),
+      };
     });
     setWeekdays(calculatedWeekdays);
-  }, [dateTimeFormat]);
-
-  const renderCalendar = (date, locale) => {
-    const days = getDaysInMonth(date);
-    const currentYear = new Date(Date.now()).getFullYear();
-    const displayNextYear = date.getFullYear() !== currentYear && date.getFullYear();
-    return (
-      <CalendarContainer data-testid='calender-container'>
-        <CalenderMonths>
-          {displayNextYear} {getLocalizedMonthName(date, locale)}
-        </CalenderMonths>
-        <DaysContainer>
-          {weekdays.map((day, index) => (
-            <WeekdayHeader
-            key={index}
-            isSaturday={day === '土' || setLowerCase(day) === 'sat'}
-            isSunday={day === '日' || setLowerCase(day) === 'sun'}
-            >
-              {day}
-            </WeekdayHeader>
-          ))}
-
-          {days.map((day, index) => {
-            const date = day?.date;
-            const notCurrent = !day?.isCurrentMonth;
-            const myIndex = index + 1;
-            return (
-              <Day
-                key={`${day?.date-index}`}
-                currentDate={normalizeDate(new Date()) === normalizeDate(date)}
-                isSelected={normalizeDate(date) === normalizeDate(startDate) || normalizeDate(date) === normalizeDate(endDate)}
-                isInRange={isInRange(date)}
-                isDisabled={normalizeDate(date) < normalizeDate(new Date()) || notCurrent}
-                isSaturday={saturday.includes(myIndex)}
-                isSunday={sunday.includes(myIndex)}
-                onClick={!isRangePicker ? () => handleSingleDate(date) : () => handleDateRangeClick(date)}
-                isInHoverRange={isInHoverRange(date)}
-                onMouseEnter={() => handleMouseEnter(date)}
-                onMouseLeave={() => handleMouseLeave()}
-                data-testid={`day-${date.getDate()}`}
-              >
-                {date.getDate()}
-              </Day>
-            );
-          })}
-        </DaysContainer>
-      </CalendarContainer>
-    );
-  };
+  }, [locale]);
 
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
@@ -185,7 +125,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
             data-testid="first-input"
             type="text"
             readOnly
-            value={startDate ? startDate.toLocaleDateString(dateTimeFormat) : 'yyyy/mm/dd'}
+            value={startDate ? startDate.toLocaleDateString(locale) : 'yyyy/mm/dd'}
             onClick={() => setOpenCalender(!openCalender)}
           />
          {startDate && (
@@ -208,7 +148,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
                 data-testid="second-input"
                 type="text"
                 readOnly
-                value={endDate ? endDate.toLocaleDateString(dateTimeFormat) : 'yyyy/mm/dd'}
+                value={endDate ? endDate.toLocaleDateString(locale) : 'yyyy/mm/dd'}
                 onClick={() => setOpenCalender(!openCalender)}
               />
                 {endDate && (
@@ -232,7 +172,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
                 <HeaderIcons>
                   <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
                   <Icon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
-                </HeaderIcons>
+                </HeaderIcons> 
 
                 <HeaderIcons>
                   <Icon name='Interface-chevron-double-right' onClick={() => handleNextMonth()}/>
@@ -240,8 +180,36 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, dateTimeFormat,
                 </HeaderIcons>
             </CalendarHeader>
             <Calenders data-testid='container-id'>
-                {renderCalendar(currentMonth, dateTimeFormat)}
-                {isDoubleView && renderCalendar(nextMonth, dateTimeFormat)}
+                <Calendar
+                  date={currentMonth}
+                  locale={locale}
+                  startDate={startDate}
+                  endDate={endDate}
+                  weekdays={weekdays}
+                  handleSingleDate={handleSingleDate}
+                  handleDateRangeClick={handleDateRangeClick}
+                  isRangePicker={isRangePicker}
+                  isInRange={isInRange}
+                  isInHoverRange={isInHoverRange}
+                  hoveredDate={hoveredDate}
+                  setHoveredDate={setHoveredDate}
+                />
+                {isDoubleView && (
+                <Calendar
+                  date={nextMonth}
+                  locale={locale}
+                  startDate={startDate}
+                  endDate={endDate}
+                  weekdays={weekdays}
+                  handleSingleDate={handleSingleDate}
+                  handleDateRangeClick={handleDateRangeClick}
+                  isRangePicker={isRangePicker}
+                  isInRange={isInRange}
+                  isInHoverRange={isInHoverRange}
+                  hoveredDate={hoveredDate}
+                  setHoveredDate={setHoveredDate}
+                />
+              )}
             </Calenders>
         </CalendarWrapper>
       )}
@@ -256,7 +224,7 @@ DatePicker.propTypes = {
     PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
     PropTypes.instanceOf(Date),
   ]),
-  dateTimeFormat: PropTypes.string,
+  locale: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 
@@ -264,7 +232,7 @@ DatePicker.defaultProps = {
   isDoubleView: true,
   isRangePicker: false,
   initialValue: null,
-  dateTimeFormat: 'ja-JP',
+  locale: 'en-US',
   onChange: () => {},
 };
 
