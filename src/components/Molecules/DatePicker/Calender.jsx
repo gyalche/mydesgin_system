@@ -8,7 +8,7 @@ import {
   Day,
   WeekdayHeader,
 } from './styles';
-import { getDaysInMonth, getLocalizedMonthName, normalizeDate, convertToJapaneseYear } from '/src/utils';
+import { getDaysInMonth, getLocalizedMonthName, normalizeDate, convertToJapaneseYear } from '../../../utils';
 
 const Calendar = ({
   date,

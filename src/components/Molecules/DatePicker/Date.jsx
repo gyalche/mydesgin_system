@@ -12,8 +12,8 @@ import {
   InputField,
   InputWrapper
  } from './styles';
-import useClickOutside from '/src/hooks/useClickOutside';
-import { normalizeDate } from '/src/utils';;
+import useClickOutside from '../../../hooks/useClickOutside';
+import { normalizeDate } from '../../../utils';;
 import Calendar from './Calender';
 
 const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange }) => {
