@@ -158,7 +158,7 @@ TimePicker.propTypes = {
   is12Hour: PropTypes.bool,
   step: PropTypes.number,
   initialValue: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   disabled: PropTypes.bool,
 };
 

@@ -203,7 +203,7 @@ DatePicker.propTypes = {
     PropTypes.instanceOf(Date),
   ]),
   locale: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   disabled: PropTypes.bool,
 };
 

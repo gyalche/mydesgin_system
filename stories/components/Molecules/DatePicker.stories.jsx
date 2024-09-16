@@ -6,7 +6,7 @@ export default {
   component: DatePicker,
 };
 
-const { Time } = DatePicker;
+const { Time, DateTime } = DatePicker;
 
 export const DatePickers = {
   title: 'DatePicker',
@@ -91,5 +91,26 @@ export const TimePickers = {
   },
   render: args => {
     return <Time {...args} />;
+  },
+};
+
+export const DateTimePicker = {
+  title: 'datetime',
+  component: DateTime,
+  parameters: {
+    layout: 'centered',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6273%3A32042&mode=dev',
+    },
+  },
+  argTypes: {
+
+  },
+  args: {
+
+  },
+  render: (args) => {
+    return <DateTime {...args} />;
   },
 };
