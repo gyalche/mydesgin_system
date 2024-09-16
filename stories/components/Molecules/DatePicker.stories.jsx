@@ -29,7 +29,7 @@ export const DatePickers = {
     },
     disabled: {
       description: 'enable and disable the description',
-      control: {type: 'boolean'}
+      control: { type: 'boolean' }
     },
     locale: {
       description: 'Locale format of the calendar. Default is ja-JP',
@@ -85,7 +85,7 @@ export const TimePickers = {
     },
     disabled: {
       description: 'enable and disable the description',
-      control: {type: 'boolean'}
+      control: { type: 'boolean' }
     },
     initialValue: {
       description:
@@ -115,10 +115,13 @@ export const DateTimePicker = {
     },
   },
   argTypes: {
-
+    disabled: {
+      description: 'enable and disable input field',
+      control: { type: 'boolean' }
+    }
   },
   args: {
-
+    disabled: false,
   },
   render: (args) => {
     return <DateTime {...args} />;

@@ -3,7 +3,7 @@ import TimePicker from './TimePicker';
 import DatePicker from './DatePicker';
 import PropTypes from 'prop-types';
 
-const DateTimePicker = (onChange, disabled) => {
+const DateTimePicker = ({onChange, disabled}) => {
     const [value, setValue] = useState({
         date: null,
         time: null,
