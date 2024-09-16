@@ -27,6 +27,10 @@ export const DatePickers = {
       description: 'Display two months side by side, "isRangePicker" value must be true',
       control: { type: 'boolean' },
     },
+    disabled: {
+      description: 'enable and disable the description',
+      control: {type: 'boolean'}
+    },
     locale: {
       description: 'Locale format of the calendar. Default is ja-JP',
       control: { type: 'text' },
@@ -44,6 +48,7 @@ export const DatePickers = {
   args: {
     isRangePicker: true,
     isDoubleView: false,
+    disabled: false,
     locale: 'ja-JP',
     textCancel: 'キャンセル',
     initialValue: new Date(),
@@ -78,6 +83,10 @@ export const TimePickers = {
       description: 'Time interval in minutes',
       control: { type: 'number' },
     },
+    disabled: {
+      description: 'enable and disable the description',
+      control: {type: 'boolean'}
+    },
     initialValue: {
       description:
         'Initial time value of the TimePicker in "HH:mm AM/PM" format for 12-hour mode or "HH:mm" for 24-hour mode',
@@ -88,6 +97,7 @@ export const TimePickers = {
     is12Hour: true,
     step: 15,
     initialValue: '',
+    disabled: false,
   },
   render: args => {
     return <Time {...args} />;

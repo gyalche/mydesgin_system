@@ -3,7 +3,7 @@ import TimePicker from './TimePicker';
 import DatePicker from './DatePicker';
 import PropTypes from 'prop-types';
 
-const DateTimePicker = ({onChange}) => {
+const DateTimePicker = (onChange, disabled) => {
     const [value, setValue] = useState({
         date: null,
         time: null,
@@ -19,18 +19,20 @@ const DateTimePicker = ({onChange}) => {
 
   return (
     <div style={{display: 'flex'}}>
-         <DatePicker isDoubleView={false} onChange={(e)=>handleChange(e, 'date')} />
-         <TimePicker is12Hour={true} onChange={(e)=>handleChange(e, 'time')} />
+         <DatePicker isDoubleView={false} onChange={(e)=>handleChange(e, 'date')} disabled={disabled} />
+         <TimePicker is12Hour={true} onChange={(e)=>handleChange(e, 'time')} disabled={disabled} />
     </div>
   );
 };
 
 DateTimePicker.propTypes = {
     onChange: PropTypes.func,
+    disabled: PropTypes.bool,
 };
-  
+
 DateTimePicker.defaultProps = {
     onChange: () => {},
+    disabled: false
 };
 
 export default DateTimePicker;
