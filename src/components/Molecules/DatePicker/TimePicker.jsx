@@ -15,6 +15,7 @@ import {
   TimePickerContainer
 } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
+import { roundToNearestStep } from '../../../utils';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
@@ -61,13 +62,6 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
     onChange(updatedTime);
   }, [selectedHour, selectedMinute]);
 
-  const clearSelection = () => {
-    setSelectedHour('');
-    setSelectedMinute('');
-    setAmPm('');
-    setTime('');
-  };
-
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -80,15 +74,35 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
   });
 
   useEffect(()=>{
-    const prevTimeValue = initialValue?.split(':');
-    setSelectedHour(prevTimeValue[0]);
-    setSelectedMinute(prevTimeValue[1].split(' ')[0]);
-    if (is12Hour) {
-      setAmPm(prevTimeValue[1].split(' ')[1] || '');
-    } else {
-      setAmPm('');
+    if(initialValue){
+      const prevTimeValue = initialValue?.split(':');
+      setSelectedHour(prevTimeValue[0]);
+      setSelectedMinute(prevTimeValue[1].split(' ')[0]);
+      if (is12Hour) {
+        setAmPm(prevTimeValue[1].split(' ')[1] || '');
+      } else {
+        setAmPm('');
+      }
+      setTime(initialValue);
+    }else{
+      const now = new Date();
+      let currentHour = now.getHours();
+      let currentMinute = now.getMinutes();
+      const roundedMinute = roundToNearestStep(currentMinute, step);
+      
+      if (is12Hour) {
+        const isPM = currentHour >= 12;
+        currentHour = currentHour % 12 || 12;
+        setAmPm(isPM ? 'PM' : 'AM');
+      }
+
+      setSelectedHour(currentHour);
+      setSelectedMinute(roundedMinute);
+      const formattedTime = formatTime(currentHour, roundedMinute, amPm || '');
+      setTime(formattedTime);
+      onChange(formattedTime);
     }
-    setTime(initialValue);
+
   },[initialValue, is12Hour]);
 
   return (
@@ -101,25 +115,9 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
         />
 
       {isDropdownOpen && (
-          <Dropdown is12Hour={is12Hour} data-testid='dropdown-id'>
-              <DropdownHeader>
-                <TimeInputWrapper  is12Hour={is12Hour}>
-                  <TimeInput
-                    value={timeValue}
-                    readOnly
-                    placeholder="hh:mm"
-                    is12Hour={is12Hour}
-                  />
-                  {selectedHour !== '' && (
-                    <ClearButton onClick={clearSelection} data-testid='clear-btn'>
-                      <Icon name="alert-circle-solid-cross" />
-                    </ClearButton>
-                  )}
-                </TimeInputWrapper>
-              </DropdownHeader>
-          
+          <Dropdown is12Hour={is12Hour} data-testid='dropdown-id'>          
               <HourMinuteWrapper>
-              <ScrollColumn>
+                <ScrollColumn>
                   {hours?.map((hour, index) => (
                     <TimeOption
                       key={index}
@@ -171,7 +169,7 @@ TimePicker.propTypes = {
 TimePicker.defaultProps = {
   is12Hour: false,
   step: 15,
-  initialValue: '1:15 AM',
+  initialValue: null,
   onChange: () => {}
 };
 

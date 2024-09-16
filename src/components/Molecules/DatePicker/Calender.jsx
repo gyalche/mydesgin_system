@@ -8,7 +8,7 @@ import {
   Day,
   WeekdayHeader,
 } from './styles';
-import { getDaysInMonth, getLocalizedMonthName, normalizeDate, convertToJapaneseYear } from '../../../utils';
+import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 
 const Calendar = ({
   date,
@@ -37,6 +37,7 @@ const Calendar = ({
   const handleMouseLeave = () => {
     setHoveredDate(null);
   };
+  
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
