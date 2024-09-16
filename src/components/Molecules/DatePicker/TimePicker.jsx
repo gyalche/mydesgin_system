@@ -2,15 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
-  ClearButton,
   Dropdown,
-  DropdownHeader,
   HourMinuteWrapper,
+  InputField,
   ScrollColumn,
   StaticColumn,
-  TimeInput,
-  TimeInputField,
-  TimeInputWrapper,
   TimeOption,
   TimePickerContainer
 } from './styles';
@@ -19,12 +15,13 @@ import { roundToNearestStep } from '../../../utils';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
-const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
+const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled }) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [amPm, setAmPm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [time, setTime] = useState('');
+  
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
 
@@ -95,23 +92,21 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange }) => {
         currentHour = currentHour % 12 || 12;
         setAmPm(isPM ? 'PM' : 'AM');
       }
-
       setSelectedHour(currentHour);
       setSelectedMinute(roundedMinute);
-      const formattedTime = formatTime(currentHour, roundedMinute, amPm || '');
-      setTime(formattedTime);
-      onChange(formattedTime);
     }
 
   },[initialValue, is12Hour]);
 
   return (
     <TimePickerContainer ref={timePickerRef}>
-        <TimeInputField
-          value={timeValue && timeValue}
+        <InputField
+          value={time && timeValue}
           readOnly
           placeholder="hh:mm"
           onClick={toggleDropdown}
+          disabled={disabled}
+          width={80}
         />
 
       {isDropdownOpen && (
@@ -164,13 +159,15 @@ TimePicker.propTypes = {
   step: PropTypes.number,
   initialValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 TimePicker.defaultProps = {
   is12Hour: false,
   step: 15,
   initialValue: null,
-  onChange: () => {}
+  onChange: () => {},
+  disabled: false,
 };
 
 export default TimePicker;

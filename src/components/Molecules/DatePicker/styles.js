@@ -17,39 +17,15 @@ export const InputContainer = styled.div`
   justify-content: center;
 `;
 
-export const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--rds-color-neutral-2);
-  border-radius: 3px;
-  text-align: center;
-  width: 110px;
-  &:hover {
-    border: 1px solid var(--rds-color-primary-1-normal);
-  };
-`;
-
 export const InputField = styled(Input)`
-  border: none;
-  text-align: center;
-  outline: none;
-  width: 78px;
-  height: 38px;
-  font-size: 12px;
-  color: var(--rds-color-neutral-6);
-  &:hover {
-    border: none;
-  };
-`;
-
-export const TimeInputField = styled(Input)`
   border: 1px solid var(--rds-color-neutral-2);
   text-align: center;
-  width: 80px;
+  width: ${({width}) => `${width}px`};
   height: 40px;
   font-size: 14px;
   border-radius: 4px;
   color: var(--rds-color-neutral-6);
+  disabled: ${({disabled}) => disabled}
 `;
 
 export const CalendarHeader = styled.div`

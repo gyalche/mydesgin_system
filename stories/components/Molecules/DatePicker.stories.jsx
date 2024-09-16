@@ -87,7 +87,7 @@ export const TimePickers = {
   args: {
     is12Hour: true,
     step: 15,
-    initialValue: null,
+    initialValue: '',
   },
   render: args => {
     return <Time {...args} />;

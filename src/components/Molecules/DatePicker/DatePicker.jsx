@@ -5,18 +5,16 @@ import {
   CalendarHeader,
   CalendarWrapper,
   Calenders,
-  ClearButton,
   DatePickerContainer,
   HeaderIcons,
   InputContainer,
   InputField,
-  InputWrapper
  } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { normalizeDate } from '../../../utils';;
 import Calendar from './Calender';
 
-const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange }) => {
+const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange, disabled }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
@@ -120,48 +118,28 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
   return (
     <DatePickerContainer>
       <InputContainer>
-        <InputWrapper>
           <InputField
             data-testid="first-input"
             type="text"
             readOnly
             value={startDate ? startDate.toLocaleDateString(locale) : 'yyyy/mm/dd'}
             onClick={() => setOpenCalender(!openCalender)}
+            disabled={disabled}
+            width={100}
           />
-         {startDate && (
-          <ClearButton onClick={()=>{
-            setStartDate('');
-            dateRange.shift();
-          }}
-          date-testid='icon-click'
-          >
-            <Icon name="alert-circle-solid-cross" />
-          </ClearButton>
-         )}
-        </InputWrapper>
 
         {isRangePicker && (
           <>
             <span>～</span>
-            <InputWrapper>
               <InputField
                 data-testid="second-input"
                 type="text"
                 readOnly
                 value={endDate ? endDate.toLocaleDateString(locale) : 'yyyy/mm/dd'}
                 onClick={() => setOpenCalender(!openCalender)}
+                disabled={disabled}
+                width={100}
               />
-                {endDate && (
-                  <ClearButton onClick={() => {
-                    setEndDate('');
-                    dateRange.pop();
-                  }}
-                  data-testid='icon-button'
-                  >
-                    <Icon name="alert-circle-solid-cross" />
-                  </ClearButton>
-                )}
-            </InputWrapper>
           </>
         )}
       </InputContainer>
@@ -226,6 +204,7 @@ DatePicker.propTypes = {
   ]),
   locale: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 DatePicker.defaultProps = {
@@ -234,6 +213,7 @@ DatePicker.defaultProps = {
   initialValue: null,
   locale: 'en-US',
   onChange: () => {},
+  disabled: false,
 };
 
 export default DatePicker;
