@@ -4,7 +4,9 @@ import { Icon } from 'components/Atoms';
 import {
   Dropdown,
   HourMinuteWrapper,
-  InputField,
+  IconWrapper,
+  InputIcon,
+  InputWrapper,
   ScrollColumn,
   StaticColumn,
   TimeOption,
@@ -12,10 +14,11 @@ import {
 } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { roundToNearestStep } from '../../../utils';
+import InputField from './InputField';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
-const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled }) => {
+const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error }) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [amPm, setAmPm] = useState('');
@@ -100,14 +103,32 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled }) => {
 
   return (
     <TimePickerContainer ref={timePickerRef}>
-        <InputField
-          value={time && timeValue}
-          readOnly
-          placeholder="hh:mm"
-          onClick={toggleDropdown}
-          disabled={disabled}
-          width={80}
-        />
+       <InputWrapper>
+          <InputField
+            value={time && timeValue}
+            readOnly
+            placeholder="hh:mm"
+            onClick={toggleDropdown}
+            disabled={disabled}
+            width={100}
+            error={error}
+          />
+
+          <IconWrapper>
+            {time ? (
+              <InputIcon onClick={() => {
+                  setTime('');
+                }}
+              >
+                <Icon name="alert-circle-solid-cross" />
+              </InputIcon>
+            ) : (
+              <InputIcon onClick={() => setOpenCalender(!openCalender)}>
+                <Icon name="global-clock" />
+              </InputIcon>
+            )}
+          </IconWrapper>
+        </InputWrapper>
 
       {isDropdownOpen && (
           <Dropdown is12Hour={is12Hour} data-testid='dropdown-id'>          
@@ -160,6 +181,7 @@ TimePicker.propTypes = {
   initialValue: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
+  error: PropTypes.bool,
 };
 
 TimePicker.defaultProps = {
@@ -168,6 +190,7 @@ TimePicker.defaultProps = {
   initialValue: null,
   onChange: () => {},
   disabled: false,
+  error: false,
 };
 
 export default TimePicker;

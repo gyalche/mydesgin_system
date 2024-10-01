@@ -1,4 +1,4 @@
-import { Input } from 'components/Atoms';
+import { Icon, Input } from 'components/Atoms';
 import styled from 'styled-components';
 
 export const DatePickerContainer = styled.div`
@@ -17,15 +17,29 @@ export const InputContainer = styled.div`
   justify-content: center;
 `;
 
-export const InputField = styled(Input)`
-  border: 1px solid var(--rds-color-neutral-2);
-  text-align: center;
+export const InputWrapper = styled.div`
+  position: relative;
+  color: var(--rds-color-neutral-5);
+`;
+
+export const InputFieldStyle = styled(Input)`
   width: ${({width}) => `${width}px`};
-  height: 40px;
-  font-size: 14px;
-  border-radius: 4px;
-  color: var(--rds-color-neutral-6);
-  disabled: ${({disabled}) => disabled}
+  height: ${({height}) => `${height}px`};
+  border: ${({error}) => error && '1px solid red'};
+  outline: ${({error}) => error && 'none'};
+  &:hover {
+    border: ${({error}) => error && '1px solid red'}
+  };
+  &::placeholder {
+    color: var(--rds-color-neutral-6);
+  };
+`;
+
+export const IconWrapper = styled.div`
+  right: 5px;
+  position: absolute;
+  top: 20px;
+  transform: translateY(-50%);
 `;
 
 export const CalendarHeader = styled.div`
@@ -155,7 +169,7 @@ export const TimeInput = styled(Input)`
   };
 `;
 
-export const ClearButton = styled.button`
+export const InputIcon = styled.button`
   color: var(--rds-color-neutral-5);
   font-size: 18px;
   border: none;
@@ -163,6 +177,7 @@ export const ClearButton = styled.button`
   cursor: pointer;
   text-align: center;
   margin-top: 5px;
+  outline: none;
 `;
 
 export const Dropdown = styled.div`
@@ -171,7 +186,8 @@ export const Dropdown = styled.div`
   flex-direction: column;
   top: 45px;
   left: 0;
-  width: ${({is12Hour}) => is12Hour ? '130px' : '110px'};
+  width: ${({is12Hour}) => is12Hour ? '130px' : '100px'};
+  margin-left: ${({is12Hour}) => !is12Hour && '10px'};
   background: white;
   border-radius: 4px;
   z-index: 1000;
@@ -218,8 +234,14 @@ export const TimeOption = styled.li`
   text-align: center;
   font-size: 12px;
   color: ${({ selected }) => (selected && 'var(--rds-color-primary-1-dark)')};
+  background-color: ${({ selected }) => (selected && 'var(--rds-color-primary-1-subtle)')};
+  
   &:hover {
     background-color: var(--rds-color-neutral-1);
   }
-  
+`;
+
+export const NextIcon = styled(Icon)`
+  font-size: 25px;
+  color: var(--rds-color-neutral-8);
 `;

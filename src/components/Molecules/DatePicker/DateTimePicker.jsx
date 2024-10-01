@@ -11,16 +11,16 @@ const DateTimePicker = ({onChange, disabled}) => {
 
     const handleChange = (value, type) => {
         setValue((data)=> {
-            const myData = {...data};
-            myData[type] = value;
-            return myData;
+          const myData = {...data};
+          myData[type] = value;
+          return myData;
         });
     };
 
   return (
     <div style={{display: 'flex'}}>
-         <DatePicker isDoubleView={false} onChange={(e)=>handleChange(e, 'date')} disabled={disabled} />
-         <TimePicker is12Hour={true} onChange={(e)=>handleChange(e, 'time')} disabled={disabled} />
+        <DatePicker isDoubleView={false} onChange={(e)=>handleChange(e, 'date')} disabled={disabled} isRangePicker={false}/>
+        <TimePicker is12Hour={true} onChange={(e)=>handleChange(e, 'time')} disabled={disabled} />
     </div>
   );
 };

@@ -5,16 +5,20 @@ import {
   CalendarHeader,
   CalendarWrapper,
   Calenders,
+  InputIcon,
   DatePickerContainer,
   HeaderIcons,
+  IconWrapper,
   InputContainer,
-  InputField,
+  InputWrapper,
+  NextIcon,
  } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { normalizeDate } from '../../../utils';
 import Calendar from './Calender';
+import InputField from './InputField';
 
-const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange, disabled }) => {
+const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange, disabled, error }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
@@ -23,7 +27,8 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
   const [hoveredDate, setHoveredDate] = useState(null);
   const [weekdays, setWeekdays] = useState([]);
 
-  const datePickerRef = useRef();
+  const datePickerRef = useRef(null);
+  const inputRefStart = useRef(null);
 
   const handleDateRangeClick = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
@@ -118,28 +123,69 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
   return (
     <DatePickerContainer>
       <InputContainer>
+        <InputWrapper>
           <InputField
             data-testid="first-input"
-            type="text"
             readOnly
-            value={startDate ? startDate.toLocaleDateString(locale) : 'yyyy/mm/dd'}
+            value={startDate && startDate.toLocaleDateString(locale)}
             onClick={() => setOpenCalender(!openCalender)}
             disabled={disabled}
-            width={100}
+            width={124}
+            height={40}
+            error={error}
+            ref={inputRefStart}
+            placeholder="yyyy/mm/dd"
           />
-
+          <IconWrapper>
+            {startDate ? (
+              <InputIcon onClick={() => {
+                  setStartDate('');
+                  dateRange.shift();
+                }}
+                date-testid='icon-click'
+              >
+                <Icon name="alert-circle-solid-cross" />
+              </InputIcon>
+            ) : (
+              <InputIcon onClick={() => setOpenCalender(!openCalender)}>
+                <Icon name="Interface-calendar-dot" />
+              </InputIcon>
+            )}
+          </IconWrapper>
+        </InputWrapper>
+         
         {isRangePicker && (
           <>
-            <span>～</span>
+            <NextIcon name="Interface-arrow-right" />
+
+            <InputWrapper>
               <InputField
                 data-testid="second-input"
-                type="text"
                 readOnly
-                value={endDate ? endDate.toLocaleDateString(locale) : 'yyyy/mm/dd'}
+                value={endDate && endDate.toLocaleDateString(locale)}
                 onClick={() => setOpenCalender(!openCalender)}
                 disabled={disabled}
-                width={100}
+                width={124}
+                height={40}
+                placeholder="yyyy/mm/dd"
               />
+              <IconWrapper>
+                {endDate ? (
+                  <InputIcon onClick={() => {
+                    setEndDate('');
+                    dateRange.pop();
+                  }}
+                  data-testid='icon-button'
+                  >
+                    <Icon name="alert-circle-solid-cross" />
+                  </InputIcon>
+                ) : (
+                  <InputIcon onClick={() => setOpenCalender(!openCalender)}>
+                    <Icon name="Interface-calendar-dot" />
+                  </InputIcon>
+                )}
+              </IconWrapper>
+            </InputWrapper>
           </>
         )}
       </InputContainer>
@@ -205,6 +251,7 @@ DatePicker.propTypes = {
   locale: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
+  error: PropTypes.bool,
 };
 
 DatePicker.defaultProps = {
@@ -214,6 +261,7 @@ DatePicker.defaultProps = {
   locale: 'en-US',
   onChange: () => {},
   disabled: false,
+  error: false,
 };
 
 export default DatePicker;
