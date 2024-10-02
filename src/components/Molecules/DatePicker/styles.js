@@ -245,3 +245,7 @@ export const NextIcon = styled(Icon)`
   font-size: 25px;
   color: var(--rds-color-neutral-8);
 `;
+
+export const DateTimeContainer = styled.div`
+  display: flex;
+`;

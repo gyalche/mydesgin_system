@@ -31,6 +31,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error })
   const timeValue = `${selectedHour ? selectedHour : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
 
   const timePickerRef = useRef(null);
+  const timeInputRef = useRef(null);
 
   const formatTime = (hour, minute, amPmvalue) => {
     if (!is12Hour) {
@@ -105,6 +106,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error })
     <TimePickerContainer ref={timePickerRef}>
        <InputWrapper>
           <InputField
+            ref={timeInputRef}
             value={time && timeValue}
             readOnly
             placeholder="hh:mm"
@@ -123,7 +125,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error })
                 <Icon name="alert-circle-solid-cross" />
               </InputIcon>
             ) : (
-              <InputIcon onClick={() => setOpenCalender(!openCalender)}>
+              <InputIcon onClick={toggleDropdown}>
                 <Icon name="global-clock" />
               </InputIcon>
             )}
