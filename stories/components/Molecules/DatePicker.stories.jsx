@@ -107,7 +107,7 @@ export const TimePickers = {
     step: 15,
     initialValue: '',
     disabled: false,
-    placholder: 'hh:mm'
+    placeholder: 'hh:mm'
   },
   render: args => {
     return <Time {...args} />;

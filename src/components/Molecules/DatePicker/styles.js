@@ -39,7 +39,7 @@ export const InputFieldStyle = styled(Input)`
 `;
 
 export const IconWrapper = styled.div`
-  right: 5px;
+  right: 2px;
   position: absolute;
   top: 20px;
   transform: translateY(-50%);
@@ -122,7 +122,7 @@ export const CalendarWrapper = styled.div`
   position: absolute;
   z-index: 999;
   margin-top: 48px;
-  margin-left: 215px;
+  margin-left: ${({isRangePicker}) => !isRangePicker && '215px'};
 `;
 
 export const Calenders = styled.div`
@@ -193,9 +193,9 @@ export const Dropdown = styled.div`
   margin-left: ${({is12Hour}) => !is12Hour && '10px'};
   background: white;
   border-radius: 4px;
-  z-index: 1000;
+  z-index: 9999;
   display: flex;
-  max-height: 280px;
+  height: 260px;
   overflow-y: hidden;
   box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-5);
   margin-top: 18px;
@@ -219,7 +219,7 @@ export const ScrollColumn = styled.ul`
   padding: 0;
   margin: 0;
   width: 50%;
-  max-height: 200px;
+  max-height: 260px;
   overflow-y: auto;
   border-right: 1px solid var(--rds-color-neutral-2);
 `;

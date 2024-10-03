@@ -71,6 +71,7 @@ DateTimePicker.propTypes = {
   is12Hour: PropTypes.bool,
   isDoublePicker: PropTypes.bool,
   locale: PropTypes.string,
+  placholder: PropTypes.string,
 };
 
 DateTimePicker.defaultProps = {
@@ -79,7 +80,7 @@ DateTimePicker.defaultProps = {
   isDoubleView: false,
   is12Hour: false,
   isDoublePicker: true,
-  locale: 'en-US'
+  locale: 'en-US',
 };
 
 export default DateTimePicker;

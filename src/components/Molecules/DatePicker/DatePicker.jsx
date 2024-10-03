@@ -190,7 +190,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
       </InputContainer>
 
       {openCalender && (
-        <CalendarWrapper ref={datePickerRef} data-testid='calender-id'>
+        <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker}>
           <CalendarHeader>
             <HeaderIcons>
               <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
@@ -217,7 +217,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
               hoveredDate={hoveredDate}
               setHoveredDate={setHoveredDate}
             />
-            {isDoubleView && (
+            {(isDoubleView && isRangePicker) && (
             <Calendar
               date={nextMonth}
               locale={locale}
@@ -262,7 +262,7 @@ DatePicker.defaultProps = {
   onChange: () => {},
   disabled: false,
   error: false,
-  placholder: 'yyyy/mm/dd',
+  placeholder: 'yyyy/mm/dd',
 };
 
 export default DatePicker;
