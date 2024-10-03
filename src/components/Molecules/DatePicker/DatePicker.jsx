@@ -191,49 +191,49 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
 
       {openCalender && (
         <CalendarWrapper ref={datePickerRef} data-testid='calender-id'>
-            <CalendarHeader>
-                <HeaderIcons>
-                  <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
-                  <Icon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
-                </HeaderIcons> 
+          <CalendarHeader>
+            <HeaderIcons>
+              <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
+              <Icon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+            </HeaderIcons> 
 
-                <HeaderIcons>
-                  <Icon name='Interface-chevron-double-right' onClick={() => handleNextMonth()}/>
-                  <Icon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
-                </HeaderIcons>
-            </CalendarHeader>
-            <Calenders data-testid='container-id'>
-                <Calendar
-                  date={currentMonth}
-                  locale={locale}
-                  startDate={startDate}
-                  endDate={endDate}
-                  weekdays={weekdays}
-                  handleSingleDate={handleSingleDate}
-                  handleDateRangeClick={handleDateRangeClick}
-                  isRangePicker={isRangePicker}
-                  isInRange={isInRange}
-                  isInHoverRange={isInHoverRange}
-                  hoveredDate={hoveredDate}
-                  setHoveredDate={setHoveredDate}
-                />
-                {isDoubleView && (
-                <Calendar
-                  date={nextMonth}
-                  locale={locale}
-                  startDate={startDate}
-                  endDate={endDate}
-                  weekdays={weekdays}
-                  handleSingleDate={handleSingleDate}
-                  handleDateRangeClick={handleDateRangeClick}
-                  isRangePicker={isRangePicker}
-                  isInRange={isInRange}
-                  isInHoverRange={isInHoverRange}
-                  hoveredDate={hoveredDate}
-                  setHoveredDate={setHoveredDate}
-                />
-              )}
-            </Calenders>
+            <HeaderIcons>
+              <Icon name='Interface-chevron-double-right' onClick={() => handleNextMonth()}/>
+              <Icon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+            </HeaderIcons>
+          </CalendarHeader>
+          <Calenders data-testid='container-id'>
+            <Calendar
+              date={currentMonth}
+              locale={locale}
+              startDate={startDate}
+              endDate={endDate}
+              weekdays={weekdays}
+              handleSingleDate={handleSingleDate}
+              handleDateRangeClick={handleDateRangeClick}
+              isRangePicker={isRangePicker}
+              isInRange={isInRange}
+              isInHoverRange={isInHoverRange}
+              hoveredDate={hoveredDate}
+              setHoveredDate={setHoveredDate}
+            />
+            {isDoubleView && (
+            <Calendar
+              date={nextMonth}
+              locale={locale}
+              startDate={startDate}
+              endDate={endDate}
+              weekdays={weekdays}
+              handleSingleDate={handleSingleDate}
+              handleDateRangeClick={handleDateRangeClick}
+              isRangePicker={isRangePicker}
+              isInRange={isInRange}
+              isInHoverRange={isInHoverRange}
+              hoveredDate={hoveredDate}
+              setHoveredDate={setHoveredDate}
+            />
+            )}
+          </Calenders>
         </CalendarWrapper>
       )}
     </DatePickerContainer>
