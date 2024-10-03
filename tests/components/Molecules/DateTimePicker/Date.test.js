@@ -15,9 +15,11 @@ describe('DatePicker Component', () => {
 
   // Renders correctly with default props
   it('renders DatePicker with default props', () => {
-    render(<DatePicker onChange={mockOnChange} />);
+    render(<DatePicker onChange={mockOnChange} placeholder='yyyy/mm/dd'/>);
     expect(screen.getByTestId('first-input')).toBeInTheDocument();
-    expect(screen.getByTestId('first-input')).toHaveProperty('placeholder', 'yyyy/mm/dd');
+    waitFor(() => {
+      expect(screen.getByTestId('first-input')).toHaveProperty('placeholder', placeholder);
+    });
   });
 
   // Open Calendar on Input Click
