@@ -114,8 +114,7 @@ describe('DatePicker Component', () => {
       const nextInput = middleComma.nextSibling;
       expect(nextInput).toHaveValue(expect.stringContaining(`${secondDay}`));
     });
-  });
-  
+  });  
 
   // Double calendar view
   it('renders two calendars when isDoubleView is true', () => {

@@ -39,10 +39,15 @@ export const InputFieldStyle = styled(Input)`
 `;
 
 export const IconWrapper = styled.div`
-  right: 2px;
+  right: 5px;
   position: absolute;
   top: 20px;
   transform: translateY(-50%);
+  width: 24px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const CalendarHeader = styled.div`
@@ -174,7 +179,7 @@ export const TimeInput = styled(Input)`
 
 export const InputIcon = styled.button`
   color: var(--rds-color-neutral-5);
-  font-size: 18px;
+  font-size: 15px;
   border: none;
   background: none;
   cursor: pointer;

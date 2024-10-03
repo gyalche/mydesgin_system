@@ -218,20 +218,20 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
               setHoveredDate={setHoveredDate}
             />
             {(isDoubleView && isRangePicker) && (
-            <Calendar
-              date={nextMonth}
-              locale={locale}
-              startDate={startDate}
-              endDate={endDate}
-              weekdays={weekdays}
-              handleSingleDate={handleSingleDate}
-              handleDateRangeClick={handleDateRangeClick}
-              isRangePicker={isRangePicker}
-              isInRange={isInRange}
-              isInHoverRange={isInHoverRange}
-              hoveredDate={hoveredDate}
-              setHoveredDate={setHoveredDate}
-            />
+              <Calendar
+                date={nextMonth}
+                locale={locale}
+                startDate={startDate}
+                endDate={endDate}
+                weekdays={weekdays}
+                handleSingleDate={handleSingleDate}
+                handleDateRangeClick={handleDateRangeClick}
+                isRangePicker={isRangePicker}
+                isInRange={isInRange}
+                isInHoverRange={isInHoverRange}
+                hoveredDate={hoveredDate}
+                setHoveredDate={setHoveredDate}
+              />
             )}
           </Calenders>
         </CalendarWrapper>
