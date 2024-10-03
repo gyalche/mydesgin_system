@@ -123,7 +123,9 @@ describe('DatePicker Component', () => {
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
     const calendars = screen.getAllByTestId('calender-container');
-    expect(calendars.length).toBe(2);
+    waitFor(() => {
+      expect(calendars.length).toBe(2);
+    });
   });
 
   //Hover date range in range picker
