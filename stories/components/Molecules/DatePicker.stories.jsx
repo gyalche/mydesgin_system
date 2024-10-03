@@ -117,11 +117,32 @@ export const DateTimePicker = {
   argTypes: {
     disabled: {
       description: 'enable and disable input field',
-      control: { type: 'boolean' }
-    }
+      control: { type: 'boolean' },
+    },
+    isDoubleView: {
+      description: 'double calender view',
+      control: { type: 'boolean' },
+    },
+    is12Hour: {
+      description: '12 Hour format for time',
+      control: { type: 'boolean' },
+    },
+    isDoublePicker: {
+      description: 'Time and time has start and end picker double view',
+      control: { type: 'boolean' },
+    },
+    locale: {
+      description: 'Locale format of the calendar. Default is ja-JP',
+      control: { type: 'select' },
+      options: ['ja-JP', 'en-US']
+    },
   },
   args: {
     disabled: false,
+    isDoubleView: false,
+    is12Hour: false,
+    isDoublePicker: true,
+    locale: 'en-US',
   },
   render: (args) => {
     return <DateTime {...args} />;

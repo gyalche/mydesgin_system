@@ -153,7 +153,6 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
             )}
           </IconWrapper>
         </InputWrapper>
-         
         {isRangePicker && (
           <>
             <NextIcon name="Interface-arrow-right" />

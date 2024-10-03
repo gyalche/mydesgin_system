@@ -6,7 +6,7 @@ export const DatePickerContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  padding: 10px;
+  padding: 2px;
   border-radius: 8px;
 `;
 
@@ -143,7 +143,6 @@ export const TimePickerContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  padding: 10px;
   border-radius: 8px;
 `;
 
@@ -248,4 +247,6 @@ export const NextIcon = styled(Icon)`
 
 export const DateTimeContainer = styled.div`
   display: flex;
+  gap: 10px;
+  align-items: center;
 `;

@@ -2,40 +2,65 @@ import React, { useState } from 'react';
 import TimePicker from './TimePicker';
 import DatePicker from './DatePicker';
 import PropTypes from 'prop-types';
-import { NextIcon } from './styles';
+import { DateTimeContainer, NextIcon } from './styles';
 import { Layout } from 'components/Atoms';
 
-const DateTimePicker = ({onChange, disabled, isDoubleView}) => {
-    const [value, setValue] = useState({
-      date: null,
-      time: null,
-    });
+const DateTimePicker = ({ onChange, disabled, isDoublePicker, isDoubleView, is12Hour, locale }) => {
+  const [value, setValue] = useState({
+    date: null,
+    time: null,
+  });
 
-    const handleChange = (value, type) => {
-      setValue((data)=> {
-        const myData = {...data};
+  const handleChange = (value, type, position) => {
+    setValue((data) => {
+      const myData = { ...data };
+  
+      if (isDoublePicker) {
+        if (!Array.isArray(myData[type])) {
+          myData[type] = [null, null];
+        }
+        if (position === 'start') {
+          myData[type][0] = value;
+        } else if (position === 'end') {
+          myData[type][1] = value;
+        }
+      } else {
         myData[type] = value;
-        return myData;
-      });
-    };
-
+      }
+      onChange(myData);
+      return myData;
+    });
+  };  
   return (
-    <div style={{display: 'flex', alignItems: 'center'}}>
-      <div style={{ display: 'flex'}}>
-        <DatePicker isDoubleView={false} onChange={(e)=>handleChange(e, 'date')} disabled={disabled} isRangePicker={false} />
-        <TimePicker is12Hour={true} onChange={(e)=>handleChange(e, 'time')} disabled={disabled} />
-      </div>
-      {isDoubleView && (
+    <DateTimeContainer>
+      <Layout.Flex alignItems="center" gap="10px">
+        <DatePicker 
+          isDoubleView={isDoubleView}
+          onChange={(e)=>handleChange(e, 'date', 'start')}
+          disabled={disabled}
+          isRangePicker={false}
+          locale={locale} 
+        />
+        <TimePicker is12Hour={is12Hour} onChange={(e)=>handleChange(e, 'time', 'start')} disabled={disabled} />
+      </Layout.Flex>
+
+      {isDoublePicker && (
       <>
         <NextIcon name="Interface-arrow-right" />
 
-        <Layout.Flex>
-          <DatePicker isDoubleView={false} onChange={(e)=>handleChange(e, 'date')} disabled={disabled} isRangePicker={false}/>
-          <TimePicker is12Hour={true} onChange={(e)=>handleChange(e, 'time')} disabled={disabled} />
+        <Layout.Flex alignItems="center" gap="10px">
+          <DatePicker
+            isDoubleView={isDoubleView}
+            onChange={(e)=>handleChange(e, 'date', 'end')}
+            disabled={disabled}
+            isRangePicker={false}
+            locale={locale}
+          />
+          <TimePicker is12Hour={is12Hour} onChange={(e)=>handleChange(e, 'time', 'end')} disabled={disabled} />
         </Layout.Flex>
       </>
       )}
-    </div>
+    </DateTimeContainer>
   );
 };
 
@@ -43,12 +68,18 @@ DateTimePicker.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   isDoubleView: PropTypes.bool,
+  is12Hour: PropTypes.bool,
+  isDoublePicker: PropTypes.bool,
+  locale: PropTypes.string,
 };
 
 DateTimePicker.defaultProps = {
   onChange: () => {},
   disabled: false,
-  isDoubleView: true,
+  isDoubleView: false,
+  is12Hour: false,
+  isDoublePicker: true,
+  locale: 'en-US'
 };
 
 export default DateTimePicker;

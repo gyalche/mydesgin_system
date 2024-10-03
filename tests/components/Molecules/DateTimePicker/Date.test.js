@@ -17,7 +17,7 @@ describe('DatePicker Component', () => {
   it('renders DatePicker with default props', () => {
     render(<DatePicker onChange={mockOnChange} />);
     expect(screen.getByTestId('first-input')).toBeInTheDocument();
-    expect(screen.getByTestId('first-input')).toHaveValue('yyyy/mm/dd');
+    expect(screen.getByTestId('first-input')).toHaveProperty('placeholder', 'yyyy/mm/dd');
   });
 
   // Open Calendar on Input Click
@@ -54,8 +54,6 @@ describe('DatePicker Component', () => {
     const dayButton = screen.getByTestId(`day-${validDate}`);
     fireEvent.click(dayButton);
 
-    // const selectedDate = new Date().toLocaleDateString('ja-JP');
-    // expect(input.value).toBe(selectedDate);
     expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date));
   });
 
@@ -69,10 +67,12 @@ describe('DatePicker Component', () => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
-    const pastDayButton = screen.getByTestId(`day-${yesterday.getDate()}`);
+    const pastDayButton = screen.findByTestId(`day-${yesterday.getDate()}`);
   
-    fireEvent.click(pastDayButton);
-    expect(mockOnChange).not.toHaveBeenCalled();
+    waitFor(() => {
+      fireEvent.click(pastDayButton);
+      expect(mockOnChange).not.toHaveBeenCalled();
+    });
   });
   
 

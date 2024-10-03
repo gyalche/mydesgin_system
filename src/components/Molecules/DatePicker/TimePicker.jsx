@@ -69,7 +69,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error })
 
   //custom hook for outside click to close the model
   useClickOutside(timePickerRef, () => {
-    if ((selectedHour && selectedMinute && (amPm || !is12Hour)) || !time) {
+    if ((selectedHour && (amPm || !is12Hour)) || !time) {
       setIsDropdownOpen(false);
     }
   });
@@ -89,7 +89,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error })
       const now = new Date();
       let currentHour = now.getHours();
       let currentMinute = now.getMinutes();
-      const roundedMinute = roundToNearestStep(currentMinute, step);
+      const roundedMinute = Math.min(roundToNearestStep(currentMinute, step));
       
       if (is12Hour) {
         const isPM = currentHour >= 12;
@@ -163,7 +163,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error })
                       <TimeOption
                         key={value}
                         onClick={()=>handleAmPm(name)}
-                        selected={name===amPm}
+                        selected={name === amPm}
                       >
                         {name}
                       </TimeOption>
