@@ -18,7 +18,7 @@ import InputField from './InputField';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
-const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error }) => {
+const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error, placeholder }) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [amPm, setAmPm] = useState('');
@@ -109,7 +109,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error })
             ref={timeInputRef}
             value={time && timeValue}
             readOnly
-            placeholder="hh:mm"
+            placeholder={placeholder}
             onClick={toggleDropdown}
             disabled={disabled}
             width={100}
@@ -184,6 +184,7 @@ TimePicker.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   error: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 
 TimePicker.defaultProps = {
@@ -193,6 +194,7 @@ TimePicker.defaultProps = {
   onChange: () => {},
   disabled: false,
   error: false,
+  placeholder: 'hh:mm'
 };
 
 export default TimePicker;

@@ -12,7 +12,7 @@ export const DatePickerContainer = styled.div`
 
 export const InputContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 3px;
   align-items: center;
   justify-content: center;
 `;
@@ -27,11 +27,14 @@ export const InputFieldStyle = styled(Input)`
   height: ${({height}) => `${height}px`};
   border: ${({error}) => error && '1px solid red'};
   outline: ${({error}) => error && 'none'};
+  line-height: 22.4px;
+  font-size: 14px;
   &:hover {
     border: ${({error}) => error && '1px solid red'}
   };
   &::placeholder {
     color: var(--rds-color-neutral-6);
+    padding: 0;
   };
 `;
 
@@ -118,7 +121,8 @@ export const CalendarWrapper = styled.div`
   justify-content: center;
   position: absolute;
   z-index: 999;
-  margin-top: 50px;
+  margin-top: 48px;
+  margin-left: 215px;
 `;
 
 export const Calenders = styled.div`
@@ -183,8 +187,8 @@ export const Dropdown = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 45px;
-  left: 0;
+  top: 30px;
+  left: ${({is12Hour}) => !is12Hour && '-10px'};
   width: ${({is12Hour}) => is12Hour ? '130px' : '100px'};
   margin-left: ${({is12Hour}) => !is12Hour && '10px'};
   background: white;
@@ -247,6 +251,6 @@ export const NextIcon = styled(Icon)`
 
 export const DateTimeContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 4px;
   align-items: center;
 `;

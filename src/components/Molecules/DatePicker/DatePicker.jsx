@@ -18,7 +18,7 @@ import { normalizeDate } from '../../../utils';
 import Calendar from './Calender';
 import InputField from './InputField';
 
-const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange, disabled, error }) => {
+const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange, disabled, error, placeholder }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
@@ -134,7 +134,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
             height={40}
             error={error}
             ref={inputRefStart}
-            placeholder="yyyy/mm/dd"
+            placeholder={placeholder}
           />
           <IconWrapper>
             {startDate ? (
@@ -166,7 +166,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
                 disabled={disabled}
                 width={124}
                 height={40}
-                placeholder="yyyy/mm/dd"
+                placeholder={placeholder}
               />
               <IconWrapper>
                 {endDate ? (
@@ -251,6 +251,7 @@ DatePicker.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   error: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 
 DatePicker.defaultProps = {
@@ -261,6 +262,7 @@ DatePicker.defaultProps = {
   onChange: () => {},
   disabled: false,
   error: false,
+  placholder: 'yyyy/mm/dd',
 };
 
 export default DatePicker;

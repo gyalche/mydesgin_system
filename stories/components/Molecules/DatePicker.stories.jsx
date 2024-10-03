@@ -44,6 +44,10 @@ export const DatePickers = {
         'Initial Date value of the Datepicker, could be a date or an array of dates if in ranged mode',
       control: { type: 'date' },
     },
+    placeholder: {
+      description: 'Placeholder value',
+      control: { type: 'text' },
+    }
   },
   args: {
     isRangePicker: true,
@@ -52,6 +56,7 @@ export const DatePickers = {
     locale: 'ja-JP',
     textCancel: 'キャンセル',
     initialValue: new Date(),
+    placeholder: 'yyyy/mm/dd'
   },
   render: (args) => {
     const updatedArgs = {
@@ -92,12 +97,17 @@ export const TimePickers = {
         'Initial time value of the TimePicker in "HH:mm AM/PM" format for 12-hour mode or "HH:mm" for 24-hour mode',
       control: { type: 'text' },
     },
+    placeholder: {
+      description: 'Placholder value for time',
+      control: { type: 'text' },
+    },
   },
   args: {
     is12Hour: true,
     step: 15,
     initialValue: '',
     disabled: false,
+    placholder: 'hh:mm'
   },
   render: args => {
     return <Time {...args} />;
