@@ -100,21 +100,25 @@ export const Day = styled.div`
   height: 32px;
   text-align: center;
   font-size: 12px;
-  border: ${(props) => (props.currentDate ? '1px solid var(--rds-color-primary-1-normal)' : '')};
-  cursor: ${(props) => (props.isDisabled ? 'not-allowed' : 'pointer')};
+  border: ${({currentDate}) => (currentDate && '1px solid var(--rds-color-primary-1-normal)')};
+  cursor: ${({isDisabled}) => (isDisabled ? 'not-allowed' : 'pointer')};
   border-radius: 4px;
-  background: ${(props) => 
-    props.isSelected ? 'var(--rds-color-primary-1-dark)' :
-    props.isInRange ? 'var(--rds-color-primary-1-subtle)' :
-    props.isInHoverRange ? 'var(--rds-color-primary-1-subtle)' : 'transparent'};
-  color: ${(props) => props?.isSaturday && !props.isSelected && !props.isDisabled ? 'var(--rds-color-teritary-2-normal)' 
-    : props?.isSunday && !props.isSelected && !props.isDisabled? 'var(--rds-color-secondary-3-normal)' :
-   props.isSelected ? 'var(--rds-color-neutral-0)' : props.isDisabled ? 'var(--rds-color-neutral-4)' : 
-   props.currentDate && 'var(--rds-color-primary-1-normal)'};
-  pointer-events: ${(props) => (props.isDisabled ? 'none' : 'auto')};
-  
+  background: ${({ isSelected, isInRange, isInHoverRange }) => {
+    if (isSelected) return 'var(--rds-color-primary-1-dark)';
+    if (isInRange || isInHoverRange) return 'var(--rds-color-primary-1-subtle)';
+    return 'transparent';
+  }};
+  color: ${({ isSaturday, isSunday, isSelected, isDisabled, currentDate }) => {
+    if (isSelected) return 'var(--rds-color-neutral-0)';
+    if (isDisabled) return 'var(--rds-color-neutral-4)';
+    if (isSaturday && !isDisabled) return 'var(--rds-color-teritary-2-normal)';
+    if (isSunday && !isDisabled) return 'var(--rds-color-secondary-3-normal)';
+    if (currentDate) return 'var(--rds-color-primary-1-normal)';
+  }};
+  pointer-events: ${({isDisabled}) => (isDisabled ? 'none' : 'auto')};
+  box-shadow: ${({isSelected}) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
   &:hover {
-    background-color: ${(props) => !props.isDisabled && !props.isSelected && 'var(--rds-color-primary-1-subtle)'};
+    background-color: ${({isDisabled, isSelected}) => (!isDisabled && !isSelected) && 'var(--rds-color-primary-1-subtle)'};
   }
 `;
 
@@ -196,9 +200,9 @@ export const Dropdown = styled.div`
   display: flex;
   flex-direction: column;
   top: 30px;
-  left: ${({is12Hour}) => !is12Hour && '-10px'};
-  width: ${({is12Hour}) => is12Hour ? '130px' : '100px'};
-  margin-left: ${({is12Hour}) => !is12Hour && '10px'};
+  left: ${({ is12Hour }) => !is12Hour && '-10px'};
+  width: ${({ is12Hour }) => is12Hour ? '130px' : '100px'};
+  margin-left: ${({ is12Hour }) => !is12Hour && '10px'};
   background: white;
   border-radius: 4px;
   z-index: 9999;

@@ -18,7 +18,15 @@ import { normalizeDate } from '../../../utils';
 import Calendar from './Calender';
 import InputField from './InputField';
 
-const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChange, disabled, error, placeholder }) => {
+const DatePicker = ({ 
+  isDoubleView,
+  isRangePicker,
+  initialValue,
+  locale,
+  onChange,
+  disabled,
+  error,
+  placeholder }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
@@ -35,11 +43,10 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
     const today = normalizeDate(new Date());
 
     if (normalizedDate < today) return;
-
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
+      setEndDate('');
       setDateRange([date]);
-      setEndDate(null);
       onChange([date]);
     } else if (normalizedDate < normalizeDate(startDate)) {
       setStartDate(date);

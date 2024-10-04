@@ -6,12 +6,12 @@ import { DateTimeContainer, NextIcon } from './styles';
 import { Layout } from 'components/Atoms';
 
 const DateTimePicker = ({ onChange, 
-  disabled, 
-  isDoublePicker, 
-  isDoubleView, 
-  isRangePicker, 
-  is12Hour, 
-  locale, 
+  disabled,
+  isDoublePicker,
+  isDoubleView,
+  isRangePicker,
+  is12Hour,
+  locale,
   placeholder }) => {
   const [value, setValue] = useState({
     date: null,
