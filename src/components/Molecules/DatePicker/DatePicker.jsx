@@ -66,13 +66,21 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
     return normalizedStartDate && normalizedEndDate && normalizedDay > normalizedStartDate && normalizedDay < normalizedEndDate;
   },[startDate, endDate]);
 
+  const handlePrevYear = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() - 1, prevMonth.getMonth(), 1));
+  }, [setCurrentMonth]);
+
+  const handleNextYear = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() + 1, prevMonth.getMonth(), 1));
+  }, [setCurrentMonth]);
+
   const handlePrevMonth = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
-  },[setCurrentMonth]);
-  
+  }, [setCurrentMonth]);
+
   const handleNextMonth = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
-  },[setCurrentMonth]);
+  }, [setCurrentMonth]);
 
   const isInHoverRange = useCallback((day) => {
     if (!startDate || !hoveredDate) return false;
@@ -193,13 +201,13 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
         <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <CalendarHeader>
             <HeaderIcons>
-              <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>
+              <Icon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
               <Icon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
             </HeaderIcons> 
 
             <HeaderIcons>
-              <Icon name='Interface-chevron-double-right' onClick={() => handleNextMonth()}/>
               <Icon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+              <Icon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
             </HeaderIcons>
           </CalendarHeader>
           <Calenders data-testid='container-id'>
