@@ -5,7 +5,14 @@ import PropTypes from 'prop-types';
 import { DateTimeContainer, NextIcon } from './styles';
 import { Layout } from 'components/Atoms';
 
-const DateTimePicker = ({ onChange, disabled, isDoublePicker, isDoubleView, is12Hour, locale }) => {
+const DateTimePicker = ({ onChange, 
+  disabled, 
+  isDoublePicker, 
+  isDoubleView, 
+  isRangePicker, 
+  is12Hour, 
+  locale, 
+  placeholder }) => {
   const [value, setValue] = useState({
     date: null,
     time: null,
@@ -30,33 +37,44 @@ const DateTimePicker = ({ onChange, disabled, isDoublePicker, isDoubleView, is12
       onChange(myData);
       return myData;
     });
-  };  
+  };
   return (
     <DateTimeContainer>
-      <Layout.Flex alignItems="center" gap="10px">
+      <Layout.Flex alignItems="center" gap="7px">
         <DatePicker 
-          isDoubleView={isDoubleView}
           onChange={(e)=>handleChange(e, 'date', 'start')}
           disabled={disabled}
-          isRangePicker={false}
-          locale={locale} 
+          isRangePicker={isRangePicker}
+          isDoubleView={isDoubleView}
+          locale={locale}
+          placeholder={placeholder.date}
         />
-        <TimePicker is12Hour={is12Hour} onChange={(e)=>handleChange(e, 'time', 'start')} disabled={disabled} />
+        <TimePicker is12Hour={is12Hour}
+          onChange={(e)=>handleChange(e, 'time', 'start')}
+          disabled={disabled}
+          placeholder={placeholder.time}
+        />
       </Layout.Flex>
 
       {isDoublePicker && (
       <>
         <NextIcon name="Interface-arrow-right" />
 
-        <Layout.Flex alignItems="center" gap="10px">
+        <Layout.Flex alignItems="center" gap="7px">
           <DatePicker
-            isDoubleView={isDoubleView}
             onChange={(e)=>handleChange(e, 'date', 'end')}
             disabled={disabled}
-            isRangePicker={false}
             locale={locale}
+            placeholder={placeholder.date}
+            isRangePicker={isRangePicker}
+            isDoubleView={isDoubleView}
           />
-          <TimePicker is12Hour={is12Hour} onChange={(e)=>handleChange(e, 'time', 'end')} disabled={disabled} />
+          <TimePicker
+            is12Hour={is12Hour}
+            onChange={(e)=>handleChange(e, 'time', 'end')}
+            disabled={disabled}
+            placeholder={placeholder.time}
+          />
         </Layout.Flex>
       </>
       )}
@@ -68,19 +86,28 @@ DateTimePicker.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   isDoubleView: PropTypes.bool,
+  isRangePicker: PropTypes.bool,
   is12Hour: PropTypes.bool,
   isDoublePicker: PropTypes.bool,
   locale: PropTypes.string,
-  placholder: PropTypes.string,
+  placeholder: PropTypes.shape({
+    date: PropTypes.string,
+    time: PropTypes.string,
+  })
 };
 
 DateTimePicker.defaultProps = {
   onChange: () => {},
   disabled: false,
   isDoubleView: false,
+  isRangePicker: false,
   is12Hour: false,
   isDoublePicker: true,
   locale: 'en-US',
+  placeholder: {
+    date:'yyyy/mm/dd',
+    time: 'hh:mm',
+  }
 };
 
 export default DateTimePicker;

@@ -67,8 +67,10 @@ export const WeekdayHeader = styled.div`
   justify-content: center;
   font-size: 12px;
   font-weight: 700;
-  color: ${(props) => 
-    props.isSaturday ? 'var(--rds-color-teritary-2-dark)' : props.isSunday ? 'var(--rds-color-secondary-3-deep)' : 'var(--rds-color-neutral-7)'};
+  color: ${({isSaturday, isSunday}) => 
+    isSaturday ? 'var(--rds-color-teritary-2-dark)' : 
+    isSunday ? 'var(--rds-color-secondary-3-deep)' : 
+    'var(--rds-color-neutral-7)'};
 `;
 
 export const HeaderIcons = styled.div`
@@ -127,7 +129,8 @@ export const CalendarWrapper = styled.div`
   position: absolute;
   z-index: 999;
   margin-top: 48px;
-  margin-left: ${({isRangePicker}) => !isRangePicker && '215px'};
+  margin-left: ${({isRangePicker, isDoubleView}) => !isRangePicker ? '215px' : 
+    isRangePicker && isDoubleView ? '410px' : '65px'};
 `;
 
 export const Calenders = styled.div`

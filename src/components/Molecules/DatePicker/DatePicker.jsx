@@ -190,7 +190,7 @@ const DatePicker = ({ isDoubleView, isRangePicker, initialValue, locale, onChang
       </InputContainer>
 
       {openCalender && (
-        <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker}>
+        <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <CalendarHeader>
             <HeaderIcons>
               <Icon name='Interface-chevron-double-left' onClick={() => handlePrevMonth()}/>

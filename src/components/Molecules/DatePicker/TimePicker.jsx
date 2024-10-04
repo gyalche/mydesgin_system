@@ -118,10 +118,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error, p
 
           <IconWrapper>
             {time ? (
-              <InputIcon onClick={() => {
-                  setTime('');
-                }}
-              >
+              <InputIcon onClick={() => setTime('')}>
                 <Icon name="alert-circle-solid-cross" />
               </InputIcon>
             ) : (

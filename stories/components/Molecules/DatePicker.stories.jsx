@@ -129,12 +129,16 @@ export const DateTimePicker = {
       description: 'enable and disable input field',
       control: { type: 'boolean' },
     },
-    isDoubleView: {
-      description: 'double calender view',
-      control: { type: 'boolean' },
-    },
     is12Hour: {
       description: '12 Hour format for time',
+      control: { type: 'boolean' },
+    },
+    isDoubleView : {
+      description: 'double view calender, with current and next month',
+      control: { type: 'boolean' },
+    },
+    isRangePicker: {
+      description: 'Pick the range of date',
       control: { type: 'boolean' },
     },
     isDoublePicker: {
@@ -146,13 +150,22 @@ export const DateTimePicker = {
       control: { type: 'select' },
       options: ['ja-JP', 'en-US']
     },
+    placeholder: {
+      description: 'Placeholder text for date and time fields',
+      control: { type: 'object' },
+    },
   },
   args: {
     disabled: false,
-    isDoubleView: false,
     is12Hour: false,
+    isDoubleView: false,
+    isRangePicker: false,
     isDoublePicker: true,
     locale: 'en-US',
+    placeholder: {
+      date: 'yyyy/mm/dd',
+      time: 'hh:mm',
+    },
   },
   render: (args) => {
     return <DateTime {...args} />;
