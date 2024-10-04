@@ -37,5 +37,5 @@ export const getLocalizedMonthName = (date, locale) => {
 };
 
 export const roundToNearestStep = (minute, step) => {
-  return Math.round(minute / step) * step;
+  return Math.floor(minute / step) * step;
 };
