@@ -163,6 +163,10 @@ export const DateTimePicker = {
       description: 'Placeholder text for date and time fields',
       control: { type: 'object' },
     },
+    isTimeRange: {
+      description: 'Time range picker enabe and disable',
+      control: { type: 'boolean' },
+    }
   },
   args: {
     disabled: false,
@@ -175,6 +179,7 @@ export const DateTimePicker = {
       date: 'yyyy/mm/dd',
       time: 'hh:mm',
     },
+    isTimeRange: false,
   },
   render: (args) => {
     return <DateTime {...args} />;

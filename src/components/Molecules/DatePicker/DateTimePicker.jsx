@@ -12,7 +12,8 @@ const DateTimePicker = ({ onChange,
   isRangePicker,
   is12Hour,
   locale,
-  placeholder }) => {
+  placeholder,
+  isTimeRange }) => {
   const [value, setValue] = useState({
     date: null,
     time: null,
@@ -53,6 +54,7 @@ const DateTimePicker = ({ onChange,
           onChange={(e)=>handleChange(e, 'time', 'start')}
           disabled={disabled}
           placeholder={placeholder.time}
+          isTimeRange={isTimeRange}
         />
       </Layout.Flex>
 
@@ -74,6 +76,7 @@ const DateTimePicker = ({ onChange,
             onChange={(e)=>handleChange(e, 'time', 'end')}
             disabled={disabled}
             placeholder={placeholder.time}
+            isTimeRange={isTimeRange}
           />
         </Layout.Flex>
       </>
@@ -93,7 +96,8 @@ DateTimePicker.propTypes = {
   placeholder: PropTypes.shape({
     date: PropTypes.string,
     time: PropTypes.string,
-  })
+  }),
+  isTimeRange: PropTypes.bool,
 };
 
 DateTimePicker.defaultProps = {
@@ -107,7 +111,8 @@ DateTimePicker.defaultProps = {
   placeholder: {
     date:'yyyy/mm/dd',
     time: 'hh:mm',
-  }
+  },
+  isTimeRange: false,
 };
 
 export default DateTimePicker;
