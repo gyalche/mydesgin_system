@@ -24,7 +24,7 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error, p
   const [amPm, setAmPm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [time, setTime] = useState('');
-  
+  const [toCurrentTime, setToCurrentTime] = useState(false);
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
 
@@ -100,11 +100,11 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error, p
       setSelectedMinute(roundedMinute);
     }
 
-  },[initialValue, is12Hour]);
+  },[initialValue, is12Hour, toCurrentTime]);
 
   return (
     <TimePickerContainer ref={timePickerRef}>
-       <InputWrapper>
+       <InputWrapper time={true}>
           <InputField
             ref={timeInputRef}
             value={time && timeValue}
@@ -112,13 +112,17 @@ const TimePicker = ({ is12Hour, step, initialValue, onChange, disabled, error, p
             placeholder={placeholder}
             onClick={toggleDropdown}
             disabled={disabled}
-            width={100}
+            width={is12Hour ? 95 : 85}
+            height={40}
             error={error}
           />
 
           <IconWrapper>
             {time ? (
-              <InputIcon onClick={() => setTime('')}>
+              <InputIcon onClick={() => {
+                setTime('');
+                setToCurrentTime(!toCurrentTime);
+              }}>
                 <Icon name="alert-circle-solid-cross" />
               </InputIcon>
             ) : (

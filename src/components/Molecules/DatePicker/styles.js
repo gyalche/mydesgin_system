@@ -20,12 +20,14 @@ export const InputContainer = styled.div`
 export const InputWrapper = styled.div`
   position: relative;
   color: var(--rds-color-neutral-5);
+  border-radius: 5px;
 `;
 
 export const InputFieldStyle = styled(Input)`
   width: ${({width}) => `${width}px`};
   height: ${({height}) => `${height}px`};
-  border: ${({error}) => error && '1px solid red'};
+  border: ${({error, activeSecondInput}) => error ? '1px solid red' : 
+    activeSecondInput && '1px solid var(--rds-color-primary-1-normal)'};
   outline: ${({error}) => error && 'none'};
   line-height: 22.4px;
   font-size: 14px;
@@ -74,10 +76,11 @@ export const WeekdayHeader = styled.div`
 `;
 
 export const HeaderIcons = styled.div`
-  gap: 10px;
   font-size: 24px;
-  cursor: pointer;
   z-index: 9999;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
 `;
 
 export const CalendarContainer = styled.div`
@@ -201,8 +204,8 @@ export const Dropdown = styled.div`
   flex-direction: column;
   top: 30px;
   left: ${({ is12Hour }) => !is12Hour && '-10px'};
-  width: ${({ is12Hour }) => is12Hour ? '130px' : '100px'};
-  margin-left: ${({ is12Hour }) => !is12Hour && '10px'};
+  width: ${({ is12Hour }) => is12Hour ? '150px' : '100px'};
+  margin-left: ${({ is12Hour }) => !is12Hour ? '10px' : '50px'};
   background: white;
   border-radius: 4px;
   z-index: 9999;
@@ -259,6 +262,10 @@ export const TimeOption = styled.li`
 export const NextIcon = styled(Icon)`
   font-size: 25px;
   color: var(--rds-color-neutral-8);
+`;
+
+export const CalendarIcon = styled(Icon)`
+  cursor: pointer;
 `;
 
 export const DateTimeContainer = styled.div`

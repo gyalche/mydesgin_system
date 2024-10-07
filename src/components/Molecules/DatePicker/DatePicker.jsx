@@ -12,6 +12,7 @@ import {
   InputContainer,
   InputWrapper,
   NextIcon,
+  CalendarIcon,
  } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { normalizeDate } from '../../../utils';
@@ -36,7 +37,7 @@ const DatePicker = ({
   const [weekdays, setWeekdays] = useState([]);
 
   const datePickerRef = useRef(null);
-  const inputRefStart = useRef(null);
+  const inputRefEnd = useRef(null);
 
   const handleDateRangeClick = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
@@ -119,7 +120,7 @@ const DatePicker = ({
   useEffect(() => {
     const currentDate = new Date();
     const currentDay = currentDate.getDay();
-    const startOfWeek = new Date(currentDate); 
+    const startOfWeek = new Date(currentDate);
     startOfWeek.setDate(currentDate.getDate() - currentDay + 1);
 
     const calculatedWeekdays = [...Array(7).keys()].map((index) => {
@@ -148,7 +149,6 @@ const DatePicker = ({
             width={124}
             height={40}
             error={error}
-            ref={inputRefStart}
             placeholder={placeholder}
           />
           <IconWrapper>
@@ -182,6 +182,9 @@ const DatePicker = ({
                 width={124}
                 height={40}
                 placeholder={placeholder}
+                ref={inputRefEnd}
+                activeSecondInput={startDate && !endDate}
+                error={error}
               />
               <IconWrapper>
                 {endDate ? (
@@ -208,13 +211,13 @@ const DatePicker = ({
         <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <CalendarHeader>
             <HeaderIcons>
-              <Icon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
-              <Icon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+              <CalendarIcon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
+              <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
             </HeaderIcons> 
 
             <HeaderIcons>
-              <Icon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
-              <Icon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+              <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+              <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
             </HeaderIcons>
           </CalendarHeader>
           <Calenders data-testid='container-id'>
