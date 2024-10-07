@@ -222,7 +222,7 @@ const TimePicker = ({ is12Hour,
           <>
             <NextIcon name="Interface-arrow-right" />
 
-            <InputWrapper time={true}>
+            <InputWrapper time={true} isTimeRange={isTimeRange}>
               <InputField
                 ref={timeInputRef}
                 value={endTime && timeValueEnd}

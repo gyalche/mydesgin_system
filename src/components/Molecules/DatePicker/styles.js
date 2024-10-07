@@ -21,6 +21,7 @@ export const InputWrapper = styled.div`
   position: relative;
   color: var(--rds-color-neutral-5);
   border-radius: 5px;
+  margin-left: ${({isTimeRange, isRangePicker}) => (isTimeRange || isRangePicker) && '1px'};
 `;
 
 export const InputFieldStyle = styled(Input)`

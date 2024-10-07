@@ -172,7 +172,7 @@ const DatePicker = ({
           <>
             <NextIcon name="Interface-arrow-right" />
 
-            <InputWrapper>
+            <InputWrapper isRangePicker={isRangePicker}>
               <InputField
                 data-testid="second-input"
                 readOnly

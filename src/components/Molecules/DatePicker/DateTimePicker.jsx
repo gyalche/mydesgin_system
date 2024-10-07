@@ -62,7 +62,7 @@ const DateTimePicker = ({ onChange,
       <>
         <NextIcon name="Interface-arrow-right" />
 
-        <Layout.Flex alignItems="center" gap="7px">
+        <Layout.Flex alignItems="center" gap="7px" ml="-1px">
           <DatePicker
             onChange={(e)=>handleChange(e, 'date', 'end')}
             disabled={disabled}
