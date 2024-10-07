@@ -101,16 +101,25 @@ export const TimePickers = {
       description: 'Placholder value for time',
       control: { type: 'text' },
     },
+    isTimeRange: {
+      description: 'enable and disable the time range picker',
+      control: { type: 'boolean' },
+    }
   },
   args: {
     is12Hour: true,
     step: 15,
     initialValue: '',
     disabled: false,
-    placeholder: 'hh:mm'
+    placeholder: 'hh:mm',
+    isTimeRange: true,
   },
   render: args => {
-    return <Time {...args} />;
+    const updatedArgs = {
+      ...args,
+      initialValue: args.isTimeRange && ['7:00 AM', '8:00 PM']
+    };
+    return <Time {...updatedArgs} />;
   },
 };
 

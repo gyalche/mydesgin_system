@@ -80,7 +80,7 @@ describe('TimePicker Component', () => {
 
 // Test for selecting AM/PM
   it('updates AM/PM and calls onChange when AM/PM is selected', async () => {
-    render(<TimePicker is12Hour onChange={mockOnChange} />);
+    render(<TimePicker is12Hour onChange={mockOnChange} isTimeRange={false}/>);
     const inputField = screen.getByPlaceholderText('hh:mm');
     fireEvent.click(inputField);
 
@@ -93,6 +93,9 @@ describe('TimePicker Component', () => {
 
     const amOption = screen.getByText('AM');
     fireEvent.click(amOption);
-    expect(mockOnChange).toHaveBeenCalledWith(expect.stringContaining('AM'));
+
+    waitFor(() => {
+      expect(mockOnChange).toHaveBeenCalledWith(expect.stringContaining('AM'));
+    });
   });     
 });

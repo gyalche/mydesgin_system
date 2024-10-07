@@ -203,9 +203,15 @@ export const Dropdown = styled.div`
   display: flex;
   flex-direction: column;
   top: 30px;
-  left: ${({ is12Hour }) => !is12Hour && '-10px'};
+  left: ${({ is12Hour }) => !is12Hour && '-10px' };
   width: ${({ is12Hour }) => is12Hour ? '150px' : '100px'};
-  margin-left: ${({ is12Hour }) => !is12Hour ? '10px' : '50px'};
+  margin-left: ${({ is12Hour, isTimeRange }) => {
+    if(!is12Hour && !isTimeRange) return '10px';
+    if(!is12Hour && isTimeRange) return '127px';
+    if(is12Hour && isTimeRange) return '182px';
+    if(is12Hour) return '-67px';
+    return '50px';
+  }};
   background: white;
   border-radius: 4px;
   z-index: 9999;
