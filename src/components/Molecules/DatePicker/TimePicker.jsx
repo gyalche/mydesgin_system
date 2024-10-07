@@ -257,7 +257,7 @@ const TimePicker = ({ is12Hour,
       </InputContainer>
  
       {isDropdownOpen && (
-          <Dropdown is12Hour={is12Hour} data-testid='dropdown-id'>          
+          <Dropdown is12Hour={is12Hour} data-testid='dropdown-id'>     
               <HourMinuteWrapper>
                 <ScrollColumn>
                   {hours?.map((hour, index) => (

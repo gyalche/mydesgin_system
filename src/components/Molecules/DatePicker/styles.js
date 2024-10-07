@@ -210,7 +210,7 @@ export const Dropdown = styled.div`
     if(!is12Hour && !isTimeRange) return '10px';
     if(!is12Hour && isTimeRange) return '127px';
     if(is12Hour && isTimeRange) return '182px';
-    if(is12Hour) return '-67px';
+    if(is12Hour && !isTimeRange) return '-67px';
     return '50px';
   }};
   background: white;
