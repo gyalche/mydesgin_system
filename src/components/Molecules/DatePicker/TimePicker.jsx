@@ -131,21 +131,26 @@ const TimePicker = ({ is12Hour,
       setIsEndTimeDropdownOpen(false);
     }
   });
+  
+  const getNearestMinMinute = (current, step) => Math.min(roundToNearestStep(current, step));
 
   useEffect(()=>{
     if(initialValue){
       if (Array.isArray(initialValue)) {
         const startTime = initialValue[0]?.split(':');
         const endTime = initialValue[1]?.split(':');
-  
+
+        const roundedMinute = getNearestMinMinute(startTime[1]?.split(' ')[0], step);
+        const roundedMinuteEnd = getNearestMinMinute(endTime[1]?.split(' ')[0], step);
+
         setSelectedHour(startTime[0]);
-        setSelectedMinute(startTime[1]?.split(' ')[0]);
+        setSelectedMinute(roundedMinute);
         if (is12Hour) {
           setAmPm(startTime[1]?.split(' ')[1] || '');
         }
   
         setSelectedHourEnd(endTime[0]);
-        setSelectedMinuteEnd(endTime[1]?.split(' ')[0]);
+        setSelectedMinuteEnd(roundedMinuteEnd);
         if (is12Hour) {
           setAmPmEnd(endTime[1]?.split(' ')[1] || '');
         }
@@ -155,9 +160,9 @@ const TimePicker = ({ is12Hour,
   
       } else {
         const prevTimeValue = initialValue?.split(':');
-  
+        const nearestMinute = getNearestMinMinute(prevTimeValue[1]?.split(' ')[0], step);
         setSelectedHour(prevTimeValue[0]);
-        setSelectedMinute(prevTimeValue[1]?.split(' ')[0]);
+        setSelectedMinute(nearestMinute);
         if (is12Hour) {
           setAmPm(prevTimeValue[1]?.split(' ')[1] || '');
         } else {
@@ -170,7 +175,7 @@ const TimePicker = ({ is12Hour,
       const now = new Date();
       let currentHour = now.getHours();
       let currentMinute = now.getMinutes();
-      const roundedMinute = Math.min(roundToNearestStep(currentMinute, step));
+      const roundedMinute = getNearestMinMinute(currentMinute, step);
       
       if (is12Hour) {
         const isPM = currentHour >= 12;
