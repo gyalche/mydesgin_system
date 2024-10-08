@@ -3,6 +3,7 @@ import PropTypes, { string } from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
   Dropdown,
+  EndDropDown,
   HourMinuteWrapper,
   IconWrapper,
   InputContainer,
@@ -239,8 +240,6 @@ const TimePicker = ({ is12Hour,
                 {endTime ? (
                   <InputIcon onClick={() => {
                     setEndTime('');
-                    
-                    // setToCurrentTime(!toCurrentTime);
                     onChange(null);
                   }}>
                     <Icon name="alert-circle-solid-cross" />
@@ -257,48 +256,48 @@ const TimePicker = ({ is12Hour,
       </InputContainer>
  
       {isDropdownOpen && (
-          <Dropdown is12Hour={is12Hour} data-testid='dropdown-id'>     
-              <HourMinuteWrapper>
-                <ScrollColumn>
-                  {hours?.map((hour, index) => (
+        <Dropdown is12Hour={is12Hour} isTimeRange={isTimeRange} data-testid='dropdown-id'>     
+            <HourMinuteWrapper>
+              <ScrollColumn>
+                {hours?.map((hour, index) => (
+                  <TimeOption
+                    key={index}
+                    onClick={() => handleHourClick(hour)}
+                    selected={String(hour) === String(selectedHour)}
+                  >
+                    {hour}
+                  </TimeOption>
+                ))}
+              </ScrollColumn>
+              <ScrollColumn>
+                {minutes.map((minute, index) => (
+                  <TimeOption
+                    key={index}
+                    onClick={() => handleMinuteClick(minute)}
+                    selected={String(minute) === String(selectedMinute)}
+                  >
+                    {String(minute).padStart(2, '0')}
+                  </TimeOption>
+                ))}
+              </ScrollColumn>
+              {is12Hour && (
+                <StaticColumn>
+                  {AmPmValue.map(({name, value})=>(
                     <TimeOption
-                      key={index}
-                      onClick={() => handleHourClick(hour)}
-                      selected={String(hour) === String(selectedHour)}
+                      key={value}
+                      onClick={()=>handleAmPm(name)}
+                      selected={name === amPm}
                     >
-                      {hour}
+                      {name}
                     </TimeOption>
                   ))}
-                </ScrollColumn>
-                <ScrollColumn>
-                  {minutes.map((minute, index) => (
-                    <TimeOption
-                      key={index}
-                      onClick={() => handleMinuteClick(minute)}
-                      selected={String(minute) === String(selectedMinute)}
-                    >
-                      {String(minute).padStart(2, '0')}
-                    </TimeOption>
-                  ))}
-                </ScrollColumn>
-                {is12Hour && (
-                  <StaticColumn>
-                    {AmPmValue.map(({name, value})=>(
-                      <TimeOption
-                        key={value}
-                        onClick={()=>handleAmPm(name)}
-                        selected={name === amPm}
-                      >
-                        {name}
-                      </TimeOption>
-                    ))}
-                </StaticColumn>
-                )}
-              </HourMinuteWrapper>
-          </Dropdown>
+              </StaticColumn>
+              )}
+            </HourMinuteWrapper>
+        </Dropdown>
       )}
       {isEndTimeDropdownOpen && (
-        <Dropdown is12Hour={is12Hour} isTimeRange={isTimeRange}>
+        <EndDropDown is12Hour={is12Hour} isTimeRange={isTimeRange}>
           <HourMinuteWrapper>
             <ScrollColumn>
               {hours.map((hour, index) => (
@@ -324,7 +323,7 @@ const TimePicker = ({ is12Hour,
               </StaticColumn>
             )}
           </HourMinuteWrapper>
-        </Dropdown>
+        </EndDropDown>
       )}
     </TimePickerContainer>
   );

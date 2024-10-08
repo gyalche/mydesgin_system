@@ -207,11 +207,9 @@ export const Dropdown = styled.div`
   left: ${({ is12Hour }) => !is12Hour && '-10px' };
   width: ${({ is12Hour }) => is12Hour ? '150px' : '100px'};
   margin-left: ${({ is12Hour, isTimeRange }) => {
-    if(!is12Hour && !isTimeRange) return '10px';
-    if(!is12Hour && isTimeRange) return '127px';
-    if(is12Hour && isTimeRange) return '182px';
-    if(is12Hour && !isTimeRange) return '-67px';
-    return '50px';
+    if(is12Hour && !isTimeRange) return '57px';
+    if(!is12Hour) return '12px';
+    if(is12Hour && isTimeRange) return '-70px';
   }};
   background: white;
   border-radius: 4px;
@@ -221,6 +219,13 @@ export const Dropdown = styled.div`
   overflow-y: hidden;
   box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-5);
   margin-top: 18px;
+`;
+export const EndDropDown = styled(Dropdown)`
+  margin-left: ${({ is12Hour }) => {
+    if(is12Hour) return '180px';
+    if(!is12Hour) return '130px';
+    return '50px';
+  }};
 `;
 
 export const DropdownHeader = styled.div`
