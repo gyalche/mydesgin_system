@@ -31,6 +31,7 @@ export const InputFieldStyle = styled(Input)`
     activeSecondInput && '1px solid var(--rds-color-primary-1-normal)'};
   outline: ${({error}) => error && 'none'};
   line-height: 22.4px;
+  padding-right: 1px;
   font-size: 14px;
   &:hover {
     border: ${({error}) => error && '1px solid red'}
@@ -42,7 +43,7 @@ export const InputFieldStyle = styled(Input)`
 `;
 
 export const IconWrapper = styled.div`
-  right: 5px;
+  right: 4px;
   position: absolute;
   top: 20px;
   transform: translateY(-50%);
@@ -104,8 +105,8 @@ export const Day = styled.div`
   height: 32px;
   text-align: center;
   font-size: 12px;
-  border: ${({currentDate}) => (currentDate && '1px solid var(--rds-color-primary-1-normal)')};
-  cursor: ${({isDisabled}) => (isDisabled ? 'not-allowed' : 'pointer')};
+  border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
+  cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
   border-radius: 4px;
   background: ${({ isSelected, isInRange, isInHoverRange }) => {
     if (isSelected) return 'var(--rds-color-primary-1-dark)';
@@ -119,7 +120,7 @@ export const Day = styled.div`
     if (isSunday && !isDisabled) return 'var(--rds-color-secondary-3-normal)';
     if (currentDate) return 'var(--rds-color-primary-1-normal)';
   }};
-  pointer-events: ${({isDisabled}) => (isDisabled ? 'none' : 'auto')};
+  pointer-events: ${({isDisabled}) => isDisabled ? 'none' : 'auto'};
   box-shadow: ${({isSelected}) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
   &:hover {
     background-color: ${({isDisabled, isSelected}) => (!isDisabled && !isSelected) && 'var(--rds-color-primary-1-subtle)'};
@@ -263,8 +264,8 @@ export const TimeOption = styled.li`
   cursor: pointer;
   text-align: center;
   font-size: 12px;
-  color: ${({ selected }) => (selected && 'var(--rds-color-primary-1-dark)')};
-  background-color: ${({ selected }) => (selected && 'var(--rds-color-primary-1-subtle)')};
+  color: ${({ selected }) => selected && 'var(--rds-color-primary-1-dark)'};
+  background-color: ${({ selected }) => selected && 'var(--rds-color-primary-1-subtle)'};
   
   &:hover {
     background-color: var(--rds-color-neutral-1);

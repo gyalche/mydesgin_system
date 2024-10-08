@@ -41,8 +41,8 @@ const DateTimePicker = ({ onChange,
   };
   return (
     <DateTimeContainer>
-      <Layout.Flex alignItems="center" gap="7px">
-        <DatePicker 
+      <Layout.Flex alignItems="center" gap="6px">
+        <DatePicker
           onChange={(e)=>handleChange(e, 'date', 'start')}
           disabled={disabled}
           isRangePicker={isRangePicker}
@@ -62,7 +62,7 @@ const DateTimePicker = ({ onChange,
       <>
         <NextIcon name="Interface-arrow-right" />
 
-        <Layout.Flex alignItems="center" gap="7px" ml="-1px">
+        <Layout.Flex alignItems="center" gap="6px" ml="-1px">
           <DatePicker
             onChange={(e)=>handleChange(e, 'date', 'end')}
             disabled={disabled}
