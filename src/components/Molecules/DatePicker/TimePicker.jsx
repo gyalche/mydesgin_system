@@ -18,6 +18,7 @@ import {
 import useClickOutside from '../../../hooks/useClickOutside';
 import { roundToNearestStep } from '../../../utils';
 import InputField from './InputField';
+import useEscToClose from '../../../hooks/useEscToClose';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
@@ -131,6 +132,7 @@ const TimePicker = ({ is12Hour,
       setIsEndTimeDropdownOpen(false);
     }
   });
+  useEscToClose(() => setIsDropdownOpen(false));
   
   const getNearestMinMinute = (current, step) => Math.min(roundToNearestStep(current, step));
 

@@ -18,6 +18,7 @@ import useClickOutside from '../../../hooks/useClickOutside';
 import { normalizeDate } from '../../../utils';
 import Calendar from './Calender';
 import InputField from './InputField';
+import useEscToClose from '../../../hooks/useEscToClose';
 
 const DatePicker = ({ 
   isDoubleView,
@@ -102,8 +103,9 @@ const DatePicker = ({
     );
   }, [startDate, hoveredDate]);
 
-  //custom hook for outside click to close the model
+  //custom hook to close the model
   useClickOutside(datePickerRef, () => setOpenCalender(false));
+  useEscToClose(() => setOpenCalender(false));
 
   useEffect(()=>{
     if(Array.isArray(initialValue) && isRangePicker){

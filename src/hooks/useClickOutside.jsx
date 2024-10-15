@@ -7,7 +7,6 @@ const useClickOutside = (ref, callback) => {
         callback();
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
 
    return () => {
