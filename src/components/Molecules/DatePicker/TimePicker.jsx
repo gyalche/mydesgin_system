@@ -45,7 +45,10 @@ const TimePicker = ({ is12Hour,
   const [time, setTime] = useState('');
   const [endTime, setEndTime] = useState('');
 
-  const [toCurrentTime, setToCurrentTime] = useState(false);
+  const [activeColumn, setActiveColumn] = useState('hour'); // Added to track active column
+
+  const columns = ['hour', 'minute', 'ampm'];
+
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
 
@@ -192,7 +195,65 @@ const TimePicker = ({ is12Hour,
       setSelectedMinuteEnd(roundedMinute);
     }
 
-  },[initialValue, is12Hour, toCurrentTime]);
+  },[initialValue, is12Hour]);
+
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (isDropdownOpen || isEndTimeDropdownOpen) {
+        const totalAmPmOptions = is12Hour ? AmPmValue.length : 0;
+        const totalItems = hours.length + minutes.length + totalAmPmOptions;
+  
+        switch (e.key) {
+          case 'ArrowDown':
+            setHighlightedIndex((prevIndex) =>
+              prevIndex < totalItems - 1 ? prevIndex + 1 : 0
+            );
+            break;
+          case 'ArrowUp':
+            setHighlightedIndex((prevIndex) =>
+              prevIndex > 0 ? prevIndex - 1 : totalItems - 1
+            );
+            break;
+          case 'ArrowRight':
+            setActiveColumn((prevColumn) => {
+              const nextColumnIndex = (columns.indexOf(prevColumn) + 1) % columns.length;
+              return columns[nextColumnIndex];
+            });
+            break;
+          case 'ArrowLeft':
+            setActiveColumn((prevColumn) => {
+              const prevColumnIndex = (columns.indexOf(prevColumn) - 1 + columns.length) % columns.length;
+              return columns[prevColumnIndex];
+            });
+            break;
+          case 'Enter':
+            // Select the value based on the active column
+            if (activeColumn === 'hour' && highlightedIndex >= 0 && highlightedIndex < hours.length) {
+              handleHourClick(hours[highlightedIndex]);
+            } else if (activeColumn === 'minute' && highlightedIndex >= hours.length && highlightedIndex < hours.length + minutes.length) {
+              handleMinuteClick(minutes[highlightedIndex - hours.length]);
+            } else if (activeColumn === 'ampm' && is12Hour) {
+              handleAmPm(AmPmValue[highlightedIndex - hours.length - minutes.length]?.name);
+            }
+            break;
+          case 'Escape':
+            setIsDropdownOpen(false);
+            setIsEndTimeDropdownOpen(false);
+            break;
+          default:
+            break;
+        }
+      }
+    };
+  
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isDropdownOpen, highlightedIndex, activeColumn, hours, minutes, handleHourClick, handleMinuteClick, isEndTimeDropdownOpen]);
+  
 
   return (
     <TimePickerContainer ref={timePickerRef}>
@@ -271,6 +332,7 @@ const TimePicker = ({ is12Hour,
                     key={index}
                     onClick={() => handleHourClick(hour)}
                     selected={String(hour) === String(selectedHour)}
+                    highlighted={highlightedIndex === index && activeColumn==='hour'}
                   >
                     {hour}
                   </TimeOption>
@@ -282,6 +344,7 @@ const TimePicker = ({ is12Hour,
                     key={index}
                     onClick={() => handleMinuteClick(minute)}
                     selected={String(minute) === String(selectedMinute)}
+                    highlighted={highlightedIndex === hours.length + index}
                   >
                     {String(minute).padStart(2, '0')}
                   </TimeOption>
@@ -289,11 +352,12 @@ const TimePicker = ({ is12Hour,
               </ScrollColumn>
               {is12Hour && (
                 <StaticColumn>
-                  {AmPmValue.map(({name, value})=>(
+                  {AmPmValue.map(({name, value}, index)=>(
                     <TimeOption
                       key={value}
                       onClick={()=>handleAmPm(name)}
                       selected={name === amPm}
+                      highlighted={highlightedIndex === minutes.length + index && activeColumn === 'minute'}
                     >
                       {name}
                     </TimeOption>
@@ -323,7 +387,8 @@ const TimePicker = ({ is12Hour,
             {is12Hour && (
               <StaticColumn>
                 {AmPmValue.map(({ name, value }) => (
-                  <TimeOption key={value} onClick={() => handleEndAmPm(name)} selected={name === amPmEnd}>
+                  <TimeOption key={value} onClick={() => handleEndAmPm(name)} 
+                  selected={name === amPmEnd}>
                     {name}
                   </TimeOption>
                 ))}

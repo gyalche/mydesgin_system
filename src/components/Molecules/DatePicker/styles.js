@@ -265,7 +265,7 @@ export const TimeOption = styled.li`
   text-align: center;
   font-size: 12px;
   color: ${({ selected }) => selected && 'var(--rds-color-primary-1-dark)'};
-  background-color: ${({ selected }) => selected && 'var(--rds-color-primary-1-subtle)'};
+  background-color: ${({ selected, highlighted }) => (selected || highlighted) && 'var(--rds-color-primary-1-subtle)'};
   
   &:hover {
     background-color: var(--rds-color-neutral-1);
