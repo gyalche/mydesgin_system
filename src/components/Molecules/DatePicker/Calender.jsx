@@ -38,7 +38,6 @@ const Calendar = ({
   const handleMouseLeave = () => {
     setHoveredDate(null);
   };
-
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
@@ -70,7 +69,7 @@ const Calendar = ({
               isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
                 && normalizeDate(dayDate) !== normalizeDate(startDate)}
               isInRange={isInRange(dayDate)}
-              isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || normalizeDate(dayDate) < normalizeDate(startDate)}
+              isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
               isSaturday={dayOfWeek === 5}
               isSunday={dayOfWeek === 6}
               onClick={!isRangePicker ? () => handleSingleDate(dayDate) : () => handleDateRangeClick(dayDate)}
