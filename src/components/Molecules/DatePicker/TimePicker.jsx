@@ -19,7 +19,6 @@ import useClickOutside from '../../../hooks/useClickOutside';
 import { roundToNearestStep } from '../../../utils';
 import InputField from './InputField';
 import useEscToClose from '../../../hooks/useEscToClose';
-import { act } from '@testing-library/react';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
@@ -46,7 +45,15 @@ const TimePicker = ({ is12Hour,
   const [time, setTime] = useState('');
   const [endTime, setEndTime] = useState('');
 
-  const [activeColumn, setActiveColumn] = useState('hour'); // Added to track active column
+  const [activeColumn, setActiveColumn] = useState('hour');
+
+  const [highlightedHourIndex, setHighlightedHourIndex] = useState(-1);
+  const [highlightedMinuteIndex, setHighlightedMinuteIndex] = useState(-1);
+  const [highlightedAmPmIndex, setHighlightedAmPmIndex] = useState(-1);
+
+  const [highlightedHourEndIndex, setHighlightedHourEndIndex] = useState(-1);
+  const [highlightedMinuteEndIndex, setHighlightedMinuteEndIndex] = useState(-1);
+  const [highlightedAmPmEndIndex, setHighlightedAmPmEndIndex] = useState(-1);
 
   const columns = ['hour', 'minute', 'ampm'];
 
@@ -136,10 +143,110 @@ const TimePicker = ({ is12Hour,
       setIsEndTimeDropdownOpen(false);
     }
   });
-  useEscToClose(() => setIsDropdownOpen(false));
+  
+  useEscToClose(() => (setIsDropdownOpen(false), setIsEndTimeDropdownOpen(false)));
   
   const getNearestMinMinute = (current, step) => Math.min(roundToNearestStep(current, step));
 
+  const handleKeyDown = (e) => {
+    const isEndTime = isEndTimeDropdownOpen;
+    const isStartTime = isDropdownOpen;
+    
+    if (!isStartTime && !isEndTime) return;
+    
+    const getColumnIndices = (column, isEndTime) => {
+      const hoursIndex = isEndTime ? highlightedHourEndIndex : highlightedHourIndex;
+      const minutesIndex = isEndTime ? highlightedMinuteEndIndex : highlightedMinuteIndex;
+      const ampmIndex = isEndTime ? highlightedAmPmEndIndex : highlightedAmPmIndex;
+      return { hoursIndex, minutesIndex, ampmIndex };
+    };
+  
+    const updateColumnIndex = (setIndexFn, maxLength, direction) => {
+      setIndexFn((prevIndex) => {
+        const newIndex = (prevIndex + direction + maxLength) % maxLength;
+        return newIndex;
+      });
+    };
+  
+    const handleArrowDown = (isEndTime) => {
+      if (activeColumn === 'hour') {
+        updateColumnIndex(isEndTime ? setHighlightedHourEndIndex : setHighlightedHourIndex, hours.length, 1);
+      } else if (activeColumn === 'minute') {
+        updateColumnIndex(isEndTime ? setHighlightedMinuteEndIndex : setHighlightedMinuteIndex, minutes.length, 1);
+      } else if (activeColumn === 'ampm' && is12Hour) {
+        updateColumnIndex(isEndTime ? setHighlightedAmPmEndIndex : setHighlightedAmPmIndex, AmPmValue.length, 1);
+      }
+    };
+  
+    const handleArrowUp = (isEndTime) => {
+      if (activeColumn === 'hour') {
+        updateColumnIndex(isEndTime ? setHighlightedHourEndIndex : setHighlightedHourIndex, hours.length, -1);
+      } else if (activeColumn === 'minute') {
+        updateColumnIndex(isEndTime ? setHighlightedMinuteEndIndex : setHighlightedMinuteIndex, minutes.length, -1);
+      } else if (activeColumn === 'ampm' && is12Hour) {
+        updateColumnIndex(isEndTime ? setHighlightedAmPmEndIndex : setHighlightedAmPmIndex, AmPmValue.length, -1);
+      }
+    };
+  
+    const handleArrowRight = () => {
+      setActiveColumn((prevColumn) => {
+        const nextColumnIndex = (columns.indexOf(prevColumn) + 1) % (is12Hour ? columns.length : columns.length - 1);
+        return columns[nextColumnIndex];
+      });
+    };
+  
+    const handleArrowLeft = () => {
+      setActiveColumn((prevColumn) => {
+        const prevColumnIndex = (columns.indexOf(prevColumn) - 1 + columns.length) % columns.length;
+        return columns[prevColumnIndex];
+      });
+    };
+  
+    const handleEnter = (isEndTime) => {
+      const { hoursIndex, minutesIndex, ampmIndex } = getColumnIndices(activeColumn, isEndTime);
+      
+      if (activeColumn === 'hour' && hoursIndex >= 0) {
+        isEndTime ? handleEndHourClick(hours[hoursIndex]) : handleHourClick(hours[hoursIndex]);
+      } else if (activeColumn === 'minute' && minutesIndex >= 0) {
+        isEndTime ? handleEndMinuteClick(minutes[minutesIndex]) : handleMinuteClick(minutes[minutesIndex]);
+      } else if (activeColumn === 'ampm' && is12Hour && ampmIndex >= 0) {
+        isEndTime ? handleEndAmPm(AmPmValue[ampmIndex].name) : handleAmPm(AmPmValue[ampmIndex].name);
+      }
+    };
+  
+    if (isStartTime || isEndTime) {
+      switch (e.key) {
+        case 'ArrowDown':
+          handleArrowDown(isEndTime);
+          break;
+        case 'ArrowUp':
+          handleArrowUp(isEndTime);
+          break;
+        case 'ArrowRight':
+          handleArrowRight();
+          break;
+        case 'ArrowLeft':
+          handleArrowLeft();
+          break;
+        case 'Enter':
+          handleEnter(isEndTime);
+          break;
+        case 'Tab':
+          if(isDropdownOpen){
+            setIsDropdownOpen(false);
+            setIsEndTimeDropdownOpen(true);
+          }
+          if(isEndTimeDropdownOpen){
+            setIsEndTimeDropdownOpen(false);
+            setIsDropdownOpen(true);
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  };
+  
   useEffect(()=>{
     if(initialValue){
       if (Array.isArray(initialValue)) {
@@ -198,81 +305,28 @@ const TimePicker = ({ is12Hour,
 
   },[initialValue, is12Hour]);
 
-  const [highlightedHourIndex, setHighlightedHourIndex] = useState(-1);
-  const [highlightedMinuteIndex, setHighlightedMinuteIndex] = useState(-1);
-  const [highlightedAmPmIndex, setHighlightedAmPmIndex] = useState(-1);
+  useEffect(() =>{
+   const activeSelectHour = hours.indexOf(selectedHour);
+   setHighlightedHourIndex(activeSelectHour);
 
-  const handleKeyDown = (e) => {
-    if (isDropdownOpen || isEndTimeDropdownOpen) {
-      const totalAmPmOptions = is12Hour ? AmPmValue.length : 0;
+   const activeMinute = minutes.indexOf(selectedMinute);
+   setHighlightedMinuteIndex(activeMinute);
 
-      switch (e.key) {
-        case 'ArrowDown':
-          if (activeColumn === 'hour') {
-            setHighlightedHourIndex((prevIndex) =>
-              prevIndex < hours.length - 1 ? prevIndex + 1 : 0
-            );
-          } else if (activeColumn === 'minute') {
-            setHighlightedMinuteIndex((prevIndex) =>
-              prevIndex < minutes.length - 1 ? prevIndex + 1 : 0
-            );
-          } else if (activeColumn === 'ampm' && is12Hour) {
-            setHighlightedAmPmIndex((prevIndex) =>
-              prevIndex < AmPmValue.length - 1 ? prevIndex + 1 : 0
-            );
-          }
-          break;
+   const activeAmPm = AmPmValue.findIndex((data) => data?.name === amPm);
+   setHighlightedAmPmIndex(activeAmPm);
 
-        case 'ArrowUp':
-          if (activeColumn === 'hour') {
-            setHighlightedHourIndex((prevIndex) =>
-              prevIndex > 0 ? prevIndex - 1 : hours.length - 1
-            );
-          } else if (activeColumn === 'minute') {
-            setHighlightedMinuteIndex((prevIndex) =>
-              prevIndex > 0 ? prevIndex - 1 : minutes.length - 1
-            );
-          } else if (activeColumn === 'ampm' && is12Hour) {
-            setHighlightedAmPmIndex((prevIndex) =>
-              prevIndex > 0 ? prevIndex - 1 : AmPmValue.length - 1
-            );
-          }
-          break;
+  },[selectedHour, selectedMinute, amPm]);
 
-        case 'ArrowRight':
-          setActiveColumn((prevColumn) => {
-            const nextColumnIndex = (columns.indexOf(prevColumn) + 1) % (is12Hour ? columns.length : columns.length - 1);
-            return columns[nextColumnIndex];
-          });
-          break;
-
-        case 'ArrowLeft':
-          setActiveColumn((prevColumn) => {
-            const prevColumnIndex = (columns.indexOf(prevColumn) - 1 + columns.length) % columns.length;
-            return columns[prevColumnIndex];
-          });
-          break;
-
-        case 'Enter':
-          if (activeColumn === 'hour' && highlightedHourIndex >= 0) {
-            handleHourClick(hours[highlightedHourIndex]);
-          } else if (activeColumn === 'minute' && highlightedMinuteIndex >= 0) {
-            handleMinuteClick(minutes[highlightedMinuteIndex]);
-          } else if (activeColumn === 'ampm' && is12Hour && highlightedAmPmIndex >= 0) {
-            handleAmPm(AmPmValue[highlightedAmPmIndex].name);
-          }
-          break;
-
-        case 'Escape':
-          setIsDropdownOpen(false);
-          setIsEndTimeDropdownOpen(false);
-          break;
-
-        default:
-          break;
-      }
-    }
-  };
+  useEffect(() =>{
+    const activeSelectHourEnd = hours.indexOf(selectedHourEnd);
+    setHighlightedHourEndIndex(activeSelectHourEnd);
+  
+    const activeMinuteEnd = minutes.indexOf(selectedMinuteEnd);
+    setHighlightedMinuteEndIndex(activeMinuteEnd);
+  
+    const activeAmPmEnd = AmPmValue.findIndex((data) => data?.name === amPmEnd);
+    setHighlightedAmPmEndIndex(activeAmPmEnd);
+   },[selectedHourEnd, selectedMinuteEnd, amPmEnd, isEndTimeDropdownOpen]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -399,23 +453,37 @@ const TimePicker = ({ is12Hour,
           <HourMinuteWrapper>
             <ScrollColumn>
               {hours.map((hour, index) => (
-                <TimeOption key={index} onClick={() => handleEndHourClick(hour)} selected={String(hour) === String(selectedHourEnd)}>
+                <TimeOption
+                  key={index}
+                  onClick={() => handleEndHourClick(hour)}
+                  selected={String(hour) === String(selectedHourEnd)}
+                  highlighted={highlightedHourEndIndex === index && activeColumn === 'hour'}
+                  >
                   {hour}
                 </TimeOption>
               ))}
             </ScrollColumn>
             <ScrollColumn>
               {minutes.map((minute, index) => (
-                <TimeOption key={index} onClick={() => handleEndMinuteClick(minute)} selected={String(minute) === String(selectedMinuteEnd)}>
+                <TimeOption
+                 key={index} 
+                 onClick={() => handleEndMinuteClick(minute)} 
+                 selected={String(minute) === String(selectedMinuteEnd)}
+                 highlighted={highlightedMinuteEndIndex === index && activeColumn === 'minute'}
+                 >
                   {String(minute).padStart(2, '0')}
                 </TimeOption>
               ))}
             </ScrollColumn>
             {is12Hour && (
               <StaticColumn>
-                {AmPmValue.map(({ name, value }) => (
-                  <TimeOption key={value} onClick={() => handleEndAmPm(name)} 
-                  selected={name === amPmEnd}>
+                {AmPmValue.map(({ name, value }, index) => (
+                  <TimeOption
+                    key={value} 
+                    onClick={() => handleEndAmPm(name)} 
+                    selected={name === amPmEnd}
+                    highlighted={highlightedAmPmEndIndex === index && activeColumn === 'ampm'}
+                    >
                     {name}
                   </TimeOption>
                 ))}

@@ -112,7 +112,7 @@ export const TimePickers = {
     initialValue: '',
     disabled: false,
     placeholder: 'hh:mm',
-    isTimeRange: false,
+    isTimeRange: true,
   },
   render: args => {
     const updatedArgs = {
