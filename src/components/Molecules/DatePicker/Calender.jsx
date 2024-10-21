@@ -22,6 +22,7 @@ const Calendar = ({
   isInRange,
   isInHoverRange,
   setHoveredDate,
+  isSelected,
 }) => {
   const days = getDaysInMonth(date);
   const currentYear = new Date(Date.now()).getFullYear();
@@ -37,7 +38,7 @@ const Calendar = ({
   const handleMouseLeave = () => {
     setHoveredDate(null);
   };
-  
+
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
@@ -63,7 +64,11 @@ const Calendar = ({
             <Day
               key={`${day?.date}-${index}`}
               currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
-              isSelected={normalizeDate(dayDate) === normalizeDate(startDate) || normalizeDate(dayDate) === normalizeDate(endDate)}
+              isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
+                || normalizeDate(dayDate) === normalizeDate(endDate)
+              }
+              isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
+                && normalizeDate(dayDate) !== normalizeDate(startDate)}
               isInRange={isInRange(dayDate)}
               isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
               isSaturday={dayOfWeek === 5}
@@ -96,6 +101,7 @@ Calendar.propTypes = {
   isInHoverRange: PropTypes.func.isRequired,
   hoveredDate: PropTypes.instanceOf(Date),
   setHoveredDate: PropTypes.func.isRequired,
+  isSelected: PropTypes.instanceOf(Date),
 };
 
 export default Calendar;

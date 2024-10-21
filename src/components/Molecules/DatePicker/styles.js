@@ -101,14 +101,15 @@ export const Day = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 41.29px; 
+  width: 41.29px;
   height: 32px;
   text-align: center;
   font-size: 12px;
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
   border-radius: 4px;
-  background: ${({ isSelected, isInRange, isInHoverRange }) => {
+  background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect }) => {
+    if(isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
     if (isSelected) return 'var(--rds-color-primary-1-dark)';
     if (isInRange || isInHoverRange) return 'var(--rds-color-primary-1-subtle)';
     return 'transparent';
@@ -140,6 +141,10 @@ export const CalendarWrapper = styled.div`
   margin-top: 48px;
   margin-left: ${({isRangePicker, isDoubleView}) => !isRangePicker ? '215px' : 
     isRangePicker && isDoubleView ? '410px' : '65px'};
+`;
+
+export const CalendarWrapperEnd = styled(CalendarWrapper)`
+  margin-left: 375px;
 `;
 
 export const Calenders = styled.div`

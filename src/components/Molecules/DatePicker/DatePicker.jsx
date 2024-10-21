@@ -13,6 +13,7 @@ import {
   InputWrapper,
   NextIcon,
   CalendarIcon,
+  CalendarWrapperEnd,
  } from './styles';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { normalizeDate } from '../../../utils';
@@ -32,6 +33,7 @@ const DatePicker = ({
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openCalender, setOpenCalender] = useState(false);
+  const [openCalenderEnd, setOpenCalenderEnd] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [dateRange, setDateRange] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
@@ -104,8 +106,10 @@ const DatePicker = ({
   }, [startDate, hoveredDate]);
 
   //custom hook to close the model
-  useClickOutside(datePickerRef, () => setOpenCalender(false));
+  useClickOutside(datePickerRef, () => (setOpenCalender(false), setOpenCalenderEnd(false)));
   useEscToClose(() => setOpenCalender(false));
+
+  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
   useEffect(()=>{
     if(Array.isArray(initialValue) && isRangePicker){
@@ -136,7 +140,50 @@ const DatePicker = ({
     setWeekdays(calculatedWeekdays);
   }, [locale]);
 
-  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+  const [currentDate, setCurrentDate] = useState(() => {
+    return startDate ? new Date(startDate) : new Date();
+  });
+
+  useEffect(() => {
+    if (startDate) {
+      setCurrentDate(new Date(startDate));
+    }
+  }, [startDate]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+          setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() - 1)));
+          break;
+        case 'ArrowRight':
+          setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+          break;
+        case 'ArrowUp':
+          setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() - 7)));
+          break;
+        case 'ArrowDown':
+          setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
+          break;
+        case 'Enter':
+          if(!isRangePicker){
+            handleSingleDate(currentDate);
+          }else if (startDate){
+            setStartDate(currentDate);
+            setOpenCalender(false);
+          }
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentDate, isRangePicker, handleDateRangeClick, handleSingleDate]);
 
   return (
     <DatePickerContainer>
@@ -146,7 +193,7 @@ const DatePicker = ({
             data-testid="first-input"
             readOnly
             value={startDate && startDate.toLocaleDateString(locale)}
-            onClick={() => setOpenCalender(!openCalender)}
+            onClick={() => (setOpenCalenderEnd(false), setOpenCalender(!openCalender))}
             disabled={disabled}
             width={124}
             height={40}
@@ -179,7 +226,7 @@ const DatePicker = ({
                 data-testid="second-input"
                 readOnly
                 value={endDate && endDate.toLocaleDateString(locale)}
-                onClick={() => setOpenCalender(!openCalender)}
+                onClick={() => (setOpenCalender(false), setOpenCalenderEnd(!openCalenderEnd))}
                 disabled={disabled}
                 width={124}
                 height={40}
@@ -199,7 +246,7 @@ const DatePicker = ({
                     <Icon name="alert-circle-solid-cross" />
                   </InputIcon>
                 ) : (
-                  <InputIcon onClick={() => setOpenCalender(!openCalender)}>
+                  <InputIcon onClick={() => setOpenCalenderEnd(!openCalenderEnd)}>
                     <Icon name="Interface-calendar-dot" />
                   </InputIcon>
                 )}
@@ -210,7 +257,56 @@ const DatePicker = ({
       </InputContainer>
 
       {openCalender && (
-        <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
+        <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker}>
+          <CalendarHeader>
+            <HeaderIcons>
+              <CalendarIcon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
+              <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+            </HeaderIcons> 
+
+            <HeaderIcons>
+              <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+              <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+            </HeaderIcons>
+          </CalendarHeader>
+          <Calenders data-testid='container-id'>
+            <Calendar
+              date={currentMonth}
+              locale={locale}
+              startDate={startDate}
+              endDate={endDate}
+              weekdays={weekdays}
+              handleSingleDate={handleSingleDate}
+              handleDateRangeClick={handleDateRangeClick}
+              isRangePicker={isRangePicker}
+              isInRange={isInRange}
+              isInHoverRange={isInHoverRange}
+              hoveredDate={hoveredDate}
+              setHoveredDate={setHoveredDate}
+              isSelected={currentDate}
+            />
+            {(isDoubleView && isRangePicker) && (
+              <Calendar
+                date={nextMonth}
+                locale={locale}
+                startDate={startDate}
+                endDate={endDate}
+                weekdays={weekdays}
+                handleSingleDate={handleSingleDate}
+                handleDateRangeClick={handleDateRangeClick}
+                isRangePicker={isRangePicker}
+                isInRange={isInRange}
+                isInHoverRange={isInHoverRange}
+                hoveredDate={hoveredDate}
+                setHoveredDate={setHoveredDate}
+                isSelected={currentDate}
+              />
+            )}
+          </Calenders>
+        </CalendarWrapper>
+      )}
+      {openCalenderEnd && (
+        <CalendarWrapperEnd ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker}>
           <CalendarHeader>
             <HeaderIcons>
               <CalendarIcon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
@@ -254,7 +350,7 @@ const DatePicker = ({
               />
             )}
           </Calenders>
-        </CalendarWrapper>
+        </CalendarWrapperEnd>
       )}
     </DatePickerContainer>
   );
