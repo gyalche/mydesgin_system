@@ -151,39 +151,51 @@ const DatePicker = ({
   }, [startDate]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      switch (e.key) {
-        case 'ArrowLeft':
-          setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() - 1)));
-          break;
-        case 'ArrowRight':
-          setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
-          break;
-        case 'ArrowUp':
-          setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() - 7)));
-          break;
-        case 'ArrowDown':
-          setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
-          break;
-        case 'Enter':
-          if(!isRangePicker){
-            handleSingleDate(currentDate);
-          }else if (startDate){
-            setStartDate(currentDate);
-            setOpenCalender(false);
-          }
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [currentDate, isRangePicker, handleDateRangeClick, handleSingleDate]);
+    if (openCalender || openCalenderEnd) {
+      const handleKeyDown = (e) => {
+        switch (e.key) {
+          case 'ArrowLeft':
+            setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() - 1)));
+            break;
+          case 'ArrowRight':
+            setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+            break;
+          case 'ArrowUp':
+            setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() - 7)));
+            break;
+          case 'ArrowDown':
+            setCurrentDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
+            break;
+          case 'Enter':
+            if (!isRangePicker) {
+              handleSingleDate(currentDate);
+            } else {
+              if (openCalender) {
+                if (startDate || endDate) {
+                  setStartDate(currentDate);
+                  setEndDate('');
+                  setOpenCalender(false);
+                }
+              } else if (openCalenderEnd) {
+                if (startDate && !endDate) {
+                  setEndDate(currentDate);
+                }
+              }
+            }
+            break;
+          default:
+            break;
+        }
+      };
+  
+      window.addEventListener('keydown', handleKeyDown);
+  
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [currentDate, isRangePicker, handleSingleDate, openCalender, openCalenderEnd, startDate, endDate]);
+  
 
   return (
     <DatePickerContainer>
@@ -232,7 +244,7 @@ const DatePicker = ({
                 height={40}
                 placeholder={placeholder}
                 ref={inputRefEnd}
-                activeSecondInput={startDate && !endDate}
+                activeSecondInput={startDate && !endDate || openCalenderEnd}
                 error={error}
               />
               <IconWrapper>
@@ -257,7 +269,7 @@ const DatePicker = ({
       </InputContainer>
 
       {openCalender && (
-        <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker}>
+        <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <CalendarHeader>
             <HeaderIcons>
               <CalendarIcon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
@@ -306,7 +318,7 @@ const DatePicker = ({
         </CalendarWrapper>
       )}
       {openCalenderEnd && (
-        <CalendarWrapperEnd ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker}>
+        <CalendarWrapperEnd ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <CalendarHeader>
             <HeaderIcons>
               <CalendarIcon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
@@ -332,6 +344,7 @@ const DatePicker = ({
               isInHoverRange={isInHoverRange}
               hoveredDate={hoveredDate}
               setHoveredDate={setHoveredDate}
+              isSelected={currentDate}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -347,6 +360,7 @@ const DatePicker = ({
                 isInHoverRange={isInHoverRange}
                 hoveredDate={hoveredDate}
                 setHoveredDate={setHoveredDate}
+                isSelected={currentDate}
               />
             )}
           </Calenders>

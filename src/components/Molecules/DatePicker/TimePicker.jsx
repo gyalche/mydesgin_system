@@ -231,21 +231,16 @@ const TimePicker = ({ is12Hour,
         case 'Enter':
           handleEnter(isEndTime);
           break;
-        case 'Tab':
-          if(isDropdownOpen){
-            setIsDropdownOpen(false);
-            setIsEndTimeDropdownOpen(true);
-          }
-          if(isEndTimeDropdownOpen){
-            setIsEndTimeDropdownOpen(false);
-            setIsDropdownOpen(true);
-          }
-          break;
+
         default:
           break;
       }
     }
   };
+
+  useEffect(() => {
+    setActiveColumn('hour');
+  }, [isEndTimeDropdownOpen]);
   
   useEffect(()=>{
     if(initialValue){
@@ -317,7 +312,7 @@ const TimePicker = ({ is12Hour,
 
   },[selectedHour, selectedMinute, amPm]);
 
-  useEffect(() =>{
+  useEffect(() => {
     const activeSelectHourEnd = hours.indexOf(selectedHourEnd);
     setHighlightedHourEndIndex(activeSelectHourEnd);
   

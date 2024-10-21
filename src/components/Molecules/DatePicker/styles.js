@@ -33,9 +33,14 @@ export const InputFieldStyle = styled(Input)`
   line-height: 22.4px;
   padding-right: 1px;
   font-size: 14px;
+
   &:hover {
     border: ${({error}) => error && '1px solid red'}
   };
+
+  &:focus {
+    border: ${({activeSecondInput}) => activeSecondInput && true};
+  }
   &::placeholder {
     color: var(--rds-color-neutral-6);
     padding: 0;
@@ -109,7 +114,7 @@ export const Day = styled.div`
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
   border-radius: 4px;
   background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect }) => {
-    if(isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
+    if(isKeyboardSelect && isKeyboardSelect !== isSelected) return 'var(--rds-color-primary-1-subtle)';
     if (isSelected) return 'var(--rds-color-primary-1-dark)';
     if (isInRange || isInHoverRange) return 'var(--rds-color-primary-1-subtle)';
     return 'transparent';
@@ -144,7 +149,7 @@ export const CalendarWrapper = styled.div`
 `;
 
 export const CalendarWrapperEnd = styled(CalendarWrapper)`
-  margin-left: 375px;
+  margin-left: 377px;
 `;
 
 export const Calenders = styled.div`
