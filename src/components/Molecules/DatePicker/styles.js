@@ -116,7 +116,7 @@ export const Day = styled.div`
   background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect, isDisabled }) => {
     if(isKeyboardSelect && isKeyboardSelect !== isSelected && !isDisabled) return 'var(--rds-color-primary-1-subtle)';
     if (isSelected) return 'var(--rds-color-primary-1-dark)';
-    if (isInRange || isInHoverRange) return 'var(--rds-color-primary-1-subtle)';
+    if ( isInHoverRange) return 'var(--rds-color-primary-1-subtle)';
     return 'transparent';
   }};
   color: ${({ isSaturday, isSunday, isSelected, isDisabled, currentDate }) => {

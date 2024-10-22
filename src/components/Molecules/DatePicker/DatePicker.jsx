@@ -109,7 +109,7 @@ const DatePicker = ({
 
   //custom hook to close the model
   useClickOutside(datePickerRef, () => (setOpenCalender(false), setOpenCalenderEnd(false)));
-  useEscToClose(() => setOpenCalender(false));
+  useEscToClose(() => (setOpenCalender(false), setOpenCalenderEnd(false)));
 
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
