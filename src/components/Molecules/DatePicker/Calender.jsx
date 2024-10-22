@@ -1,5 +1,5 @@
 // Calendar.js
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CalendarContainer,
@@ -24,6 +24,7 @@ const Calendar = ({
   setHoveredDate,
   isSelected,
 }) => {
+  const [displayYear, setDisplayYear] = useState(null);
   const days = getDaysInMonth(date);
   const currentYear = new Date(Date.now()).getFullYear();
   const displayNextYear = date.getFullYear() !== currentYear && 
@@ -38,10 +39,16 @@ const Calendar = ({
   const handleMouseLeave = () => {
     setHoveredDate(null);
   };
+
+  useEffect(() => {
+    setDisplayYear(date.getFullYear() !== currentYear && 
+    new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date));
+  },[date]);
+
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
-        {displayNextYear} {getLocalizedMonthName(date, locale)}
+        {displayYear} {getLocalizedMonthName(date, locale)}
       </CalenderMonths>
 
       <DaysContainer>

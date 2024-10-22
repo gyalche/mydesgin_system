@@ -113,8 +113,8 @@ export const Day = styled.div`
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
   border-radius: 4px;
-  background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect }) => {
-    if(isKeyboardSelect && isKeyboardSelect !== isSelected) return 'var(--rds-color-primary-1-subtle)';
+  background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect, isDisabled }) => {
+    if(isKeyboardSelect && isKeyboardSelect !== isSelected && !isDisabled) return 'var(--rds-color-primary-1-subtle)';
     if (isSelected) return 'var(--rds-color-primary-1-dark)';
     if (isInRange || isInHoverRange) return 'var(--rds-color-primary-1-subtle)';
     return 'transparent';
