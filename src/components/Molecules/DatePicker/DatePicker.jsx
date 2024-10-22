@@ -153,77 +153,7 @@ const DatePicker = ({
   }, [startDate]);
 
   useEffect(() => {
-    if (openCalender || openCalenderEnd) {
-      // const handleKeyDown = (e) => {
-      //   const today = new Date();
-      //   const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-      //   switch (e.key) {
-      //     case 'ArrowLeft':
-      //       setCurrentDate((prev) => {
-      //         const newDate = new Date(prev.setDate(prev.getDate() - 1));
-      //         if (newDate.getMonth() < currentMonth.getMonth()) {
-      //           handlePrevMonth();
-      //         }
-      //         return newDate < todayNormalized ? todayNormalized : newDate;
-      //       });
-      //       break;
-      //     case 'ArrowRight':
-      //       setCurrentDate((prev) => {
-      //         const newDate = new Date(prev.setDate(prev.getDate() + 1));
-      //         if (newDate.getMonth() > currentMonth.getMonth()) {
-      //           handleNextMonth();
-      //         }
-      //         return newDate < todayNormalized ? todayNormalized : newDate;
-      //       });
-      //       break;
-      //     case 'ArrowUp':
-      //       setCurrentDate((prev) => {
-      //         const newDate = new Date(prev.setDate(prev.getDate() - 7));
-      //         if (newDate.getMonth() < currentMonth.getMonth()) {
-      //           handlePrevMonth();
-      //         }
-      //         if (newDate.getMonth() > currentMonth.getMonth()) {
-      //           handleNextMonth();
-      //         }
-      //         return newDate < todayNormalized ? todayNormalized : newDate;
-      //       });
-      //       break;
-      //     case 'ArrowDown':
-      //       setCurrentDate((prev) => {
-      //         const newDate = new Date(prev.setDate(prev.getDate() + 7));
-      //         if (newDate.getMonth() < currentMonth.getMonth()) {
-      //           handlePrevMonth();
-      //         }
-      //         if (newDate.getMonth() > currentMonth.getMonth()) {
-      //           handleNextMonth();
-      //         }
-      //         return newDate < todayNormalized ? todayNormalized : newDate;
-      //       });
-      //       break;
-      //     case 'Enter':
-      //       if (!isRangePicker) {
-      //         if (currentDate >= todayNormalized) {
-      //           handleSingleDate(currentDate);
-      //         }
-      //       } else {
-      //         if (openCalender) {
-      //           if ((startDate || endDate) && currentDate >= todayNormalized) {
-      //             setStartDate(currentDate);
-      //             setEndDate('');
-      //             setOpenCalender(false);
-      //           }
-      //         } else if (openCalenderEnd) {
-      //           if (startDate && !endDate && currentDate >= todayNormalized) {
-      //             setEndDate(currentDate);
-      //           }
-      //         }
-      //       }
-      //       break;
-      //     default:
-      //       break;
-      //   }
-      // };      
+    if (openCalender || openCalenderEnd) {     
       const handleKeyDown = (e) => {
         const today = new Date();
         const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -252,8 +182,13 @@ const DatePicker = ({
               setEndDate('');
               setOpenCalender(false);
             }
-          } else if (openCalenderEnd && startDate && !endDate && currentDate >= todayNormalized) {
+            else if(!startDate && currentDate >=todayNormalized){
+              setStartDate(currentDate);
+              setOpenCalender(false);
+            }
+          } else if (openCalenderEnd && currentDate >= startDate) {
             setEndDate(currentDate);
+            setOpenCalenderEnd(false);
           }
         };
       
@@ -285,7 +220,6 @@ const DatePicker = ({
       };
     }
   }, [currentDate, isRangePicker, handleSingleDate, openCalender, openCalenderEnd, startDate, endDate]);
-  
 
   return (
     <DatePickerContainer>

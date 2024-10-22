@@ -28,7 +28,7 @@ const Calendar = ({
   const currentYear = new Date(Date.now()).getFullYear();
   const displayNextYear = date.getFullYear() !== currentYear && 
     new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date);
-  const displayYear = new Date(date).getFullYear();
+  const displayYear = new Date(date).getFullYear() !== currentYear && date.getFullYear();
   
   const handleMouseEnter = useCallback((day) => {
     if (isRangePicker && startDate && !endDate) {
