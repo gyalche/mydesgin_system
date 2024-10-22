@@ -24,12 +24,12 @@ const Calendar = ({
   setHoveredDate,
   isSelected,
 }) => {
-  const [displayYear, setDisplayYear] = useState(null);
   const days = getDaysInMonth(date);
   const currentYear = new Date(Date.now()).getFullYear();
   const displayNextYear = date.getFullYear() !== currentYear && 
     new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date);
-
+  const displayYear = new Date(date).getFullYear();
+  
   const handleMouseEnter = useCallback((day) => {
     if (isRangePicker && startDate && !endDate) {
       setHoveredDate(day);
@@ -39,11 +39,6 @@ const Calendar = ({
   const handleMouseLeave = () => {
     setHoveredDate(null);
   };
-
-  useEffect(() => {
-    setDisplayYear(date.getFullYear() !== currentYear && 
-    new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date));
-  },[date]);
 
   return (
     <CalendarContainer data-testid='calender-container'>
