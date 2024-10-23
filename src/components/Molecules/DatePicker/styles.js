@@ -149,7 +149,7 @@ export const CalendarWrapper = styled.div`
 `;
 
 export const CalendarWrapperEnd = styled(CalendarWrapper)`
-  margin-left: 377px;
+  margin-left: ${({isDoubleView}) => isDoubleView ? '407px' : '377px'};
 `;
 
 export const Calenders = styled.div`
@@ -233,7 +233,7 @@ export const Dropdown = styled.div`
 `;
 export const EndDropDown = styled(Dropdown)`
   margin-left: ${({ is12Hour }) => {
-    if(is12Hour) return '180px';
+    if(is12Hour) return '185px';
     if(!is12Hour) return '130px';
     return '50px';
   }};

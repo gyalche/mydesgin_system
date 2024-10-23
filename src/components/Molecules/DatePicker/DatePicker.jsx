@@ -61,6 +61,8 @@ const DatePicker = ({
       setEndDate(date);
       setDateRange([startDate, date]);
       onChange([startDate, date]);
+      setOpenCalender(false);
+      setOpenCalenderEnd(false);
     }
   }, [startDate, endDate]);
 
@@ -152,67 +154,66 @@ const DatePicker = ({
     }
   }, [startDate]);
 
-  useEffect(() => {
-    if (openCalender || openCalenderEnd) {     
-      const handleKeyDown = (e) => {
-        const today = new Date();
-        const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-      
-        const updateDate = (changeFn) => {
-          setCurrentDate((prev) => {
-            const newDate = changeFn(prev);
-            const newYear = newDate.getFullYear();
-            const currentYear = currentMonth.getFullYear();
-            const isNextMonth = newDate.getMonth() > currentMonth.getMonth();
-            const isPrevMonth = newDate.getMonth() < currentMonth.getMonth();
-            if (isNextMonth && newYear === currentYear) handleNextMonth();
-            if (isPrevMonth && newYear === currentYear) handlePrevMonth();
-            if(newYear > currentYear) handleNextMonth();
-            if(newYear < currentYear) handlePrevMonth();
-            return newDate < todayNormalized ? todayNormalized : newDate;
-          });
-        };
-      
-        const handleEnter = () => {
-          if (!isRangePicker) {
-            if (currentDate >= todayNormalized) handleSingleDate(currentDate);
-          } else if (openCalender) {
-            if ((startDate || endDate) && currentDate >= todayNormalized) {
-              setStartDate(currentDate);
-              setEndDate('');
-              setOpenCalender(false);
-            }
-            else if(!startDate && currentDate >=todayNormalized){
-              setStartDate(currentDate);
-              setOpenCalender(false);
-            }
-          } else if (openCalenderEnd && currentDate >= startDate) {
-            setEndDate(currentDate);
-            setOpenCalenderEnd(false);
-          }
-        };
-      
-        switch (e.key) {
-          case 'ArrowLeft':
-            updateDate((prev) => new Date(prev.setDate(prev.getDate() - 1)));
-            break;
-          case 'ArrowRight':
-            updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
-            break;
-          case 'ArrowUp':
-            updateDate((prev) => new Date(prev.setDate(prev.getDate() - 7)));
-            break;
-          case 'ArrowDown':
-            updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
-            break;
-          case 'Enter':
-            handleEnter();
-            break;
-          default:
-            break;
+  const handleKeyDown = (e) => {
+    const today = new Date();
+    const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  
+    const updateDate = (changeFn) => {
+      setCurrentDate((prev) => {
+        const newDate = changeFn(prev);
+
+        const newYear = newDate.getFullYear();
+        const currentYear = currentMonth.getFullYear();
+        const isNextMonth = newDate.getMonth() > currentMonth.getMonth();
+        const isPrevMonth = newDate.getMonth() < currentMonth.getMonth();
+        if (isNextMonth && newYear === currentYear) handleNextMonth();
+        if (isPrevMonth && newYear === currentYear) handlePrevMonth();
+        if(newYear > currentYear) handleNextMonth();
+        if(newYear < currentYear) handlePrevMonth();
+        return newDate < todayNormalized ? todayNormalized : newDate;
+      });
+    };
+  
+    const handleEnter = () => {
+      if (!isRangePicker) {
+        if (currentDate >= todayNormalized) handleSingleDate(currentDate);
+      } else if (openCalender) {
+        if ((startDate || endDate) && currentDate >= todayNormalized) {
+          setStartDate(currentDate);
+          setOpenCalender(false);
+        } else if(!startDate && currentDate >= todayNormalized) {
+          setStartDate(currentDate);
+          setOpenCalender(false);
         }
-      };
-      
+      } else if (openCalenderEnd && currentDate >= startDate) {
+        setEndDate(currentDate);
+        setOpenCalenderEnd(false);
+      }
+    };
+  
+    switch (e.key) {
+      case 'ArrowLeft':
+        updateDate((prev) => new Date(prev.setDate(prev.getDate() - 1)));
+        break;
+      case 'ArrowRight':
+        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+        break;
+      case 'ArrowUp':
+        updateDate((prev) => new Date(prev.setDate(prev.getDate() - 7)));
+        break;
+      case 'ArrowDown':
+        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
+        break;
+      case 'Enter':
+        handleEnter();
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    if (openCalender || openCalenderEnd) {
       window.addEventListener('keydown', handleKeyDown);
   
       return () => {
@@ -257,7 +258,7 @@ const DatePicker = ({
           <>
             <NextIcon name="Interface-arrow-right" />
 
-            <InputWrapper isRangePicker={isRangePicker}>
+            <InputWrapper isRangePicker={isRangePicker} ref={inputRefEnd}>
               <InputField
                 data-testid="second-input"
                 readOnly
@@ -267,7 +268,6 @@ const DatePicker = ({
                 width={124}
                 height={40}
                 placeholder={placeholder}
-                ref={inputRefEnd}
                 activeSecondInput={startDate && !endDate || openCalenderEnd}
                 error={error}
               />
