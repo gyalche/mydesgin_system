@@ -216,9 +216,11 @@ const DatePicker = ({
 
   useEffect(() => {
     if(openCalender){
+      setCurrentDate(new Date(startDate));
       setCurrentMonth(new Date(startDate));
     }
     if(openCalenderEnd){
+      setCurrentDate(new Date(endDate));
       setCurrentMonth(new Date(endDate));
     }
   }, [openCalender, openCalenderEnd]);
