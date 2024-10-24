@@ -144,15 +144,7 @@ const DatePicker = ({
     setWeekdays(calculatedWeekdays);
   }, [locale]);
 
-  const [currentDate, setCurrentDate] = useState(() => {
-    return startDate ? new Date(startDate) : new Date();
-  });
-
-  useEffect(() => {
-    if (startDate) {
-      setCurrentDate(new Date(startDate));
-    }
-  }, [startDate]);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const handleKeyDown = (e) => {
     const today = new Date();
@@ -221,6 +213,15 @@ const DatePicker = ({
       };
     }
   }, [currentDate, isRangePicker, handleSingleDate, openCalender, openCalenderEnd, startDate, endDate]);
+
+  useEffect(() => {
+    if(openCalender){
+      setCurrentMonth(startDate);
+    }
+    if(openCalenderEnd){
+      setCurrentMonth(endDate);
+    }
+  }, [openCalender, openCalenderEnd]);
 
   return (
     <DatePickerContainer>
