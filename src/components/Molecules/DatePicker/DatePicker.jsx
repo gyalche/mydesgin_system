@@ -21,7 +21,7 @@ import Calendar from './Calender';
 import InputField from './InputField';
 import closeOpenModal from '../../../hooks/closeOpenModal';
 
-const DatePicker = ({ 
+const DatePicker = ({
   isDoubleView,
   isRangePicker,
   initialValue,
@@ -48,9 +48,8 @@ const DatePicker = ({
   const handleDateRangeClick = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
-    console.log('currentDate', date, currentMonth);
     if (normalizedDate < today) return;
-    if (!startDate && openCalender) {
+    if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate('');
       setDateRange([date]);
@@ -72,7 +71,6 @@ const DatePicker = ({
       setOpenCalenderEnd(false);
     }
   }, [startDate, endDate]);
-console.log('star', startDate, endDate);
 
   const handleSingleDate = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
@@ -175,7 +173,7 @@ console.log('star', startDate, endDate);
     const handleEnter = () => {
       if (!isRangePicker) {
          handleSingleDate(currentDate);
-      } 
+      }
       else if (openCalender) {
         if ((startDate || endDate) && currentDate >= todayNormalized) {
           setStartDate(currentDate);
@@ -231,7 +229,7 @@ console.log('star', startDate, endDate);
     }
     if(openCalenderEnd){
       setCurrentDate(new Date(endDate ? endDate : startDate));
-      setCurrentMonth(new Date(endDate ? endDate : Date.now()));
+      setCurrentMonth(new Date(endDate ? endDate : startDate ? startDate : Date.now()));
     }
   }, [startDate, openCalender, openCalenderEnd]);
 
