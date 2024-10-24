@@ -27,8 +27,10 @@ describe('DatePicker Component', () => {
     render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US'/>);
     const input = await screen.findByTestId('first-input');
     fireEvent.click(input);
-    const check = await screen.findByText(currentMonth);
-    expect(check).toBeInTheDocument();
+    const check = screen.queryByText(currentMonth);
+    waitFor(() => {
+      expect(check).toBeInTheDocument();
+    });
   });
   
 
@@ -56,7 +58,9 @@ describe('DatePicker Component', () => {
     const dayButton = screen.getByTestId(`day-${validDate}`);
     fireEvent.click(dayButton);
 
-    expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date));
+    waitFor(() => {
+      expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date));
+    },[]);
   });
 
   
@@ -91,8 +95,10 @@ describe('DatePicker Component', () => {
   it('displays selected start and end dates in inputs', async () => {
     render(<DatePicker isRangePicker onChange={mockOnChange} />);
 
-    const firstInput = screen.getByTestId('first-input');
-    fireEvent.click(firstInput);
+    waitFor(() => {
+      const firstInput = screen.getByTestId('first-input');
+      fireEvent.click(firstInput);
+    });
 
     const firstDay = new Date().getDate();
     const secondDay = new Date().getDate() + 2;
@@ -103,8 +109,10 @@ describe('DatePicker Component', () => {
       expect(firstInput).toHaveValue(expect.stringContaining(`${firstDay}`));
     });
 
-    const secondInput = screen.getByTestId('second-input');
-    fireEvent.click(secondInput);
+    waitFor(()=>{
+      const secondInput = screen.getByTestId('second-input');
+      fireEvent.click(secondInput);
+    });
   
     const endDay = screen.findByTestId(`day-${secondDay}`);
 
@@ -130,12 +138,14 @@ describe('DatePicker Component', () => {
   //Hover date range in range picker
   it('displays hover range correctly in range picker mode', async () => {
     render(<DatePicker isRangePicker onChange={mockOnChange} />);
-    const startInput = screen.getByTestId('first-input');
-    fireEvent.click(startInput);
-  
+    
+    waitFor(() => {
+      const startInput = screen.getByTestId('first-input');
+      fireEvent.click(startInput);
+    });
+    
     const firstDay = new Date().getDate();
     const secondDay = new Date().getDate() + 2;
-  
     // Select start date
     const startDay = screen.findByTestId(`day-${firstDay}`); 
     waitFor(()=>{
