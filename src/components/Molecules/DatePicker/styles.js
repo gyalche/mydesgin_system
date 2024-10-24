@@ -113,8 +113,8 @@ export const Day = styled.div`
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
   border-radius: 4px;
-  background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect, isDisabled }) => {
-    if(isKeyboardSelect && isKeyboardSelect !== isSelected && !isDisabled) return 'var(--rds-color-chart-1)';
+  background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect, isDisabled, currentDate }) => {
+    if(isKeyboardSelect && isKeyboardSelect !== isSelected && !isDisabled && isKeyboardSelect!==currentDate) return 'var(--rds-color-chart-1)';
     if (isSelected) return 'var(--rds-color-primary-1-dark)';
     if (isInRange || isInHoverRange) return 'var(--rds-color-primary-1-subtle)';
     return 'transparent';
@@ -125,7 +125,7 @@ export const Day = styled.div`
     if (isSaturday && !isDisabled) return 'var(--rds-color-teritary-2-normal)';
     if (isSunday && !isDisabled) return 'var(--rds-color-secondary-3-normal)';
     if (currentDate && !isKeyboardSelect) return 'var(--rds-color-primary-1-normal)';
-    if(isKeyboardSelect && !isSaturday && !isSunday && !currentDate) return 'var(--rds-color-neutral-0)';
+    if(isKeyboardSelect && !isSaturday && !isSunday && isKeyboardSelect !== currentDate) return 'var(--rds-color-neutral-0)';
   }};
   pointer-events: ${({isDisabled}) => isDisabled ? 'none' : 'auto'};
   box-shadow: ${({isSelected}) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
