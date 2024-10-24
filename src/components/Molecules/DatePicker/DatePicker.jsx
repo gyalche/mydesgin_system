@@ -168,7 +168,7 @@ const DatePicker = ({
   
     const handleEnter = () => {
       if (!isRangePicker) {
-        if (currentDate >= todayNormalized) handleSingleDate(currentDate);
+         handleSingleDate(currentDate);
       } else if (openCalender) {
         if ((startDate || endDate) && currentDate >= todayNormalized) {
           setStartDate(currentDate);
@@ -212,7 +212,7 @@ const DatePicker = ({
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [currentDate, isRangePicker, handleSingleDate, openCalender, openCalenderEnd, startDate, endDate]);
+  }, [currentDate, openCalender, openCalenderEnd]);
 
   useEffect(() => {
     if(openCalender){
@@ -223,7 +223,7 @@ const DatePicker = ({
       setCurrentDate(new Date(endDate));
       setCurrentMonth(new Date(endDate));
     }
-  }, [openCalender, openCalenderEnd]);
+  }, [startDate, openCalender, openCalenderEnd]);
 
   return (
     <DatePickerContainer>
