@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const useEscToClose = (callback) => {
+const closeOpenModal = (callback) => {
     useEffect(() => {
       const closeTheOpenModel = (event) => {
         if (event.key==='Escape') {
@@ -16,4 +16,4 @@ const useEscToClose = (callback) => {
 
 };
 
-export default useEscToClose;
+export default closeOpenModal;

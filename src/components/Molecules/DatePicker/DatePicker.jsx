@@ -19,7 +19,7 @@ import useClickOutside from '../../../hooks/useClickOutside';
 import { normalizeDate } from '../../../utils';
 import Calendar from './Calender';
 import InputField from './InputField';
-import useEscToClose from '../../../hooks/useEscToClose';
+import closeOpenModal from '../../../hooks/closeOpenModal';
 
 const DatePicker = ({ 
   isDoubleView,
@@ -38,6 +38,7 @@ const DatePicker = ({
   const [dateRange, setDateRange] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [weekdays, setWeekdays] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
@@ -47,9 +48,9 @@ const DatePicker = ({
   const handleDateRangeClick = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
-
+    console.log('currentDate', date, currentMonth);
     if (normalizedDate < today) return;
-    if (!startDate || (startDate && endDate)) {
+    if (!startDate && openCalender) {
       setStartDate(date);
       setEndDate('');
       setDateRange([date]);
@@ -57,6 +58,12 @@ const DatePicker = ({
     } else if (normalizedDate < normalizeDate(startDate)) {
       setStartDate(date);
       onChange([date, endDate]);
+    } else if(openCalenderEnd) {
+      setEndDate(date);
+      setDateRange([startDate, date]);
+      onChange([startDate, date]);
+      setOpenCalender(false);
+      setOpenCalenderEnd(false);
     } else {
       setEndDate(date);
       setDateRange([startDate, date]);
@@ -65,6 +72,7 @@ const DatePicker = ({
       setOpenCalenderEnd(false);
     }
   }, [startDate, endDate]);
+console.log('star', startDate, endDate);
 
   const handleSingleDate = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
@@ -111,7 +119,7 @@ const DatePicker = ({
 
   //custom hook to close the model
   useClickOutside(datePickerRef, () => (setOpenCalender(false), setOpenCalenderEnd(false)));
-  useEscToClose(() => (setOpenCalender(false), setOpenCalenderEnd(false)));
+  closeOpenModal(() => (setOpenCalender(false), setOpenCalenderEnd(false)));
 
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
@@ -144,8 +152,6 @@ const DatePicker = ({
     setWeekdays(calculatedWeekdays);
   }, [locale]);
 
-  const [currentDate, setCurrentDate] = useState(new Date());
-
   const handleKeyDown = (e) => {
     const today = new Date();
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -169,7 +175,8 @@ const DatePicker = ({
     const handleEnter = () => {
       if (!isRangePicker) {
          handleSingleDate(currentDate);
-      } else if (openCalender) {
+      } 
+      else if (openCalender) {
         if ((startDate || endDate) && currentDate >= todayNormalized) {
           setStartDate(currentDate);
           setOpenCalender(false);
@@ -177,6 +184,9 @@ const DatePicker = ({
           setStartDate(currentDate);
           setOpenCalender(false);
         }
+      } else if(startDate){
+        setEndDate(currentDate);
+        setOpenCalenderEnd(false);
       } else if (openCalenderEnd && currentDate >= startDate) {
         setEndDate(currentDate);
         setOpenCalenderEnd(false);
@@ -216,12 +226,12 @@ const DatePicker = ({
 
   useEffect(() => {
     if(openCalender){
-      setCurrentDate(new Date(startDate));
-      setCurrentMonth(new Date(startDate));
+      setCurrentDate(new Date(startDate ? startDate : Date.now()));
+      setCurrentMonth(new Date(startDate ? startDate : Date.now()));
     }
     if(openCalenderEnd){
-      setCurrentDate(new Date(endDate));
-      setCurrentMonth(new Date(endDate));
+      setCurrentDate(new Date(endDate ? endDate : startDate));
+      setCurrentMonth(new Date(endDate ? endDate : Date.now()));
     }
   }, [startDate, openCalender, openCalenderEnd]);
 
