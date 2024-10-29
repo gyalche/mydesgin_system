@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 const closeOpenModal = (callback) => {
     useEffect(() => {
       const closeTheOpenModel = (event) => {
-        if (event.key==='Escape') {
+        if (event.key === 'Escape') {
           callback();
         }
       };

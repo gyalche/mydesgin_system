@@ -39,9 +39,12 @@ const DatePicker = ({
   const [hoveredDate, setHoveredDate] = useState(null);
   const [weekdays, setWeekdays] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
-  
+  const [firstInputFocus, setFirstInputFocus] = useState(false);
+  const [secondInputFocus, setSecondInputFocus] = useState(false);
+
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
+  const inputRefStart = useRef(null);
   const nextMonthRef = useRef(null);
   const prevMonthRef = useRef(null);
 
@@ -233,6 +236,26 @@ const DatePicker = ({
     }
   }, [startDate, openCalender, openCalenderEnd]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        if (firstInputFocus) {
+          setOpenCalenderEnd(false);
+          setOpenCalender(true);
+        } else if (secondInputFocus) {
+          setOpenCalender(false);
+          setOpenCalenderEnd(true);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [firstInputFocus, secondInputFocus]);
+
   return (
     <DatePickerContainer>
       <InputContainer>
@@ -247,6 +270,15 @@ const DatePicker = ({
             height={40}
             error={error}
             placeholder={placeholder}
+            ref={inputRefStart}
+            onKeyDown={(e) => { 
+              if (e.key === 'Tab' && !e.shiftKey && isRangePicker) {
+                e.preventDefault();
+                inputRefEnd.current?.focus();
+                setFirstInputFocus(false);
+                setSecondInputFocus(true);
+              }
+            }}
           />
           <IconWrapper>
             {startDate ? (
@@ -265,13 +297,15 @@ const DatePicker = ({
             )}
           </IconWrapper>
         </InputWrapper>
+        
         {isRangePicker && (
           <>
             <NextIcon name="Interface-arrow-right" />
 
-            <InputWrapper isRangePicker={isRangePicker} ref={inputRefEnd}>
+            <InputWrapper isRangePicker={isRangePicker}>
               <InputField
                 data-testid="second-input"
+                className='secondInput'
                 readOnly
                 value={endDate && endDate.toLocaleDateString(locale)}
                 onClick={() => (setOpenCalender(false), setOpenCalenderEnd(!openCalenderEnd))}
@@ -281,6 +315,15 @@ const DatePicker = ({
                 placeholder={placeholder}
                 activeSecondInput={startDate && !endDate || openCalenderEnd}
                 error={error}
+                ref={inputRefEnd}
+                onKeyDown={(e) => {
+                  if (e.key === 'Tab' && e.shiftKey) {
+                    e.preventDefault();
+                    inputRefStart.current?.focus();
+                    setSecondInputFocus(false);
+                    setFirstInputFocus(true);
+                  }
+                }}
               />
               <IconWrapper>
                 {endDate ? (
