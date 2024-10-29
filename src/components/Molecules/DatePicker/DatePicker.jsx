@@ -156,7 +156,7 @@ const DatePicker = ({
   const handleKeyDown = (e) => {
     const today = new Date();
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  
+
     const updateDate = (changeFn) => {
       setCurrentDate((prev) => {
         const newDate = changeFn(prev);
@@ -172,7 +172,6 @@ const DatePicker = ({
         return newDate < todayNormalized ? todayNormalized : newDate;
       });
     };
-  
     const handleEnter = () => {
       if (!isRangePicker) {
          handleSingleDate(currentDate);
@@ -231,7 +230,7 @@ const DatePicker = ({
       setCurrentMonth(new Date(startDate ? startDate : Date.now()));
     }
     if(openCalenderEnd){
-      setCurrentDate(new Date(endDate ? endDate : startDate));
+      setCurrentDate(new Date(endDate ? endDate : startDate ? startDate : Date.now()));
       setCurrentMonth(new Date(endDate ? endDate : startDate ? startDate : Date.now()));
     }
   }, [startDate, openCalender, openCalenderEnd]);
