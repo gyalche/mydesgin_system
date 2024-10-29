@@ -54,13 +54,15 @@ describe('DatePicker Component', () => {
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
 
-    const validDate = new Date().getDate();
-    const dayButton = screen.getByTestId(`day-${validDate}`);
-    fireEvent.click(dayButton);
+    waitFor(() => {
+      const validDate = new Date().getDate();
+      const dayButton = screen.getByTestId(`day-${validDate}`);
+      fireEvent.click(dayButton);
+    });
 
     waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date));
-    },[]);
+    });
   });
 
   
