@@ -42,6 +42,9 @@ const TimePicker = ({ is12Hour,
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEndTimeDropdownOpen, setIsEndTimeDropdownOpen] = useState(false);
 
+  const [openTime, setOpenTime] = useState(false);
+  const [openTimeEnd, setOpenTimeEnd] = useState(false);
+
   const [time, setTime] = useState('');
   const [endTime, setEndTime] = useState('');
 
@@ -66,6 +69,7 @@ const TimePicker = ({ is12Hour,
 
   const timePickerRef = useRef(null);
   const timeInputRef = useRef(null);
+  const timeInputRefEnd = useRef(null);
 
   const formatTime = (hour, minute, amPmvalue) => {
     if (!is12Hour) {
@@ -330,6 +334,25 @@ const TimePicker = ({ is12Hour,
     };
   }, [isDropdownOpen, highlightedHourIndex, highlightedMinuteIndex, highlightedAmPmIndex, activeColumn, hours, minutes]);
   
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        if (openTime) {
+          setIsEndTimeDropdownOpen(false);
+          setIsDropdownOpen(true);
+        } else if (openTimeEnd) {
+          setIsDropdownOpen(false);
+          setIsEndTimeDropdownOpen(true);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [openTime, openTimeEnd]);
 
   return (
     <TimePickerContainer ref={timePickerRef}>
@@ -345,6 +368,14 @@ const TimePicker = ({ is12Hour,
             width={is12Hour ? 95 : 85}
             height={40}
             error={error}
+            onKeyDown={(e) => { 
+              if (e.key === 'Tab' && !e.shiftKey && isTimeRange) {
+                e.preventDefault();
+                timeInputRefEnd.current?.focus();
+                setOpenTime(false);
+                setOpenTimeEnd(true);
+              }
+            }}
           />
 
           <IconWrapper>
@@ -369,7 +400,7 @@ const TimePicker = ({ is12Hour,
 
             <InputWrapper time={true} isTimeRange={isTimeRange}>
               <InputField
-                ref={timeInputRef}
+                ref={timeInputRefEnd}
                 value={endTime && timeValueEnd}
                 readOnly
                 placeholder={placeholder}
@@ -378,6 +409,15 @@ const TimePicker = ({ is12Hour,
                 width={is12Hour ? 95 : 85}
                 height={40}
                 error={error}
+                onKeyDown={(e) => {
+                  if (e.key === 'Tab' && e.shiftKey) {
+                    e.preventDefault();
+                    timeInputRef.current?.focus();
+                    setOpenTimeEnd(false);
+                    setOpenTime(true);
+                  }
+                }}
+              
               />
 
               <IconWrapper>
