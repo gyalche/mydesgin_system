@@ -332,6 +332,7 @@ export const DecadeButton = styled.button`
   margin: 8px 0px;
   padding: 9px 15px;
   border: ${({selected}) => selected ? '1px solid var(--rds-color-primary-1-normal)' : 'none'};
+  color: ${({selected}) => selected && 'var(--rds-color-primary-1-normal)'};
   &:hover {
     color: var(--rds-color-primary-1-normal);
   }

@@ -1,5 +1,5 @@
 // Calendar.js
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CalendarContainer,
@@ -29,7 +29,6 @@ const Calendar = ({
   isInHoverRange,
   setHoveredDate,
   isSelected,
-  checkModalOpen,
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
   const [showYears, setShowYears] = useState(false);
@@ -42,6 +41,8 @@ const Calendar = ({
 
   const displayYear = new Date(currentMonth).getFullYear() !== currentYear && currentMonth.getFullYear();
   
+  const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
+
   const handleMouseEnter = useCallback((day) => {
     if (isRangePicker && startDate && !endDate) {
       setHoveredDate(day);
@@ -70,7 +71,6 @@ const Calendar = ({
   const openSelectDecade = (e) => {
     setOpenDecade(!openDecade);
     setShowYears(false);
-    checkModalOpen();
   };
 
   const handleDecadeSelect = (decadeStart) => {
@@ -78,11 +78,13 @@ const Calendar = ({
     setShowYears(true);
   };
 
-  const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
-
   useEffect(()=>{
     setSelectedDecade(currentDecadeStart);
   },[]);
+
+  useEffect(() => {
+    setCurrentMonth(date);
+  }, [date]);
 
   return (
     <CalendarContainer data-testid='calender-container'>
@@ -166,7 +168,11 @@ const Calendar = ({
           {Array.from({ length: 12 }, (_, index) => {
             const decadeStart = Math.floor(currentYear / 10) * 10 + index * 10;
             return (
-              <DecadeButton selected={selectedDecade === decadeStart} key={decadeStart} onClick={() => handleDecadeSelect(decadeStart)}>
+              <DecadeButton
+                selected={selectedDecade === decadeStart} 
+                key={decadeStart}
+                onClick={() => handleDecadeSelect(decadeStart)}
+               >
                 {decadeStart} - {decadeStart + 9}
               </DecadeButton>
             );
@@ -174,11 +180,13 @@ const Calendar = ({
         </DecadeGrid>
       ) : (
         <DecadeGrid>
-          {yearsInDecade.map((year) => (
-            <DecadeButton key={year} onClick={() => {
-              setCurrentMonth(new Date(year, 0, 1));
-              setOpenDecade(false);
-            }}>
+          {yearsInDecade.map((year, index) => (
+            <DecadeButton key={year} 
+              onClick={() => {
+                setCurrentMonth(new Date(year, 0, 1));
+                setOpenDecade(false);
+              }}
+            >
               {year}
             </DecadeButton>
           ))}
@@ -203,7 +211,6 @@ Calendar.propTypes = {
   hoveredDate: PropTypes.instanceOf(Date),
   setHoveredDate: PropTypes.func.isRequired,
   isSelected: PropTypes.instanceOf(Date),
-  checkModalOpen: PropTypes.func,
 };
 
 export default Calendar;

@@ -41,7 +41,6 @@ const DatePicker = ({
   const [currentDate, setCurrentDate] = useState(new Date());
   const [firstInputFocus, setFirstInputFocus] = useState(false);
   const [secondInputFocus, setSecondInputFocus] = useState(false);
-  const [showHeaders, setShowHeaders] = useState(true);
 
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
@@ -88,14 +87,6 @@ const DatePicker = ({
     const normalizedEndDate = normalizeDate(endDate);
     return normalizedStartDate && normalizedEndDate && normalizedDay > normalizedStartDate && normalizedDay < normalizedEndDate;
   },[startDate, endDate]);
-
-  const handlePrevYear = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() - 1, prevMonth.getMonth(), 1));
-  }, [setCurrentMonth]);
-
-  const handleNextYear = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() + 1, prevMonth.getMonth(), 1));
-  }, [setCurrentMonth]);
 
   const handlePrevMonth = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
@@ -254,9 +245,7 @@ const DatePicker = ({
     };
   }, [firstInputFocus, secondInputFocus]);
 
-  const checkYearAndMonthModal= () => {
-    setShowHeaders(!showHeaders);
-  };
+
 
   return (
     <DatePickerContainer>
@@ -365,7 +354,6 @@ const DatePicker = ({
               hoveredDate={hoveredDate}
               setHoveredDate={setHoveredDate}
               isSelected={currentDate}
-              checkModalOpen={checkYearAndMonthModal}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
