@@ -1,5 +1,5 @@
 // Calendar.js
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CalendarContainer,
@@ -7,6 +7,7 @@ import {
   DaysContainer,
   Day,
   WeekdayHeader,
+  TextAreaYearMonth,
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 
@@ -42,7 +43,8 @@ const Calendar = ({
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
-        {displayYear} {getLocalizedMonthName(date, locale)}
+        <TextAreaYearMonth>{displayYear}</TextAreaYearMonth> 
+        <TextAreaYearMonth>{getLocalizedMonthName(date, locale)}</TextAreaYearMonth>
       </CalenderMonths>
 
       <DaysContainer>

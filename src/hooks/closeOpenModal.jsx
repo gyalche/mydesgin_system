@@ -13,7 +13,6 @@ const closeOpenModal = (callback) => {
       document.removeEventListener('keydown', closeTheOpenModel);
     };
   },[callback]);
-
 };
 
 export default closeOpenModal;

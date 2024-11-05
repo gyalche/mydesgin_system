@@ -351,7 +351,7 @@ const DatePicker = ({
             <HeaderIcons>
               <CalendarIcon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
               <CalendarIcon name='Interface-chevron-left' ref={prevMonthRef} onClick={() => handlePrevMonth()}/>
-            </HeaderIcons> 
+            </HeaderIcons>
 
             <HeaderIcons>
               <CalendarIcon name='Interface-chevron-right' ref={nextMonthRef} onClick={() => handleNextMonth()}/>

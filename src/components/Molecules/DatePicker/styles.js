@@ -161,12 +161,16 @@ export const Calenders = styled.div`
 
 export const CalenderMonths = styled.div`
   color: var(--rds-color-neutral-9);
-  margin-top: -55px;
+  margin-top: -53px;
   postion: absolute;
   text-align: center;
   padding-bottom: 20px;
   font-size: 17px;
   font-weight: 700;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const TimePickerContainer = styled.div`
@@ -296,4 +300,8 @@ export const DateTimeContainer = styled.div`
   display: flex;
   gap: 4px;
   align-items: center;
+`;
+
+export const TextAreaYearMonth = styled.span`
+  cursor: pointer;
 `;

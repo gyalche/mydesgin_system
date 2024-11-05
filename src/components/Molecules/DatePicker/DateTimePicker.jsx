@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import TimePicker from './TimePicker';
 import DatePicker from './DatePicker';
 import PropTypes from 'prop-types';
@@ -21,7 +21,7 @@ const DateTimePicker = ({ onChange,
 
   const handleChange = (value, type, position) => {
     setValue((data) => {
-      const myData = { ...data };
+      const myData = {...data};
   
       if (isDoublePicker) {
         if (!Array.isArray(myData[type])) {
