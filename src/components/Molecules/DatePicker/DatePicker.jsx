@@ -41,12 +41,11 @@ const DatePicker = ({
   const [currentDate, setCurrentDate] = useState(new Date());
   const [firstInputFocus, setFirstInputFocus] = useState(false);
   const [secondInputFocus, setSecondInputFocus] = useState(false);
+  const [showHeaders, setShowHeaders] = useState(true);
 
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
-  const nextMonthRef = useRef(null);
-  const prevMonthRef = useRef(null);
 
   const handleDateRangeClick = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
@@ -255,6 +254,10 @@ const DatePicker = ({
     };
   }, [firstInputFocus, secondInputFocus]);
 
+  const checkYearAndMonthModal= () => {
+    setShowHeaders(!showHeaders);
+  };
+
   return (
     <DatePickerContainer>
       <InputContainer>
@@ -347,17 +350,6 @@ const DatePicker = ({
 
       {openCalender && (
         <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
-          <CalendarHeader>
-            <HeaderIcons>
-              <CalendarIcon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
-              <CalendarIcon name='Interface-chevron-left' ref={prevMonthRef} onClick={() => handlePrevMonth()}/>
-            </HeaderIcons>
-
-            <HeaderIcons>
-              <CalendarIcon name='Interface-chevron-right' ref={nextMonthRef} onClick={() => handleNextMonth()}/>
-              <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
-            </HeaderIcons>
-          </CalendarHeader>
           <Calenders data-testid='container-id'>
             <Calendar
               date={currentMonth}
@@ -373,6 +365,7 @@ const DatePicker = ({
               hoveredDate={hoveredDate}
               setHoveredDate={setHoveredDate}
               isSelected={currentDate}
+              checkModalOpen={checkYearAndMonthModal}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -396,17 +389,6 @@ const DatePicker = ({
       )}
       {openCalenderEnd && (
         <CalendarWrapperEnd ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
-          <CalendarHeader>
-            <HeaderIcons>
-              <CalendarIcon name='Interface-chevron-double-left' onClick={() => handlePrevYear()}/>
-              <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
-            </HeaderIcons> 
-
-            <HeaderIcons>
-              <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
-              <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
-            </HeaderIcons>
-          </CalendarHeader>
           <Calenders data-testid='container-id'>
             <Calendar
               date={currentMonth}

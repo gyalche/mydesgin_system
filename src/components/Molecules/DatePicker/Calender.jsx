@@ -1,5 +1,5 @@
 // Calendar.js
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CalendarContainer,
@@ -8,6 +8,11 @@ import {
   Day,
   WeekdayHeader,
   TextAreaYearMonth,
+  CalendarHeader,
+  HeaderIcons,
+  CalendarIcon,
+  DecadeGrid,
+  DecadeButton,
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 
@@ -24,11 +29,18 @@ const Calendar = ({
   isInHoverRange,
   setHoveredDate,
   isSelected,
+  checkModalOpen,
 }) => {
-  const days = getDaysInMonth(date);
-  const currentYear = new Date(Date.now()).getFullYear();
+  const [openDecade, setOpenDecade] = useState(false);
+  const [showYears, setShowYears] = useState(false);
+  const [selectedDecade, setSelectedDecade] = useState(null);
+  const [currentMonth, setCurrentMonth] = useState(date);
 
-  const displayYear = new Date(date).getFullYear() !== currentYear && date.getFullYear();
+  const days = getDaysInMonth(currentMonth);
+  const currentYear = new Date(Date.now()).getFullYear();
+  const currentDecadeStart = Math.floor(currentYear / 10) * 10;
+
+  const displayYear = new Date(currentMonth).getFullYear() !== currentYear && currentMonth.getFullYear();
   
   const handleMouseEnter = useCallback((day) => {
     if (isRangePicker && startDate && !endDate) {
@@ -36,56 +48,143 @@ const Calendar = ({
     }
   }, [startDate, endDate, isRangePicker, setHoveredDate]);
 
+  const handlePrevYear = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() - 1, prevMonth.getMonth(), 1));
+  }, [setCurrentMonth]);
+
+  const handleNextYear = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() + 1, prevMonth.getMonth(), 1));
+  }, [setCurrentMonth]);
+
+  const handlePrevMonth = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
+  }, [setCurrentMonth]);
+
+  const handleNextMonth = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
+  }, [setCurrentMonth]);
   const handleMouseLeave = () => {
     setHoveredDate(null);
   };
 
+  const openSelectDecade = (e) => {
+    setOpenDecade(!openDecade);
+    setShowYears(false);
+    checkModalOpen();
+  };
+
+  const handleDecadeSelect = (decadeStart) => {
+    setSelectedDecade(decadeStart);
+    setShowYears(true);
+  };
+
+  const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
+
+  useEffect(()=>{
+    setSelectedDecade(currentDecadeStart);
+  },[]);
+
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
-        <TextAreaYearMonth>{displayYear}</TextAreaYearMonth> 
-        <TextAreaYearMonth>{getLocalizedMonthName(date, locale)}</TextAreaYearMonth>
+          <TextAreaYearMonth onClick={openSelectDecade}>
+          {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : displayYear}
+          </TextAreaYearMonth> 
+          {!openDecade && <TextAreaYearMonth>{getLocalizedMonthName(currentMonth, locale)}</TextAreaYearMonth>}
       </CalenderMonths>
 
-      <DaysContainer>
-        {weekdays.map(({day, dayIndex}, index) => (
-          <WeekdayHeader
-            key={index}
-            isSaturday={dayIndex === 6}
-            isSunday={dayIndex === 0}
-          >
-            {day}
-          </WeekdayHeader>
-        ))}
+      <CalendarHeader>
+        <HeaderIcons>
+          <CalendarIcon name='Interface-chevron-double-left' onClick={()=>{
+            if(openDecade && showYears){
+              setShowYears(false);
+            }
+            if(openDecade && !showYears){
+              setOpenDecade(false);
+            }
+            if(!openDecade && !showYears){
+              handlePrevYear();
+            }
+          }}/>
+            {!openDecade && ( 
+              <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+            )}
+        </HeaderIcons>
 
-        {days.map((day, index) => {
-          const dayDate = day?.date;
-          const notCurrent = !day?.isCurrentMonth;
-          const dayOfWeek = dayDate?.getDay();
-          return (
-            <Day
-              key={`${day?.date}-${index}`}
-              currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
-              isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
-                || normalizeDate(dayDate) === normalizeDate(endDate)
-              }
-              isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
-                && normalizeDate(dayDate) !== normalizeDate(startDate)}
-              isInRange={isInRange(dayDate)}
-              isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
-              isSaturday={dayOfWeek === 5}
-              isSunday={dayOfWeek === 6}
-              onClick={!isRangePicker ? () => handleSingleDate(dayDate) : () => handleDateRangeClick(dayDate)}
-              isInHoverRange={isInHoverRange(dayDate)}
-              onMouseEnter={() => handleMouseEnter(dayDate)}
-              onMouseLeave={handleMouseLeave}
-              data-testid={`day-${dayDate.getDate()}`}
+        <HeaderIcons>
+          {!openDecade && (
+            <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+          )}
+          <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+        </HeaderIcons>
+      </CalendarHeader>
+     {!openDecade && (
+        <DaysContainer>
+          {weekdays.map(({day, dayIndex}, index) => (
+            <WeekdayHeader
+              key={index}
+              isSaturday={dayIndex === 6}
+              isSunday={dayIndex === 0}
             >
-              {dayDate.getDate()}
-            </Day>
-          );
-        })}
-      </DaysContainer>
+              {day}
+            </WeekdayHeader>
+          ))}
+
+          {days.map((day, index) => {
+            const dayDate = day?.date;
+            const notCurrent = !day?.isCurrentMonth;
+            const dayOfWeek = dayDate?.getDay();
+            return (
+              <Day
+                key={`${day?.date}-${index}`}
+                currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
+                isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
+                  || normalizeDate(dayDate) === normalizeDate(endDate)
+                }
+                isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
+                  && normalizeDate(dayDate) !== normalizeDate(startDate)}
+                isInRange={isInRange(dayDate)}
+                isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
+                isSaturday={dayOfWeek === 5}
+                isSunday={dayOfWeek === 6}
+                onClick={!isRangePicker ? () => handleSingleDate(dayDate) : () => handleDateRangeClick(dayDate)}
+                isInHoverRange={isInHoverRange(dayDate)}
+                onMouseEnter={() => handleMouseEnter(dayDate)}
+                onMouseLeave={handleMouseLeave}
+                data-testid={`day-${dayDate.getDate()}`}
+              >
+                {dayDate.getDate()}
+              </Day>
+            );
+          })}
+        </DaysContainer>
+     )}
+
+    {openDecade && (
+      !showYears ? (
+        <DecadeGrid>
+          {Array.from({ length: 12 }, (_, index) => {
+            const decadeStart = Math.floor(currentYear / 10) * 10 + index * 10;
+            return (
+              <DecadeButton selected={selectedDecade === decadeStart} key={decadeStart} onClick={() => handleDecadeSelect(decadeStart)}>
+                {decadeStart} - {decadeStart + 9}
+              </DecadeButton>
+            );
+          })}
+        </DecadeGrid>
+      ) : (
+        <DecadeGrid>
+          {yearsInDecade.map((year) => (
+            <DecadeButton key={year} onClick={() => {
+              setCurrentMonth(new Date(year, 0, 1));
+              setOpenDecade(false);
+            }}>
+              {year}
+            </DecadeButton>
+          ))}
+        </DecadeGrid>
+      )
+    )}
     </CalendarContainer>
   );
 };
@@ -104,6 +203,7 @@ Calendar.propTypes = {
   hoveredDate: PropTypes.instanceOf(Date),
   setHoveredDate: PropTypes.func.isRequired,
   isSelected: PropTypes.instanceOf(Date),
+  checkModalOpen: PropTypes.func,
 };
 
 export default Calendar;

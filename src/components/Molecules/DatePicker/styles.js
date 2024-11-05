@@ -68,6 +68,8 @@ export const CalendarHeader = styled.div`
   font-weight: bold;
   color: var(--rds-color-neutral-8);
   padding: 12px 12px 0 12px;
+  position: relative;
+  margin-top: -60px;
 `;
 
 export const WeekdayHeader = styled.div`
@@ -92,7 +94,7 @@ export const HeaderIcons = styled.div`
 
 export const CalendarContainer = styled.div`
   width: 340px;
-  height: 250px; 
+  height: 320px; 
   padding: 10px;
 `;
 
@@ -161,7 +163,6 @@ export const Calenders = styled.div`
 
 export const CalenderMonths = styled.div`
   color: var(--rds-color-neutral-9);
-  margin-top: -53px;
   postion: absolute;
   text-align: center;
   padding-bottom: 20px;
@@ -171,6 +172,7 @@ export const CalenderMonths = styled.div`
   gap: 5px;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
 `;
 
 export const TimePickerContainer = styled.div`
@@ -280,8 +282,10 @@ export const TimeOption = styled.li`
   text-align: center;
   font-size: 12px;
   color: ${({ selected }) => selected && 'var(--rds-color-primary-1-dark)'};
-  background-color: ${({ selected, highlighted }) => (selected || highlighted) && 'var(--rds-color-primary-1-subtle)'};
-  
+  background-color: ${({selected, highlighted}) => {
+    if(selected) return 'var(--rds-color-primary-1-subtle)';
+    if(highlighted) return 'var(--rds-color-chart-1)';
+  }};
   &:hover {
     background-color: var(--rds-color-neutral-1);
   }
@@ -304,4 +308,40 @@ export const DateTimeContainer = styled.div`
 
 export const TextAreaYearMonth = styled.span`
   cursor: pointer;
+  z-index: 9999;
+`;
+
+export const DecadeGrid = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 10px;
+  border-radius: 8px;
+  overflow: scroll;
+  padding: 20px 10px;
+  margin-top: -10px;
+`;
+
+export const DecadeButton = styled.button`
+  font-size: 12px;
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  width: 96.33px;
+  heigh: 32px;
+  margin: 8px 0px;
+  padding: 9px 15px;
+  border: ${({selected}) => selected ? '1px solid var(--rds-color-primary-1-normal)' : 'none'};
+  &:hover {
+    color: var(--rds-color-primary-1-normal);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    color: var(--rds-color-primary-1-normal);
+    border: 1px solid var(--rds-color-primary-1-normal);
+  }
 `;
