@@ -15,12 +15,11 @@ import {
   CalendarIcon,
   CalendarWrapperEnd,
  } from './styles';
-import useClickOutside from '../../../hooks/useClickOutside';
 import { normalizeDate } from '../../../utils';
 import Calendar from './Calender';
 import InputField from './InputField';
 import closeOpenModal from '../../../hooks/closeOpenModal';
-
+import useClickOutside from '../../../hooks/useClickOutside';
 const DatePicker = ({
   isDoubleView,
   isRangePicker,

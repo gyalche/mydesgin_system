@@ -1,5 +1,5 @@
 // Calendar.js
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CalendarContainer,
@@ -15,6 +15,7 @@ import {
   DecadeButton,
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
+import closeOpenModal from '../../../hooks/closeOpenModal';
 
 const Calendar = ({
   date,
@@ -69,7 +70,7 @@ const Calendar = ({
   };
 
   const openSelectDecade = (e) => {
-    setOpenDecade(!openDecade);
+    setOpenDecade(true);
     setShowYears(false);
   };
 
@@ -77,6 +78,8 @@ const Calendar = ({
     setSelectedDecade(decadeStart);
     setShowYears(true);
   };
+
+  closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
 
   useEffect(()=>{
     setSelectedDecade(currentDecadeStart);
@@ -107,6 +110,7 @@ const Calendar = ({
             if(!openDecade && !showYears){
               handlePrevYear();
             }
+            handlePrevYear();
           }}/>
             {!openDecade && ( 
               <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
@@ -167,7 +171,6 @@ const Calendar = ({
         <DecadeGrid>
           <DecadeButton
             disabled
-            key="previous-decade"
           >
             {currentDecadeStart - 10} - {currentDecadeStart - 1}
         </DecadeButton>
@@ -185,7 +188,6 @@ const Calendar = ({
           })}
            <DecadeButton
               disabled
-              key="next-decade"
             >
             {currentDecadeStart + 120} - {currentDecadeStart + 129}
           </DecadeButton>
@@ -193,8 +195,7 @@ const Calendar = ({
       ) : (
         <DecadeGrid>
           <DecadeButton
-              disabled
-              key="previous-year"
+            disabled
             >
             {selectedDecade - 1}
           </DecadeButton>
@@ -209,8 +210,7 @@ const Calendar = ({
             </DecadeButton>
           ))}
            <DecadeButton
-              disabled
-              key="previous-year"
+            disabled
             >
             {selectedDecade + 10}
           </DecadeButton>
