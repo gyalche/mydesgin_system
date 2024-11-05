@@ -165,6 +165,12 @@ const Calendar = ({
     {openDecade && (
       !showYears ? (
         <DecadeGrid>
+          <DecadeButton
+            disabled
+            key="previous-decade"
+          >
+            {currentDecadeStart - 10} - {currentDecadeStart - 1}
+        </DecadeButton>
           {Array.from({ length: 12 }, (_, index) => {
             const decadeStart = Math.floor(currentYear / 10) * 10 + index * 10;
             return (
@@ -177,19 +183,37 @@ const Calendar = ({
               </DecadeButton>
             );
           })}
+           <DecadeButton
+              disabled
+              key="next-decade"
+            >
+            {currentDecadeStart + 120} - {currentDecadeStart + 129}
+          </DecadeButton>
         </DecadeGrid>
       ) : (
         <DecadeGrid>
-          {yearsInDecade.map((year, index) => (
-            <DecadeButton key={year} 
-              onClick={() => {
-                setCurrentMonth(new Date(year, 0, 1));
-                setOpenDecade(false);
-              }}
+          <DecadeButton
+              disabled
+              key="previous-year"
             >
+            {selectedDecade - 1}
+          </DecadeButton>
+            {yearsInDecade.map((year, index) => (
+              <DecadeButton key={year} 
+                onClick={() => {
+                  setCurrentMonth(new Date(year, 0, 1));
+                  setOpenDecade(false);
+                }}
+              >
               {year}
             </DecadeButton>
           ))}
+           <DecadeButton
+              disabled
+              key="previous-year"
+            >
+            {selectedDecade + 10}
+          </DecadeButton>
         </DecadeGrid>
       )
     )}
