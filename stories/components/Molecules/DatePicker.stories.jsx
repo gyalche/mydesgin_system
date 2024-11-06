@@ -33,7 +33,8 @@ export const DatePickers = {
     },
     locale: {
       description: 'Locale format of the calendar. Default is ja-JP',
-      control: { type: 'text' },
+      control: { type: 'select' },
+      options: ['ja-JP', 'en-US']
     },
     textCancel: {
       description: 'Text to be shown for the Cancel action',

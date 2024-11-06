@@ -11,8 +11,6 @@ import {
   CalendarHeader,
   HeaderIcons,
   CalendarIcon,
-  DecadeGrid,
-  DecadeButton,
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 import closeOpenModal from '../../../hooks/closeOpenModal';
@@ -41,13 +39,13 @@ const Calendar = ({
   const [showYears, setShowYears] = useState(false);
   const [selectedDecade, setSelectedDecade] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
-
+  
   const days = getDaysInMonth(currentMonth);
   const currentYear = new Date(Date.now()).getFullYear();
   const currentDecadeStart = Math.floor(currentYear / 10) * 10;
 
   const displayYear = new Date(currentMonth).getFullYear() !== currentYear && currentMonth.getFullYear();
-  
+
   const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
 
   const handleMouseEnter = useCallback((day) => {

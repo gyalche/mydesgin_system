@@ -220,7 +220,7 @@ const DatePicker = ({
       };
     }
   }, [currentDate, openCalender, openCalenderEnd, enableKeyboard]);
-  
+
   useEffect(() => {
     if(openCalender){
       setCurrentDate(new Date(startDate ? startDate : Date.now()));

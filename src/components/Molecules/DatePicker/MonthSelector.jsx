@@ -39,7 +39,6 @@ const MonthSelector = ({ locale, setCurrentMonth, setOpenMonth, date, currentMon
       default:
         return;
     }
-
     event.preventDefault();
     setFocusedButton(newIndex);
   };
