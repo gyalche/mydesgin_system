@@ -44,7 +44,8 @@ const Calendar = ({
   const currentYear = new Date(Date.now()).getFullYear();
   const currentDecadeStart = Math.floor(currentYear / 10) * 10;
 
-  const displayYear = new Date(currentMonth).getFullYear() !== currentYear && currentMonth.getFullYear();
+  // const displayYear = new Date(currentMonth).getFullYear() !== currentYear && currentMonth.getFullYear();
+  const displayYear = currentMonth.getFullYear();
 
   const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
 
@@ -114,7 +115,7 @@ const Calendar = ({
           <TextAreaYearMonth onClick={openSelectDecade}>
           {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : displayYear}
           </TextAreaYearMonth>
-          {!openDecade && <TextAreaYearMonth onClick={openSelectMonth}>
+          {(!openDecade && !openMonth) && <TextAreaYearMonth onClick={openSelectMonth}>
             {getLocalizedMonthName(currentMonth, locale)}
             </TextAreaYearMonth>}
       </CalenderMonths>
