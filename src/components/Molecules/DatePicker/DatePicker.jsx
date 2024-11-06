@@ -40,6 +40,7 @@ const DatePicker = ({
   const [currentDate, setCurrentDate] = useState(new Date());
   const [firstInputFocus, setFirstInputFocus] = useState(false);
   const [secondInputFocus, setSecondInputFocus] = useState(false);
+  const [enableKeyboard, setEnableKeyboard] = useState(true);
 
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
@@ -113,7 +114,7 @@ const DatePicker = ({
 
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
-  useEffect(()=>{
+  useEffect(() => {
     if(Array.isArray(initialValue) && isRangePicker){
       setStartDate(initialValue[0]);
       setEndDate(initialValue[1]);
@@ -203,16 +204,23 @@ const DatePicker = ({
     }
   };
 
+  const disableKeyboardFunc = () => {
+    setEnableKeyboard(false);
+  };
+  const enabledKeyboardFunc = () => {
+    setEnableKeyboard(true);
+  };
+
   useEffect(() => {
-    if (openCalender || openCalenderEnd) {
+    if ((openCalender || openCalenderEnd) && enableKeyboard) {
       window.addEventListener('keydown', handleKeyDown);
   
       return () => {
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [currentDate, openCalender, openCalenderEnd]);
-
+  }, [currentDate, openCalender, openCalenderEnd, enableKeyboard]);
+  
   useEffect(() => {
     if(openCalender){
       setCurrentDate(new Date(startDate ? startDate : Date.now()));
@@ -243,8 +251,6 @@ const DatePicker = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
-
-
 
   return (
     <DatePickerContainer>
@@ -353,6 +359,8 @@ const DatePicker = ({
               hoveredDate={hoveredDate}
               setHoveredDate={setHoveredDate}
               isSelected={currentDate}
+              enableKeyboard={enabledKeyboardFunc}
+              disableKeyboard={disableKeyboardFunc}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -369,6 +377,8 @@ const DatePicker = ({
                 hoveredDate={hoveredDate}
                 setHoveredDate={setHoveredDate}
                 isSelected={currentDate}
+                enableKeyboard={enabledKeyboardFunc}
+                disableKeyboard={disableKeyboardFunc}
               />
             )}
           </Calenders>
@@ -391,6 +401,8 @@ const DatePicker = ({
               hoveredDate={hoveredDate}
               setHoveredDate={setHoveredDate}
               isSelected={currentDate}
+              enableKeyboard={enabledKeyboardFunc}
+              disableKeyboard={disableKeyboardFunc}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -407,6 +419,8 @@ const DatePicker = ({
                 hoveredDate={hoveredDate}
                 setHoveredDate={setHoveredDate}
                 isSelected={currentDate}
+                enableKeyboard={enabledKeyboardFunc}
+                disableKeyboard={disableKeyboardFunc}
               />
             )}
           </Calenders>

@@ -16,6 +16,8 @@ import {
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 import closeOpenModal from '../../../hooks/closeOpenModal';
+import DecadeSelector from './DecadeSelector';
+import YearSelector from './YearSelector';
 
 const Calendar = ({
   date,
@@ -30,6 +32,8 @@ const Calendar = ({
   isInHoverRange,
   setHoveredDate,
   isSelected,
+  enableKeyboard,
+  disableKeyboard
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
   const [showYears, setShowYears] = useState(false);
@@ -72,11 +76,13 @@ const Calendar = ({
   const openSelectDecade = (e) => {
     setOpenDecade(true);
     setShowYears(false);
+    disableKeyboard();
   };
 
   const handleDecadeSelect = (decadeStart) => {
     setSelectedDecade(decadeStart);
     setShowYears(true);
+    disableKeyboard();
   };
 
   closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
@@ -89,6 +95,11 @@ const Calendar = ({
     setCurrentMonth(date);
   }, [date]);
 
+  useEffect(() => {
+    if(!openDecade && !showYears){
+      enableKeyboard();
+    }
+  },[showYears, openDecade]);
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
@@ -168,53 +179,19 @@ const Calendar = ({
 
     {openDecade && (
       !showYears ? (
-        <DecadeGrid>
-          <DecadeButton
-            disabled
-          >
-            {currentDecadeStart - 10} - {currentDecadeStart - 1}
-        </DecadeButton>
-          {Array.from({ length: 12 }, (_, index) => {
-            const decadeStart = Math.floor(currentYear / 10) * 10 + index * 10;
-            return (
-              <DecadeButton
-                selected={selectedDecade === decadeStart} 
-                key={decadeStart}
-                onClick={() => handleDecadeSelect(decadeStart)}
-               >
-                {decadeStart} - {decadeStart + 9}
-              </DecadeButton>
-            );
-          })}
-           <DecadeButton
-              disabled
-            >
-            {currentDecadeStart + 120} - {currentDecadeStart + 129}
-          </DecadeButton>
-        </DecadeGrid>
+        <DecadeSelector
+          currentDecadeStart={currentDecadeStart}
+          selectedDecade={selectedDecade}
+          handleDecadeSelect={handleDecadeSelect}
+        />
       ) : (
-        <DecadeGrid>
-          <DecadeButton
-            disabled
-            >
-            {selectedDecade - 1}
-          </DecadeButton>
-            {yearsInDecade.map((year, index) => (
-              <DecadeButton key={year} 
-                onClick={() => {
-                  setCurrentMonth(new Date(year, 0, 1));
-                  setOpenDecade(false);
-                }}
-              >
-              {year}
-            </DecadeButton>
-          ))}
-           <DecadeButton
-            disabled
-            >
-            {selectedDecade + 10}
-          </DecadeButton>
-        </DecadeGrid>
+        <YearSelector
+          selectedDecade={selectedDecade}
+          yearsInDecade={yearsInDecade}
+          setCurrentMonth={setCurrentMonth}
+          setOpenDecade={setOpenDecade}
+          setShowYears={setShowYears}
+        />
       )
     )}
     </CalendarContainer>
@@ -235,6 +212,8 @@ Calendar.propTypes = {
   hoveredDate: PropTypes.instanceOf(Date),
   setHoveredDate: PropTypes.func.isRequired,
   isSelected: PropTypes.instanceOf(Date),
+  enableKeyboard: PropTypes.func,
+  disableKeyboard: PropTypes.func,
 };
 
 export default Calendar;
