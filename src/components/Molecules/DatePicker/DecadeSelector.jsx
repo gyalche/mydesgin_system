@@ -6,14 +6,12 @@ const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
 
-  // Focus the selected decade when the component renders or updates
   useEffect(() => {
     const selectedIndex = selectedDecade ? (selectedDecade - currentDecadeStart) / 10 + 1 : 1;
     setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
   }, [selectedDecade, currentDecadeStart]);
 
-  // Handle keyboard navigation
   const handleKeyDown = (event, index) => {
     let newIndex;
     const totalButtons = buttonRefs.current.length;

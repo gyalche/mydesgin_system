@@ -18,6 +18,7 @@ import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../u
 import closeOpenModal from '../../../hooks/closeOpenModal';
 import DecadeSelector from './DecadeSelector';
 import YearSelector from './YearSelector';
+import MonthSelector from './MonthSelector';
 
 const Calendar = ({
   date,
@@ -36,6 +37,7 @@ const Calendar = ({
   disableKeyboard
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
+  const [openMonth, setOpenMonth] = useState(false);
   const [showYears, setShowYears] = useState(false);
   const [selectedDecade, setSelectedDecade] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
@@ -73,9 +75,16 @@ const Calendar = ({
     setHoveredDate(null);
   };
 
-  const openSelectDecade = (e) => {
+  const openSelectDecade = () => {
     setOpenDecade(true);
     setShowYears(false);
+    setOpenMonth(false);
+    disableKeyboard();
+  };
+
+  const openSelectMonth = () => {
+    setOpenMonth(true);
+    setOpenDecade(false);
     disableKeyboard();
   };
 
@@ -100,42 +109,45 @@ const Calendar = ({
       enableKeyboard();
     }
   },[showYears, openDecade]);
+
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
           <TextAreaYearMonth onClick={openSelectDecade}>
           {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : displayYear}
-          </TextAreaYearMonth> 
-          {!openDecade && <TextAreaYearMonth>{getLocalizedMonthName(currentMonth, locale)}</TextAreaYearMonth>}
+          </TextAreaYearMonth>
+          {!openDecade && <TextAreaYearMonth onClick={openSelectMonth}>
+            {getLocalizedMonthName(currentMonth, locale)}
+            </TextAreaYearMonth>}
       </CalenderMonths>
 
       <CalendarHeader>
         <HeaderIcons>
           <CalendarIcon name='Interface-chevron-double-left' onClick={()=>{
-            if(openDecade && showYears){
-              setShowYears(false);
-            }
-            if(openDecade && !showYears){
-              setOpenDecade(false);
-            }
-            if(!openDecade && !showYears){
-              handlePrevYear();
-            }
+            // if(openDecade && showYears){
+            //   setShowYears(false);
+            // }
+            // if(openDecade && !showYears){
+            //   setOpenDecade(false);
+            // }
+            // if(!openDecade && !showYears){
+            //   handlePrevYear();
+            // }
             handlePrevYear();
           }}/>
-            {!openDecade && ( 
+            {(!openDecade && !openMonth) && ( 
               <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
             )}
         </HeaderIcons>
 
         <HeaderIcons>
-          {!openDecade && (
+          {(!openDecade && !openMonth) && (
             <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
           )}
           <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
         </HeaderIcons>
       </CalendarHeader>
-     {!openDecade && (
+     {!openDecade && !openMonth && (
         <DaysContainer>
           {weekdays.map(({day, dayIndex}, index) => (
             <WeekdayHeader
@@ -193,6 +205,15 @@ const Calendar = ({
           setShowYears={setShowYears}
         />
       )
+    )}
+    {openMonth && (
+       <MonthSelector
+        locale={locale}
+        setCurrentMonth={setCurrentMonth}
+        setOpenMonth={setOpenMonth}
+        date={date}
+        currentMonth={currentMonth.getMonth()}
+      />
     )}
     </CalendarContainer>
   );
