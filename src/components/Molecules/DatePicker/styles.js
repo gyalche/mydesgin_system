@@ -333,7 +333,11 @@ export const DecadeButton = styled.button`
   margin: 8px 0px;
   padding: 9px 15px;
   border: ${({selected}) => selected ? '1px solid var(--rds-color-primary-1-normal)' : 'none'};
-  color: ${({selected}) => selected  && 'var(--rds-color-primary-1-normal)'};
+  color: ${({selected, keyboardSelect}) => {
+    if(selected) return 'var(--rds-color-primary-1-normal)';
+    if(keyboardSelect) return 'white';
+  }};
+  background-color: ${({keyboardSelect}) => keyboardSelect && 'var(--rds-color-chart-1)'};
   &:hover {
     color: var(--rds-color-primary-1-normal);
   }

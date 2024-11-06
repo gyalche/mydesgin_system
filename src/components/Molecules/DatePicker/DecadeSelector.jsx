@@ -1,13 +1,15 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DecadeGrid, DecadeButton } from './styles';
 
 const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect }) => {
+  const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
 
   // Focus the selected decade when the component renders or updates
   useEffect(() => {
     const selectedIndex = selectedDecade ? (selectedDecade - currentDecadeStart) / 10 + 1 : 1;
+    setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
   }, [selectedDecade, currentDecadeStart]);
 
@@ -15,7 +17,7 @@ const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect
   const handleKeyDown = (event, index) => {
     let newIndex;
     const totalButtons = buttonRefs.current.length;
-    
+
     switch (event.key) {
       case 'ArrowRight':
         newIndex = (index + 1) % totalButtons;
@@ -35,7 +37,8 @@ const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect
       default:
         return;
     }
-    // event.preventDefault();
+    event.preventDefault();
+    setFocusedButton(newIndex);
     buttonRefs.current[newIndex].focus();
   };
 
@@ -54,6 +57,7 @@ const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect
             onClick={() => handleDecadeSelect(decadeStart)}
             onKeyDown={(event) => handleKeyDown(event, index + 1)}
             tabIndex={0}
+            keyboardSelect={(focusedButton === index + 1) && (selectedDecade !== decadeStart)}
           >
             {decadeStart} - {decadeStart + 9}
           </DecadeButton>
