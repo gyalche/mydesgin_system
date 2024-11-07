@@ -88,6 +88,14 @@ const DatePicker = ({
     return normalizedStartDate && normalizedEndDate && normalizedDay > normalizedStartDate && normalizedDay < normalizedEndDate;
   },[startDate, endDate]);
 
+  const handlePrevYear = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() - 1, prevMonth.getMonth(), 1));
+  }, [setCurrentMonth]);
+
+  const handleNextYear = useCallback(() => {
+    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() + 1, prevMonth.getMonth(), 1));
+  }, [setCurrentMonth]);
+
   const handlePrevMonth = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
   }, [setCurrentMonth]);
@@ -251,7 +259,7 @@ const DatePicker = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
-
+  
   return (
     <DatePickerContainer>
       <InputContainer>
@@ -361,6 +369,11 @@ const DatePicker = ({
               isSelected={currentDate}
               enableKeyboard={enabledKeyboardFunc}
               disableKeyboard={disableKeyboardFunc}
+              handlePrevYear={handlePrevYear}
+              handleNextYear={handleNextYear}
+              handlePrevMonth={handlePrevMonth}
+              handleNextMonth={handleNextMonth}
+              setDates={setCurrentMonth}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -379,6 +392,11 @@ const DatePicker = ({
                 isSelected={currentDate}
                 enableKeyboard={enabledKeyboardFunc}
                 disableKeyboard={disableKeyboardFunc}
+                handlePrevYear={handlePrevYear}
+                handleNextYear={handleNextYear}
+                handlePrevMonth={handlePrevMonth}
+                handleNextMonth={handleNextMonth}
+                setDates={setCurrentMonth}
               />
             )}
           </Calenders>
@@ -403,6 +421,11 @@ const DatePicker = ({
               isSelected={currentDate}
               enableKeyboard={enabledKeyboardFunc}
               disableKeyboard={disableKeyboardFunc}
+              handlePrevYear={handlePrevYear}
+              handleNextYear={handleNextYear}
+              handlePrevMonth={handlePrevMonth}
+              handleNextMonth={handleNextMonth}
+              setDates={setCurrentMonth}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -421,6 +444,11 @@ const DatePicker = ({
                 isSelected={currentDate}
                 enableKeyboard={enabledKeyboardFunc}
                 disableKeyboard={disableKeyboardFunc}
+                handlePrevYear={handlePrevYear}
+                handleNextYear={handleNextYear}
+                handlePrevMonth={handlePrevMonth}
+                handleNextMonth={handleNextMonth}
+                setDates={setCurrentMonth}
               />
             )}
           </Calenders>

@@ -169,7 +169,7 @@ export const CalenderMonths = styled.div`
   font-size: 17px;
   font-weight: 700;
   display: flex;
-  gap: 5px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
@@ -339,7 +339,7 @@ export const DecadeButton = styled.button`
   }};
   background-color: ${({keyboardSelect}) => keyboardSelect && 'var(--rds-color-chart-1)'};
   &:hover {
-    color: var(--rds-color-primary-1-normal);
+    color: ${({keyboardSelect}) => !keyboardSelect && 'var(--rds-color-primary-1-normal)'};
   }
 
   &:focus {

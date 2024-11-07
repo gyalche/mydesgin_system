@@ -32,14 +32,19 @@ const Calendar = ({
   setHoveredDate,
   isSelected,
   enableKeyboard,
-  disableKeyboard
+  disableKeyboard,
+  handlePrevYear,
+  handleNextYear,
+  handlePrevMonth,
+  handleNextMonth,
+  setDates,
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
   const [showYears, setShowYears] = useState(false);
   const [selectedDecade, setSelectedDecade] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
-  
+
   const days = getDaysInMonth(currentMonth);
   const currentYear = new Date(Date.now()).getFullYear();
   const currentDecadeStart = Math.floor(currentYear / 10) * 10;
@@ -55,21 +60,6 @@ const Calendar = ({
     }
   }, [startDate, endDate, isRangePicker, setHoveredDate]);
 
-  const handlePrevYear = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() - 1, prevMonth.getMonth(), 1));
-  }, [setCurrentMonth]);
-
-  const handleNextYear = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() + 1, prevMonth.getMonth(), 1));
-  }, [setCurrentMonth]);
-
-  const handlePrevMonth = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
-  }, [setCurrentMonth]);
-
-  const handleNextMonth = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
-  }, [setCurrentMonth]);
   const handleMouseLeave = () => {
     setHoveredDate(null);
   };
@@ -108,6 +98,9 @@ const Calendar = ({
       enableKeyboard();
     }
   },[showYears, openDecade]);
+  useEffect(() => {
+    setDates(currentMonth);
+  }, [currentMonth]);
 
   return (
     <CalendarContainer data-testid='calender-container'>
@@ -122,18 +115,7 @@ const Calendar = ({
 
       <CalendarHeader>
         <HeaderIcons>
-          <CalendarIcon name='Interface-chevron-double-left' onClick={()=>{
-            // if(openDecade && showYears){
-            //   setShowYears(false);
-            // }
-            // if(openDecade && !showYears){
-            //   setOpenDecade(false);
-            // }
-            // if(!openDecade && !showYears){
-            //   handlePrevYear();
-            // }
-            handlePrevYear();
-          }}/>
+          <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
             {(!openDecade && !openMonth) && ( 
               <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
             )}
@@ -234,6 +216,11 @@ Calendar.propTypes = {
   isSelected: PropTypes.instanceOf(Date),
   enableKeyboard: PropTypes.func,
   disableKeyboard: PropTypes.func,
+  handlePrevYear: PropTypes.func,
+  handleNextYear: PropTypes.func,
+  handlePrevMonth: PropTypes.func,
+  handleNextMonth: PropTypes.func,
+  setDates: PropTypes.any,
 };
 
 export default Calendar;
