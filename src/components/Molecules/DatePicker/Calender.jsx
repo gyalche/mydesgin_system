@@ -90,7 +90,9 @@ const Calendar = ({
   },[]);
 
   useEffect(() => {
-    setCurrentMonth(date);
+    if (currentMonth.getTime() !== date.getTime()) {
+      setCurrentMonth(date);
+    }
   }, [date]);
 
   useEffect(() => {
