@@ -100,7 +100,7 @@ const Calendar = ({
   },[showYears, openDecade]);
   useEffect(() => {
     setDates(currentMonth);
-  }, [currentMonth]);
+  }, [currentMonth, setDates]);
 
   return (
     <CalendarContainer data-testid='calender-container'>
