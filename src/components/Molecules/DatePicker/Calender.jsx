@@ -102,7 +102,7 @@ const Calendar = ({
   },[showYears, openDecade]);
   useEffect(() => {
     setDates(currentMonth);
-  }, [currentMonth, setDates]);
+  }, [setDates]);
 
   return (
     <CalendarContainer data-testid='calender-container'>
@@ -183,7 +183,7 @@ const Calendar = ({
         <YearSelector
           selectedDecade={selectedDecade}
           yearsInDecade={yearsInDecade}
-          setCurrentMonth={setCurrentMonth}
+          setCurrentMonth={setDates}
           setOpenDecade={setOpenDecade}
           setShowYears={setShowYears}
         />
@@ -192,7 +192,7 @@ const Calendar = ({
     {openMonth && (
        <MonthSelector
         locale={locale}
-        setCurrentMonth={setCurrentMonth}
+        setCurrentMonth={setDates}
         setOpenMonth={setOpenMonth}
         date={date}
         currentMonth={currentMonth.getMonth()}
