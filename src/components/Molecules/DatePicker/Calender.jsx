@@ -114,31 +114,31 @@ const Calendar = ({
           </TextAreaYearMonth>
           {(!openDecade && !openMonth) && <TextAreaYearMonth onClick={openSelectMonth}>
             {getLocalizedMonthName(currentMonth, locale)}
-            </TextAreaYearMonth>}
+            </TextAreaYearMonth>
+          }
       </CalenderMonths>
 
   {isDoubleView ? (<>
-  {disableHeader ? (<></>) : (
+      {disableHeader ? (<></>) : (
+          <CalendarHeader>
+            <HeaderIcons>
+              <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
+                {(!openDecade && !openMonth) && ( 
+                  <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+                )}
+            </HeaderIcons>
 
-      <CalendarHeader>
-        <HeaderIcons>
-          <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
-            {(!openDecade && !openMonth) && ( 
-              <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
-            )}
-        </HeaderIcons>
-
-        <HeaderIcons style={{ marginLeft: isDoubleView && disableHeader && '520px'}}>
-          {(!openDecade && !openMonth) && (
-            <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
-          )}
-          <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
-        </HeaderIcons>
-      </CalendarHeader>
-  )}
-</>): (
+            <HeaderIcons m={openDecade ? '585px':'520px'}>
+              {(!openDecade && !openMonth) && (
+                <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+              )}
+              <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+            </HeaderIcons>
+          </CalendarHeader>
+      )}
+    </>
+): (
   <>
-  
       <CalendarHeader>
         <HeaderIcons>
           <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>

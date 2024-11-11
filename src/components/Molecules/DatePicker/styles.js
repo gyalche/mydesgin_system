@@ -90,6 +90,7 @@ export const HeaderIcons = styled.div`
   display: flex;
   flex-wrap: nowrap;
   gap: 10px;
+  margin-left: ${({m}) => m && m};
 `;
 
 export const CalendarContainer = styled.div`
