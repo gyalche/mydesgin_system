@@ -38,6 +38,8 @@ const Calendar = ({
   handlePrevMonth,
   handleNextMonth,
   setDates,
+  isDoubleView,
+  disableHeader,
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
@@ -115,6 +117,28 @@ const Calendar = ({
             </TextAreaYearMonth>}
       </CalenderMonths>
 
+  {isDoubleView ? (<>
+  {disableHeader ? (<></>) : (
+
+      <CalendarHeader>
+        <HeaderIcons>
+          <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
+            {(!openDecade && !openMonth) && ( 
+              <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+            )}
+        </HeaderIcons>
+
+        <HeaderIcons style={{ marginLeft: '520px'}}>
+          {(!openDecade && !openMonth) && (
+            <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+          )}
+          <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+        </HeaderIcons>
+      </CalendarHeader>
+  )}
+</>): (
+  <>
+  
       <CalendarHeader>
         <HeaderIcons>
           <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
@@ -130,6 +154,8 @@ const Calendar = ({
           <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
         </HeaderIcons>
       </CalendarHeader>
+  </>
+)}
      {!openDecade && !openMonth && (
         <DaysContainer>
           {weekdays.map(({day, dayIndex}, index) => (
@@ -223,6 +249,8 @@ Calendar.propTypes = {
   handlePrevMonth: PropTypes.func,
   handleNextMonth: PropTypes.func,
   setDates: PropTypes.any,
+  isDoubleView: PropTypes.bool,
+  disableHeader: PropTypes.bool,
 };
 
 export default Calendar;

@@ -119,7 +119,7 @@ const DatePicker = ({
   const onChangeCurrent = useCallback((val) => {
     setCurrentMonth(val);
   }, [setCurrentMonth]);
-  
+
   //custom hook to close the model
   useClickOutside(datePickerRef, () => (setOpenCalender(false), setOpenCalenderEnd(false)));
   closeOpenModal(() => (setOpenCalender(false), setOpenCalenderEnd(false)));
@@ -378,6 +378,7 @@ const DatePicker = ({
               handlePrevMonth={handlePrevMonth}
               handleNextMonth={handleNextMonth}
               setDates={onChangeCurrent}
+              isDoubleView={isDoubleView}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -401,6 +402,8 @@ const DatePicker = ({
                 handlePrevMonth={handlePrevMonth}
                 handleNextMonth={handleNextMonth}
                 setDates={onChangeCurrent}
+                isDoubleView={isDoubleView}
+                disableHeader={true}
               />
             )}
           </Calenders>
@@ -430,6 +433,7 @@ const DatePicker = ({
               handlePrevMonth={handlePrevMonth}
               handleNextMonth={handleNextMonth}
               setDates={onChangeCurrent}
+              isDoubleView={isDoubleView}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -453,6 +457,8 @@ const DatePicker = ({
                 handlePrevMonth={handlePrevMonth}
                 handleNextMonth={handleNextMonth}
                 setDates={onChangeCurrent}
+                isDoubleView={isDoubleView}
+                disableHeader={true}
               />
             )}
           </Calenders>
