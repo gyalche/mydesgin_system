@@ -128,7 +128,7 @@ const Calendar = ({
             )}
         </HeaderIcons>
 
-        <HeaderIcons style={{ marginLeft: '520px'}}>
+        <HeaderIcons style={{ marginLeft: isDoubleView && disableHeader && '520px'}}>
           {(!openDecade && !openMonth) && (
             <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
           )}
