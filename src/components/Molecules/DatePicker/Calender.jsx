@@ -218,6 +218,7 @@ const Calendar = ({
           yearsInDecade={yearsInDecade}
           setCurrentMonth={setDates}
           setOpenDecade={setOpenDecade}
+          selectedYear={selectYear}
           setShowYears={setShowYears}
           handleYearSelect={handleYearSelect}
         />

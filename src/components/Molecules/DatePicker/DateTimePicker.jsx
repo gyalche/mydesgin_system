@@ -20,6 +20,20 @@ const DateTimePicker = ({ onChange,
   });
 
   const handleChange = (value, type, position) => {
+    const isValidDate = (date) => {
+      return date instanceof Date && !isNaN(date);
+    };
+  
+    const isValidTime = (time) => {
+      const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      return typeof time === 'string' && timeRegex.test(time);
+    };
+  
+    const isValidValue = (type === 'date' ? isValidDate(value) : isValidTime(value));
+  
+    if (!isValidValue) {
+      return;
+    }
     setValue((data) => {
       const myData = {...data};
   
@@ -35,7 +49,18 @@ const DateTimePicker = ({ onChange,
       } else {
         myData[type] = value;
       }
-      onChange(myData);
+      const isValidMyData = Object.keys(myData).every((key) => {
+        const val = myData[key];
+        if (isDoublePicker && Array.isArray(val)) {
+          return val.every((item) => type === 'date' ? isValidDate(item) : isValidTime(item));
+        }
+        return type === 'date' ? isValidDate(val) : isValidTime(val);
+      });
+  
+      if (isValidMyData) {
+        onChange(myData);
+      }
+  
       return myData;
     });
   };

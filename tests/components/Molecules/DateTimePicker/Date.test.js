@@ -48,26 +48,26 @@ describe('DatePicker Component', () => {
   });
 
   //select a single date;
-  it('selects a single date and updates the input value', () => {
+  it('selects a single date and updates the input value', async () => {
     render(<DatePicker isRangePicker={false} onChange={mockOnChange} isDoubleView={false}/>);
 
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
 
-    waitFor(() => {
+    await waitFor(() => {
       const validDate = new Date().getDate();
       const dayButton = screen.getByTestId(`day-${validDate}`);
       fireEvent.click(dayButton);
     });
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date));
     });
   });
 
   
   // Prevent selecting past dates
-  it('prevents selecting past dates', () => {
+  it('prevents selecting past dates', async () => {
     render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US' isDoubleView={false}/>);
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
@@ -75,9 +75,9 @@ describe('DatePicker Component', () => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
-    const pastDayButton = screen.findByTestId(`day-${yesterday.getDate()}`);
+    const pastDayButton = await screen.findByTestId(`day-${yesterday.getDate()}`);
   
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.click(pastDayButton);
       expect(mockOnChange).not.toHaveBeenCalled();
     });
@@ -104,9 +104,9 @@ describe('DatePicker Component', () => {
 
     const firstDay = new Date().getDate();
     const secondDay = new Date().getDate() + 2;
-  
-    const startDay = screen.findByTestId(`day-${firstDay}`);
+
     waitFor(()=>{
+      const startDay = screen.findByTestId(`day-${firstDay}`);
       fireEvent.click(startDay);
       expect(firstInput).toHaveValue(expect.stringContaining(`${firstDay}`));
     });
@@ -155,8 +155,8 @@ describe('DatePicker Component', () => {
        new Promise((resolve) => setTimeout(resolve, 1000));
     });
 
-    const hoverDay = screen.findByTestId(`day-${secondDay}`);
     waitFor(() => {
+      const hoverDay = screen.findByTestId(`day-${secondDay}`);
       fireEvent.mouseEnter(hoverDay);
       expect(hoverDay).toHaveStyleRule('background-color: var(--rds-color-primary-1-subtle)');
     });

@@ -31,51 +31,51 @@ describe('TimePicker Component', () => {
   });
 
   // Test for opening and closing the dropdown
-  it('opens and closes the dropdown when clicking the input field', () => {
+  it('opens and closes the dropdown when clicking the input field', async () => {
     render(<TimePicker onChange={mockOnChange} />);
     const inputField = screen.getByPlaceholderText('hh:mm');
     const dropdown = screen.findByTestId('dropdown-id');
-    waitFor(()=>{
-        expect(dropdown).not.toBeInTheDocument();
+    waitFor(() => {
+      expect(dropdown).not.toBeInTheDocument();
     });
 
     // Open the dropdown
-    waitFor(()=>{
-        fireEvent.click(inputField);
-        expect(dropdown).toBeInTheDocument();
+    waitFor(() => {
+      fireEvent.click(inputField);
+      expect(dropdown).toBeInTheDocument();
     });
 
-    waitFor(()=>{
-        fireEvent.click(document.body);
-        expect(dropdown).not.toBeInTheDocument();
+    waitFor(() => {
+      fireEvent.click(document.body);
+      expect(dropdown).not.toBeInTheDocument();
     });
   });
 
   // Test for selecting hour
   it('updates selected hour and calls onChange when an hour is selected', async () => {
-    render(<TimePicker onChange={mockOnChange} />);
-    const inputField = screen.getByPlaceholderText('hh:mm');
-    fireEvent.click(inputField);
+      render(<TimePicker onChange={mockOnChange} />);
+      const inputField = screen.getByPlaceholderText('hh:mm');
+      fireEvent.click(inputField);
 
-    const hourOption = screen.queryByText('5');
-    fireEvent.click(hourOption);
-    expect(mockOnChange).toHaveBeenCalledWith(expect.stringContaining('5'));
+      const hourOption = screen.queryByText('5');
+      fireEvent.click(hourOption);
+      expect(mockOnChange).toHaveBeenCalledWith(expect.stringContaining('5'));
     });
 
       // Test for selecting minute
     it('updates selected minute and calls onChange when a minute is selected', async () => {
-        render(<TimePicker onChange={mockOnChange} is12Hour={false}/>);
-        const inputField = screen.getByPlaceholderText('hh:mm');
-        fireEvent.click(inputField);
-        const hourOption = screen.getByText('5');
-        fireEvent.click(hourOption);
+      render(<TimePicker onChange={mockOnChange} is12Hour={false}/>);
+      const inputField = screen.getByPlaceholderText('hh:mm');
+      fireEvent.click(inputField);
+      const hourOption = screen.getByText('5');
+      fireEvent.click(hourOption);
 
-        const minuteOption = screen.getByText('30');
-        fireEvent.click(minuteOption);
+      const minuteOption = screen.getByText('30');
+      fireEvent.click(minuteOption);
 
-        await waitFor(() => {
-          expect(mockOnChange).toHaveBeenCalledWith(expect.stringContaining('5:30'));
-        });
+      await waitFor(() => {
+        expect(mockOnChange).toHaveBeenCalledWith(expect.stringContaining('5:30'));
+      });
     });
 
 // Test for selecting AM/PM

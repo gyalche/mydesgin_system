@@ -1,4 +1,7 @@
 export const getDaysInMonth = (date) => {
+  if(!(date instanceof Date) || isNaN(date)){
+    throw new Error('Invalid Date Provided');
+  }
     const year = date.getFullYear();
     const month = date.getMonth();
     

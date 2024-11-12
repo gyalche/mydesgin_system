@@ -12,6 +12,9 @@ const MonthSelector = ({ locale, setCurrentMonth, setOpenMonth, date, currentMon
   }, [focusedButton]);
 
   const handleMonthSelect = (monthIndex) => {
+		if(!(date instanceof Date) || isNaN(date)){
+			return;
+		}
     setCurrentMonth(new Date(date.getFullYear(), monthIndex, 1));
     setOpenMonth(false);
   };

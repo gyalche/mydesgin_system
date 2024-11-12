@@ -31,13 +31,15 @@ const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect
         break;
       case 'Enter':
         buttonRefs.current[index].click();
-        break;
+        return;
       default:
         return;
     }
     event.preventDefault();
-    setFocusedButton(newIndex);
-    buttonRefs.current[newIndex].focus();
+    if(newIndex>=0 && newIndex < totalButtons && buttonRefs?.current[newIndex]){
+      setFocusedButton(newIndex);
+      buttonRefs.current[newIndex].focus();
+    }
   };
 
   return (

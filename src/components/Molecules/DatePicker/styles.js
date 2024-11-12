@@ -282,13 +282,17 @@ export const TimeOption = styled.li`
   cursor: pointer;
   text-align: center;
   font-size: 12px;
-  color: ${({ selected }) => selected && 'var(--rds-color-primary-1-dark)'};
+  color: ${({ selected, highlighted }) => {
+    if(selected) return'var(--rds-color-primary-1-dark)';
+    if(highlighted) return 'white';
+  }};
   background-color: ${({selected, highlighted}) => {
     if(selected) return 'var(--rds-color-primary-1-subtle)';
     if(highlighted) return 'var(--rds-color-chart-1)';
   }};
   &:hover {
     background-color: var(--rds-color-neutral-1);
+    color: black;
   }
 `;
 

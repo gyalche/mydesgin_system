@@ -6,12 +6,48 @@ const YearSelector = ({ selectedDecade, yearsInDecade, setCurrentMonth, setOpenD
   const [selectedYearIndex, setSelectedYearIndex] = useState(0);
   const buttonRefs = useRef([]);
 
-  const handleYearSelection = (year, index) => {
+  useEffect(() => {
+    // Set initial selection to current year if it's in the decade, otherwise to the first year
+    const currentYear = new Date().getFullYear();
+    const currentYearIndex = yearsInDecade.indexOf(currentYear);
+    setSelectedYearIndex(currentYearIndex !== -1 ? currentYearIndex : 0);
+  }, [yearsInDecade]);
+
+ const handleKeyDown = (event, index) => {
+    let newIndex;
+    const totalButtons = buttonRefs.current.length;
+
+    switch (event.key) {
+      case 'ArrowRight':
+        newIndex = (index + 1) % totalButtons;
+        break;
+      case 'ArrowLeft':
+        newIndex = (index - 1 + totalButtons) % totalButtons;
+        break;
+      case 'ArrowDown':
+        newIndex = index + 3 < totalButtons ? index + 3 : index;
+        break;
+      case 'ArrowUp':
+        newIndex = index - 3 >= 0 ? index - 3 : index;
+        break;
+      case 'Enter':
+        buttonRefs.current[index].click();
+        return;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    setSelectedYearIndex(newIndex);
+    buttonRefs.current[newIndex]?.focus();
+  };
+
+  const handleYearSelection = (year) => {
     setCurrentMonth(new Date(year, 0, 1));
     setOpenDecade(false);
     setShowYears(false);
   };
-  
+
   return (
     <DecadeGrid tabIndex={0}>
       <DecadeButton disabled>
@@ -22,7 +58,9 @@ const YearSelector = ({ selectedDecade, yearsInDecade, setCurrentMonth, setOpenD
           key={year}
           ref={(el) => (buttonRefs.current[index] = el)}
           onClick={() => handleYearSelection(year, index)}
+          onKeyDown={(event) => handleKeyDown(event, index)}
           tabIndex={0}
+          selected={selectedYearIndex === index}
         >
           {year}
         </DecadeButton>
