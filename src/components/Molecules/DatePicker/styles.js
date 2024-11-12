@@ -230,7 +230,6 @@ export const Dropdown = styled.div`
     if(!is12Hour) return '12px';
     if(is12Hour && isTimeRange) return '-70px';
   }};
-  background: var(--rds-color-neutral-1);
   border-radius: 4px;
   z-index: 9999;
   display: flex;
@@ -334,7 +333,6 @@ export const DecadeButton = styled.button`
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 96.33px;
-  heigh: 32px;
   margin: 8px 0px;
   padding: 9px 15px;
   border: ${({selected}) => selected ? '1px solid var(--rds-color-primary-1-normal)' : 'none'};

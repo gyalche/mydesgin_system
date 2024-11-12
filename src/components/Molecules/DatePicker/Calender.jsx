@@ -44,7 +44,6 @@ const Calendar = ({
   const [openMonth, setOpenMonth] = useState(false);
   const [showYears, setShowYears] = useState(false);
   const [selectedDecade, setSelectedDecade] = useState(null);
-  const [selectYear, setSelectYear] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
 
   const days = getDaysInMonth(currentMonth);
@@ -82,12 +81,6 @@ const Calendar = ({
   const handleDecadeSelect = (decadeStart) => {
     setSelectedDecade(decadeStart);
     setShowYears(true);
-    disableKeyboard();
-  };
-
-  const handleYearSelect = (yearSelect) => {
-    setSelectYear(yearSelect);
-    setShowYears(false);
     disableKeyboard();
   };
 
@@ -217,9 +210,7 @@ const Calendar = ({
             yearsInDecade={yearsInDecade}
             setCurrentMonth={setDates}
             setOpenDecade={setOpenDecade}
-            selectedYear={selectYear}
             setShowYears={setShowYears}
-            handleYearSelect={handleYearSelect}
           />
         )
       )}

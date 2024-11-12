@@ -19,19 +19,18 @@ const DateTimePicker = ({ onChange,
     time: null,
   });
 
-  const handleChange = (value, type, position) => {
-    const isValidDate = (date) => {
-      return date instanceof Date && !isNaN(date);
-    };
-  
+  const validateValue = (value, type) => {
+    const isValidDate = (date) => date instanceof Date && !isNaN(date);
     const isValidTime = (time) => {
       const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
       return typeof time === 'string' && timeRegex.test(time);
     };
   
-    const isValidValue = (type === 'date' ? isValidDate(value) : isValidTime(value));
-  
-    if (!isValidValue) {
+    return type === 'date' ? isValidDate(value) : isValidTime(value);
+  };
+
+  const handleChange = (value, type, position) => {
+    if (!validateValue(value, type)) {
       return;
     }
     setValue((data) => {
@@ -52,15 +51,15 @@ const DateTimePicker = ({ onChange,
       const isValidMyData = Object.keys(myData).every((key) => {
         const val = myData[key];
         if (isDoublePicker && Array.isArray(val)) {
-          return val.every((item) => type === 'date' ? isValidDate(item) : isValidTime(item));
+          return val.every((item) => validateValue(item, type));
         }
-        return type === 'date' ? isValidDate(val) : isValidTime(val);
+        return validateValue(val, type);
       });
   
       if (isValidMyData) {
         onChange(myData);
       }
-  
+
       return myData;
     });
   };
