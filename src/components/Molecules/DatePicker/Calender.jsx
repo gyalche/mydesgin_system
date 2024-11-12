@@ -45,6 +45,7 @@ const Calendar = ({
   const [openMonth, setOpenMonth] = useState(false);
   const [showYears, setShowYears] = useState(false);
   const [selectedDecade, setSelectedDecade] = useState(null);
+  const [selectYear, setSelectYear] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
 
   const days = getDaysInMonth(currentMonth);
@@ -82,6 +83,12 @@ const Calendar = ({
   const handleDecadeSelect = (decadeStart) => {
     setSelectedDecade(decadeStart);
     setShowYears(true);
+    disableKeyboard();
+  };
+
+  const handleYearSelect = (yearSelect) => {
+    setSelectYear(yearSelect);
+    setShowYears(false);
     disableKeyboard();
   };
 
@@ -128,7 +135,7 @@ const Calendar = ({
                 )}
             </HeaderIcons>
 
-            <HeaderIcons m={openDecade ? '585px':'520px'}>
+            <HeaderIcons m={openDecade ? '585px': isRangePicker && isDoubleView && '520px'}>
               {(!openDecade && !openMonth) && (
                 <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
               )}
@@ -212,6 +219,7 @@ const Calendar = ({
           setCurrentMonth={setDates}
           setOpenDecade={setOpenDecade}
           setShowYears={setShowYears}
+          handleYearSelect={handleYearSelect}
         />
       )
     )}
