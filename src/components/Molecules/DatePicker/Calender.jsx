@@ -1,4 +1,3 @@
-// Calendar.js
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -125,114 +124,115 @@ const Calendar = ({
           }
       </CalenderMonths>
 
-  {isDoubleView ? (<>
-      {disableHeader ? (<></>) : (
-          <CalendarHeader>
-            <HeaderIcons>
-              <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
-                {(!openDecade && !openMonth) && ( 
-                  <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+    {isDoubleView ? (<>
+        {disableHeader ? (<></>) : (
+            <CalendarHeader>
+              <HeaderIcons>
+                <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
+                  {(!openDecade && !openMonth) && ( 
+                    <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+                  )}
+              </HeaderIcons>
+
+              <HeaderIcons m={openDecade ? '585px': isRangePicker && isDoubleView && '520px'}>
+                {(!openDecade && !openMonth) && (
+                  <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
                 )}
-            </HeaderIcons>
+                <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+              </HeaderIcons>
+            </CalendarHeader>
+        )}
+      </>
+      ): (
+        <>
+            <CalendarHeader>
+              <HeaderIcons>
+                <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
+                  {(!openDecade && !openMonth) && ( 
+                    <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+                  )}
+              </HeaderIcons>
 
-            <HeaderIcons m={openDecade ? '585px': isRangePicker && isDoubleView && '520px'}>
-              {(!openDecade && !openMonth) && (
-                <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
-              )}
-              <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
-            </HeaderIcons>
-          </CalendarHeader>
+              <HeaderIcons>
+                {(!openDecade && !openMonth) && (
+                  <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+                )}
+                <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+              </HeaderIcons>
+            </CalendarHeader>
+        </>
       )}
-    </>
-): (
-  <>
-      <CalendarHeader>
-        <HeaderIcons>
-          <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
-            {(!openDecade && !openMonth) && ( 
-              <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
-            )}
-        </HeaderIcons>
-
-        <HeaderIcons>
-          {(!openDecade && !openMonth) && (
-            <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
-          )}
-          <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
-        </HeaderIcons>
-      </CalendarHeader>
-  </>
-)}
-     {!openDecade && !openMonth && (
-        <DaysContainer>
-          {weekdays.map(({day, dayIndex}, index) => (
-            <WeekdayHeader
-              key={index}
-              isSaturday={dayIndex === 6}
-              isSunday={dayIndex === 0}
-            >
-              {day}
-            </WeekdayHeader>
-          ))}
-
-          {days.map((day, index) => {
-            const dayDate = day?.date;
-            const notCurrent = !day?.isCurrentMonth;
-            const dayOfWeek = dayDate?.getDay();
-            return (
-              <Day
-                key={`${day?.date}-${index}`}
-                currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
-                isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
-                  || normalizeDate(dayDate) === normalizeDate(endDate)
-                }
-                isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
-                  && normalizeDate(dayDate) !== normalizeDate(startDate)}
-                isInRange={isInRange(dayDate)}
-                isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
-                isSaturday={dayOfWeek === 5}
-                isSunday={dayOfWeek === 6}
-                onClick={!isRangePicker ? () => handleSingleDate(dayDate) : () => handleDateRangeClick(dayDate)}
-                isInHoverRange={isInHoverRange(dayDate)}
-                onMouseEnter={() => handleMouseEnter(dayDate)}
-                onMouseLeave={handleMouseLeave}
-                data-testid={`day-${dayDate.getDate()}`}
+      {!openDecade && !openMonth && (
+          <DaysContainer>
+            {weekdays.map(({day, dayIndex}, index) => (
+              <WeekdayHeader
+                key={index}
+                isSaturday={dayIndex === 6}
+                isSunday={dayIndex === 0}
               >
-                {dayDate.getDate()}
-              </Day>
-            );
-          })}
-        </DaysContainer>
-     )}
+                {day}
+              </WeekdayHeader>
+            ))}
 
-    {openDecade && (
-      !showYears ? (
-        <DecadeSelector
-          currentDecadeStart={currentDecadeStart}
-          selectedDecade={selectedDecade}
-          handleDecadeSelect={handleDecadeSelect}
-        />
-      ) : (
-        <YearSelector
-          selectedDecade={selectedDecade}
-          yearsInDecade={yearsInDecade}
+            {days.map((day, index) => {
+              const dayDate = day?.date;
+              const notCurrent = !day?.isCurrentMonth;
+              const dayOfWeek = dayDate?.getDay();
+              return (
+                <Day
+                  key={`${day?.date}-${index}`}
+                  currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
+                  isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
+                    || normalizeDate(dayDate) === normalizeDate(endDate)
+                  }
+                  isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
+                    && normalizeDate(dayDate) !== normalizeDate(startDate)}
+                  isInRange={isInRange(dayDate)}
+                  isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
+                  isSaturday={dayOfWeek === 5}
+                  isSunday={dayOfWeek === 6}
+                  onClick={!isRangePicker ? () => handleSingleDate(dayDate) : () => handleDateRangeClick(dayDate)}
+                  isInHoverRange={isInHoverRange(dayDate)}
+                  onMouseEnter={() => handleMouseEnter(dayDate)}
+                  onMouseLeave={handleMouseLeave}
+                  data-testid={`day-${dayDate.getDate()}`}
+                >
+                  {dayDate.getDate()}
+                </Day>
+              );
+            })}
+          </DaysContainer>
+      )}
+
+      {openDecade && (
+        !showYears ? (
+          <DecadeSelector
+            currentDecadeStart={currentDecadeStart}
+            selectedDecade={selectedDecade}
+            handleDecadeSelect={handleDecadeSelect}
+          />
+        ) : (
+          <YearSelector
+            selectedDecade={selectedDecade}
+            yearsInDecade={yearsInDecade}
+            setCurrentMonth={setDates}
+            setOpenDecade={setOpenDecade}
+            selectedYear={selectYear}
+            setShowYears={setShowYears}
+            handleYearSelect={handleYearSelect}
+          />
+        )
+      )}
+      {openMonth && (
+        <MonthSelector
+          locale={locale}
           setCurrentMonth={setDates}
-          setOpenDecade={setOpenDecade}
-          selectedYear={selectYear}
-          setShowYears={setShowYears}
-          handleYearSelect={handleYearSelect}
+          setOpenMonth={setOpenMonth}
+          date={date}
+          currentMonth={currentMonth.getMonth()}
         />
       )
-    )}
-    {openMonth && (
-       <MonthSelector
-        locale={locale}
-        setCurrentMonth={setDates}
-        setOpenMonth={setOpenMonth}
-        date={date}
-        currentMonth={currentMonth.getMonth()}
-      />
-    )}
+    }
     </CalendarContainer>
   );
 };

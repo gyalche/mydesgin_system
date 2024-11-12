@@ -230,7 +230,7 @@ export const Dropdown = styled.div`
     if(!is12Hour) return '12px';
     if(is12Hour && isTimeRange) return '-70px';
   }};
-  background: white;
+  background: var(--rds-color-neutral-1);
   border-radius: 4px;
   z-index: 9999;
   display: flex;
@@ -284,7 +284,7 @@ export const TimeOption = styled.li`
   font-size: 12px;
   color: ${({ selected, highlighted }) => {
     if(selected) return'var(--rds-color-primary-1-dark)';
-    if(highlighted) return 'white';
+    if(highlighted) return 'var(--rds-color-neutral-1)';
   }};
   background-color: ${({selected, highlighted}) => {
     if(selected) return 'var(--rds-color-primary-1-subtle)';
@@ -292,7 +292,7 @@ export const TimeOption = styled.li`
   }};
   &:hover {
     background-color: var(--rds-color-neutral-1);
-    color: black;
+    color: var(--rds-color-neutral-11);
   }
 `;
 
@@ -340,7 +340,7 @@ export const DecadeButton = styled.button`
   border: ${({selected}) => selected ? '1px solid var(--rds-color-primary-1-normal)' : 'none'};
   color: ${({selected, keyboardSelect}) => {
     if(selected) return 'var(--rds-color-primary-1-normal)';
-    if(keyboardSelect) return 'white';
+    if(keyboardSelect) return 'var(--rds-color-neutral-1)';
   }};
   background-color: ${({keyboardSelect}) => keyboardSelect && 'var(--rds-color-chart-1)'};
   &:hover {
