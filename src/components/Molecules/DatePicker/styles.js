@@ -159,7 +159,7 @@ export const CalendarWrapperEnd = styled(CalendarWrapper)`
 export const Calenders = styled.div`
   display: flex;
   gap: 5px;
-  borderRadius: 4px;
+  border-radius: 4px;
 `;
 
 export const CalenderMonths = styled.div`

@@ -295,7 +295,7 @@ const DatePicker = ({
                   setStartDate('');
                   dateRange.shift();
                 }}
-                date-testid='icon-click'
+                data-testid='icon-click'
               >
                 <Icon name="alert-circle-solid-cross" />
               </InputIcon>
