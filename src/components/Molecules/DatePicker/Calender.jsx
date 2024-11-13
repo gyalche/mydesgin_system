@@ -87,6 +87,20 @@ const Calendar = ({
 
   closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
 
+  const goToNextDecade = () => {
+    setSelectedDecade((currentDecade) => {
+      const nextDecade = currentDecade + 10;
+      return nextDecade;
+    });
+  };
+  
+  const goToPreviousDecade = () => {
+    setSelectedDecade((currentDecade) => {
+      const previousDecade = currentDecade - 10;
+      return previousDecade;
+    });
+  };
+  
   useEffect(()=>{
     setSelectedDecade(currentDecadeStart);
   },[]);
@@ -107,20 +121,7 @@ const Calendar = ({
     setDates(currentMonth);
   }, [setDates]);
 
-  const goToNextDecade = () => {
-    setSelectedDecade((currentDecade) => {
-      const nextDecade = currentDecade + 10;
-      return nextDecade;
-    });
-  };
-  
-  // Function to go to the previous decade
-  const goToPreviousDecade = () => {
-    setSelectedDecade((currentDecade) => {
-      const previousDecade = currentDecade - 10;
-      return previousDecade;
-    });
-  };
+
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
