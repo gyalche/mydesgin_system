@@ -2,17 +2,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
-  CalendarHeader,
   CalendarWrapper,
   Calenders,
   InputIcon,
   DatePickerContainer,
-  HeaderIcons,
   IconWrapper,
   InputContainer,
   InputWrapper,
   NextIcon,
-  CalendarIcon,
   CalendarWrapperEnd,
  } from './styles';
 import { normalizeDate } from '../../../utils';

@@ -79,7 +79,7 @@ const Calendar = ({
   };
 
   const handleDecadeSelect = (decadeStart) => {
-    if(typeof decadeStart !== 'number' && decadeStart.toString().length !== 4) return;
+    if(typeof decadeStart !== 'number' || decadeStart < 1000 || decadeStart > 9999) return;
     setSelectedDecade(decadeStart);
     setShowYears(true);
     disableKeyboard();
@@ -107,6 +107,20 @@ const Calendar = ({
     setDates(currentMonth);
   }, [setDates]);
 
+  const goToNextDecade = () => {
+    setSelectedDecade((currentDecade) => {
+      const nextDecade = currentDecade + 10;
+      return nextDecade;
+    });
+  };
+  
+  // Function to go to the previous decade
+  const goToPreviousDecade = () => {
+    setSelectedDecade((currentDecade) => {
+      const previousDecade = currentDecade - 10;
+      return previousDecade;
+    });
+  };
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
@@ -133,7 +147,7 @@ const Calendar = ({
                 {(!openDecade && !openMonth) && (
                   <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
                 )}
-                <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+                <CalendarIcon name='Interface-chevron-double-right' onClick={() =>  handleNextYear()}/>
               </HeaderIcons>
             </CalendarHeader>
         )}
@@ -142,7 +156,7 @@ const Calendar = ({
         <>
             <CalendarHeader>
               <HeaderIcons>
-                <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
+                <CalendarIcon name='Interface-chevron-double-left' onClick={()=> !openDecade ? handlePrevYear() :goToPreviousDecade()}/>
                   {(!openDecade && !openMonth) && ( 
                     <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
                   )}
@@ -152,7 +166,7 @@ const Calendar = ({
                 {(!openDecade && !openMonth) && (
                   <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
                 )}
-                <CalendarIcon name='Interface-chevron-double-right' onClick={() => handleNextYear()}/>
+                <CalendarIcon name='Interface-chevron-double-right' onClick={() => !openDecade ? handleNextYear() : goToNextDecade()}/>
               </HeaderIcons>
             </CalendarHeader>
         </>

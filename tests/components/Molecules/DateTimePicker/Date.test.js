@@ -28,7 +28,7 @@ describe('DatePicker Component', () => {
     const input = await screen.findByTestId('first-input');
     fireEvent.click(input);
     const check = screen.queryByText(currentMonth);
-    waitFor(() => {
+    await waitFor(() => {
       expect(check).toBeInTheDocument();
     });
   });
