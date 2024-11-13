@@ -5,7 +5,12 @@ const closeOpenModal = (callback) => {
       const closeTheOpenModel = (event) => {
         if (event.key === 'Escape') {
           if(typeof callback === 'function'){
-            callback();
+            try {
+              callback();
+            } catch (error) {
+              new Error(error);
+            }
+            
           }
         }
       };

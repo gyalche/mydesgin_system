@@ -7,7 +7,7 @@ const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect
   const buttonRefs = useRef([]);
 
   useEffect(() => {
-    const selectedIndex = selectedDecade ? (selectedDecade - currentDecadeStart) / 10 + 1 : 1;
+    const selectedIndex = selectedDecade ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1)) : 1;
     setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
   }, [selectedDecade, currentDecadeStart]);

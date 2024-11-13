@@ -56,7 +56,7 @@ const Calendar = ({
   const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
 
   const handleMouseEnter = useCallback((day) => {
-    if (isRangePicker && startDate && !endDate) {
+    if (isRangePicker && startDate && !endDate && (day instanceof Date)) {
       setHoveredDate(day);
     }
   }, [startDate, endDate, isRangePicker, setHoveredDate]);
@@ -79,6 +79,7 @@ const Calendar = ({
   };
 
   const handleDecadeSelect = (decadeStart) => {
+    if(typeof decadeStart !== 'number' && decadeStart.toString().length !== 4) return;
     setSelectedDecade(decadeStart);
     setShowYears(true);
     disableKeyboard();
@@ -101,6 +102,7 @@ const Calendar = ({
       enableKeyboard();
     }
   },[showYears, openDecade]);
+
   useEffect(() => {
     setDates(currentMonth);
   }, [setDates]);
@@ -169,6 +171,8 @@ const Calendar = ({
 
             {days.map((day, index) => {
               const dayDate = day?.date;
+              const isValidDate = dayDate instanceof Date && !isNaN(dayDate);
+              if (!isValidDate) return null;
               const notCurrent = !day?.isCurrentMonth;
               const dayOfWeek = dayDate?.getDay();
               return (

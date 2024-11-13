@@ -43,6 +43,7 @@ const YearSelector = ({ selectedDecade, yearsInDecade, setCurrentMonth, setOpenD
   };
 
   const handleYearSelection = (year) => {
+    if(typeof year !== 'number' && year.toString().length !== 4) return;
     setCurrentMonth(new Date(year, 0, 1));
     setOpenDecade(false);
     setShowYears(false);

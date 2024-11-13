@@ -164,7 +164,6 @@ export const Calenders = styled.div`
 
 export const CalenderMonths = styled.div`
   color: var(--rds-color-neutral-9);
-  postion: absolute;
   text-align: center;
   padding-bottom: 20px;
   font-size: 17px;

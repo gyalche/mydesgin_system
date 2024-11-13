@@ -18,7 +18,7 @@ describe('DatePicker Component', () => {
     render(<DatePicker onChange={mockOnChange} placeholder='yyyy/mm/dd'/>);
     expect(screen.getByTestId('first-input')).toBeInTheDocument();
     waitFor(() => {
-      expect(screen.getByTestId('first-input')).toHaveProperty('placeholder', placeholder);
+      expect(screen.getByTestId('first-input')).toHaveProperty('placeholder', 'yyyy/mm/dd');
     });
   });
 
@@ -97,7 +97,7 @@ describe('DatePicker Component', () => {
   it('displays selected start and end dates in inputs', async () => {
     render(<DatePicker isRangePicker onChange={mockOnChange} />);
 
-    waitFor(() => {
+    await waitFor(() => {
       const firstInput = screen.getByTestId('first-input');
       fireEvent.click(firstInput);
     });
@@ -111,7 +111,7 @@ describe('DatePicker Component', () => {
       expect(firstInput).toHaveValue(expect.stringContaining(`${firstDay}`));
     });
 
-    waitFor(()=>{
+    await waitFor(()=>{
       const secondInput = screen.getByTestId('second-input');
       fireEvent.click(secondInput);
     });
@@ -141,7 +141,7 @@ describe('DatePicker Component', () => {
   it('displays hover range correctly in range picker mode', async () => {
     render(<DatePicker isRangePicker onChange={mockOnChange} />);
     
-    waitFor(() => {
+    await waitFor(() => {
       const startInput = screen.getByTestId('first-input');
       fireEvent.click(startInput);
     });
@@ -151,7 +151,7 @@ describe('DatePicker Component', () => {
     // Select start date
     const startDay = screen.findByTestId(`day-${firstDay}`); 
     waitFor(()=>{
-      fireEvent.click(startDay);
+       fireEvent.click(startDay);
        new Promise((resolve) => setTimeout(resolve, 1000));
     });
 

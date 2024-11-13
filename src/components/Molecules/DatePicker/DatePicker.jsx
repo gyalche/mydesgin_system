@@ -117,6 +117,7 @@ const DatePicker = ({
   }, [startDate, hoveredDate]);
 
   const onChangeCurrent = useCallback((val) => {
+    if(!(val instanceof Date)) return;
     setCurrentMonth(val);
   }, [setCurrentMonth]);
 
@@ -158,11 +159,10 @@ const DatePicker = ({
   const handleKeyDown = (e) => {
     const today = new Date();
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
+    if(!(currentDate instanceof Date)) return;
     const updateDate = (changeFn) => {
       setCurrentDate((prev) => {
         const newDate = changeFn(prev);
-
         const newYear = newDate.getFullYear();
         const currentYear = currentMonth.getFullYear();
         const isNextMonth = newDate.getMonth() > currentMonth.getMonth();
@@ -235,15 +235,23 @@ const DatePicker = ({
   }, [currentDate, openCalender, openCalenderEnd, enableKeyboard]);
 
   useEffect(() => {
-    if(openCalender){
-      setCurrentDate(new Date(startDate ? startDate : Date.now()));
-      setCurrentMonth(new Date(startDate ? startDate : Date.now()));
+    const fallbackDate = new Date();
+  
+    if (openCalender) {
+      const initialDate = startDate && !isNaN(new Date(startDate)) ? new Date(startDate) : fallbackDate;
+      setCurrentDate(initialDate);
+      setCurrentMonth(initialDate);
     }
-    if(openCalenderEnd){
-      setCurrentDate(new Date(endDate ? endDate : startDate ? startDate : Date.now()));
-      setCurrentMonth(new Date(endDate ? endDate : startDate ? startDate : Date.now()));
+    
+    if (openCalenderEnd) {
+      const endDateValid = endDate && !isNaN(new Date(endDate));
+      const startDateValid = startDate && !isNaN(new Date(startDate));
+      const initialEndDate = endDateValid ? new Date(endDate) : startDateValid ? new Date(startDate) : fallbackDate;
+      setCurrentDate(initialEndDate);
+      setCurrentMonth(initialEndDate);
     }
   }, [startDate, openCalender, openCalenderEnd]);
+  
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -293,7 +301,9 @@ const DatePicker = ({
             {startDate ? (
               <InputIcon onClick={() => {
                   setStartDate('');
-                  dateRange.shift();
+                  if (Array.isArray(dateRange) && dateRange.length > 0) {
+                    dateRange.shift();
+                  }
                 }}
                 data-testid='icon-click'
               >

@@ -31,7 +31,7 @@ const DateTimePicker = ({ onChange,
 
   const handleChange = (value, type, position) => {
     if (!validateValue(value, type)) {
-      return;
+      return new Error('invalid');
     }
     setValue((data) => {
       const myData = {...data};
@@ -59,7 +59,6 @@ const DateTimePicker = ({ onChange,
       if (isValidMyData) {
         onChange(myData);
       }
-
       return myData;
     });
   };
