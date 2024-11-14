@@ -125,7 +125,7 @@ const Calendar = ({
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
-          <TextAreaYearMonth onClick={openSelectDecade}>
+          <TextAreaYearMonth onClick={!showYears && openSelectDecade}>
           {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : displayYear}
           </TextAreaYearMonth>
           {(!openDecade && !openMonth) && <TextAreaYearMonth onClick={openSelectMonth}>
@@ -227,6 +227,7 @@ const Calendar = ({
           <YearSelector
             selectedDecade={selectedDecade}
             yearsInDecade={yearsInDecade}
+            currentMonth={currentMonth}
             setCurrentMonth={setDates}
             setOpenDecade={setOpenDecade}
             setShowYears={setShowYears}

@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DecadeGrid, DecadeButton } from './styles';
 
-const YearSelector = ({ selectedDecade, yearsInDecade, setCurrentMonth, setOpenDecade, setShowYears }) => {
+const YearSelector = ({ selectedDecade, yearsInDecade, setCurrentMonth, setOpenDecade, setShowYears, currentMonth }) => {
   const [selectedYearIndex, setSelectedYearIndex] = useState(0);
   const buttonRefs = useRef([]);
-
   useEffect(() => {
     // Set initial selection to current year if it's in the decade, otherwise to the first year
     const currentYear = new Date().getFullYear();
@@ -36,19 +35,16 @@ const YearSelector = ({ selectedDecade, yearsInDecade, setCurrentMonth, setOpenD
       default:
         return;
     }
-
     event.preventDefault();
     setSelectedYearIndex(newIndex);
     buttonRefs.current[newIndex]?.focus();
   };
-
   const handleYearSelection = (year) => {
     if(typeof year !== 'number' && year.toString().length !== 4) return;
-    setCurrentMonth(new Date(year, 0, 1));
+    setCurrentMonth(new Date(year, currentMonth.getMonth(), 1));
     setOpenDecade(false);
     setShowYears(false);
   };
-
   return (
     <DecadeGrid tabIndex={0}>
       <DecadeButton disabled>
@@ -79,6 +75,7 @@ YearSelector.propTypes = {
   setCurrentMonth: PropTypes.func.isRequired,
   setOpenDecade: PropTypes.func.isRequired,
   setShowYears: PropTypes.func,
+  currentMonth: PropTypes.instanceOf(Date)
 };
 
 export default YearSelector;

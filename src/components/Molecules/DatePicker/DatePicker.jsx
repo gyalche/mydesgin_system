@@ -50,17 +50,11 @@ const DatePicker = ({
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate('');
-      setDateRange([date]);
-      onChange([date]);
+      setDateRange([date, endDate]);
+      onChange([date, endDate]);
     } else if (normalizedDate < normalizeDate(startDate)) {
       setStartDate(date);
       onChange([date, endDate]);
-    } else if(openCalenderEnd) {
-      setEndDate(date);
-      setDateRange([startDate, date]);
-      onChange([startDate, date]);
-      setOpenCalender(false);
-      setOpenCalenderEnd(false);
     } else {
       setEndDate(date);
       setDateRange([startDate, date]);
