@@ -179,9 +179,11 @@ const DatePicker = ({
         }
       } else if(startDate){
         setEndDate(currentDate);
+        setHoveredDate(currentDate);
         setOpenCalenderEnd(false);
       } else if (openCalenderEnd && currentDate >= startDate) {
         setEndDate(currentDate);
+        setHoveredDate(currentDate);
         setOpenCalenderEnd(false);
       }
     };
