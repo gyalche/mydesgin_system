@@ -114,11 +114,12 @@ export const Day = styled.div`
   font-size: 12px;
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
-  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect, isKeyboardSelect}) => {
-    if((currentDate && !isSelected || isKeyboardSelect)) return '4px';
+  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect}) => {
+    if(!isRangePicker) return '4px';
+    if((currentDate && !isSelected)) return '4px';
     if(isSelected && isRangePicker && !isEndSelect) return '4px 0px 0px 4px';
     if(isSelected && !isRangePicker) return '4px';
-    if(isSelected && isEndSelect) return '0px 4px 4px 0px';
+    if((isSelected && isEndSelect)) return '0px 4px 4px 0px';
   }};
   background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect, isDisabled, currentDate }) => {
     if(isKeyboardSelect && isKeyboardSelect !== isSelected && !isDisabled && isKeyboardSelect!==currentDate) return 'var(--rds-color-chart-1)';
