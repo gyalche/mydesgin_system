@@ -144,7 +144,7 @@ const Calendar = ({
                   )}
               </HeaderIcons>
 
-              <HeaderIcons m={openDecade ? '585px': isRangePicker && isDoubleView && '520px'}>
+              <HeaderIcons m={openDecade || openMonth ? '585px': isRangePicker && isDoubleView && '520px'}>
                 {(!openDecade && !openMonth) && (
                   <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
                 )}

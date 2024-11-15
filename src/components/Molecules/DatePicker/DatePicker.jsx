@@ -177,7 +177,7 @@ const DatePicker = ({
           setStartDate(currentDate);
           setOpenCalender(false);
         }
-      } else if(startDate){
+      } else if(startDate) {
         setEndDate(currentDate);
         setHoveredDate(currentDate);
         setOpenCalenderEnd(false);
