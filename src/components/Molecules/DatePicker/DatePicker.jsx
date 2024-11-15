@@ -26,8 +26,8 @@ const DatePicker = ({
   disabled,
   error,
   placeholder }) => {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState(new Date(Date.now()));
+  const [endDate, setEndDate] = useState(new Date(Date.now()));
   const [openCalender, setOpenCalender] = useState(false);
   const [openCalenderEnd, setOpenCalenderEnd] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -216,7 +216,7 @@ const DatePicker = ({
   const enabledKeyboardFunc = () => {
     setEnableKeyboard(true);
   };
-
+  
   useEffect(() => {
     if ((openCalender || openCalenderEnd) && enableKeyboard) {
       window.addEventListener('keydown', handleKeyDown);
@@ -342,6 +342,7 @@ const DatePicker = ({
                   <InputIcon onClick={() => {
                     setEndDate('');
                     dateRange.pop();
+                    setHoveredDate(startDate);
                   }}
                   data-testid='icon-button'
                   >

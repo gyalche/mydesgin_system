@@ -82,6 +82,7 @@ export const WeekdayHeader = styled.div`
     isSaturday ? 'var(--rds-color-teritary-2-dark)' : 
     isSunday ? 'var(--rds-color-secondary-3-deep)' : 
     'var(--rds-color-neutral-7)'};
+  padding-bottom: 10px;
 `;
 
 export const HeaderIcons = styled.div`
@@ -89,7 +90,7 @@ export const HeaderIcons = styled.div`
   z-index: 9999;
   display: flex;
   flex-wrap: nowrap;
-  gap: 10px;
+  // gap: 10px;
   margin-left: ${({m}) => m && m};
 `;
 
@@ -102,20 +103,23 @@ export const CalendarContainer = styled.div`
 export const DaysContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
 `;
 
 export const Day = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 41.29px;
   height: 32px;
   text-align: center;
   font-size: 12px;
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
-  border-radius: 4px;
+  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect, isKeyboardSelect}) => {
+    if((currentDate && !isSelected || isKeyboardSelect)) return '4px';
+    if(isSelected && isRangePicker && !isEndSelect) return '4px 0px 0px 4px';
+    if(isSelected && !isRangePicker) return '4px';
+    if(isSelected && isEndSelect) return '0px 4px 4px 0px';
+  }};
   background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect, isDisabled, currentDate }) => {
     if(isKeyboardSelect && isKeyboardSelect !== isSelected && !isDisabled && isKeyboardSelect!==currentDate) return 'var(--rds-color-chart-1)';
     if (isSelected) return 'var(--rds-color-primary-1-dark)';
@@ -134,6 +138,7 @@ export const Day = styled.div`
   box-shadow: ${({isSelected}) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
   &:hover {
     background-color: ${({isDisabled, isSelected}) => (!isDisabled && !isSelected) && 'var(--rds-color-primary-1-subtle)'};
+    border-radius: 4px;
   }
 `;
 
@@ -301,6 +306,16 @@ export const NextIcon = styled(Icon)`
 
 export const CalendarIcon = styled(Icon)`
   cursor: pointer;
+  height: 30px;
+  width: 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background-color: var(--rds-color-neutral-1);
+    color: black;
+  }
 `;
 
 export const DateTimeContainer = styled.div`

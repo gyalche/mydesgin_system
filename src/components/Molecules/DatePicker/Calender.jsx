@@ -39,6 +39,7 @@ const Calendar = ({
   setDates,
   isDoubleView,
   disableHeader,
+  enabledKeyboardFunc,
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
@@ -121,7 +122,6 @@ const Calendar = ({
     setDates(currentMonth);
   }, [setDates]);
 
-
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
@@ -183,36 +183,37 @@ const Calendar = ({
                 {day}
               </WeekdayHeader>
             ))}
-
-            {days.map((day, index) => {
-              const dayDate = day?.date;
-              const isValidDate = dayDate instanceof Date && !isNaN(dayDate);
-              if (!isValidDate) return null;
-              const notCurrent = !day?.isCurrentMonth;
-              const dayOfWeek = dayDate?.getDay();
-              return (
-                <Day
-                  key={`${day?.date}-${index}`}
-                  currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
-                  isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
-                    || normalizeDate(dayDate) === normalizeDate(endDate)
-                  }
-                  isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
-                    && normalizeDate(dayDate) !== normalizeDate(startDate)}
-                  isInRange={isInRange(dayDate)}
-                  isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
-                  isSaturday={dayOfWeek === 5}
-                  isSunday={dayOfWeek === 6}
-                  onClick={!isRangePicker ? () => handleSingleDate(dayDate) : () => handleDateRangeClick(dayDate)}
-                  isInHoverRange={isInHoverRange(dayDate)}
-                  onMouseEnter={() => handleMouseEnter(dayDate)}
-                  onMouseLeave={handleMouseLeave}
-                  data-testid={`day-${dayDate.getDate()}`}
-                >
-                  {dayDate.getDate()}
-                </Day>
-              );
-            })}
+              {days.map((day, index) => {
+                const dayDate = day?.date;
+                const isValidDate = dayDate instanceof Date && !isNaN(dayDate);
+                if (!isValidDate) return null;
+                const notCurrent = !day?.isCurrentMonth;
+                const dayOfWeek = dayDate?.getDay();
+                return (
+                  <Day
+                    key={`${day?.date}-${index}`}
+                    currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
+                    isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
+                      || normalizeDate(dayDate) === normalizeDate(endDate)
+                    }
+                    isEndSelect={normalizeDate(dayDate) !== normalizeDate(startDate)}
+                    isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
+                      && normalizeDate(dayDate) !== normalizeDate(startDate)}
+                    isInRange={isInRange(dayDate)}
+                    isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
+                    isSaturday={dayOfWeek === 5}
+                    isSunday={dayOfWeek === 6}
+                    onClick={!isRangePicker ? () => handleSingleDate(dayDate) : () => handleDateRangeClick(dayDate)}
+                    isInHoverRange={isInHoverRange(dayDate)}
+                    onMouseEnter={() => handleMouseEnter(dayDate)}
+                    onMouseLeave={handleMouseLeave}
+                    data-testid={`day-${dayDate.getDate()}`}
+                    isRangePicker={isRangePicker}
+                  >
+                    {dayDate.getDate()}
+                  </Day>
+                );
+              })}
           </DaysContainer>
       )}
 
@@ -231,6 +232,8 @@ const Calendar = ({
             setCurrentMonth={setDates}
             setOpenDecade={setOpenDecade}
             setShowYears={setShowYears}
+            disableKeyboard={disableKeyboard}
+            showYears={showYears}
           />
         )
       )}
@@ -271,6 +274,7 @@ Calendar.propTypes = {
   setDates: PropTypes.any,
   isDoubleView: PropTypes.bool,
   disableHeader: PropTypes.bool,
+  enabledKeyboardFunc: PropTypes.func,
 };
 
 export default Calendar;

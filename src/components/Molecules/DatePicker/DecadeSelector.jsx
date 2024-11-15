@@ -29,9 +29,9 @@ const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect
       case 'ArrowUp':
         newIndex = index - 3 >= 0 ? index - 3 : index;
         break;
-      case 'Enter':
-        buttonRefs.current[index].click();
-        return;
+      // case 'Enter':
+      //   buttonRefs.current[index].click();
+      //   return;
       default:
         return;
     }
