@@ -121,7 +121,7 @@ const Calendar = ({
   useEffect(() => {
     setDates(currentMonth);
   }, [setDates]);
-
+console.log('checkequals', normalizeDate(startDate) == normalizeDate(endDate));
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
@@ -209,6 +209,7 @@ const Calendar = ({
                     onMouseLeave={handleMouseLeave}
                     data-testid={`day-${dayDate.getDate()}`}
                     isRangePicker={isRangePicker}
+                    isToday={normalizeDate(startDate) == normalizeDate(endDate)}
                   >
                     {dayDate.getDate()}
                   </Day>

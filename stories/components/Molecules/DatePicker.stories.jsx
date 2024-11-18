@@ -63,7 +63,7 @@ export const DatePickers = {
     const updatedArgs = {
       ...args,
       // initialValue: args.isRangePicker
-      //   ? [new Date(), new Date(new Date().setDate(new Date().getDate() + 7))]
+      //   ? [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))]
       //   : new Date(new Date().setDate(new Date().getDate() + 8)),
     };
     return <DatePicker {...updatedArgs} />;

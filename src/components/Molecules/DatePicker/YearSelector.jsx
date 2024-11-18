@@ -94,7 +94,6 @@ YearSelector.propTypes = {
   setShowYears: PropTypes.func,
   currentMonth: PropTypes.instanceOf(Date),
   showYears: PropTypes.bool,
-
 };
 
 export default YearSelector;

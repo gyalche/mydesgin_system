@@ -40,7 +40,7 @@ export const InputFieldStyle = styled(Input)`
 
   &:focus {
     border: ${({activeSecondInput}) => activeSecondInput && true};
-  }
+  };
   &::placeholder {
     color: var(--rds-color-neutral-6);
     padding: 0;
@@ -109,13 +109,13 @@ export const Day = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
+  height: 38px;
   text-align: center;
   font-size: 12px;
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
-  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect}) => {
-    if(!isRangePicker) return '4px';
+  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect, isToday}) => {
+    if(!isRangePicker || isSelected && isToday) return '4px';
     if((currentDate && !isSelected)) return '4px';
     if(isSelected && isRangePicker && !isEndSelect) return '4px 0px 0px 4px';
     if(isSelected && !isRangePicker) return '4px';
@@ -140,7 +140,7 @@ export const Day = styled.div`
   &:hover {
     background-color: ${({isDisabled, isSelected}) => (!isDisabled && !isSelected) && 'var(--rds-color-primary-1-subtle)'};
     border-radius: 4px;
-  }
+  };
 `;
 
 export const CalendarWrapper = styled.div`
