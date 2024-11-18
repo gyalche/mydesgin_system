@@ -90,7 +90,6 @@ export const HeaderIcons = styled.div`
   z-index: 9999;
   display: flex;
   flex-wrap: nowrap;
-  // gap: 10px;
   margin-left: ${({m}) => m && m};
 `;
 
@@ -328,6 +327,13 @@ export const DateTimeContainer = styled.div`
 export const TextAreaYearMonth = styled.span`
   cursor: pointer;
   z-index: 9999;
+  &:hover {
+    background-color: var(--rds-color-neutral-1);
+    color: black;
+  };
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
 `;
 
 export const DecadeGrid = styled.div`

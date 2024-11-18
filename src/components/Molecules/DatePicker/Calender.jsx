@@ -136,40 +136,40 @@ const Calendar = ({
 
     {isDoubleView ? (<>
         {disableHeader ? (<></>) : (
-            <CalendarHeader>
-              <HeaderIcons>
-                <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
-                  {(!openDecade && !openMonth) && ( 
-                    <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
-                  )}
-              </HeaderIcons>
-
-              <HeaderIcons m={openDecade || openMonth ? '585px': isRangePicker && isDoubleView && '520px'}>
-                {(!openDecade && !openMonth) && (
-                  <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+          <CalendarHeader>
+            <HeaderIcons>
+              <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
+                {(!openDecade && !openMonth) && ( 
+                  <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
                 )}
-                <CalendarIcon name='Interface-chevron-double-right' onClick={() =>  handleNextYear()}/>
-              </HeaderIcons>
-            </CalendarHeader>
+            </HeaderIcons>
+
+            <HeaderIcons m={openDecade || openMonth ? '585px': isRangePicker && isDoubleView && '520px'}>
+              {(!openDecade && !openMonth) && (
+                <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+              )}
+              <CalendarIcon name='Interface-chevron-double-right' onClick={() =>  handleNextYear()}/>
+            </HeaderIcons>
+          </CalendarHeader>
         )}
       </>
       ): (
         <>
-            <CalendarHeader>
-              <HeaderIcons>
-                <CalendarIcon name='Interface-chevron-double-left' onClick={()=> !openDecade ? handlePrevYear() :goToPreviousDecade()}/>
-                  {(!openDecade && !openMonth) && ( 
-                    <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
-                  )}
-              </HeaderIcons>
-
-              <HeaderIcons>
-                {(!openDecade && !openMonth) && (
-                  <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+          <CalendarHeader>
+            <HeaderIcons>
+              <CalendarIcon name='Interface-chevron-double-left' onClick={()=> !openDecade ? handlePrevYear() :goToPreviousDecade()}/>
+                {(!openDecade && !openMonth) && ( 
+                  <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
                 )}
-                <CalendarIcon name='Interface-chevron-double-right' onClick={() => !openDecade ? handleNextYear() : goToNextDecade()}/>
-              </HeaderIcons>
-            </CalendarHeader>
+            </HeaderIcons>
+
+            <HeaderIcons>
+              {(!openDecade && !openMonth) && (
+                <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+              )}
+              <CalendarIcon name='Interface-chevron-double-right' onClick={() => !openDecade ? handleNextYear() : goToNextDecade()}/>
+            </HeaderIcons>
+          </CalendarHeader>
         </>
       )}
       {!openDecade && !openMonth && (
