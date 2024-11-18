@@ -121,7 +121,7 @@ const Calendar = ({
   useEffect(() => {
     setDates(currentMonth);
   }, [setDates]);
-console.log('checkequals', normalizeDate(startDate) == normalizeDate(endDate));
+
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
