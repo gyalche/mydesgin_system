@@ -94,7 +94,7 @@ const Calendar = ({
       return nextDecade;
     });
   };
-  
+
   const goToPreviousDecade = () => {
     setSelectedDecade((currentDecade) => {
       const previousDecade = currentDecade - 10;

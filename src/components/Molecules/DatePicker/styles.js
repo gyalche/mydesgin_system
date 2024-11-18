@@ -113,8 +113,8 @@ export const Day = styled.div`
   font-size: 12px;
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
-  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect, isToday}) => {
-    if(!isRangePicker || isSelected && isToday) return '4px';
+  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect, isToday, isKeyboardSelect}) => {
+    if(!isRangePicker || isSelected && isToday || (isKeyboardSelect && !isEndSelect)) return '4px';
     if((currentDate && !isSelected)) return '4px';
     if(isSelected && isRangePicker && !isEndSelect) return '4px 0px 0px 4px';
     if(isSelected && !isRangePicker) return '4px';
@@ -315,7 +315,12 @@ export const CalendarIcon = styled(Icon)`
   &:hover {
     background-color: var(--rds-color-neutral-1);
     color: black;
+  };
+  &:focus {
+    background-color: red;
+    color: blue;
   }
+  
 `;
 
 export const DateTimeContainer = styled.div`
@@ -334,6 +339,11 @@ export const TextAreaYearMonth = styled.span`
   padding-left: 5px;
   padding-right: 5px;
   border-radius: 5px;
+
+  &:focus {
+    background-color: red;
+    colo: green;
+  }
 `;
 
 export const DecadeGrid = styled.div`
@@ -363,7 +373,7 @@ export const DecadeButton = styled.button`
   }};
   background-color: ${({keyboardSelect}) => keyboardSelect && 'var(--rds-color-chart-1)'};
   &:hover {
-    color: ${({keyboardSelect}) => !keyboardSelect && 'var(--rds-color-primary-1-normal)'};
+   background-color: ${({keyboardSelect}) => !keyboardSelect && 'var(--rds-color-neutral-1)'}; 
   }
 
   &:focus {
