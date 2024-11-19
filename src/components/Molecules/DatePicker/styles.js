@@ -330,10 +330,10 @@ export const DateTimeContainer = styled.div`
 `;
 
 export const TextAreaYearMonth = styled.span`
-  cursor: pointer;
+  cursor: ${({openDecade}) => !openDecade ? 'pointer' : 'auto'};
   z-index: 9999;
   &:hover {
-    background-color: var(--rds-color-neutral-1);
+    background-color: ${({openDecade}) => !openDecade && 'var(--rds-color-neutral-1)'};
     color: black;
   };
   padding-left: 5px;
