@@ -102,6 +102,7 @@ export const CalendarContainer = styled.div`
 export const DaysContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  margin-top: ${({secondCalendar}) => secondCalendar && '-8px'}
 `;
 
 export const Day = styled.div`

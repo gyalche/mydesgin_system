@@ -39,7 +39,6 @@ const Calendar = ({
   setDates,
   isDoubleView,
   disableHeader,
-  enabledKeyboardFunc,
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
@@ -173,7 +172,7 @@ const Calendar = ({
         </>
       )}
       {!openDecade && !openMonth && (
-          <DaysContainer>
+          <DaysContainer secondCalendar={disableHeader}>
             {weekdays.map(({day, dayIndex}, index) => (
               <WeekdayHeader
                 key={index}
