@@ -138,7 +138,11 @@ export const Day = styled.div`
   pointer-events: ${({isDisabled}) => isDisabled ? 'none' : 'auto'};
   box-shadow: ${({isSelected}) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
   &:hover {
-    background-color: ${({isDisabled, isSelected}) => (!isDisabled && !isSelected) && 'var(--rds-color-primary-1-subtle)'};
+    background-color: ${({isDisabled, isSelected, isKeyboardSelect}) => {
+      if(!isDisabled && !isSelected && !isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
+      if(isKeyboardSelect) return 'var(--rds-color-chart-1)';
+    }};
+
     border-radius: 4px;
   };
 `;
