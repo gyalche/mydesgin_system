@@ -265,6 +265,10 @@ const DatePicker = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
+
+  useEffect(()=>{
+    if(endDate && startDate>endDate)setEndDate(startDate);
+  },[startDate, endDate]);
   
   return (
     <DatePickerContainer>
