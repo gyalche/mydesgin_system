@@ -26,8 +26,8 @@ const DatePicker = ({
   disabled,
   error,
   placeholder }) => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(new Date(Date.now()));
+  const [endDate, setEndDate] = useState(new Date(Date.now()));
   const [openCalender, setOpenCalender] = useState(false);
   const [openCalenderEnd, setOpenCalenderEnd] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -268,13 +268,6 @@ const DatePicker = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
-
-  useEffect(() => {
-    if(!startDate && !endDate){
-      setStartDate(new Date(Date.now()));
-      setEndDate(new Date(Date.now()));
-    }
-  },[]);
   
   return (
     <DatePickerContainer>
