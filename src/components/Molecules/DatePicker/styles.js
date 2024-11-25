@@ -309,11 +309,14 @@ export const NextIcon = styled(Icon)`
   color: var(--rds-color-neutral-8);
 `;
 
-export const CalendarIcon = styled(Icon)`
+export const CalendarIconBtn = styled.button`
   cursor: pointer;
   height: 30px;
   width: 30px;
   border-radius: 5px;
+  outline: none;
+  border: none;
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -322,10 +325,14 @@ export const CalendarIcon = styled(Icon)`
     color: black;
   };
   &:focus {
-    background-color: red;
-    color: blue;
+    background-color: var(--rds-color-neutral-1);
+    color: black;
   }
-  
+`;
+
+export const CalendarIcon = styled(Icon)`
+  font-size: 24px;
+  margin-top: 5px;
 `;
 
 export const DateTimeContainer = styled.div`
@@ -341,8 +348,8 @@ export const TextAreaYearMonth = styled.span`
     background-color: ${({openDecade}) => !openDecade && 'var(--rds-color-neutral-1)'};
     color: black;
   };
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
   border-radius: 5px;
 
   &:focus {

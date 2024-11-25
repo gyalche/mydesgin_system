@@ -54,16 +54,18 @@ const handleKeyDown = (event) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   },[selectedYearIndex, showYears]);
+  
 
-  const handleYearSelection = (year) => {
+const handleYearSelection = (year, event) => {
     if(typeof year !== 'number' && year.toString().length !== 4) return;
+    event.preventDefault();
     setCurrentMonth(new Date(year, currentMonth.getMonth(), 1));
     setOpenDecade(false);
     setShowYears(false);
   };
 
   return (
-    <DecadeGrid tabIndex={0}>
+    <DecadeGrid>
       <DecadeButton disabled>
         {selectedDecade - 1}
       </DecadeButton>
@@ -71,7 +73,7 @@ const handleKeyDown = (event) => {
         <DecadeButton
           key={year}
           ref={(el) => (buttonRefs.current[index] = el)}
-          onClick={() => handleYearSelection(year, index)}
+          onClick={(event) => handleYearSelection(year, event)}
           tabIndex={0}
           // selected={selectedYearIndex === index}
           keyboardSelect={selectedYearIndex === index}

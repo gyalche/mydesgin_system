@@ -26,8 +26,8 @@ const DatePicker = ({
   disabled,
   error,
   placeholder }) => {
-  const [startDate, setStartDate] = useState(new Date(Date.now()));
-  const [endDate, setEndDate] = useState(new Date(Date.now()));
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [openCalender, setOpenCalender] = useState(false);
   const [openCalenderEnd, setOpenCalenderEnd] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -151,6 +151,7 @@ const DatePicker = ({
     const today = new Date();
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     if(!(currentDate instanceof Date)) return;
+
     const updateDate = (changeFn) => {
       setCurrentDate((prev) => {
         const newDate = changeFn(prev);
@@ -165,7 +166,9 @@ const DatePicker = ({
         return newDate < todayNormalized ? todayNormalized : newDate;
       });
     };
-    const handleEnter = () => {
+    const handleEnter = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       if (!isRangePicker) {
          handleSingleDate(currentDate);
       }
@@ -202,7 +205,7 @@ const DatePicker = ({
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
         break;
       case 'Enter':
-        handleEnter();
+        handleEnter(e);
         break;
       default:
         break;
@@ -266,9 +269,12 @@ const DatePicker = ({
     };
   }, [firstInputFocus, secondInputFocus]);
 
-  useEffect(()=>{
-    if(endDate && startDate>endDate)setEndDate(startDate);
-  },[startDate, endDate]);
+  useEffect(() => {
+    if(!startDate && !endDate){
+      setStartDate(new Date(Date.now()));
+      setEndDate(new Date(Date.now()));
+    }
+  },[]);
   
   return (
     <DatePickerContainer>
@@ -285,8 +291,8 @@ const DatePicker = ({
             error={error}
             placeholder={placeholder}
             ref={inputRefStart}
-            onKeyDown={(e) => { 
-              if (e.key === 'Tab' && !e.shiftKey && isRangePicker) {
+            onKeyDown={(e) => {
+              if (e.key === 'Tab' && !e.shiftKey && isRangePicker && !openCalender) {
                 e.preventDefault();
                 inputRefEnd.current?.focus();
                 setFirstInputFocus(false);
@@ -388,6 +394,8 @@ const DatePicker = ({
               handleNextMonth={handleNextMonth}
               setDates={onChangeCurrent}
               isDoubleView={isDoubleView}
+              openCalender={openCalender}
+              openCalenderEnd={openCalenderEnd}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -413,6 +421,8 @@ const DatePicker = ({
                 setDates={onChangeCurrent}
                 isDoubleView={isDoubleView}
                 disableHeader={true}
+                openCalender={openCalender}
+                openCalenderEnd={openCalenderEnd}
               />
             )}
           </Calenders>
@@ -443,6 +453,8 @@ const DatePicker = ({
               handleNextMonth={handleNextMonth}
               setDates={onChangeCurrent}
               isDoubleView={isDoubleView}
+              openCalender={openCalender}
+              openCalenderEnd={openCalenderEnd}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -468,6 +480,8 @@ const DatePicker = ({
                 setDates={onChangeCurrent}
                 isDoubleView={isDoubleView}
                 disableHeader={true}
+                openCalender={openCalender}
+                openCalenderEnd={openCalenderEnd}
               />
             )}
           </Calenders>

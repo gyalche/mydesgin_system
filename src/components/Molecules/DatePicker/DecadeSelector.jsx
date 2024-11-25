@@ -36,6 +36,7 @@ const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect
         return;
     }
     event.preventDefault();
+    event.stopPropagation();
     if(newIndex>=0 && newIndex < totalButtons && buttonRefs?.current[newIndex]){
       setFocusedButton(newIndex);
       buttonRefs.current[newIndex].focus();

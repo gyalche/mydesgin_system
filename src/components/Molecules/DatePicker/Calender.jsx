@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CalendarContainer,
@@ -10,6 +10,7 @@ import {
   CalendarHeader,
   HeaderIcons,
   CalendarIcon,
+  CalendarIconBtn,
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 import closeOpenModal from '../../../hooks/closeOpenModal';
@@ -39,6 +40,8 @@ const Calendar = ({
   setDates,
   isDoubleView,
   disableHeader,
+  openCalender,
+  openCalenderEnd,
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
@@ -120,11 +123,38 @@ const Calendar = ({
   useEffect(() => {
     setDates(currentMonth);
   }, [setDates]);
+const [tabCount, setTabCount] = useState(0);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (openCalender || openCalenderEnd) {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          disableKeyboard();
+          setTabCount((tab) => tab + 1);
+          const buttons = document.querySelectorAll('[data-calendar-btn]');
+          const focusedIndex = Array.from(buttons).findIndex(
+            (button) => button === document.activeElement
+          );
+          const nextIndex = e.shiftKey
+            ? (focusedIndex - 1 + buttons.length) % buttons.length
+            : (focusedIndex + 1) % buttons.length;
+          buttons[nextIndex]?.focus();
+        }
+      }
+    };
+    if(openCalender || openCalenderEnd ){
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [openCalender, openCalenderEnd, tabCount]);
 
+  
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
-          <TextAreaYearMonth onClick={!showYears && openSelectDecade} openDecade={openDecade}>
+          <TextAreaYearMonth onClick={!showYears && openSelectDecade} openDecade={openDecade} >
           {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : displayYear}
           </TextAreaYearMonth>
           {(!openDecade && !openMonth) && <TextAreaYearMonth onClick={openSelectMonth}>
@@ -137,17 +167,25 @@ const Calendar = ({
         {disableHeader ? (<></>) : (
           <CalendarHeader>
             <HeaderIcons>
-              <CalendarIcon name='Interface-chevron-double-left' onClick={()=> handlePrevYear()}/>
+              <CalendarIconBtn onClick={()=> handlePrevYear()}>
+                <CalendarIcon name='Interface-chevron-double-left'/>
+              </CalendarIconBtn>
                 {(!openDecade && !openMonth) && ( 
-                  <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+                  <CalendarIconBtn onClick={() => handlePrevMonth()}>
+                    <CalendarIcon name='Interface-chevron-left' />
+                  </CalendarIconBtn>
                 )}
             </HeaderIcons>
 
             <HeaderIcons m={openDecade || openMonth ? '585px': isRangePicker && isDoubleView && '520px'}>
               {(!openDecade && !openMonth) && (
-                <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+                <CalendarIconBtn onClick={() => handleNextMonth()}>
+                  <CalendarIcon name='Interface-chevron-right' />
+                </CalendarIconBtn>
               )}
-              <CalendarIcon name='Interface-chevron-double-right' onClick={() =>  handleNextYear()}/>
+              <CalendarIconBtn onClick={() =>  handleNextYear()}>
+                <CalendarIcon name='Interface-chevron-double-right'/>
+              </CalendarIconBtn>
             </HeaderIcons>
           </CalendarHeader>
         )}
@@ -156,17 +194,29 @@ const Calendar = ({
         <>
           <CalendarHeader>
             <HeaderIcons>
-              <CalendarIcon name='Interface-chevron-double-left' onClick={()=> !openDecade ? handlePrevYear() :goToPreviousDecade()}/>
+              <CalendarIconBtn data-calendar-btn onClick={(e)=> {
+                e.preventDefault();
+                e.stopPropagation();
+                !openDecade ? handlePrevYear() : goToPreviousDecade();
+              }}>
+                  <CalendarIcon name='Interface-chevron-double-left' />
+              </CalendarIconBtn>
                 {(!openDecade && !openMonth) && ( 
-                  <CalendarIcon name='Interface-chevron-left' onClick={() => handlePrevMonth()}/>
+                  <CalendarIconBtn data-calendar-btn onClick={() => handlePrevMonth()}>
+                    <CalendarIcon name='Interface-chevron-left' />
+                  </CalendarIconBtn>
                 )}
             </HeaderIcons>
 
             <HeaderIcons>
               {(!openDecade && !openMonth) && (
-                <CalendarIcon name='Interface-chevron-right' onClick={() => handleNextMonth()}/>
+                <CalendarIconBtn data-calendar-btn onClick={() => handleNextMonth()}>
+                  <CalendarIcon name='Interface-chevron-right' />
+                </CalendarIconBtn>
               )}
-              <CalendarIcon name='Interface-chevron-double-right' onClick={() => !openDecade ? handleNextYear() : goToNextDecade()}/>
+              <CalendarIconBtn data-calendar-btn onClick={() => !openDecade ? handleNextYear() : goToNextDecade()}>
+                <CalendarIcon name='Interface-chevron-double-right' />
+              </CalendarIconBtn>
             </HeaderIcons>
           </CalendarHeader>
         </>
@@ -275,6 +325,8 @@ Calendar.propTypes = {
   isDoubleView: PropTypes.bool,
   disableHeader: PropTypes.bool,
   enabledKeyboardFunc: PropTypes.func,
+  openCalender: PropTypes.func,
+  openCalenderEnd: PropTypes.func,
 };
 
 export default Calendar;
