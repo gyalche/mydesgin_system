@@ -179,7 +179,7 @@ export const CalenderMonths = styled.div`
   font-size: 17px;
   font-weight: 700;
   display: flex;
-  gap: 10px;
+  gap: 5px;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
