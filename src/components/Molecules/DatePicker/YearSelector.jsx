@@ -9,6 +9,7 @@ const YearSelector = ({ selectedDecade,
   setShowYears,
   currentMonth,
   showYears,
+  setYearSelected,
 }) => {
   const [selectedYearIndex, setSelectedYearIndex] = useState(0);
   const buttonRefs = useRef([]);
@@ -62,6 +63,7 @@ const handleYearSelection = (year, event) => {
     setCurrentMonth(new Date(year, currentMonth.getMonth(), 1));
     setOpenDecade(false);
     setShowYears(false);
+    setYearSelected(true);
   };
 
   return (
@@ -96,6 +98,7 @@ YearSelector.propTypes = {
   setShowYears: PropTypes.func,
   currentMonth: PropTypes.instanceOf(Date),
   showYears: PropTypes.bool,
+  setYearSelected: PropTypes.bool,
 };
 
 export default YearSelector;

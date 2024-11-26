@@ -48,7 +48,7 @@ const Calendar = ({
   const [showYears, setShowYears] = useState(false);
   const [selectedDecade, setSelectedDecade] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
-
+  const [yearSelected, setYearSelected] = useState(false);
   const days = getDaysInMonth(currentMonth);
   const currentYear = new Date(Date.now()).getFullYear();
   const currentDecadeStart = Math.floor(currentYear / 10) * 10;
@@ -150,7 +150,11 @@ const [tabCount, setTabCount] = useState(0);
     };
   }, [openCalender, openCalenderEnd, tabCount]);
 
-  
+  useEffect(() => {
+    if(yearSelected) disableKeyboard();
+    // enableKeyboard();
+  }, [yearSelected]);
+
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
@@ -252,7 +256,8 @@ const [tabCount, setTabCount] = useState(0);
                     isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
                     isSaturday={dayOfWeek === 5}
                     isSunday={dayOfWeek === 6}
-                    onClick={!isRangePicker ? () => handleSingleDate(dayDate) : () => handleDateRangeClick(dayDate)}
+                    onClick={!isRangePicker ? () => (handleSingleDate(dayDate), enableKeyboard()) : 
+                      () => (handleDateRangeClick(dayDate), enableKeyboard())}
                     isInHoverRange={isInHoverRange(dayDate)}
                     onMouseEnter={() => handleMouseEnter(dayDate)}
                     onMouseLeave={handleMouseLeave}
@@ -284,6 +289,7 @@ const [tabCount, setTabCount] = useState(0);
             setShowYears={setShowYears}
             disableKeyboard={disableKeyboard}
             showYears={showYears}
+            setYearSelected={setYearSelected}
           />
         )
       )}

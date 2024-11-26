@@ -268,7 +268,7 @@ const DatePicker = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
-  
+
   return (
     <DatePickerContainer>
       <InputContainer>
