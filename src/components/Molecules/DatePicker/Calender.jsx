@@ -149,7 +149,7 @@ const Calendar = ({
           } else {
             setTabCount((prevTabCount) => (prevTabCount === 4 ? 1 : prevTabCount + 1));
           }
-          const selector = isDoubleView ? '[data-calendar-btn-double]' : '[data-calendar-btn]';
+          const selector = '[data-calendar-btn]';
         
           const buttons = document.querySelectorAll(selector);
           const focusedIndex = Array.from(buttons).findIndex(

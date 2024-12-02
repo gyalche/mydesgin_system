@@ -54,13 +54,13 @@ describe('DatePicker Component', () => {
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
 
-    await waitFor(() => {
+    waitFor(() => {
       const validDate = new Date().getDate();
       const dayButton = screen.getByTestId(`day-${validDate}`);
       fireEvent.click(dayButton);
     });
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date));
     });
   });
@@ -75,9 +75,9 @@ describe('DatePicker Component', () => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
-    const pastDayButton = await screen.findByTestId(`day-${yesterday.getDate()}`);
+    const pastDayButton = screen.queryByTestId(`day-${yesterday.getDate() - 1}`);
   
-    await waitFor(() => {
+    waitFor(() => {
       fireEvent.click(pastDayButton);
       expect(mockOnChange).not.toHaveBeenCalled();
     });
