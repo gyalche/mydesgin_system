@@ -49,14 +49,20 @@ const getColorPair = (char) => {
   return colorPairs[index];
 };
 
+const avatarSize = {
+  small: '24px',
+  medium: '32px',
+  large: '40px',
+};
+
 // Styled component with dynamic styles based on the color pair
 export const CommonAvatarStyle = styled.div`
   display: flex;
-  width: 32px;
-  height: 32px;
+  width: ${({size}) => avatarSize[size]};
+  height: ${({size}) => avatarSize[size]};
   align-items: center;
   justify-content: center;
-  border-radius: 32px;
+  border-radius: ${({size}) => avatarSize[size]};
   font-size: ${({ fontSize }) => fontSize};
   font-weight: 400;
   margin-right: ${({ mr }) => mr};
@@ -67,9 +73,9 @@ export const CommonAvatarStyle = styled.div`
   ${({ colorStyle }) => colorStyle}
 
   img {
-    width: 32px;
-    height: 32px;
-    border-radius: 32px;
+    width: ${({size}) => avatarSize[size]};
+    height: ${({size}) => avatarSize[size]};
+    border-radius: ${({size}) => avatarSize[size]};
     object-fit: cover;
   }
 `;
@@ -120,6 +126,7 @@ Avatar.propTypes = {
   mr: PropTypes.string,
   mb: PropTypes.string,
   ml: PropTypes.string,
+  size: PropTypes.string,
 };
 
 Avatar.defaultProps = {
@@ -130,6 +137,7 @@ Avatar.defaultProps = {
   mr: '0',
   mb: '0',
   ml: '0',
+  size: 'medium',
 };
 
 export default Avatar;

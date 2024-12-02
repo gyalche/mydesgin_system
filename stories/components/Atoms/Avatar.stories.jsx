@@ -23,18 +23,29 @@ export const Avatars = {
       description: 'Content of the Avatar',
       control: { type: 'text' },
     },
+    size: {
+      description: 'Size of the avatar by default medium',
+      control: { type: 'select' },
+      options: ['small', 'medium', 'large'],
+    },
+    fontSize: {
+      description: 'Font size of the avatar content',
+      control: { type: 'text' },
+    },
   },
   args: {
     name: 'Avatar',
-    src:''
+    src: '',
+    size: 'medium',
+    fontSize: '12px',
   },
   render: (args) => {
     const text = args.name.trim()[0];
-    const source=args.src;
+    
     return (
       <Layout.Block>
         <Layout.Item mt="20px">
-          <Avatar name={text} src={source}/>
+          <Avatar name={text} {...args} />
         </Layout.Item>
       </Layout.Block>
     );
