@@ -1,0 +1,60 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Step } from './Step';
+import { LabelContainer, StepLabel, StepLabelContainer, TrackerContainer } from './styles';
+
+const ProgressTracker = ({ steps, currentStep }) => {
+  const stepCount = steps.length;
+
+  const currentStepIndex = typeof currentStep === 'string'
+  ? steps.findIndex(step => step.id === currentStep)
+  : currentStep;
+
+  return (
+    <TrackerContainer>
+      {steps.map((step, index) => {
+        const isCompleted = index < currentStepIndex;
+        const isCurrentStep = index === currentStepIndex;
+        const hasNextStep = index < stepCount - 1;
+
+        const getStepLabel = () => {
+          if (isCompleted) return step?.completedLabel;
+          if (isCurrentStep) return step?.inProgressLabel;
+          return step?.label;
+        };
+
+        return (
+          <StepLabelContainer key={step?.id || index}>
+            <Step
+              index={index}
+              isCompleted={isCompleted}
+              isCurrentStep={isCurrentStep}
+              hasNextStep={hasNextStep}
+              grow={isCompleted}
+            />
+            <LabelContainer>
+              <StepLabel hasCompleted={isCompleted} isInProgress={isCurrentStep} lastIndex={index === stepCount - 1}>
+                {getStepLabel()}
+              </StepLabel>
+            </LabelContainer>
+          </StepLabelContainer>
+        );
+      })}
+    </TrackerContainer>
+  );
+};
+
+ProgressTracker.propTypes = {
+  steps: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentStep: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
+};
+
+ProgressTracker.defaultProps = {
+  steps: [],
+  currentStep: 0,
+};
+
+export default ProgressTracker;

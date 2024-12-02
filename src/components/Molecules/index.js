@@ -2,6 +2,7 @@ export { default as Checkbox } from './Checkbox';
 export { default as AppSwitcher } from './AppSwitcher';
 export { default as Dialog } from './Dialog';
 export { default as IconButton } from './IconButton';
+export { default as ProgressTracker } from './ProgressTracker';
 export { default as Status } from './Status';
 export { default as FormField } from './FormField';
 export { default as Profile } from './Profile';
