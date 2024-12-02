@@ -176,9 +176,13 @@ const DatePicker = ({
         if ((startDate || endDate) && currentDate >= todayNormalized) {
           setStartDate(currentDate);
           setOpenCalender(false);
+          setOpenCalenderEnd(true);
+          inputRefEnd?.current?.focus();
         } else if(!startDate && currentDate >= todayNormalized) {
           setStartDate(currentDate);
           setOpenCalender(false);
+          setOpenCalenderEnd(true);
+          inputRefEnd?.current?.focus();
         }
       } else if(startDate) {
         setEndDate(currentDate);
@@ -221,14 +225,14 @@ const DatePicker = ({
   };
   
   useEffect(() => {
-    if ((openCalender || openCalenderEnd) && enableKeyboard) {
+    if ((openCalender || openCalenderEnd) && enableKeyboard && !disabled) {
       window.addEventListener('keydown', handleKeyDown);
   
       return () => {
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [currentDate, openCalender, openCalenderEnd, enableKeyboard]);
+  }, [currentDate, openCalender, openCalenderEnd, enableKeyboard, hoveredDate, startDate, endDate]);
 
   useEffect(() => {
     const fallbackDate = new Date();
@@ -247,7 +251,6 @@ const DatePicker = ({
       setCurrentMonth(initialEndDate);
     }
   }, [startDate, openCalender, openCalenderEnd]);
-  
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -268,6 +271,18 @@ const DatePicker = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
+
+  useEffect(() => {
+    if(Array.isArray(initialValue) && initialValue){
+      setStartDate(new Date(initialValue[0]));
+      setEndDate(new Date(initialValue[1]));
+    } else if(initialValue && !isRangePicker){
+      setStartDate(initialValue);
+    } else if(!initialValue && isRangePicker) {
+      setStartDate(new Date(Date.now()));
+      setEndDate(new Date(Date.now()));
+    }
+  }, [initialValue]);
 
   return (
     <DatePickerContainer>
@@ -295,7 +310,7 @@ const DatePicker = ({
           />
           <IconWrapper>
             {startDate ? (
-              <InputIcon onClick={() => {
+              <InputIcon onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
                   if (Array.isArray(dateRange) && dateRange.length > 0) {
                     dateRange.shift();
@@ -342,7 +357,7 @@ const DatePicker = ({
               />
               <IconWrapper>
                 {endDate ? (
-                  <InputIcon onClick={() => {
+                  <InputIcon onClick={disabled ? ()=>{} : () => {
                     setEndDate('');
                     dateRange.pop();
                     setHoveredDate(startDate);
@@ -362,7 +377,7 @@ const DatePicker = ({
         )}
       </InputContainer>
 
-      {openCalender && (
+      {openCalender && !disabled &&  (
         <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <Calenders data-testid='container-id'>
             <Calendar
@@ -421,7 +436,7 @@ const DatePicker = ({
           </Calenders>
         </CalendarWrapper>
       )}
-      {openCalenderEnd && (
+      {openCalenderEnd && !disabled && (
         <CalendarWrapperEnd ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <Calenders data-testid='container-id'>
             <Calendar

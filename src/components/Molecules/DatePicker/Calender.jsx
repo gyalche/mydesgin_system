@@ -49,6 +49,8 @@ const Calendar = ({
   const [selectedDecade, setSelectedDecade] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
   const [yearSelected, setYearSelected] = useState(false);
+  const [tabCount, setTabCount] = useState(0);
+  
   const days = getDaysInMonth(currentMonth);
   const currentYear = new Date(Date.now()).getFullYear();
   const currentDecadeStart = Math.floor(currentYear / 10) * 10;
@@ -123,7 +125,7 @@ const Calendar = ({
   useEffect(() => {
     setDates(currentMonth);
   }, [setDates]);
-const [tabCount, setTabCount] = useState(0);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (openCalender || openCalenderEnd) {
@@ -131,14 +133,20 @@ const [tabCount, setTabCount] = useState(0);
           e.preventDefault();
           disableKeyboard();
           setTabCount((tab) => tab + 1);
-          const buttons = document.querySelectorAll('[data-calendar-btn]');
-          const focusedIndex = Array.from(buttons).findIndex(
-            (button) => button === document.activeElement
-          );
-          const nextIndex = e.shiftKey
-            ? (focusedIndex - 1 + buttons.length) % buttons.length
-            : (focusedIndex + 1) % buttons.length;
-          buttons[nextIndex]?.focus();
+          const selector = isDoubleView
+          ? '[data-calendar-btn-double]'
+          : '[data-calendar-btn]';
+        
+        const buttons = document.querySelectorAll(selector);
+        const focusedIndex = Array.from(buttons).findIndex(
+          (button) => button === document.activeElement
+        );
+
+        const nextIndex = e.shiftKey
+          ? (focusedIndex - 1 + buttons.length) % buttons.length
+          : (focusedIndex + 1) % buttons.length;
+        
+        buttons[nextIndex]?.focus();
         }
       }
     };
@@ -148,7 +156,7 @@ const [tabCount, setTabCount] = useState(0);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [openCalender, openCalenderEnd, tabCount]);
+  }, [openCalender, openCalenderEnd, tabCount, isDoubleView]);
 
   useEffect(() => {
     if(yearSelected) disableKeyboard();
@@ -167,27 +175,28 @@ const [tabCount, setTabCount] = useState(0);
           }
       </CalenderMonths>
 
-    {isDoubleView ? (<>
+    {isDoubleView ? (
+      <>
         {disableHeader ? (<></>) : (
           <CalendarHeader>
             <HeaderIcons>
-              <CalendarIconBtn onClick={()=> handlePrevYear()}>
+              <CalendarIconBtn data-calendar-btn-double onClick={()=> handlePrevYear()}>
                 <CalendarIcon name='Interface-chevron-double-left'/>
               </CalendarIconBtn>
-                {(!openDecade && !openMonth) && ( 
-                  <CalendarIconBtn onClick={() => handlePrevMonth()}>
-                    <CalendarIcon name='Interface-chevron-left' />
-                  </CalendarIconBtn>
-                )}
+              {(!openDecade && !openMonth) && ( 
+                <CalendarIconBtn data-calendar-btn-double onClick={() => handlePrevMonth()}>
+                  <CalendarIcon name='Interface-chevron-left' />
+                </CalendarIconBtn>
+              )}
             </HeaderIcons>
 
             <HeaderIcons m={openDecade || openMonth ? '585px': isRangePicker && isDoubleView && '520px'}>
               {(!openDecade && !openMonth) && (
-                <CalendarIconBtn onClick={() => handleNextMonth()}>
+                <CalendarIconBtn data-calendar-btn-double onClick={() => handleNextMonth()}>
                   <CalendarIcon name='Interface-chevron-right' />
                 </CalendarIconBtn>
               )}
-              <CalendarIconBtn onClick={() =>  handleNextYear()}>
+              <CalendarIconBtn data-calendar-btn-double onClick={() =>  handleNextYear()}>
                 <CalendarIcon name='Interface-chevron-double-right'/>
               </CalendarIconBtn>
             </HeaderIcons>
