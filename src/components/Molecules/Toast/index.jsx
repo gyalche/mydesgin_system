@@ -18,18 +18,24 @@ const useToast = () => {
   return memoizedToast;
 };
 
+const handleActionClick = () => {
+  alert('Action button clicked!');
+};
+
 const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
   const [currentPlacement, setCurrentPlacement] = useState('bottomCenter');
   const [duration, setDuration] = useState(DEFAULT_TOAST_DURATION);
 
-  const openToast = (title, description, placement, type, receivedDuration) => {
+  const openToast = (title, description, placement, type, receivedDuration, action, btnLabel) => {
     const newToast = {
       id: Date.now(),
       title,
       description,
       placement,
       type,
+      action,
+      btnLabel,
     };
 
     const receivedPlacement = placement || 'bottomCenter';
@@ -64,20 +70,20 @@ const ToastProvider = ({ children }) => {
     setToasts(prevToasts => prevToasts.filter(toast => toast.id !== id));
   };
 
-  const success = (title, description, placement, duration) => {
-    openToast(title, description, placement, 'success', duration);
+  const success = (title, description, placement, duration, action, btnLabel) => {
+    openToast(title, description, placement, 'success', duration, action, btnLabel);
   };
 
-  const info = (title, description, placement, duration) => {
-    openToast(title, description, placement, 'info', duration);
+  const info = (title, description, placement, duration, action, btnLabel) => {
+    openToast(title, description, placement, 'info', duration, action, btnLabel);
   };
 
-  const warning = (title, description, placement, duration) => {
-    openToast(title, description, placement, 'warning', duration);
+  const warning = (title, description, placement, duration, action, btnLabel) => {
+    openToast(title, description, placement, 'warning', duration, action, btnLabel);
   };
 
-  const error = (title, description, placement, duration) => {
-    openToast(title, description, placement, 'error', duration);
+  const error = (title, description, placement, duration, action, btnLabel) => {
+    openToast(title, description, placement, 'error', duration, action, btnLabel);
   };
 
   const contextValue = useMemo(() => ({
@@ -96,7 +102,7 @@ const ToastProvider = ({ children }) => {
           data-testid="toasts-wrapper"
         >
           {toasts.map(toast => {
-            const { id, title, description, placement, type, fadeOut } = toast;
+            const { id, title, description, placement, type, fadeOut, action, btnLabel } = toast;
             return (
               <Toast
                 key={id}
@@ -106,6 +112,8 @@ const ToastProvider = ({ children }) => {
                 type={type}
                 fadeOut={fadeOut}
                 close={() => closeToast(id)}
+                action={handleActionClick}
+                btnLabel={btnLabel}
               />
             );
           })}
@@ -126,6 +134,8 @@ const Toast = ({
   placement,
   close,
   fadeOut,
+  action,
+  btnLabel,
   ...rest
 }) => {
   const toastComponents = {
@@ -144,6 +154,8 @@ const Toast = ({
       $fadeOut={fadeOut}
       close={close}
       data-testid="toast"
+      action={action}
+      btnLabel={action ? btnLabel : null}
       {...rest}
     />
   );
@@ -156,10 +168,14 @@ Toast.propTypes = {
   type: PropTypes.string.isRequired,
   close: PropTypes.func.isRequired,
   fadeOut: PropTypes.bool,
+  action: PropTypes.func,
+  btnLabel: PropTypes.string
 };
 
 Toast.defaultProps = {
   placement: 'bottomCenter',
+  action: null,
+  btnLabel: 'action'
 };
 
 export { Toast, ToastProvider, useToast };

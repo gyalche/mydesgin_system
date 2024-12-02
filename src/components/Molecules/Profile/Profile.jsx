@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown } from 'components/Atoms';
-
+import { Avatar, Dropdown } from 'components/Atoms';
 import UserCard from './UserCard';
-import { Container, DefaultIcon, IconWrapper, UserCardImg } from './styles';
+import { Container, IconWrapper } from './styles';
 
 const Profile = ({ width, account, children }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -33,23 +32,14 @@ const Profile = ({ width, account, children }) => {
 
   return (
     <Container>
-      {account?.image ? (
-        <UserCardImg
-          src={account.image}
-          onClick={() => handleIsProfileOpen()}
-          ref={iconRef}
-          data-testid="profile-image"
-        />
-      ) : (
-        <IconWrapper
-          onClick={() => handleIsProfileOpen()}
-          ref={iconRef}
-          $cursor="pointer"
-          data-testid="profile-icon-wrapper"
-        >
-          <DefaultIcon name="Interface-avatar" />
-        </IconWrapper>
-      )}
+      <IconWrapper
+        onClick={() => handleIsProfileOpen()}
+        ref={iconRef}
+        $cursor="pointer"
+        data-testid="profile-image"
+      >
+        <Avatar name={account?.name} src={account?.image} /> 
+      </IconWrapper>  
       <Dropdown
         scroll={false}
         isOpen={isProfileOpen}

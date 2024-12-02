@@ -28,7 +28,7 @@ export const Badges =  {
     text: 'Badge',
   },
   render: (args) => {
-    return  (
+    return (
       <Layout.Block>
         <Layout.Item mt="20px">
           <Badge>{args.text}</Badge>
@@ -56,5 +56,5 @@ export const Badges =  {
         </Layout.Item>
       </Layout.Block>
     );
-  }
+  },
 };

@@ -1,0 +1,23 @@
+import React from 'react';
+import { LoadingIcon } from './styles';
+import PropTypes from 'prop-types';
+
+const Spinner = ({ size, color, invert }) => {
+  return (
+    <LoadingIcon className="spin" name="global-spinner" size={size} invert={invert} color={color} />
+  );
+};
+
+Spinner.propTypes = {
+  size: PropTypes.oneOf(['xlarge', 'large', 'medium', 'small']),
+  color: PropTypes.string,
+  invert: PropTypes.bool,
+};
+
+Spinner.defaultProps = {
+  size: 'xlarge',
+  invert: false,
+  color: 'var(--rds-color-neutral-6)',
+};
+
+export default Spinner;

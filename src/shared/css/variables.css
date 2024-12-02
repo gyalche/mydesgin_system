@@ -1,25 +1,20 @@
 /**
  * Do not edit directly
- * Generated on Wed, 30 Aug 2023 00:57:09 GMT
+ * Generated on Fri, 04 Oct 2024 05:47:28 GMT
  */
 
 :root {
   --rds-color-neutral-11: #161B1E;
-  --rds-color-neutral-9: #264153;
   --rds-color-neutral-10: #192B3A;
+  --rds-color-neutral-9: #264153;
   --rds-color-neutral-8: #485E75;
   --rds-color-neutral-7: #64778B;
   --rds-color-neutral-6: #808FA2;
   --rds-color-neutral-5: #9CA8B8;
-  --rds-color-neutral-alpha-4: rgba(156,168,184,0.72);
-  --rds-color-neutral-alpha-5: rgba(71,77,102,0.64);
   --rds-color-neutral-4: #B7C0CF;
   --rds-color-neutral-3: #D3D9E5;
   --rds-color-neutral-2: #E2E7EF;
   --rds-color-neutral-1: #F4F6FA;
-  --rds-color-neutral-alpha-1: rgba(226,231,239,0.32);
-  --rds-color-neutral-alpha-2: rgba(211,217,229,0.64);
-  --rds-color-neutral-alpha-3: rgba(183,192,207,0.64);
   --rds-color-neutral-0: #FFFFFF;
   --rds-color-primary-1-intense: #00576A;
   --rds-color-primary-1-deep: #0092B2;
@@ -32,7 +27,7 @@
   --rds-color-secondary-1-deep: #8600B5;
   --rds-color-secondary-1-dark: #B300F2;
   --rds-color-secondary-1-normal: #D256FE;
-  --rds-color-secondary-1-light: #99E4E1;
+  --rds-color-secondary-1-light: #E088FF;
   --rds-color-secondary-1-pale: #EFC1FF;
   --rds-color-secondary-1-subtle: #F9E8FF;
   --rds-color-secondary-3-intense: #B3051F;
@@ -46,8 +41,8 @@
   --rds-color-secondary-2-deep: #009D98;
   --rds-color-secondary-2-dark: #00BBB5;
   --rds-color-secondary-2-normal: #40D3CC;
-  --rds-color-secondary-2-pale: #CCF1F0;
   --rds-color-secondary-2-light: #99E4E1;
+  --rds-color-secondary-2-pale: #CCF1F0;
   --rds-color-secondary-2-subtle: #ebf9f9;
   --rds-color-tertiary-1-intense: #BC7E0C;
   --rds-color-tertiary-1-deep: #DD991F;
@@ -85,19 +80,31 @@
   --rds-color-chart-6: #F5CD7B;
   --rds-color-chart-7: #F97882;
   --rds-color-chart-8: #33C9DD;
-  --rds-spacing-0: 0;
-  --rds-spacing-1: 4;
-  --rds-spacing-2: 8;
-  --rds-spacing-3: 12;
-  --rds-spacing-4: 16;
-  --rds-spacing-5: 20;
-  --rds-spacing-6: 24;
-  --rds-spacing-7: 32;
-  --rds-spacing-8: 40;
-  --rds-spacing-9: 48;
-  --rds-spacing-10: 64;
-  --rds-spacing-11: 80;
-  --rds-radius-1: 4;
+  --rds-spacing-0: 0px;
+  --rds-spacing-1: 4px;
+  --rds-spacing-2: 8px;
+  --rds-spacing-3: 12px;
+  --rds-spacing-4: 16px;
+  --rds-spacing-5: 20px;
+  --rds-spacing-6: 24px;
+  --rds-spacing-7: 32px;
+  --rds-spacing-8: 40px;
+  --rds-spacing-9: 48px;
+  --rds-spacing-10: 64px;
+  --rds-spacing-11: 80px;
+  --rds-radius-1: 4px;
+  --rds-radius-2: 8px;
   --rds-line-height-1: 120%;
   --rds-line-height-2: 160%;
+  --rds-fontweight-2: 700;
+  --rds-fontsize-1: 10px;
+  --rds-fontweight-1: 400;
+  --rds-fontsize-2: 12px;
+  --rds-fontsize-3: 14px;
+  --rds-fontsize-4: 17px;
+  --rds-fontsize-5: 20px;
+  --rds-fontsize-6: 24px;
+  --rds-fontsize-7: 29px;
+  --rds-fontsize-8: 35px;
+  --rds-fontsize-9: 42px;
 }
