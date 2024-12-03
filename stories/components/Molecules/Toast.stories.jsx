@@ -42,31 +42,44 @@ export const Toasts = {
       description: 'Duration of the Toast in milliseconds',
       control: { type: 'number', min: 500, step: 500 },
     },
+    action: {
+      name: 'Action Button',
+      description: 'Toggle to show or hide the action button',
+      control: { type: 'boolean' },
+    },
+    btnLabel: {
+      name: 'Button Label',
+      description: 'Label of the Action Button',
+      control: { type: 'text' },
+      if: { arg: 'action' }, 
+    },
   },
   args: {
     title: 'Info message.',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.',
+    action: true,
+    btnLabel: 'action',
   },
   render: args => {
     const TestComponent = args => {
-      const { title, description, placement, duration } = args;
+      const { title, description, placement, duration, action, btnLabel } = args;
       const toast = useToast();
 
       const handleSuccessClick = () => {
-        toast?.success(title, description, placement, duration);
+        toast?.success(title, description, placement, duration, action, btnLabel);
       };
 
       const handleInfoClick = () => {
-        toast?.info(title, description, placement, duration);
+        toast?.info(title, description, placement, duration, action, btnLabel);
       };
 
       const handleWarningClick = () => {
-        toast?.warning(title, description, placement, duration);
+        toast?.warning(title, description, placement, duration, action, btnLabel);
       };
 
       const handleErrorClick = () => {
-        toast?.error(title, description, placement, duration);
+        toast?.error(title, description, placement, duration, action, btnLabel);
       };
 
       return (

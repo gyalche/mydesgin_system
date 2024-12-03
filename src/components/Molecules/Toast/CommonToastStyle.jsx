@@ -1,7 +1,8 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Flex } from 'components/Atoms/Layout';
-import { Icon, Typography } from 'components/Atoms';
+import { Button, Icon, Typography } from 'components/Atoms';
 
 export const successStyles = css`
   background-color: var(--rds-color-secondary-2-intense);
@@ -23,14 +24,26 @@ export const errorStyles = css`
   color: var(--rds-color-neutral-0);
 `;
 
+export const actionButtonStyle = css`
+  background-color: var(--rds-color-secondary-2-intense);
+  color: var(--rds-color-neutral-0);
+`;
+
 export const ToastContainer = styled(Flex)`
   gap: 12px;
-  margin: ${({ $withDescription }) => ($withDescription ? '16px' : '12px')};
+  margin: ${({ $withDescription }) => $withDescription ? '12px' : '8px'};
+`;
+
+export const StyledIcon = styled(Icon)`
+  color: var(--rds-color-neutral-8);
+  font-size: 24px;
+  margin-top: ${({ $withDescription }) => !$withDescription && '4px'}
 `;
 
 export const TextContainer = styled(Flex)`
   align-self: center;
   flex-direction: column;
+  width: ${({$withDescription}) => !$withDescription && '80%'};
 `;
 
 export const Description = styled(Typography).attrs(() => ({ level: 'p2' }))`
@@ -42,6 +55,30 @@ export const Description = styled(Typography).attrs(() => ({ level: 'p2' }))`
 
 export const CloseIcon = styled(Icon)`
   cursor: pointer;
+  font-size: 24px;
+  margin-top: ${({$withDescription}) => !$withDescription && '4px'}
+`;
+
+export const ToastButton = styled(Button.Subtle)`
+  background-color: var(--rds-neutral-0);
+  margin-top: ${({$withDescription}) => !$withDescription && '4px'};
+  max-width: calc(100% / 3);
+  white-space: nowrap;
+`;
+
+export const BtnLabel = styled.div`
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
+
+export const ToastIcon = styled(Icon)`
+  font-size: 24px;
+  margin-top: 5px;
+`;
+
+export const TitleWrapper = styled.div`
+  margin-top: ${({noDescriptiion})=> !noDescriptiion ? '-10px' : '0'}
 `;
 
 const getToastsPlacementStyles = placement => {

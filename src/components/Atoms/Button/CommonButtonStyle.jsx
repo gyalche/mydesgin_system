@@ -89,6 +89,7 @@ export const linkStyles = css`
   background-color: transparent;
   border: none;
   color: var(--rds-color-primary-1-dark);
+  font-weight: 300;
   height: ${({ compact }) => compact ? '24px' : '32px'};
   padding: 0;
 
@@ -109,6 +110,7 @@ export const subtleLinkStyles = css`
   background-color: transparent;
   border: none;
   color: var(--rds-color-neutral-9);
+  font-weight: 300;
   padding: 0;
   height: ${({ compact }) => compact ? '24px' : '32px'};
   

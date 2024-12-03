@@ -1,8 +1,8 @@
 import React from 'react';
-import { DatePicker } from 'components/Molecules';
 import { Field, Form as FinalForm } from 'react-final-form';
-import TimePicker from 'components/Molecules/DatePicker/Time';
 import PropTypes from 'prop-types';
+import DatePicker from 'components/Molecules/DatePicker/DatePicker';
+import TimePicker from 'components/Molecules/DatePicker/TimePicker';
 
 const Form = ({ 
   dateInitialValue = new Date(), 
@@ -35,10 +35,16 @@ const Form = ({
         onSubmit={onSubmit}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <div style={{ minWidth: '200px', display: 'flex', alignItems: 'center', padding: '10px'}}>
+            <div style={{ minWidth: '200px',
+               display: 'flex', 
+               flexDirection:'column', 
+               alignItems: 'start',
+               justifyContent: 'center',
+              padding: '10px', border: '1px solid'}}>
               
               {/* Date Field */}
               <div>
+                <h4>Single datepicker</h4>
                 <label>Date:</label>
                 <Field name="date" render={({ input }) => {
                   const dateValue = isRangePicker 
@@ -49,7 +55,7 @@ const Form = ({
                     <DatePicker 
                       {...input}
                       initialValue={dateValue}
-                      isRangePicker={isRangePicker} 
+                      isRangePicker={isRangePicker}
                       isDoubleView={isDoubleView}
                       onChange={input.onChange}
                       dateTimeFormat={dateTimeFormat}

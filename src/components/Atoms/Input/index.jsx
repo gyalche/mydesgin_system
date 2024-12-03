@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -36,37 +36,30 @@ const StyledInput = styled.input.withConfig({
   }
 `;
 
-const Input = ({
-  mt,
-  mr,
-  mb,
-  ml,
-  w,
-  compact,
-  isInvalid,
-  name,
-  value,
-  onChange,
-  input,
-  ...props
-}) => {
-  return (
-    <StyledInput
-      name={name ?? input?.name}
-      value={value ?? input?.value}
-      onChange={onChange ?? input?.onChange}
-      mt={mt}
-      mr={mr}
-      mb={mb}
-      ml={ml}
-      w={w}
-      compact={compact}
-      isInvalid={isInvalid}
-      {...props}
-    />
-  );
-};
-
+const Input = forwardRef(
+  (
+    { mt, mr, mb, ml, w, compact, isInvalid, name, value, onChange, input, ...props },
+    ref
+  ) => {
+    return (
+      <StyledInput
+        ref={ref}
+        name={name ?? input?.name}
+        value={value ?? input?.value}
+        onChange={onChange ?? input?.onChange}
+        mt={mt}
+        mr={mr}
+        mb={mb}
+        ml={ml}
+        w={w}
+        compact={compact}
+        isInvalid={isInvalid}
+        {...props}
+      />
+    );
+  }
+);
+Input.displayName = 'Input';
 Input.propTypes = {
   mt: PropTypes.string,
   mr: PropTypes.string,

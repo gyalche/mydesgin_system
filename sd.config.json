@@ -3,7 +3,7 @@
   "platforms": {
     "css": {
       "transformGroup": "css",
-      "prefix": "rds",
+      "prefix": "",
       "buildPath": "src/shared/css/",
       "files": [
         {

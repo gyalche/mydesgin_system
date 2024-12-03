@@ -4,10 +4,11 @@ const useClickOutside = (ref, callback) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
-        callback();
+        if(typeof callback === 'function'){
+          callback(event);
+        }
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
 
    return () => {
