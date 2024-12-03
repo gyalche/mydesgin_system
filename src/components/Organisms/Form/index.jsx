@@ -40,11 +40,10 @@ const Form = ({
                flexDirection:'column', 
                alignItems: 'start',
                justifyContent: 'center',
-              padding: '10px', border: '1px solid'}}>
+              padding: '10px'}}>
               
               {/* Date Field */}
               <div>
-                <h4>Single datepicker</h4>
                 <label>Date:</label>
                 <Field name="date" render={({ input }) => {
                   const dateValue = isRangePicker 
@@ -53,12 +52,12 @@ const Form = ({
 
                   return (
                     <DatePicker 
-                      {...input}
-                      initialValue={dateValue}
-                      isRangePicker={isRangePicker}
-                      isDoubleView={isDoubleView}
-                      onChange={input.onChange}
-                      dateTimeFormat={dateTimeFormat}
+                      // {...input}
+                      // initialValue={dateValue}
+                      // isRangePicker={isRangePicker}
+                      // isDoubleView={isDoubleView}
+                      // onChange={input.onChange}
+                      // dateTimeFormat={dateTimeFormat}
                     />
                   );
                 }} />
@@ -69,16 +68,16 @@ const Form = ({
                 <label>Time:</label>
                 <Field name="time" render={({input}) => (
                   <TimePicker 
-                    {...input} 
-                    initialValue={input.value}
-                    is12Hour={is12Hour}
-                    step={step}
+                    // {...input} 
+                    // initialValue={input.value}
+                    // is12Hour={is12Hour}
+                    // step={step}
                   />
                 )}/>
               </div>
             </div>
 
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: '20px'}}>
               <button type="submit">Submit</button>
             </div>
           </form>
