@@ -248,6 +248,7 @@ export const Dropdown = styled.div`
   overflow-y: hidden;
   box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-5);
   margin-top: 18px;
+  background-color: var(--rds-color-neutral-0);
 `;
 export const EndDropDown = styled(Dropdown)`
   margin-left: ${({ is12Hour }) => {
