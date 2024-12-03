@@ -75,7 +75,7 @@ describe('DatePicker Component', () => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
-    const pastDayButton = screen.findByTestId(`day-${yesterday.getDate() - 1}`);
+    const pastDayButton = screen.findByTestId(`day-${yesterday.getDate()}`);
   
     waitFor(() => {
       fireEvent.click(pastDayButton);

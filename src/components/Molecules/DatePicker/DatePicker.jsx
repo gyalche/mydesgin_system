@@ -38,8 +38,6 @@ const DatePicker = ({
   const [firstInputFocus, setFirstInputFocus] = useState(false);
   const [secondInputFocus, setSecondInputFocus] = useState(false);
   const [enableKeyboard, setEnableKeyboard] = useState(true);
-  const [startDateClear, setStartDateClear] = useState(true);
-  const [endDateClear, setEndDateClear] = useState(true);
 
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
@@ -311,13 +309,12 @@ const DatePicker = ({
             }}
           />
           <IconWrapper>
-            {startDateClear ? (
+            {startDate ? (
               <InputIcon onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
                   if (Array.isArray(dateRange) && dateRange.length > 0) {
                     dateRange.shift();
                   }
-                  setStartDateClear(!startDateClear);
                 }}
                 data-testid='icon-click'
               >
@@ -359,12 +356,11 @@ const DatePicker = ({
                 }}
               />
               <IconWrapper>
-                {endDateClear ? (
+                {endDate ? (
                   <InputIcon onClick={disabled ? ()=>{} : () => {
                     setEndDate('');
                     dateRange.pop();
                     setHoveredDate(startDate);
-                    setEndDateClear(!endDateClear);
                   }}
                   data-testid='icon-button'
                   >
