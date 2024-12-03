@@ -193,6 +193,7 @@ export const TimePickerContainer = styled.div`
   gap: 20px;
   align-items: center;
   border-radius: 8px;
+  background-color: var(--rds-color-neutral-0);
 `;
 
 export const TimeInputWrapper = styled.div`
