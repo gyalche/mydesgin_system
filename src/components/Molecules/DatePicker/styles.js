@@ -97,6 +97,7 @@ export const CalendarContainer = styled.div`
   width: 340px;
   height: 320px; 
   padding: 10px;
+  background-color: var(--rds-color-neutral-0);
 `;
 
 export const DaysContainer = styled.div`
