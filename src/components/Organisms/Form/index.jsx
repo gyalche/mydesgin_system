@@ -3,7 +3,6 @@ import { Field, Form as FinalForm } from 'react-final-form';
 import PropTypes from 'prop-types';
 import DatePicker from 'components/Molecules/DatePicker/DatePicker';
 import TimePicker from 'components/Molecules/DatePicker/TimePicker';
-import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
 
 const Form = ({ 
   dateInitialValue = new Date(), 
@@ -27,6 +26,11 @@ const Form = ({
     singleDate: new Date(Date.now()),
 
     singleTime: '11:00',
+
+    dateTime: {
+      date: [new Date(), new Date()],
+      time: ['1:00', '2:30'],
+    },
   };
 
   const onSubmit = values => {
@@ -56,7 +60,13 @@ const Form = ({
               {/* Sigle date picker */}
               <div style={myStyles}>
                 <label>Date:</label>
-                <Field name="singleDate" component={DatePicker} />
+                <Field name="singleDate" render={({input}) => (
+                  <DatePicker 
+                    {...input}
+                    isRangePicker={false}
+                    // initialValue={initialValues}
+                  />
+                )} />
               </div>
 
               {/* Daterange date picker */}
@@ -73,7 +83,12 @@ const Form = ({
               {/* Single TimePicker */}
               <div style={myStyles}>
                 <label>Time:</label>
-                <Field name="singleTime" component={TimePicker}/>
+                <Field name="singleTime" render={({input}) => (
+                  <TimePicker 
+                    {...input}
+                    step={step}
+                  />
+                )}/>
               </div>
               <div style={myStyles}>
                 <label>Time Range:</label>
@@ -84,10 +99,6 @@ const Form = ({
                     step={step}
                   />
                 )}/>
-              </div>
-              <div style={myStyles}>
-                <label>DateTime:</label>
-                <Field name="time" component={DateTimePicker}/>
               </div>
             </div>
 
