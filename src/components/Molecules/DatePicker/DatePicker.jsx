@@ -25,7 +25,12 @@ const DatePicker = ({
   onChange,
   disabled,
   error,
-  placeholder }) => {
+  placeholder,
+  dateTimeStart,
+  dateTimeEnd,
+  setDateTimeStart,
+  setDateTimeEnd,
+}) => {
   const [startDate, setStartDate] = useState(new Date(Date.now()));
   const [endDate, setEndDate] = useState(new Date(Date.now()));
   const [openCalender, setOpenCalender] = useState(false);
@@ -284,6 +289,10 @@ const DatePicker = ({
     }
   }, [initialValue]);
 
+  // useEffect(() => {
+  //   setStartDate(new Date());
+  //   setEndDate(new Date());
+  // },[]);
   return (
     <DatePickerContainer>
       <InputContainer>
@@ -309,12 +318,14 @@ const DatePicker = ({
             }}
           />
           <IconWrapper>
-            {startDate ? (
+            {startDate || dateTimeStart || dateTimeEnd ? (
               <InputIcon onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
                   if (Array.isArray(dateRange) && dateRange.length > 0) {
                     dateRange.shift();
                   }
+                  if(dateTimeStart) setDateTimeStart(false);
+                  if(dateTimeEnd) setDateTimeEnd(false);
                 }}
                 data-testid='icon-click'
               >
@@ -511,6 +522,10 @@ DatePicker.propTypes = {
   disabled: PropTypes.bool,
   error: PropTypes.bool,
   placeholder: PropTypes.string,
+  dateTimeStart: PropTypes.bool,
+  dateTimeEnd: PropTypes.bool,
+  setDateTimeStart: PropTypes.bool,
+  setDateTimeEnd: PropTypes.bool,
 };
 
 DatePicker.defaultProps = {
@@ -522,6 +537,10 @@ DatePicker.defaultProps = {
   disabled: false,
   error: false,
   placeholder: 'yyyy/mm/dd',
+  dateTimeStart: false,
+  dateTimeEnd: false,
+  setDateTimeStart: false,
+  setDateTimeEnd: false,
 };
 
 export default DatePicker;

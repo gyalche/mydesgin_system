@@ -18,7 +18,8 @@ const DateTimePicker = ({ onChange,
     date: isDoublePicker ? [new Date(), new Date()] : new Date(),
     time: null,
   });
-
+  const [dateTimeStart, setDateTimeStart] = useState(true);
+  const [dateTimeEnd, setDateTimeEnd] = useState(true);
   const validateValue = (value, type) => {
     const isValidDate = (date) => date instanceof Date && !isNaN(date);
     const isValidTime = (time) => {
@@ -73,14 +74,15 @@ const DateTimePicker = ({ onChange,
           isDoubleView={isDoubleView}
           locale={locale}
           placeholder={placeholder.date}
-          initialValue={value?.date}
+          dateTimeStart={dateTimeStart}
+          setDateTimeStart={setDateTimeStart}
         />
         <TimePicker is12Hour={is12Hour}
           onChange={(e)=>handleChange(e, 'time', 'start')}
           disabled={disabled}
           placeholder={placeholder.time}
           isTimeRange={isTimeRange}
-          initialValue={value?.time}
+          
         />
       </Layout.Flex>
 
@@ -96,7 +98,8 @@ const DateTimePicker = ({ onChange,
             placeholder={placeholder.date}
             isRangePicker={isRangePicker}
             isDoubleView={isDoubleView}
-            initialValue={value?.date}
+            dateTimeEnd={dateTimeEnd}
+            setDateTimeEnd={setDateTimeEnd}
           />
           <TimePicker
             is12Hour={is12Hour}
@@ -104,7 +107,6 @@ const DateTimePicker = ({ onChange,
             disabled={disabled}
             placeholder={placeholder.time}
             isTimeRange={isTimeRange}
-            initialValue={value?.time}
           />
         </Layout.Flex>
       </>
