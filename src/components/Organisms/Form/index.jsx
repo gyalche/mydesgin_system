@@ -3,6 +3,7 @@ import { Field, Form as FinalForm } from 'react-final-form';
 import PropTypes from 'prop-types';
 import DatePicker from 'components/Molecules/DatePicker/DatePicker';
 import TimePicker from 'components/Molecules/DatePicker/TimePicker';
+import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
 
 const Form = ({ 
   dateInitialValue = new Date(), 
@@ -11,7 +12,8 @@ const Form = ({
   isDoubleView = true, 
   is12Hour = true,
   step = 15,
-  dateTimeFormat = 'ja-JP'
+  dateTimeFormat = 'ja-JP',
+  isDoublePicker,
 }) => {
   const initialValues = {
     date: isRangePicker
@@ -28,13 +30,13 @@ const Form = ({
     singleTime: '11:00',
 
     dateTime: {
-      date: [new Date(), new Date()],
-      time: ['1:00', '2:30'],
+      date: isDoublePicker ? [new Date(), new Date()] : new Date(),
+      time: isDoublePicker ? ['1:00', '2:30'] : '10: 00',
     },
   };
 
   const onSubmit = values => {
-    // console.log('submition', values);
+    console.log('submition', values);
   };
   const myStyles= {
     display: 'flex',
@@ -73,7 +75,7 @@ const Form = ({
               <div style={myStyles}>
                 <label>Daterange:</label>
                 <Field name="date" render={({input}) => (
-                  <DatePicker 
+                  <DatePicker
                     {...input}
                     isRangePicker={true}
                     initialValue={initialValues}
@@ -100,6 +102,22 @@ const Form = ({
                   />
                 )}/>
               </div>
+
+              <div style={myStyles}>
+                <label>DateTime Picker:</label>
+                <Field
+                  name="dateTime"
+                  render={({ input }) => (
+                    <DateTimePicker
+                      input={input}
+                      isDoublePicker={isDoublePicker}
+                      isRangePicker={false}
+                      isDoubleView={false}
+                      // is12Hour={is12Hour}
+                    />
+                  )}
+                />
+              </div>
             </div>
 
             <div style={{ marginTop: '20px'}}>
@@ -124,6 +142,7 @@ Form.propTypes = {
   onChange: PropTypes.func,
   is12Hour: PropTypes.bool,
   step: PropTypes.number,
+  isDoublePicker: PropTypes.bool,
 };
 
 Form.defaultProps = {
@@ -134,7 +153,8 @@ Form.defaultProps = {
   is12Hour: true,
   step: 15,
   dateTimeFormat: 'ja-JP',
-  onChange: ()=>{}
+  onChange: ()=>{},
+  isDoublePicker: true,
 };
 
 export default Form;
