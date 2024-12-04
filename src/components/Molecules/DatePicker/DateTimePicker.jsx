@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TimePicker from './TimePicker';
 import DatePicker from './DatePicker';
 import PropTypes from 'prop-types';
@@ -15,7 +15,7 @@ const DateTimePicker = ({ onChange,
   placeholder,
   isTimeRange }) => {
   const [value, setValue] = useState({
-    date: null,
+    date: isDoublePicker ? [new Date(), new Date()] : new Date(),
     time: null,
   });
 
@@ -62,6 +62,7 @@ const DateTimePicker = ({ onChange,
       return myData;
     });
   };
+
   return (
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">
@@ -72,12 +73,14 @@ const DateTimePicker = ({ onChange,
           isDoubleView={isDoubleView}
           locale={locale}
           placeholder={placeholder.date}
+          initialValue={value?.date}
         />
         <TimePicker is12Hour={is12Hour}
           onChange={(e)=>handleChange(e, 'time', 'start')}
           disabled={disabled}
           placeholder={placeholder.time}
           isTimeRange={isTimeRange}
+          initialValue={value?.time}
         />
       </Layout.Flex>
 
@@ -93,6 +96,7 @@ const DateTimePicker = ({ onChange,
             placeholder={placeholder.date}
             isRangePicker={isRangePicker}
             isDoubleView={isDoubleView}
+            initialValue={value?.date}
           />
           <TimePicker
             is12Hour={is12Hour}
@@ -100,6 +104,7 @@ const DateTimePicker = ({ onChange,
             disabled={disabled}
             placeholder={placeholder.time}
             isTimeRange={isTimeRange}
+            initialValue={value?.time}
           />
         </Layout.Flex>
       </>
