@@ -6,7 +6,7 @@ export default {
   component: DatePicker,
 };
 
-const { Time, DateTime } = DatePicker;
+const { Time, DateTime, DateRangePicker } = DatePicker;
 
 export const DatePickers = {
   title: 'DatePicker',
@@ -51,7 +51,6 @@ export const DatePickers = {
     }
   },
   args: {
-    isRangePicker: true,
     isDoubleView: false,
     disabled: false,
     locale: 'ja-JP',
@@ -67,6 +66,68 @@ export const DatePickers = {
         : new Date(new Date().setDate(new Date().getDate() + 8)),
     };
     return <DatePicker {...updatedArgs} />;
+  },
+};
+
+export const RangePicker = {
+  title: 'DatePicker',
+  component: DateRangePicker,
+  parameters: {
+    layout: 'centered',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6273%3A32042&mode=dev',
+    },
+  },
+  argTypes: {
+    isRangePickerDate: {
+      description: 'Ranged selection mode',
+      control: { type: 'boolean' },
+    },
+    isDoubleView: {
+      description: 'Display two months side by side, "isRangePicker" value must be true',
+      control: { type: 'boolean' },
+    },
+    disabled: {
+      description: 'enable and disable the description',
+      control: { type: 'boolean' }
+    },
+    locale: {
+      description: 'Locale format of the calendar. Default is ja-JP',
+      control: { type: 'select' },
+      options: ['ja-JP', 'en-US']
+    },
+    textCancel: {
+      description: 'Text to be shown for the Cancel action',
+      control: { type: 'text' },
+    },
+    initialValue: {
+      description:
+        'Initial Date value of the Datepicker, could be a date or an array of dates if in ranged mode',
+      control: { type: 'date' },
+    },
+    placeholder: {
+      description: 'Placeholder value',
+      control: { type: 'text' },
+    }
+  },
+  args: {
+    isDoubleView: false,
+    disabled: false,
+    locale: 'ja-JP',
+    textCancel: 'キャンセル',
+    initialValue: new Date(),
+    isRangePicker: true,
+    placeholder: 'yyyy/mm/dd'
+  },
+  render: (args) => {
+    const updatedArgs = {
+      ...args,
+      initialValue: args.isRangePicker
+        ? [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))]
+        : new Date(new Date().setDate(new Date().getDate() + 8)),
+    };
+    return <DateRangePicker {...updatedArgs} />;
   },
 };
 

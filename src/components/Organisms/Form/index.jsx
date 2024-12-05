@@ -1,126 +1,73 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 import PropTypes from 'prop-types';
 import DatePicker from 'components/Molecules/DatePicker/DatePicker';
 import TimePicker from 'components/Molecules/DatePicker/TimePicker';
 import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
+import DateRangePicker from 'components/Molecules/DatePicker/DateRangePicker';
+import TimeRangePicker from 'components/Molecules/DatePicker/TimeRangePicker';
 
-const Form = ({ 
-  dateInitialValue = new Date(), 
-  timeInitialValue = '10:15 AM',
-  isRangePicker = true, 
-  isDoubleView = true, 
-  is12Hour = true,
-  step = 15,
-  dateTimeFormat = 'ja-JP',
-  isDoublePicker,
-}) => {
+const Form = () => {
   const initialValues = {
-    date: isRangePicker
-      ? Array.isArray(dateInitialValue) 
-        ? dateInitialValue 
-        : [new Date(), new Date()]
-      : dateInitialValue instanceof Date 
-        ? dateInitialValue 
-        : new Date(),
-    time: timeInitialValue,
-
-    singleDate: new Date(Date.now()),
-
-    singleTime: '11:00',
-
+    dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 10))],
+    time: ['1:00 PM', '2:00 AM'],
+    singleDate: new Date(new Date().setDate(new Date().getDate() + 7)),
+    singleTime: '12:30 PM',
     dateTime: {
-      date: isDoublePicker ? [new Date(), new Date()] : new Date(),
-      time: isDoublePicker ? ['1:00', '2:30'] : '10: 00',
+      date: null,
+      time: null,
     },
   };
 
-  const onSubmit = values => {
-    console.log('submition', values);
+  const onSubmit = (values) => {
+    // console.log('Submission values:', values);
   };
-  const myStyles= {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'start',
-    justifyContent: 'center',
-    gap: '5px',
-  };
+
   return (
     <div>
       <FinalForm
         initialValues={initialValues}
         onSubmit={onSubmit}
-        render={({ handleSubmit }) => (
+        render={({ handleSubmit, form }) => (
           <form onSubmit={handleSubmit}>
-            <div style={{ minWidth: '200px',
+            <div style={{ minWidth: '200px', 
               display: 'flex', 
-              flexDirection:'column', 
-              alignItems: 'start',
-              justifyContent: 'center',
-              padding: '10px', gap: '10px'}}>
-              
-              {/* Sigle date picker */}
-              <div style={myStyles}>
+              flexDirection: 'column', 
+              alignItems: 'start', 
+              justifyContent: 'center', 
+              padding: '10px', 
+              gap: '10px' }}>
+                
+              {/* Single date picker */}
+              <div>
                 <label>Date:</label>
-                <Field name="singleDate" render={({input}) => (
-                  <DatePicker 
-                    {...input}
-                    isRangePicker={false}
-                    // initialValue={initialValues}
-                  />
-                )} />
+                <Field name="singleDate" component={DatePicker} />
               </div>
 
-              {/* Daterange date picker */}
-              <div style={myStyles}>
+              {/* Date range picker */}
+              <div>
                 <label>Daterange:</label>
-                <Field name="date" render={({input}) => (
-                  <DatePicker
-                    {...input}
-                    isRangePicker={true}
-                    initialValue={initialValues}
-                  />
-                )} />
-              </div>
-              {/* Single TimePicker */}
-              <div style={myStyles}>
-                <label>Time:</label>
-                <Field name="singleTime" render={({input}) => (
-                  <TimePicker 
-                    {...input}
-                    step={step}
-                  />
-                )}/>
-              </div>
-              <div style={myStyles}>
-                <label>Time Range:</label>
-                <Field name="time" render={({input}) => (
-                  <TimePicker 
-                    {...input}
-                    isTimeRange={true}
-                    step={step}
-                  />
-                )}/>
+                <Field name="dateRange" component={DateRangePicker}/>
               </div>
 
-              <div style={myStyles}>
+              {/* Single TimePicker */}
+              <div>
+                <label>Time:</label>
+                <Field name="singleTime" component={TimePicker} />
+              </div>
+
+              <div>
+                <label>Time Range:</label>
+                <Field name="time" component={TimeRangePicker}/>
+              </div>
+
+              <div>
                 <label>DateTime Picker:</label>
-                <Field
-                  name="dateTime"
-                  render={({ input }) => (
-                    <DateTimePicker
-                      input={input}
-                      isDoublePicker={isDoublePicker}
-                      isRangePicker={false}
-                      isDoubleView={false}
-                      // is12Hour={is12Hour}
-                    />
-                  )}
-                />
+                <Field name="dateTime" component={DateTimePicker}/>
               </div>
             </div>
 
-            <div style={{ marginTop: '20px'}}>
+            <div style={{ marginTop: '20px' }}>
               <button type="submit">Submit</button>
             </div>
           </form>
@@ -135,7 +82,7 @@ Form.propTypes = {
     PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
     PropTypes.instanceOf(Date),
   ]),
-  timeInitialValue : PropTypes.string,
+  timeInitialValue: PropTypes.string,
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
   dateTimeFormat: PropTypes.string,
@@ -153,7 +100,7 @@ Form.defaultProps = {
   is12Hour: true,
   step: 15,
   dateTimeFormat: 'ja-JP',
-  onChange: ()=>{},
+  onChange: () => {},
   isDoublePicker: true,
 };
 

@@ -22,30 +22,42 @@ import closeOpenModal from '../../../hooks/closeOpenModal';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
-const TimePicker = ({ is12Hour,
+const TimeRangePicker = ({ is12Hour,
   step,
   initialValue,
   onChange,
   disabled,
   error,
   placeholder,
+  isTimeRange,
   input,
 }) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [amPm, setAmPm] = useState('');
+
+  const [selectedHourEnd, setSelectedHourEnd] = useState('');
+  const [selectedMinuteEnd, setSelectedMinuteEnd] = useState('');
+  const [amPmEnd, setAmPmEnd] = useState('');
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isEndTimeDropdownOpen, setIsEndTimeDropdownOpen] = useState(false);
+
   const [openTime, setOpenTime] = useState(false);
+  const [openTimeEnd, setOpenTimeEnd] = useState(false);
+
   const [time, setTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
   const [activeColumn, setActiveColumn] = useState('hour');
 
   const [highlightedHourIndex, setHighlightedHourIndex] = useState(-1);
   const [highlightedMinuteIndex, setHighlightedMinuteIndex] = useState(-1);
   const [highlightedAmPmIndex, setHighlightedAmPmIndex] = useState(-1);
 
-  useEffect(() => {
-    setTime(input?.value);
-  }, [input?.value]);
+  const [highlightedHourEndIndex, setHighlightedHourEndIndex] = useState(-1);
+  const [highlightedMinuteEndIndex, setHighlightedMinuteEndIndex] = useState(-1);
+  const [highlightedAmPmEndIndex, setHighlightedAmPmEndIndex] = useState(-1);
 
   const columns = ['hour', 'minute', 'ampm'];
 
@@ -53,6 +65,8 @@ const TimePicker = ({ is12Hour,
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
 
   const timeValue = `${selectedHour ? selectedHour : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
+  const timeValueEnd = `${selectedHourEnd ? selectedHourEnd : 'hh'}:${selectedMinuteEnd !== '' ? 
+    String(selectedMinuteEnd).padStart(2, '0') : 'mm'} ${amPmEnd}`;
 
   const timePickerRef = useRef(null);
   const timeInputRef = useRef(null);
@@ -87,30 +101,74 @@ const TimePicker = ({ is12Hour,
     setAmPm(value);
     const updatedTime = formatTime(selectedHour, selectedMinute, value);
     setTime(updatedTime);
-    onChange(updatedTime);
-    input.onChange(updatedTime);
-  }, [selectedHour, selectedMinute]);
+    onChange([updatedTime, endTime]);
+    input.onChange([updatedTime, endTime]);
+  }, [selectedHour, selectedMinute, endTime]);
 
   const toggleDropdown = () => {
+    setIsEndTimeDropdownOpen(false);
     setIsDropdownOpen(!isDropdownOpen);
   };
+  const toggleEndDropdown = () => {
+    setIsDropdownOpen(false);
+    setIsEndTimeDropdownOpen(!isEndTimeDropdownOpen);
+  };
+
+  const handleEndHourClick = useCallback(
+    (hour) => {
+      setSelectedHourEnd(String(hour));
+      const updatedEndTime = formatTime(hour, selectedMinuteEnd, amPmEnd);
+      setEndTime(updatedEndTime);
+      onChange([time, updatedEndTime ]);
+      input.onChange([time, updatedEndTime]);
+    },
+    [selectedMinuteEnd, amPmEnd, time]
+  );
+
+  const handleEndMinuteClick = useCallback(
+    (minute) => {
+      setSelectedMinuteEnd(String(minute));
+      const updatedEndTime = formatTime(selectedHourEnd, minute, amPmEnd);
+      setEndTime(updatedEndTime);
+      onChange([time, updatedEndTime ]);
+      input.onChange([time, updatedEndTime]);
+    },
+    [selectedHourEnd, amPmEnd, time]
+  );
+
+  const handleEndAmPm = useCallback(
+    (value) => {
+      setAmPmEnd(value);
+      const updatedEndTime = formatTime(selectedHourEnd, selectedMinuteEnd, value);
+      setEndTime(updatedEndTime);
+      onChange([time, updatedEndTime]);
+      input.onChange([time, updatedEndTime]);
+    },
+    [selectedHourEnd, selectedMinuteEnd, time]
+  );
+
+  //custom hook for outside click to close the model
   useClickOutside(timePickerRef, () => {
-    if ((selectedHour && (amPm || !is12Hour)) || !time) {
+    if ((selectedHour && (amPm || !is12Hour)) || !time || isTimeRange) {
       setIsDropdownOpen(false);
+      setIsEndTimeDropdownOpen(false);
     }
   });
   
-  closeOpenModal(() => (setIsDropdownOpen(false)));
+  closeOpenModal(() => (setIsDropdownOpen(false), setIsEndTimeDropdownOpen(false)));
   
   const getNearestMinMinute = (current, step) => Math.min(roundToNearestStep(current, step));
 
   const handleKeyDown = (e) => {
+    const isEndTime = isEndTimeDropdownOpen;
     const isStartTime = isDropdownOpen;
     
-    const getColumnIndices = () => {
-      const hoursIndex = highlightedHourIndex;
-      const minutesIndex = highlightedMinuteIndex;
-      const ampmIndex = highlightedAmPmIndex;
+    if (!isStartTime && !isEndTime) return;
+    
+    const getColumnIndices = (column, isEndTime) => {
+      const hoursIndex = isEndTime ? highlightedHourEndIndex : highlightedHourIndex;
+      const minutesIndex = isEndTime ? highlightedMinuteEndIndex : highlightedMinuteIndex;
+      const ampmIndex = isEndTime ? highlightedAmPmEndIndex : highlightedAmPmIndex;
       return { hoursIndex, minutesIndex, ampmIndex };
     };
   
@@ -121,23 +179,23 @@ const TimePicker = ({ is12Hour,
       });
     };
   
-    const handleArrowDown = () => {
+    const handleArrowDown = (isEndTime) => {
       if (activeColumn === 'hour') {
-        updateColumnIndex(setHighlightedHourIndex, hours.length, 1);
+        updateColumnIndex(isEndTime ? setHighlightedHourEndIndex : setHighlightedHourIndex, hours.length, 1);
       } else if (activeColumn === 'minute') {
-        updateColumnIndex(setHighlightedMinuteIndex, minutes.length, 1);
+        updateColumnIndex(isEndTime ? setHighlightedMinuteEndIndex : setHighlightedMinuteIndex, minutes.length, 1);
       } else if (activeColumn === 'ampm' && is12Hour) {
-        updateColumnIndex(setHighlightedAmPmIndex, AmPmValue.length, 1);
+        updateColumnIndex(isEndTime ? setHighlightedAmPmEndIndex : setHighlightedAmPmIndex, AmPmValue.length, 1);
       }
     };
   
-    const handleArrowUp = () => {
+    const handleArrowUp = (isEndTime) => {
       if (activeColumn === 'hour') {
-        updateColumnIndex(setHighlightedHourIndex, hours.length, -1);
+        updateColumnIndex(isEndTime ? setHighlightedHourEndIndex : setHighlightedHourIndex, hours.length, -1);
       } else if (activeColumn === 'minute') {
-        updateColumnIndex(setHighlightedMinuteIndex, minutes.length, -1);
+        updateColumnIndex(isEndTime ? setHighlightedMinuteEndIndex : setHighlightedMinuteIndex, minutes.length, -1);
       } else if (activeColumn === 'ampm' && is12Hour) {
-        updateColumnIndex(setHighlightedAmPmIndex, AmPmValue.length, -1);
+        updateColumnIndex(isEndTime ? setHighlightedAmPmEndIndex : setHighlightedAmPmIndex, AmPmValue.length, -1);
       }
     };
   
@@ -159,41 +217,50 @@ const TimePicker = ({ is12Hour,
       const { hoursIndex, minutesIndex, ampmIndex } = getColumnIndices(activeColumn, isEndTime);
       
       if (activeColumn === 'hour' && hoursIndex >= 0) {
-        handleHourClick(hours[hoursIndex]);
+        isEndTime ? handleEndHourClick(hours[hoursIndex]) : handleHourClick(hours[hoursIndex]);
       } else if (activeColumn === 'minute' && minutesIndex >= 0) {
-        handleMinuteClick(minutes[minutesIndex]);
+        isEndTime ? handleEndMinuteClick(minutes[minutesIndex]) : handleMinuteClick(minutes[minutesIndex]);
       } else if (activeColumn === 'ampm' && is12Hour && ampmIndex >= 0) {
-        handleAmPm(AmPmValue[ampmIndex].name);
+        isEndTime ? handleEndAmPm(AmPmValue[ampmIndex].name) : handleAmPm(AmPmValue[ampmIndex].name);
       }
     };
-    switch (e.key) {
-      case 'ArrowDown':
-        handleArrowDown();
-        break;
-      case 'ArrowUp':
-        handleArrowUp();
-        break;
-      case 'ArrowRight':
-        handleArrowRight();
-        break;
-      case 'ArrowLeft':
-        handleArrowLeft();
-        break;
-      case 'Enter':
-        handleEnter();
-        break;
+  
+    if (isStartTime || isEndTime) {
+      switch (e.key) {
+        case 'ArrowDown':
+          handleArrowDown(isEndTime);
+          break;
+        case 'ArrowUp':
+          handleArrowUp(isEndTime);
+          break;
+        case 'ArrowRight':
+          handleArrowRight();
+          break;
+        case 'ArrowLeft':
+          handleArrowLeft();
+          break;
+        case 'Enter':
+          handleEnter(isEndTime);
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
     }
   };
 
+  useEffect(() => {
+    setActiveColumn('hour');
+  }, [isEndTimeDropdownOpen]);
+  
   useEffect(()=>{
     if(initialValue){
       if (Array.isArray(initialValue)) {
         const startTime = initialValue[0]?.split(':');
+        const endTime = initialValue[1]?.split(':');
 
         const roundedMinute = getNearestMinMinute(startTime[1]?.split(' ')[0], step);
+        const roundedMinuteEnd = getNearestMinMinute(endTime[1]?.split(' ')[0], step);
 
         setSelectedHour(startTime[0]);
         setSelectedMinute(roundedMinute);
@@ -201,7 +268,14 @@ const TimePicker = ({ is12Hour,
           setAmPm(startTime[1]?.split(' ')[1] || '');
         }
   
+        setSelectedHourEnd(endTime[0]);
+        setSelectedMinuteEnd(roundedMinuteEnd);
+        if (is12Hour) {
+          setAmPmEnd(endTime[1]?.split(' ')[1] || '');
+        }
+  
         setTime(initialValue[0]);
+        setEndTime(initialValue[1]);
   
       } else {
         const prevTimeValue = initialValue?.split(':');
@@ -226,9 +300,13 @@ const TimePicker = ({ is12Hour,
         const isPM = currentHour >= 12;
         currentHour = currentHour % 12 || 12;
         setAmPm(isPM ? 'PM' : 'AM');
+        setAmPmEnd(isPM ? 'PM' : 'AM');
       }
       setSelectedHour(currentHour);
       setSelectedMinute(roundedMinute);
+
+      setSelectedHourEnd(currentHour);
+      setSelectedMinuteEnd(roundedMinute);
     }
 
   },[initialValue, is12Hour]);
@@ -245,6 +323,16 @@ const TimePicker = ({ is12Hour,
 
   },[selectedHour, selectedMinute, amPm]);
 
+  useEffect(() => {
+    const activeSelectHourEnd = hours.indexOf(selectedHourEnd);
+    setHighlightedHourEndIndex(activeSelectHourEnd);
+  
+    const activeMinuteEnd = minutes.indexOf(selectedMinuteEnd);
+    setHighlightedMinuteEndIndex(activeMinuteEnd);
+  
+    const activeAmPmEnd = AmPmValue.findIndex((data) => data?.name === amPmEnd);
+    setHighlightedAmPmEndIndex(activeAmPmEnd);
+   },[selectedHourEnd, selectedMinuteEnd, amPmEnd, isEndTimeDropdownOpen]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -257,7 +345,11 @@ const TimePicker = ({ is12Hour,
     const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
         if (openTime) {
+          setIsEndTimeDropdownOpen(false);
           setIsDropdownOpen(true);
+        } else if (openTimeEnd) {
+          setIsDropdownOpen(false);
+          setIsEndTimeDropdownOpen(true);
         }
       }
     };
@@ -267,11 +359,12 @@ const TimePicker = ({ is12Hour,
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [openTime]);
+  }, [openTime, openTimeEnd]);
 
   useEffect(() => {
-    if (input?.value) {
-      const timeParts = input.value.split(':');
+    if (Array.isArray(input?.value)) {
+      const timeParts = input?.value[0]?.split(':');
+      const endTimeParts = input?.value[1]?.split(':');
       if (timeParts.length >= 2) {
         const hour = timeParts[0];
         const minutePart = timeParts[1].split(' ');
@@ -286,9 +379,22 @@ const TimePicker = ({ is12Hour,
           setAmPm('');
         }
       }
+      if (endTimeParts.length >= 2) {
+        const hour = endTimeParts[0];
+        const minutePart = endTimeParts[1].split(' ');
+        const minute = minutePart[0];
+        const amPmValue = minutePart[1] || '';
+
+        setSelectedHourEnd(hour);
+        setSelectedMinuteEnd(minute);
+        if (is12Hour) {
+          setAmPmEnd(amPmValue || '');
+        } else {
+          setAmPmEnd('');
+        }
+      }
     }
   }, [input?.value, is12Hour]);
-  
 
   return (
     <TimePickerContainer ref={timePickerRef}>
@@ -296,7 +402,7 @@ const TimePicker = ({ is12Hour,
         <InputWrapper time={true}>
           <InputField
             ref={timeInputRef}
-            value={time && timeValue}
+            value={timeValue}
             readOnly
             placeholder={placeholder}
             onClick={toggleDropdown}
@@ -305,16 +411,17 @@ const TimePicker = ({ is12Hour,
             height={40}
             error={error}
             onKeyDown={(e) => { 
-              if (e.key === 'Tab' && !e.shiftKey) {
+              if (e.key === 'Tab' && !e.shiftKey && isTimeRange) {
                 e.preventDefault();
                 timeInputRefEnd.current?.focus();
                 setOpenTime(false);
+                setOpenTimeEnd(true);
               }
             }}
           />
 
           <IconWrapper>
-            {time ? (
+            {timeValue ? (
               <InputIcon onClick={() => {
                 setTime('');
                 onChange(null);
@@ -329,10 +436,52 @@ const TimePicker = ({ is12Hour,
             )}
           </IconWrapper>
         </InputWrapper>
+
+            <NextIcon name="Interface-arrow-right" />
+
+            <InputWrapper time={true} isTimeRange={isTimeRange}>
+              <InputField
+                ref={timeInputRefEnd}
+                value={timeValueEnd}
+                readOnly
+                placeholder={placeholder}
+                onClick={toggleEndDropdown}
+                disabled={disabled}
+                width={is12Hour ? 95 : 85}
+                height={40}
+                error={error}
+                onKeyDown={(e) => {
+                  if (e.key === 'Tab' && e.shiftKey) {
+                    e.preventDefault();
+                    timeInputRef.current?.focus();
+                    setOpenTimeEnd(false);
+                    setOpenTime(true);
+                  }
+                }}
+              
+              />
+
+              <IconWrapper>
+                {timeValueEnd ? (
+                  <InputIcon onClick={() => {
+                    setEndTime('');
+                    onChange(null);
+                    input.onChange(null);
+                  }}>
+                    <Icon name="alert-circle-solid-cross" />
+                  </InputIcon>
+                ) : (
+                  <InputIcon onClick={toggleDropdown}>
+                    <Icon name="global-clock" />
+                  </InputIcon>
+                )}
+              </IconWrapper>
+            </InputWrapper>
+
       </InputContainer>
  
       {isDropdownOpen && (
-        <Dropdown is12Hour={is12Hour} isTimeRange={false} data-testid='dropdown-id'>     
+        <Dropdown is12Hour={is12Hour} isTimeRange={isTimeRange} data-testid='dropdown-id'>     
             <HourMinuteWrapper>
               <ScrollColumn>
                 {hours?.map((hour, index) => (
@@ -375,11 +524,55 @@ const TimePicker = ({ is12Hour,
             </HourMinuteWrapper>
         </Dropdown>
       )}
+      {isEndTimeDropdownOpen && (
+        <EndDropDown is12Hour={is12Hour} isTimeRange={isTimeRange}>
+          <HourMinuteWrapper>
+            <ScrollColumn>
+              {hours.map((hour, index) => (
+                <TimeOption
+                  key={index}
+                  onClick={() => handleEndHourClick(hour)}
+                  selected={String(hour) === String(selectedHourEnd)}
+                  highlighted={highlightedHourEndIndex === index && activeColumn === 'hour'}
+                  >
+                  {hour}
+                </TimeOption>
+              ))}
+            </ScrollColumn>
+            <ScrollColumn>
+              {minutes.map((minute, index) => (
+                <TimeOption
+                 key={index} 
+                 onClick={() => handleEndMinuteClick(minute)} 
+                 selected={String(minute) === String(selectedMinuteEnd)}
+                 highlighted={highlightedMinuteEndIndex === index && activeColumn === 'minute'}
+                 >
+                  {String(minute).padStart(2, '0')}
+                </TimeOption>
+              ))}
+            </ScrollColumn>
+            {is12Hour && (
+              <StaticColumn>
+                {AmPmValue.map(({ name, value }, index) => (
+                  <TimeOption
+                    key={value} 
+                    onClick={() => handleEndAmPm(name)} 
+                    selected={name === amPmEnd}
+                    highlighted={highlightedAmPmEndIndex === index && activeColumn === 'ampm'}
+                    >
+                    {name}
+                  </TimeOption>
+                ))}
+              </StaticColumn>
+            )}
+          </HourMinuteWrapper>
+        </EndDropDown>
+      )}
     </TimePickerContainer>
   );
 };
 
-TimePicker.propTypes = {
+TimeRangePicker.propTypes = {
   is12Hour: PropTypes.bool,
   step: PropTypes.number,
   initialValue: PropTypes.oneOfType([
@@ -390,21 +583,21 @@ TimePicker.propTypes = {
   disabled: PropTypes.bool,
   error: PropTypes.bool,
   placeholder: PropTypes.string,
-  // isTimeRange: PropTypes.bool,
+  isTimeRange: PropTypes.bool,
   input: PropTypes.oneOfType([
     PropTypes.object,
   ]),
 };
 
-TimePicker.defaultProps = {
-  is12Hour: true,
+TimeRangePicker.defaultProps = {
+  is12Hour: false,
   step: 15,
   initialValue: null,
   onChange: () => {},
   disabled: false,
   error: false,
   placeholder: 'hh:mm',
-  // isTimeRange: false,
+  isTimeRange: false,
 };
 
-export default TimePicker;
+export default TimeRangePicker;

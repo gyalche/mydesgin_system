@@ -282,13 +282,13 @@ const Calendar = ({
                     isEndSelect={normalizeDate(dayDate) !== normalizeDate(startDate)}
                     isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
                       && normalizeDate(dayDate) !== normalizeDate(startDate)}
-                    isInRange={isInRange(dayDate)}
+                    isInRange={isInRange && isInRange(dayDate)}
                     isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
                     isSaturday={dayOfWeek === 5}
                     isSunday={dayOfWeek === 6}
                     onClick={!isRangePicker ? () => (handleSingleDate(dayDate), enableKeyboard()) : 
                       () => (handleDateRangeClick(dayDate), enableKeyboard())}
-                    isInHoverRange={isInHoverRange(dayDate)}
+                    isInHoverRange={isInHoverRange && isInHoverRange(dayDate)}
                     onMouseEnter={() => handleMouseEnter(dayDate)}
                     onMouseLeave={handleMouseLeave}
                     data-testid={`day-${dayDate.getDate()}`}
@@ -346,10 +346,10 @@ Calendar.propTypes = {
   handleSingleDate: PropTypes.func.isRequired,
   handleDateRangeClick: PropTypes.func.isRequired,
   isRangePicker: PropTypes.bool,
-  isInRange: PropTypes.func.isRequired,
-  isInHoverRange: PropTypes.func.isRequired,
+  isInRange: PropTypes.func,
+  isInHoverRange: PropTypes.func,
   hoveredDate: PropTypes.instanceOf(Date),
-  setHoveredDate: PropTypes.func.isRequired,
+  setHoveredDate: PropTypes.func,
   isSelected: PropTypes.instanceOf(Date),
   enableKeyboard: PropTypes.func,
   disableKeyboard: PropTypes.func,
