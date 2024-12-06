@@ -348,7 +348,7 @@ const DateRangePicker = ({
                   <InputIcon onClick={disabled ? ()=>{} : () => {
                     setEndDate('');
                     setDisplayErrorLast(true);
-                    input.onChange([startDate, null]);
+                    input.onChange([startDate ? startDate : null, null]);
                     dateRange.pop();
                     setHoveredDate(startDate);
                   }}
