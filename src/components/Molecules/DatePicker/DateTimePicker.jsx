@@ -22,7 +22,6 @@ const DateTimePicker = ({ onChange,
   });
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
-  const [isDouble, setIsDouble] = useState(false);
 
   const validateValue = (value, type) => {
     const isValidDate = (date) => date instanceof Date && !isNaN(date);
@@ -58,11 +57,6 @@ const DateTimePicker = ({ onChange,
       return myData;
     });
   };
-useEffect(() => {
-  if(Array.isArray(input?.value?.date) || Array.isArray(input?.value?.time)){
-    setIsDouble(true);
-  }
-},[]);
 
   return (
     <DateTimeContainer>
@@ -88,7 +82,7 @@ useEffect(() => {
         />
       </Layout.Flex>
 
-      {isDoublePicker || isDouble && (
+      {isDoublePicker && (
         <>
           <NextIcon name="Interface-arrow-right" />
 
@@ -144,7 +138,7 @@ DateTimePicker.defaultProps = {
   isDoubleView: false,
   isRangePicker: false,
   is12Hour: false,
-  isDoublePicker: false,
+  isDoublePicker: true,
   locale: 'en-US',
   placeholder: {
     date: 'yyyy/mm/dd',
