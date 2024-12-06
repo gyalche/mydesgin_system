@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes, { string } from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
@@ -53,7 +53,12 @@ const TimePicker = ({ is12Hour,
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
 
-  const timeValue = `${selectedHour ? selectedHour : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
+  // const timeValue = `${selectedHour ? selectedHour : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
+  const timeValue = useMemo(() => {
+    const formattedMinute = selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm';
+    const formattedHour = selectedHour ? selectedHour : 'hh';
+    return `${formattedHour}:${formattedMinute} ${amPm}`;
+  }, [selectedHour, selectedMinute, amPm, input]);
 
   const timePickerRef = useRef(null);
   const timeInputRef = useRef(null);
@@ -275,10 +280,20 @@ const TimePicker = ({ is12Hour,
   }, [openTime]);
 
   useEffect(() => {
+    if (input?.value) {
+      const timeParts = input.value.split(':');
+      if (timeParts.length >= 2) {
+        const hour = timeParts[0];
+        const [minute, amPmValue = ''] = timeParts[1].split(' ');
+        setSelectedHour(hour);
+        setSelectedMinute(minute);
+        setAmPm(is12Hour ? amPmValue : '');
+        setTime(`${hour}:${minute} ${amPmValue}`);
+      }
+    }
     if ((input?.value || dateTimeDefault?.time) && !isDateTimeDouble) {
       const timeParts = input?.value?.split(':')
-      || Array.isArray(dateTimeDefault?.time) ? dateTimeDefault?.time[0]?.split(':') : 
-      dateTimeDefault?.time?.split(':');
+      || Array.isArray(dateTimeDefault?.time) ? dateTimeDefault?.time[0]?.split(':') : input?.time?.split(':');
       if (timeParts?.length >= 2) {
         const hour = timeParts[0];
         const minutePart = timeParts[1].split(' ');
@@ -294,8 +309,9 @@ const TimePicker = ({ is12Hour,
         }
       }
     }
-  }, [input?.value, is12Hour, dateTimeDefault]);
+  }, [input?.value, dateTimeDefault]);
 
+  
   useEffect(() => {
     if(isDateTimeDouble && Array.isArray(dateTimeDefault?.time)){
       const timeParts = dateTimeDefault?.time[1]?.split(':');
