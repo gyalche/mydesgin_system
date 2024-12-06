@@ -37,17 +37,15 @@ const DatePicker = ({
   const [firstInputFocus, setFirstInputFocus] = useState(false);
   const [secondInputFocus, setSecondInputFocus] = useState(false);
   const [enableKeyboard, setEnableKeyboard] = useState(true);
-  
+  const [displayError, setDisplayError] = useState(false);
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
 
   const handleSingleDate = useCallback((date) => {
-    const normalizedDate = normalizeDate(date);
-    const today = normalizeDate(new Date());
     setEnableKeyboard(true);
-    // if (normalizedDate < today) return;
     setStartDate(date);
+    setDisplayError(false);
     onChange(date);
     if(input?.onChange){
       input.onChange(date);
@@ -195,8 +193,9 @@ const DatePicker = ({
       setStartDate(dateTimeDefault?.date[1]);
     } else if(!isDateTimeDouble && dateTimeDefault?.date[0]){
       setStartDate(dateTimeDefault?.date[0]);
-    }
-    else {
+    } else if(!Array.isArray(dateTimeDefault?.date)){
+      setStartDate(dateTimeDefault?.date);
+    }else {
       setStartDate(new Date());
     }
   }, [dateTimeDefault]);
@@ -214,7 +213,7 @@ const DatePicker = ({
       setStartDate(input?.value);
     }
   }, []);
-// console.log('checkinput', input?.value);
+
   return (
     <DatePickerContainer>
       <InputContainer>
@@ -227,7 +226,7 @@ const DatePicker = ({
             disabled={disabled}
             width={124}
             height={40}
-            error={error}
+            error={displayError}
             placeholder={placeholder}
             ref={inputRefStart}
             onKeyDown={(e) => {
@@ -243,10 +242,9 @@ const DatePicker = ({
             {startDate ? (
               <InputIcon onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
-                  if (Array.isArray(dateRange) && dateRange.length > 0) {
-                    dateRange.shift();
-                  }
-                  if(dateTimeStart) setDateTimeStart(false);
+                  input?.onChange(null);
+                  setDisplayError(true);
+                  if(dateTimeStart) (setDateTimeStart(false));
                   if(dateTimeEnd) setDateTimeEnd(false);
                 }}
                 data-testid='icon-click'

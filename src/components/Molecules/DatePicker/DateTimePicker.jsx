@@ -15,7 +15,6 @@ const DateTimePicker = ({ onChange,
   placeholder,
   isTimeRange,
   input,
-  handleDateTimeValue,
 }) => {
   const [value, setValue] = useState({
     date: input?.value?.date,
@@ -33,44 +32,6 @@ const DateTimePicker = ({ onChange,
   
     return type === 'date' ? isValidDate(value) : isValidTime(value);
   };
-
-  // const handleChange = (value, type, position) => {
-  //   if (!validateValue(value, type)) {
-  //     return new Error('invalid');
-  //   }
-  //   setValue((data) => {
-  //     const myData = { ...data };
-  
-  //     if (isDoublePicker) {
-  //       if (!Array.isArray(myData[type])) {
-  //         myData[type] = [null, null];
-  //       }
-  //       if (position === 'start') {
-  //         myData[type][0] = value;
-  //       } else if (position === 'end') {
-  //         myData[type][1] = value;
-  //       }
-  //     } else {
-  //       myData[type] = value;
-  //     }
-
-  //     const isValidMyData = Object.keys(myData).every((key) => {
-  //       const val = myData[key];
-  //       if (isDoublePicker && Array.isArray(val)) {
-  //         return val.every((item) => validateValue(item, type));
-  //       }
-  //       return validateValue(val, type);
-  //     });
-  
-  //     if (isValidMyData) {
-  //       onChange(myData); // Update the parent component's state
-  //       if (input && input.onChange) {
-  //         input.onChange(myData); // Propagate the change to the form input field
-  //       }
-  //     }
-  //     return myData;
-  //   });
-  // };
 
   const handleChange = (value, type, position) => {
     if (!validateValue(value, type)) {
@@ -91,25 +52,13 @@ const DateTimePicker = ({ onChange,
       } else {
         myData[type] = value;
       }
-  
-      const isValidMyData = Object.keys(myData).every((key) => {
-        const val = myData[key];
-        if (isDoublePicker && Array.isArray(val)) {
-          return val.every((item) => validateValue(item, type));
-        }
-        return validateValue(val, type);
-      });
       onChange(myData);
-      if (isValidMyData) {
-        handleDateTimeValue(myData);
-        if (input && input.onChange) {
-          input.onChange(myData); // Propagate the change to the form input field
-        }
-      }
+      input.onChange(myData);
       return myData;
     });
   };
-  
+
+
   return (
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">
@@ -123,7 +72,6 @@ const DateTimePicker = ({ onChange,
           dateTimeStart={dateTimeStart}
           setDateTimeStart={setDateTimeStart}
           dateTimeDefault={input?.value}
-          
         />
         <TimePicker
           is12Hour={is12Hour}
@@ -135,7 +83,7 @@ const DateTimePicker = ({ onChange,
         />
       </Layout.Flex>
 
-      {isDoublePicker && (
+      {(isDoublePicker || Array.isArray(input?.value?.date) || Array.isArray(input?.value?.time)) && (
         <>
           <NextIcon name="Interface-arrow-right" />
 
@@ -182,7 +130,7 @@ DateTimePicker.propTypes = {
   }),
   isTimeRange: PropTypes.bool,
   input: PropTypes.oneOfType([PropTypes.object]),
-  handleDateTimeValue: PropTypes.func,
+  // handleDateTimeValue: PropTypes.func,
 };
 
 DateTimePicker.defaultProps = {
@@ -191,7 +139,7 @@ DateTimePicker.defaultProps = {
   isDoubleView: false,
   isRangePicker: false,
   is12Hour: false,
-  isDoublePicker: true,
+  isDoublePicker: false,
   locale: 'en-US',
   placeholder: {
     date: 'yyyy/mm/dd',

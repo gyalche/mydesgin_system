@@ -49,6 +49,9 @@ const TimeRangePicker = ({ is12Hour,
   const [time, setTime] = useState('');
   const [endTime, setEndTime] = useState('');
 
+  const [timeErrorFirst, setTimeErrorFirst] = useState(false);
+  const [timeErrorLast, setTimeErrorLast] = useState(false);
+
   const [activeColumn, setActiveColumn] = useState('hour');
 
   const [highlightedHourIndex, setHighlightedHourIndex] = useState(-1);
@@ -409,7 +412,7 @@ const TimeRangePicker = ({ is12Hour,
             disabled={disabled}
             width={is12Hour ? 95 : 85}
             height={40}
-            error={error}
+            error={timeErrorFirst && time == ''}
             onKeyDown={(e) => { 
               if (e.key === 'Tab' && !e.shiftKey && isTimeRange) {
                 e.preventDefault();
@@ -424,6 +427,7 @@ const TimeRangePicker = ({ is12Hour,
             {time ? (
               <InputIcon onClick={() => {
                 setTime('');
+                setTimeErrorFirst(true);
                 onChange(null);
                 input.onChange(null);
               }}>
@@ -449,7 +453,7 @@ const TimeRangePicker = ({ is12Hour,
                 disabled={disabled}
                 width={is12Hour ? 95 : 85}
                 height={40}
-                error={error}
+                error={timeErrorLast && endTime == ''}
                 onKeyDown={(e) => {
                   if (e.key === 'Tab' && e.shiftKey) {
                     e.preventDefault();
@@ -465,6 +469,7 @@ const TimeRangePicker = ({ is12Hour,
                 {endTime ? (
                   <InputIcon onClick={() => {
                     setEndTime('');
+                    setTimeErrorLast(true);
                     onChange(null);
                     input.onChange(null);
                   }}>

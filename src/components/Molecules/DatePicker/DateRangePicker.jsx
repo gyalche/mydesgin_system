@@ -44,6 +44,8 @@ const DateRangePicker = ({
   const [firstInputFocus, setFirstInputFocus] = useState(false);
   const [secondInputFocus, setSecondInputFocus] = useState(false);
   const [enableKeyboard, setEnableKeyboard] = useState(true);
+  const [displayErrorFirst, setDisplayErrorFirst] = useState(false);
+  const [displayErrorLast, setDisplayErrorLast] = useState(false);
 
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
@@ -282,7 +284,7 @@ const DateRangePicker = ({
             disabled={disabled}
             width={124}
             height={40}
-            error={error}
+            error={displayErrorFirst && startDate==''}
             placeholder={placeholder}
             ref={inputRefStart}
             onKeyDown={(e) => {
@@ -298,6 +300,8 @@ const DateRangePicker = ({
             {startDate || dateTimeStart || dateTimeEnd ? (
               <InputIcon onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
+                  setDisplayErrorFirst(true);
+                  input.onChange([null, endDate]);
                   if (Array.isArray(dateRange) && dateRange.length > 0) {
                     dateRange.shift();
                   }
@@ -328,7 +332,7 @@ const DateRangePicker = ({
                 height={40}
                 placeholder={placeholder}
                 activeSecondInput={startDate && !endDate || openCalenderEnd}
-                error={error}
+                error={displayErrorLast && endDate==''}
                 ref={inputRefEnd}
                 onKeyDown={(e) => {
                   if (e.key === 'Tab' && e.shiftKey) {
@@ -343,6 +347,8 @@ const DateRangePicker = ({
                 {endDate ? (
                   <InputIcon onClick={disabled ? ()=>{} : () => {
                     setEndDate('');
+                    setDisplayErrorLast(true);
+                    input.onChange([startDate, null]);
                     dateRange.pop();
                     setHoveredDate(startDate);
                   }}

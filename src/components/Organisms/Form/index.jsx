@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 import PropTypes from 'prop-types';
 import DatePicker from 'components/Molecules/DatePicker/DatePicker';
@@ -10,12 +10,12 @@ import TimeRangePicker from 'components/Molecules/DatePicker/TimeRangePicker';
 const Form = () => {
   const initialValues = {
     dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))],
-    time: ['1:00 PM', '2:00 AM'],
+    time: ['1:00', '2:00'],
     singleDate: new Date(new Date().setDate(new Date().getDate() + 9)),
     singleTime: '1:30 PM',
     dateTime: {
-      date: [new Date(), new Date(new Date().setDate(new Date().getDate() + 11))],
-      time: ['1:00 PM', '2:00 AM'],
+      date:  [new Date(), new Date(new Date().setDate(new Date().getDate() + 11))],
+      time: ['3:00', '4:50'],
     },
   };
 

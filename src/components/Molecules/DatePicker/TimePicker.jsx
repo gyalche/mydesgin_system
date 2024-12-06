@@ -3,13 +3,11 @@ import PropTypes, { string } from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
   Dropdown,
-  EndDropDown,
   HourMinuteWrapper,
   IconWrapper,
   InputContainer,
   InputIcon, 
   InputWrapper,
-  NextIcon,
   ScrollColumn,
   StaticColumn,
   TimeOption,
@@ -40,6 +38,7 @@ const TimePicker = ({ is12Hour,
   const [openTime, setOpenTime] = useState(false);
   const [time, setTime] = useState('');
   const [activeColumn, setActiveColumn] = useState('hour');
+  const [timeError, setTimeError] = useState(false);
 
   const [highlightedHourIndex, setHighlightedHourIndex] = useState(-1);
   const [highlightedMinuteIndex, setHighlightedMinuteIndex] = useState(-1);
@@ -113,8 +112,6 @@ const TimePicker = ({ is12Hour,
   const getNearestMinMinute = (current, step) => Math.min(roundToNearestStep(current, step));
 
   const handleKeyDown = (e) => {
-    const isStartTime = isDropdownOpen;
-    
     const getColumnIndices = () => {
       const hoursIndex = highlightedHourIndex;
       const minutesIndex = highlightedMinuteIndex;
@@ -280,8 +277,9 @@ const TimePicker = ({ is12Hour,
   useEffect(() => {
     if ((input?.value || dateTimeDefault?.time) && !isDateTimeDouble) {
       const timeParts = input?.value?.split(':')
-      || dateTimeDefault?.time[0]?.split(':');
-      if (timeParts.length >= 2) {
+      || Array.isArray(dateTimeDefault?.time) ? dateTimeDefault?.time[0]?.split(':') : 
+      dateTimeDefault?.time?.split(':');
+      if (timeParts?.length >= 2) {
         const hour = timeParts[0];
         const minutePart = timeParts[1].split(' ');
         const minute = minutePart[0];
@@ -297,10 +295,11 @@ const TimePicker = ({ is12Hour,
       }
     }
   }, [input?.value, is12Hour, dateTimeDefault]);
+
   useEffect(() => {
     if(isDateTimeDouble && Array.isArray(dateTimeDefault?.time)){
       const timeParts = dateTimeDefault?.time[1]?.split(':');
-      if (timeParts.length >= 2) {
+      if (timeParts?.length >= 2) {
         const hour = timeParts[0];
         const minutePart = timeParts[1].split(' ');
         const minute = minutePart[0];
@@ -330,7 +329,7 @@ const TimePicker = ({ is12Hour,
             disabled={disabled}
             width={is12Hour ? 95 : 85}
             height={40}
-            error={error}
+            error={timeError && time == ''}
             onKeyDown={(e) => { 
               if (e.key === 'Tab' && !e.shiftKey) {
                 e.preventDefault();
@@ -344,6 +343,7 @@ const TimePicker = ({ is12Hour,
             {time ? (
               <InputIcon onClick={() => {
                 setTime('');
+                setTimeError(true);
                 onChange(null);
                 input.onChange(null);
               }}>
