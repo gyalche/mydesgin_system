@@ -30,6 +30,8 @@ const TimePicker = ({ is12Hour,
   error,
   placeholder,
   input,
+  isDateTimeDouble,
+  dateTimeDefault,
 }) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
@@ -270,14 +272,15 @@ const TimePicker = ({ is12Hour,
   }, [openTime]);
 
   useEffect(() => {
-    if (input?.value) {
-      const timeParts = input.value.split(':');
+    if ((input?.value || dateTimeDefault?.time) && !isDateTimeDouble) {
+      const timeParts = input?.value?.split(':')
+      || dateTimeDefault?.time[0]?.split(':');
       if (timeParts.length >= 2) {
         const hour = timeParts[0];
         const minutePart = timeParts[1].split(' ');
         const minute = minutePart[0];
         const amPmValue = minutePart[1] || '';
-
+        setTime(`${hour}:${minute} ${amPmValue}`);
         setSelectedHour(hour);
         setSelectedMinute(minute);
         if (is12Hour) {
@@ -287,8 +290,26 @@ const TimePicker = ({ is12Hour,
         }
       }
     }
-  }, [input?.value, is12Hour]);
-  
+  }, [input?.value, is12Hour, dateTimeDefault]);
+  useEffect(() => {
+    if(isDateTimeDouble && Array.isArray(dateTimeDefault?.time)){
+      const timeParts = dateTimeDefault?.time[1]?.split(':');
+      if (timeParts.length >= 2) {
+        const hour = timeParts[0];
+        const minutePart = timeParts[1].split(' ');
+        const minute = minutePart[0];
+        const amPmValue = minutePart[1] || '';
+        setTime(`${hour}:${minute} ${amPmValue}`);
+        setSelectedHour(hour);
+        setSelectedMinute(minute);
+        if (is12Hour) {
+          setAmPm(amPmValue || '');
+        } else {
+          setAmPm('');
+        }
+      }
+    }
+  },[]);
 
   return (
     <TimePickerContainer ref={timePickerRef}>
@@ -390,10 +411,11 @@ TimePicker.propTypes = {
   disabled: PropTypes.bool,
   error: PropTypes.bool,
   placeholder: PropTypes.string,
-  // isTimeRange: PropTypes.bool,
   input: PropTypes.oneOfType([
     PropTypes.object,
   ]),
+  isDateTimeDouble: PropTypes.bool,
+  dateTimeDefault: PropTypes.any,
 };
 
 TimePicker.defaultProps = {
@@ -404,7 +426,6 @@ TimePicker.defaultProps = {
   disabled: false,
   error: false,
   placeholder: 'hh:mm',
-  // isTimeRange: false,
 };
 
 export default TimePicker;

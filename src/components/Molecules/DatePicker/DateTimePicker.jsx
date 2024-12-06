@@ -18,8 +18,8 @@ const DateTimePicker = ({ onChange,
   handleDateTimeValue,
 }) => {
   const [value, setValue] = useState({
-    date: null,
-    time: null,
+    date: input?.value?.date,
+    time:  input?.value?.time,
   });
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
@@ -99,9 +99,8 @@ const DateTimePicker = ({ onChange,
         }
         return validateValue(val, type);
       });
-  
+      onChange(myData);
       if (isValidMyData) {
-        onChange(myData); // Update the parent component's state
         handleDateTimeValue(myData);
         if (input && input.onChange) {
           input.onChange(myData); // Propagate the change to the form input field
@@ -123,6 +122,8 @@ const DateTimePicker = ({ onChange,
           placeholder={placeholder.date}
           dateTimeStart={dateTimeStart}
           setDateTimeStart={setDateTimeStart}
+          dateTimeDefault={input?.value}
+          
         />
         <TimePicker
           is12Hour={is12Hour}
@@ -130,6 +131,7 @@ const DateTimePicker = ({ onChange,
           disabled={disabled}
           placeholder={placeholder.time}
           isTimeRange={isTimeRange}
+          dateTimeDefault={input?.value}
         />
       </Layout.Flex>
 
@@ -147,6 +149,8 @@ const DateTimePicker = ({ onChange,
               isDoubleView={isDoubleView}
               dateTimeEnd={dateTimeEnd}
               setDateTimeEnd={setDateTimeEnd}
+              isDateTimeDouble={true}
+              dateTimeDefault={input?.value}
             />
             <TimePicker
               is12Hour={is12Hour}
@@ -154,6 +158,8 @@ const DateTimePicker = ({ onChange,
               disabled={disabled}
               placeholder={placeholder.time}
               isTimeRange={isTimeRange}
+              isDateTimeDouble={true}
+              dateTimeDefault={input?.value}
             />
           </Layout.Flex>
         </>
@@ -185,7 +191,7 @@ DateTimePicker.defaultProps = {
   isDoubleView: false,
   isRangePicker: false,
   is12Hour: false,
-  isDoublePicker: false,
+  isDoublePicker: true,
   locale: 'en-US',
   placeholder: {
     date: 'yyyy/mm/dd',

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { bool } from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
   CalendarWrapper,
@@ -16,7 +16,6 @@ import InputField from './InputField';
 import closeOpenModal from '../../../hooks/closeOpenModal';
 import useClickOutside from '../../../hooks/useClickOutside';
 const DatePicker = ({
-  initialValue,
   locale,
   onChange,
   disabled,
@@ -27,8 +26,10 @@ const DatePicker = ({
   setDateTimeStart,
   setDateTimeEnd,
   input,
+  isDateTimeDouble,
+  dateTimeDefault,
 }) => {
-  const [startDate, setStartDate] = useState(input?.value);
+  const [startDate, setStartDate] = useState(new Date());
   const [openCalender, setOpenCalender] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [weekdays, setWeekdays] = useState([]);
@@ -44,7 +45,8 @@ const DatePicker = ({
   const handleSingleDate = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
-    if (normalizedDate < today) return;
+    setEnableKeyboard(true);
+    // if (normalizedDate < today) return;
     setStartDate(date);
     onChange(date);
     input.onChange(date);
@@ -75,7 +77,7 @@ const DatePicker = ({
   useClickOutside(datePickerRef, () => (setOpenCalender(false)));
   closeOpenModal(() => (setOpenCalender(false)));
 
-  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+  // const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -186,7 +188,31 @@ const DatePicker = ({
     };
   }, [firstInputFocus, secondInputFocus]);
 
+  useEffect(() => {
+    if(isDateTimeDouble && Array.isArray(dateTimeDefault?.date)){
+      setStartDate(dateTimeDefault?.date[1]);
+    } else if(!isDateTimeDouble && dateTimeDefault?.date[0]){
+      setStartDate(dateTimeDefault?.date[0]);
+    }
+    else {
+      setStartDate(new Date());
+    }
+  }, [dateTimeDefault]);
 
+  useEffect(() => {
+    if(input?.value){
+      setStartDate(input?.value);
+    }
+    if(!isDateTimeDouble && !Array.isArray(dateTimeDefault?.date)){
+      setStartDate(dateTimeDefault?.date);
+    }
+  },[isDateTimeDouble]);
+  useEffect(() => {
+    if(input?.value){
+      setStartDate(input?.value);
+    }
+  }, []);
+// console.log('checkinput', input?.value);
   return (
     <DatePickerContainer>
       <InputContainer>
@@ -194,7 +220,7 @@ const DatePicker = ({
           <InputField
             data-testid="first-input"
             readOnly
-            value={startDate && startDate.toLocaleDateString(locale)}
+            value={startDate instanceof Date ? startDate.toLocaleDateString(locale) : ''}
             onClick={() => (setOpenCalender(!openCalender))}
             disabled={disabled}
             width={124}
@@ -212,7 +238,7 @@ const DatePicker = ({
             }}
           />
           <IconWrapper>
-            {startDate || dateTimeStart || dateTimeEnd ? (
+            {startDate ? (
               <InputIcon onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
                   if (Array.isArray(dateRange) && dateRange.length > 0) {
@@ -277,6 +303,9 @@ DatePicker.propTypes = {
   input: PropTypes.oneOfType([
     PropTypes.object,
   ]),
+  dateTimeStartDate: PropTypes.instanceOf(Date),
+  isDateTimeDouble: PropTypes.bool,
+  dateTimeDefault: PropTypes.any,
 };
 
 DatePicker.defaultProps = {
@@ -290,6 +319,7 @@ DatePicker.defaultProps = {
   dateTimeEnd: false,
   setDateTimeStart: false,
   setDateTimeEnd: false,
+  isDateTimeDouble: false,
 };
 
 export default DatePicker;

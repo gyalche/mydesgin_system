@@ -73,15 +73,6 @@ const DateRangePicker = ({
     }
   }, [startDate, endDate]);
 
-  // const handleSingleDate = useCallback((date) => {
-  //   const normalizedDate = normalizeDate(date);
-  //   const today = normalizeDate(new Date());
-  //   if (normalizedDate < today) return;
-  //   setStartDate(date);
-  //   onChange(date);
-  //   input.onChange(date);
-  // }, [setStartDate]);
-
   const isInRange = useCallback((day) => {
     const normalizedDay = normalizeDate(day);
     const normalizedStartDate = normalizeDate(startDate);

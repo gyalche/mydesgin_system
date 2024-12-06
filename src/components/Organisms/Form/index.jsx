@@ -9,13 +9,13 @@ import TimeRangePicker from 'components/Molecules/DatePicker/TimeRangePicker';
 
 const Form = () => {
   const initialValues = {
-    dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 10))],
+    dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))],
     time: ['1:00 PM', '2:00 AM'],
-    singleDate: new Date(new Date().setDate(new Date().getDate() + 7)),
-    singleTime: '12:30 PM',
+    singleDate: new Date(new Date().setDate(new Date().getDate() + 9)),
+    singleTime: '1:30 PM',
     dateTime: {
-      date: null,
-      time: null,
+      date: [new Date(), new Date(new Date().setDate(new Date().getDate() + 11))],
+      time: ['1:00 PM', '2:00 AM'],
     },
   };
 

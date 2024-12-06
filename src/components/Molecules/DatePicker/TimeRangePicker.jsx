@@ -370,7 +370,7 @@ const TimeRangePicker = ({ is12Hour,
         const minutePart = timeParts[1].split(' ');
         const minute = minutePart[0];
         const amPmValue = minutePart[1] || '';
-
+        setTime(`${hour}:${minute} ${amPmValue}`);
         setSelectedHour(hour);
         setSelectedMinute(minute);
         if (is12Hour) {
@@ -384,7 +384,7 @@ const TimeRangePicker = ({ is12Hour,
         const minutePart = endTimeParts[1].split(' ');
         const minute = minutePart[0];
         const amPmValue = minutePart[1] || '';
-
+        setEndTime(`${hour}:${minute} ${amPmValue}`);
         setSelectedHourEnd(hour);
         setSelectedMinuteEnd(minute);
         if (is12Hour) {
@@ -394,7 +394,7 @@ const TimeRangePicker = ({ is12Hour,
         }
       }
     }
-  }, [input?.value, is12Hour]);
+  }, []);
 
   return (
     <TimePickerContainer ref={timePickerRef}>
@@ -402,7 +402,7 @@ const TimeRangePicker = ({ is12Hour,
         <InputWrapper time={true}>
           <InputField
             ref={timeInputRef}
-            value={timeValue}
+            value={time && timeValue}
             readOnly
             placeholder={placeholder}
             onClick={toggleDropdown}
@@ -421,7 +421,7 @@ const TimeRangePicker = ({ is12Hour,
           />
 
           <IconWrapper>
-            {timeValue ? (
+            {time ? (
               <InputIcon onClick={() => {
                 setTime('');
                 onChange(null);
@@ -442,7 +442,7 @@ const TimeRangePicker = ({ is12Hour,
             <InputWrapper time={true} isTimeRange={isTimeRange}>
               <InputField
                 ref={timeInputRefEnd}
-                value={timeValueEnd}
+                value={endTime && timeValueEnd}
                 readOnly
                 placeholder={placeholder}
                 onClick={toggleEndDropdown}
@@ -462,7 +462,7 @@ const TimeRangePicker = ({ is12Hour,
               />
 
               <IconWrapper>
-                {timeValueEnd ? (
+                {endTime ? (
                   <InputIcon onClick={() => {
                     setEndTime('');
                     onChange(null);
