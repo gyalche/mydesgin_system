@@ -280,20 +280,9 @@ const TimePicker = ({ is12Hour,
   }, [openTime]);
 
   useEffect(() => {
-    if (input?.value) {
-      const timeParts = input.value.split(':');
-      if (timeParts.length >= 2) {
-        const hour = timeParts[0];
-        const [minute, amPmValue = ''] = timeParts[1].split(' ');
-        setSelectedHour(hour);
-        setSelectedMinute(minute);
-        setAmPm(is12Hour ? amPmValue : '');
-        setTime(`${hour}:${minute} ${amPmValue}`);
-      }
-    }
     if ((input?.value || dateTimeDefault?.time) && !isDateTimeDouble) {
       const timeParts = input?.value?.split(':')
-      || Array.isArray(dateTimeDefault?.time) ? dateTimeDefault?.time[0]?.split(':') : input?.time?.split(':');
+      || Array.isArray(dateTimeDefault?.time) ? dateTimeDefault?.time[0]?.split(':') : dateTimeDefault?.time?.split(':');
       if (timeParts?.length >= 2) {
         const hour = timeParts[0];
         const minutePart = timeParts[1].split(' ');
@@ -310,7 +299,19 @@ const TimePicker = ({ is12Hour,
       }
     }
   }, [input?.value, dateTimeDefault]);
-
+  useEffect(() => {
+    if (input?.value && !isDateTimeDouble) {
+      const timeParts = input?.value?.split(':');
+      if (timeParts.length >= 2) {
+        const hour = timeParts[0];
+        const [minute, amPmValue = ''] = timeParts[1].split(' ');
+        setSelectedHour(hour);
+        setSelectedMinute(minute);
+        setAmPm(is12Hour ? amPmValue : '');
+        setTime(`${hour}:${minute} ${amPmValue}`);
+      }
+    }
+  }, []);
   
   useEffect(() => {
     if(isDateTimeDouble && Array.isArray(dateTimeDefault?.time)){
