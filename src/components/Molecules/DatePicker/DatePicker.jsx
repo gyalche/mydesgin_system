@@ -49,7 +49,9 @@ const DatePicker = ({
     // if (normalizedDate < today) return;
     setStartDate(date);
     onChange(date);
-    input.onChange(date);
+    if(input?.onChange){
+      input.onChange(date);
+    }
   }, [setStartDate]);
 
   const handlePrevYear = useCallback(() => {

@@ -74,7 +74,9 @@ const TimePicker = ({ is12Hour,
     const updatedTime = formatTime(hour, selectedMinute, amPm);
     setTime(updatedTime);
     onChange(updatedTime);
-    input.onChange(updatedTime);
+    if(input?.onChange){
+      input.onChange(updatedTime);
+    }
   }, [selectedMinute, amPm]);
 
   const handleMinuteClick = useCallback((minute) => {
@@ -82,7 +84,9 @@ const TimePicker = ({ is12Hour,
     const updatedTime = formatTime(selectedHour, minute, amPm);
     setTime(updatedTime);
     onChange(updatedTime);
-    input.onChange(updatedTime);
+    if(input?.onChange){
+      input.onChange(updatedTime);
+    }
   }, [selectedHour, amPm]);
 
   const handleAmPm = useCallback((value)=>{
@@ -90,7 +94,9 @@ const TimePicker = ({ is12Hour,
     const updatedTime = formatTime(selectedHour, selectedMinute, value);
     setTime(updatedTime);
     onChange(updatedTime);
-    input.onChange(updatedTime);
+    if(input?.onChange){
+      input.onChange(updatedTime);
+    }
   }, [selectedHour, selectedMinute]);
 
   const toggleDropdown = () => {
