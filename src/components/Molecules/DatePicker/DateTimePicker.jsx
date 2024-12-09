@@ -15,11 +15,13 @@ const DateTimePicker = ({ onChange,
   placeholder,
   isTimeRange,
   input,
+  initialValue,
 }) => {
   const [value, setValue] = useState({
     date: input?.value?.date,
-    time:  input?.value?.time,
+    time: input?.value?.time,
   });
+
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
 
@@ -34,9 +36,8 @@ const DateTimePicker = ({ onChange,
   };
 
   const handleChange = (value, type, position) => {
-    if (!validateValue(value, type)) {
-      return new Error('invalid');
-    }
+    if (!validateValue(value, type)) return;
+  
     setValue((data) => {
       const myData = { ...data };
   
@@ -52,12 +53,18 @@ const DateTimePicker = ({ onChange,
       } else {
         myData[type] = value;
       }
-      onChange(myData);
-      input.onChange(myData);
+
+      if (onChange) {
+        onChange(myData);
+      }
+      if (input && typeof input.onChange === 'function') {
+        input.onChange(myData);
+      }
+  
       return myData;
     });
   };
-
+  
   return (
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">
@@ -70,7 +77,7 @@ const DateTimePicker = ({ onChange,
           placeholder={placeholder.date}
           dateTimeStart={dateTimeStart}
           setDateTimeStart={setDateTimeStart}
-          dateTimeDefault={input?.value}
+          dateTimeDefault={input?.value ?? initialValue}
         />
         <TimePicker
           is12Hour={is12Hour}
@@ -78,7 +85,7 @@ const DateTimePicker = ({ onChange,
           disabled={disabled}
           placeholder={placeholder.time}
           isTimeRange={isTimeRange}
-          dateTimeDefault={input?.value}
+          dateTimeDefault={input?.value ?? initialValue}
         />
       </Layout.Flex>
 
@@ -97,7 +104,7 @@ const DateTimePicker = ({ onChange,
               dateTimeEnd={dateTimeEnd}
               setDateTimeEnd={setDateTimeEnd}
               isDateTimeDouble={true}
-              dateTimeDefault={input?.value}
+              dateTimeDefault={input?.value ?? initialValue}
             />
             <TimePicker
               is12Hour={is12Hour}
@@ -106,7 +113,7 @@ const DateTimePicker = ({ onChange,
               placeholder={placeholder.time}
               isTimeRange={isTimeRange}
               isDateTimeDouble={true}
-              dateTimeDefault={input?.value}
+              dateTimeDefault={input?.value ?? initialValue}
             />
           </Layout.Flex>
         </>
@@ -129,7 +136,7 @@ DateTimePicker.propTypes = {
   }),
   isTimeRange: PropTypes.bool,
   input: PropTypes.oneOfType([PropTypes.object]),
-  // handleDateTimeValue: PropTypes.func,
+  initialValue: PropTypes.any,
 };
 
 DateTimePicker.defaultProps = {
@@ -145,6 +152,7 @@ DateTimePicker.defaultProps = {
     time: 'hh:mm',
   },
   isTimeRange: false,
+  initialValue: null,
 };
 
 export default DateTimePicker;

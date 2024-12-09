@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
-import PropTypes from 'prop-types';
 import DatePicker from 'components/Molecules/DatePicker/DatePicker';
 import TimePicker from 'components/Molecules/DatePicker/TimePicker';
 import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
@@ -63,7 +62,7 @@ const Form = () => {
 
               <div>
                 <label>DateTime Picker:</label>
-                <Field name="dateTime" component={DateTimePicker}/>
+                <Field name="dateTime" component={DateTimePicker} />
               </div>
             </div>
 
@@ -77,31 +76,5 @@ const Form = () => {
   );
 };
 
-Form.propTypes = {
-  dateInitialValue: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
-    PropTypes.instanceOf(Date),
-  ]),
-  timeInitialValue: PropTypes.string,
-  isDoubleView: PropTypes.bool,
-  isRangePicker: PropTypes.bool,
-  dateTimeFormat: PropTypes.string,
-  onChange: PropTypes.func,
-  is12Hour: PropTypes.bool,
-  step: PropTypes.number,
-  isDoublePicker: PropTypes.bool,
-};
-
-Form.defaultProps = {
-  dateInitialValue: new Date(), 
-  timeInitialValue: '10:15 AM',
-  isRangePicker: true, 
-  isDoubleView: true, 
-  is12Hour: true,
-  step: 15,
-  dateTimeFormat: 'ja-JP',
-  onChange: () => {},
-  isDoublePicker: true,
-};
 
 export default Form;

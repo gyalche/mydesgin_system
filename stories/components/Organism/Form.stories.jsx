@@ -40,29 +40,17 @@ export const ReactForm = {
         description: 'Minute step intervals for time selection',
         control: { type: 'number' },
       },
-      initialValue: {
-        description: 'Initial time value (HH:mm format)',
-        control: { type: 'text' },
-      },
   },
   args: {
       isRangePicker: true,
       isDoubleView: false,
       dateTimeFormat: 'ja-JP',
-      initialValue: new Date(),
       is12Hour: true,
       step: 15,
-      initialValue: '10:15 AM',
   },
   render: (args) => {
-    const updatedArgs = {
-        ...args,
-        initialValue: args.isRangePicker
-          ? [new Date(), new Date(new Date().setDate(new Date().getDate() + 7))]
-          : new Date(new Date().setDate(new Date().getDate() + 8))
-    };
 
-    return <Form {...updatedArgs} />;
+    return <Form {...args}/>;
   },
 };
 

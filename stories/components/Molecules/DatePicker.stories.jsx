@@ -51,7 +51,6 @@ export const DatePickers = {
     }
   },
   args: {
-    isDoubleView: false,
     disabled: false,
     locale: 'ja-JP',
     textCancel: 'キャンセル',
@@ -61,9 +60,7 @@ export const DatePickers = {
   render: (args) => {
     const updatedArgs = {
       ...args,
-      initialValue: args.isRangePicker
-        ? [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))]
-        : new Date(new Date().setDate(new Date().getDate() + 8)),
+      initialValue: new Date(new Date().setDate(new Date().getDate() + 8)),
     };
     return <DatePicker {...updatedArgs} />;
   },
@@ -244,6 +241,16 @@ export const DateTimePicker = {
     isTimeRange: false,
   },
   render: (args) => {
-    return <DateTime {...args} />;
+    const updatedArgs = {
+      ...args,
+      initialValue: args.isDoublePicker ? {
+        date: [new Date(), new Date(new Date().setDate(new Date().getDate() + 8))],
+        time: ['10:00', '11:00']
+      } : {
+        date: new Date(),
+        time: '12:00'
+      },
+    };
+    return <DateTime {...updatedArgs} />;
   },
 };

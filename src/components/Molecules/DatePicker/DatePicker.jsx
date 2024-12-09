@@ -19,6 +19,7 @@ const DatePicker = ({
   locale,
   onChange,
   disabled,
+  initialValue,
   error,
   placeholder,
   dateTimeStart,
@@ -209,8 +210,8 @@ const DatePicker = ({
     }
   },[isDateTimeDouble]);
   useEffect(() => {
-    if(input?.value){
-      setStartDate(input?.value);
+    if(input?.value || initialValue){
+      setStartDate(input?.value ?? initialValue);
     }
   }, []);
 
@@ -287,10 +288,7 @@ const DatePicker = ({
 };
 
 DatePicker.propTypes = {
-  initialValue: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
-    PropTypes.instanceOf(Date),
-  ]),
+  initialValue: PropTypes.instanceOf(Date),
   locale: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,

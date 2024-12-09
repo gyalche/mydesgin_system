@@ -223,7 +223,6 @@ const TimePicker = ({ is12Hour,
         } else {
           setAmPm('');
         }
-  
         setTime(initialValue);
       }
     }else{
