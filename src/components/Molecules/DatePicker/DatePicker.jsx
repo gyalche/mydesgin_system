@@ -29,6 +29,7 @@ const DatePicker = ({
   input,
   isDateTimeDouble,
   dateTimeDefault,
+  handleDateTime,
 }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [openCalender, setOpenCalender] = useState(false);
@@ -77,8 +78,6 @@ const DatePicker = ({
   //custom hook to close the model
   useClickOutside(datePickerRef, () => (setOpenCalender(false)));
   closeOpenModal(() => (setOpenCalender(false)));
-
-  // const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -244,6 +243,10 @@ const DatePicker = ({
               <InputIcon onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
                   input?.onChange(null);
+                  // if(dateTimeStart) handleDateTime?.onChange({
+                  //   time: [...dateTimeDefault?.time],
+                  //   date: [null, dateTimeDefault?.date[1]]
+                  // });
                   setDisplayError(true);
                   if(dateTimeStart) (setDateTimeStart(false));
                   if(dateTimeEnd) setDateTimeEnd(false);
@@ -304,6 +307,9 @@ DatePicker.propTypes = {
   dateTimeStartDate: PropTypes.instanceOf(Date),
   isDateTimeDouble: PropTypes.bool,
   dateTimeDefault: PropTypes.any,
+  handleDateTime: PropTypes.oneOfType([
+    PropTypes.object,
+  ]),
 };
 
 DatePicker.defaultProps = {

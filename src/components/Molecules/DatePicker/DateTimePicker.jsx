@@ -78,6 +78,7 @@ const DateTimePicker = ({ onChange,
           dateTimeStart={dateTimeStart}
           setDateTimeStart={setDateTimeStart}
           dateTimeDefault={input?.value ?? initialValue}
+          handleDateTime={input}
         />
         <TimePicker
           is12Hour={is12Hour}

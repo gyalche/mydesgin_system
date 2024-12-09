@@ -349,7 +349,7 @@ Calendar.propTypes = {
   isInRange: PropTypes.func,
   isInHoverRange: PropTypes.func,
   hoveredDate: PropTypes.instanceOf(Date),
-  setHoveredDate: PropTypes.any,
+  setHoveredDate: PropTypes.instanceOf(Date),
   isSelected: PropTypes.instanceOf(Date),
   enableKeyboard: PropTypes.func,
   disableKeyboard: PropTypes.func,
