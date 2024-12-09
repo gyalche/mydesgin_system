@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 import DatePicker from 'components/Molecules/DatePicker/DatePicker';
 import TimePicker from 'components/Molecules/DatePicker/TimePicker';
 import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
 import DateRangePicker from 'components/Molecules/DatePicker/DateRangePicker';
 import TimeRangePicker from 'components/Molecules/DatePicker/TimeRangePicker';
+import { Loading } from 'components/Molecules';
 
 const Form = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const initialValues = {
     dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))],
     time: ['1:00', '2:00'],
@@ -19,6 +21,10 @@ const Form = () => {
   };
 
   const onSubmit = (values) => {
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 1000);
     // console.log('Submission values:', values);
   };
 
@@ -30,7 +36,7 @@ const Form = () => {
         render={({ handleSubmit, form }) => (
           <form onSubmit={handleSubmit}>
             <div style={{ minWidth: '200px', 
-              display: 'flex', 
+              display: 'flex',
               flexDirection: 'column', 
               alignItems: 'start', 
               justifyContent: 'center', 
@@ -67,7 +73,11 @@ const Form = () => {
             </div>
 
             <div style={{ marginTop: '20px' }}>
-              <button type="submit" onSubmit={handleSubmit}>Submit</button>
+              <button style={{width: '80px'}} type="submit" onSubmit={handleSubmit}>
+                {isSubmitting ? 
+                  <Loading size='small'/>: 'Submit'}
+            
+              </button>
             </div>
           </form>
         )}
