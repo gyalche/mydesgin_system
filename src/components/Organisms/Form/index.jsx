@@ -67,7 +67,7 @@ const Form = () => {
             </div>
 
             <div style={{ marginTop: '20px' }}>
-              <button type="submit">Submit</button>
+              <button type="submit" onSubmit={handleSubmit}>Submit</button>
             </div>
           </form>
         )}
