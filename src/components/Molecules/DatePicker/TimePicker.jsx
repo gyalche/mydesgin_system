@@ -165,9 +165,8 @@ const TimePicker = ({ is12Hour,
       });
     };
   
-    const handleEnter = (isEndTime) => {
-      const { hoursIndex, minutesIndex, ampmIndex } = getColumnIndices(activeColumn, isEndTime);
-      
+    const handleEnter = () => {
+      const { hoursIndex, minutesIndex, ampmIndex } = getColumnIndices(activeColumn);
       if (activeColumn === 'hour' && hoursIndex >= 0) {
         handleHourClick(hours[hoursIndex]);
       } else if (activeColumn === 'minute' && minutesIndex >= 0) {
@@ -190,7 +189,7 @@ const TimePicker = ({ is12Hour,
         handleArrowLeft();
         break;
       case 'Enter':
-        handleEnter();
+        handleEnter(e);
         break;
 
       default:

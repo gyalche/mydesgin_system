@@ -211,8 +211,6 @@ const DatePicker = ({
   useEffect(() => {
     if(input?.value || initialValue){
       setStartDate(input?.value ?? initialValue);
-    }else {
-      setStartDate(new Date());
     }
   }, []);
 
