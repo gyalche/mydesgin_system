@@ -166,6 +166,7 @@ const TimePicker = ({ is12Hour,
     };
   
     const handleEnter = () => {
+      
       const { hoursIndex, minutesIndex, ampmIndex } = getColumnIndices(activeColumn);
       if (activeColumn === 'hour' && hoursIndex >= 0) {
         handleHourClick(hours[hoursIndex]);
@@ -189,7 +190,7 @@ const TimePicker = ({ is12Hour,
         handleArrowLeft();
         break;
       case 'Enter':
-        handleEnter(e);
+        handleEnter();
         break;
 
       default:
@@ -255,7 +256,9 @@ const TimePicker = ({ is12Hour,
 
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
+    if(isDropdownOpen){
+      document.addEventListener('keydown', handleKeyDown);
+    }
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };

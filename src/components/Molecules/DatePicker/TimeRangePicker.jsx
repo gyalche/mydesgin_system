@@ -311,7 +311,6 @@ const TimeRangePicker = ({ is12Hour,
       setSelectedHourEnd(currentHour);
       setSelectedMinuteEnd(roundedMinute);
     }
-
   },[initialValue, is12Hour]);
 
   useEffect(() =>{
@@ -356,8 +355,9 @@ const TimeRangePicker = ({ is12Hour,
         }
       }
     };
-
-    window.addEventListener('keydown', handleKeyDown);
+    if(isDropdownOpen || isEndTimeDropdownOpen){
+      window.addEventListener('keydown', handleKeyDown);
+    }
     
     return () => {
       window.removeEventListener('keydown', handleKeyDown);

@@ -232,7 +232,7 @@ export const DateTimePicker = {
     is12Hour: false,
     isDoubleView: false,
     isRangePicker: false,
-    isDoublePicker: true,
+    isDoublePicker: false,
     locale: 'en-US',
     placeholder: {
       date: 'yyyy/mm/dd',

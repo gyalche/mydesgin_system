@@ -180,14 +180,15 @@ const DatePicker = ({
         }
       }
     };
-
-    window.addEventListener('keydown', handleKeyDown);
+    if(openCalender){
+      window.addEventListener('keydown', handleKeyDown);
+    }
     
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
-
+  
   useEffect(() => {
     if(isDateTimeDouble && Array.isArray(dateTimeDefault?.date)){
       setStartDate(dateTimeDefault?.date[1]);
@@ -222,7 +223,10 @@ const DatePicker = ({
             data-testid="first-input"
             readOnly
             value={startDate instanceof Date ? startDate.toLocaleDateString(locale) : ''}
-            onClick={() => (setOpenCalender(!openCalender))}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenCalender(!openCalender);
+            }}
             disabled={disabled}
             width={124}
             height={40}
@@ -240,7 +244,8 @@ const DatePicker = ({
           />
           <IconWrapper>
             {startDate ? (
-              <InputIcon onClick={disabled ? ()=>{} : () => {
+              <InputIcon 
+                onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
                   input?.onChange(null);
                   // if(dateTimeStart) handleDateTime?.onChange({

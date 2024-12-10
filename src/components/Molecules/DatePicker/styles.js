@@ -217,7 +217,7 @@ export const TimeInput = styled(Input)`
   };
 `;
 
-export const InputIcon = styled.button`
+export const InputIcon = styled.div`
   color: var(--rds-color-neutral-5);
   font-size: 15px;
   border: none;
