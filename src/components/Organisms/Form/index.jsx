@@ -5,7 +5,6 @@ import TimePicker from 'components/Molecules/DatePicker/TimePicker';
 import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
 import DateRangePicker from 'components/Molecules/DatePicker/DateRangePicker';
 import TimeRangePicker from 'components/Molecules/DatePicker/TimeRangePicker';
-import { Loading } from 'components/Molecules';
 
 const Form = () => {
   const initialValues = {
@@ -20,8 +19,9 @@ const Form = () => {
   };
 
   const onSubmit = (values) => {
-    // console.log('Submission values:', values);
+    console.log('Submission values:', values);
   };
+
 
   return (
     <div>
@@ -68,7 +68,7 @@ const Form = () => {
             </div>
 
             <div style={{ marginTop: '20px' }}>
-              <button style={{width: '80px'}} type="submit" onSubmit={handleSubmit}> Submit </button>
+              <button style={{width: '80px'}} type="submit"> Submit </button>
             </div>
           </form>
         )}

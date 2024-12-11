@@ -169,12 +169,13 @@ const DateRangePicker = ({
         return newDate < todayNormalized ? todayNormalized : newDate;
       });
     };
-    const handleEnter = (e) => {
+    const handleEnter = () => {
       e.preventDefault();
       e.stopPropagation();
        if (openCalender) {
         if ((startDate || endDate) && currentDate >= todayNormalized) {
           setStartDate(currentDate);
+          input.onChange([currentDate, endDate]);
           setOpenCalender(false);
           setOpenCalenderEnd(true);
           inputRefEnd?.current?.focus();
@@ -186,6 +187,7 @@ const DateRangePicker = ({
         }
       } else if(startDate) {
         setEndDate(currentDate);
+        input.onChange([startDate, currentDate]);
         setHoveredDate(currentDate);
         setOpenCalenderEnd(false);
       } else if (openCalenderEnd && currentDate >= startDate) {

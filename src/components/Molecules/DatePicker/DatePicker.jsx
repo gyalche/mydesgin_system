@@ -10,11 +10,11 @@ import {
   InputContainer,
   InputWrapper,
  } from './styles';
-import { normalizeDate } from '../../../utils';
 import Calendar from './Calender';
 import InputField from './InputField';
 import closeOpenModal from '../../../hooks/closeOpenModal';
 import useClickOutside from '../../../hooks/useClickOutside';
+
 const DatePicker = ({
   locale,
   onChange,
