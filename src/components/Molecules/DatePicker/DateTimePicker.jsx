@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import TimePicker from './TimePicker';
-import DatePicker from './DatePicker';
+import TimePicker from './Time/TimePicker';
+import DatePicker from './Date/DatePicker';
 import PropTypes from 'prop-types';
 import { DateTimeContainer, NextIcon } from './styles';
 import { Layout } from 'components/Atoms';

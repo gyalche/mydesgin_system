@@ -11,12 +11,13 @@ import {
   HeaderIcons,
   CalendarIcon,
   CalendarIconBtn,
-} from './styles';
-import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
-import closeOpenModal from '../../../hooks/closeOpenModal';
-import DecadeSelector from './DecadeSelector';
-import YearSelector from './YearSelector';
-import MonthSelector from './MonthSelector';
+} from '../styles';
+import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../../utils';
+import closeOpenModal from '../../../../hooks/closeOpenModal';
+import CalendarNavigation from '../Component/Header';
+import DecadeSelector from '../Component/DecadeSelector';
+import YearSelector from '../Component/YearSelector';
+import MonthSelector from '../Component/MonthSelector';
 
 const Calendar = ({
   date,
@@ -55,6 +56,7 @@ const Calendar = ({
   const doublePrevMonthRef=useRef(null);
   const doubleNextYearRef=useRef(null);
   const doubleNextMonthRef=useRef(null);
+  const currentMonthButtonRef = useRef(null);
 
   const doubleViewRefs = {
     1: doublePrevYearRef,
@@ -100,23 +102,45 @@ const Calendar = ({
     setSelectedDecade(decadeStart);
     setShowYears(true);
     disableKeyboard();
+    setTabCount(0);
   };
 
   closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
 
-  const goToNextDecade = () => {
+  const goToNextDecadeInYears = () => {
     setSelectedDecade((currentDecade) => {
       const nextDecade = currentDecade + 10;
       return nextDecade;
     });
   };
 
-  const goToPreviousDecade = () => {
+  const goToPreviousDecadeInYears = () => {
+    enableKeyboard();
     setSelectedDecade((currentDecade) => {
       const previousDecade = currentDecade - 10;
       return previousDecade;
     });
   };
+  const goToPreviousDecade = () => {
+    setSelectedDecade((currentDecade) => {
+      const previousDecade = currentDecade - 10;
+      if (previousDecade >= currentDecadeStart) {
+        return previousDecade;
+      }
+      return currentDecade;
+    });
+  };
+  
+  const goToNextDecade = () => {
+    setSelectedDecade((currentDecade) => {
+      const nextDecade = currentDecade + 10;
+      if (nextDecade <= currentDecadeStart + 90) {
+        return nextDecade;
+      }
+      return currentDecade;
+    });
+  };
+  
   
   useEffect(()=>{
     setSelectedDecade(currentDecadeStart);
@@ -138,33 +162,39 @@ const Calendar = ({
     setDates(currentMonth);
   }, [setDates]);
 
+  const maxCount = openDecade || openMonth  ? 3 : 4;
+
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if(e.shiftKey){
+        disableKeyboard();
+        setTabCount(0);
+      }
+      if(e.key === 'Tab' && tabCount >= maxCount) return enableKeyboard();
       if ((openCalender || openCalenderEnd)) {
         if (e.key === 'Tab') {
           e.preventDefault();
           disableKeyboard();
           if (e.shiftKey) {
-            setTabCount((prevTabCount) => (prevTabCount === 1 ? 4 : prevTabCount - 1));
+            setTabCount((prevTabCount) => Math.max(0, prevTabCount - 1));
           } else {
-            setTabCount((prevTabCount) => (prevTabCount === 4 ? 1 : prevTabCount + 1));
+            setTabCount((prevTabCount) => Math.max(prevTabCount + 1));
           }
           const selector = '[data-calendar-btn]';
-        
           const buttons = document.querySelectorAll(selector);
           const focusedIndex = Array.from(buttons).findIndex(
             (button) => button === document.activeElement
           );
 
           const nextIndex = e.shiftKey
-            ? (focusedIndex - 1 + buttons.length) % buttons.length
+            ? ((focusedIndex - 1 + buttons.length) % buttons.length, setTabCount(0))
             : (focusedIndex + 1) % buttons.length;
           
           buttons[nextIndex]?.focus();
         }
       }
     };
-    if((openCalender || openCalenderEnd) ){
+    if(((openCalender || openCalenderEnd) && !openMonth) ){
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
@@ -186,75 +216,34 @@ const Calendar = ({
   return (
     <CalendarContainer data-testid='calender-container'>
       <CalenderMonths>
-          <TextAreaYearMonth onClick={!showYears && openSelectDecade} openDecade={openDecade} >
+          <TextAreaYearMonth onClick={()=>!showYears && (openSelectDecade(), setTabCount(0))} openDecade={openDecade} >
           {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : displayYear}
           </TextAreaYearMonth>
-          {(!openDecade && !openMonth) && <TextAreaYearMonth onClick={openSelectMonth}>
+          {(!openDecade && !openMonth) && <TextAreaYearMonth onClick={() => (openSelectMonth(), setTabCount(0))}>
             {getLocalizedMonthName(currentMonth, locale)}
             </TextAreaYearMonth>
           }
       </CalenderMonths>
 
-    {isDoubleView ? (
-      <>
-        {disableHeader ? (<></>) : (
-          <CalendarHeader>
-            <HeaderIcons>
-              <CalendarIconBtn ref={doublePrevYearRef} onClick={()=> handlePrevYear()}>
-                <CalendarIcon name='Interface-chevron-double-left'/>
-              </CalendarIconBtn>
-              {(!openDecade && !openMonth) && ( 
-                <CalendarIconBtn ref={doublePrevMonthRef} onClick={() => handlePrevMonth()}>
-                  <CalendarIcon name='Interface-chevron-left' />
-                </CalendarIconBtn>
-              )}
-            </HeaderIcons>
+      <CalendarNavigation
+         isDoubleView={isDoubleView}
+         disableHeader={disableHeader}
+         openDecade={openDecade}
+         openMonth={openMonth}
+         isRangePicker={isRangePicker}
+         handlePrevYear={handlePrevYear}
+         handleNextYear={handleNextYear}
+         handlePrevMonth={handlePrevMonth}
+         handleNextMonth={handleNextMonth}
+         goToPreviousDecade={showYears ? goToPreviousDecadeInYears : goToPreviousDecade}
+         goToNextDecade={showYears ? goToNextDecadeInYears : goToNextDecade}
+         doublePrevYearRef={doublePrevYearRef}
+         doubleNextYearRef={doubleNextYearRef}
+         doublePrevMonthRef={doublePrevMonthRef}
+         doubleNextMonthRef={doubleNextMonthRef}
+         showYears={showYears}
+      />
 
-            <HeaderIcons m={openDecade || openMonth ? '585px': isRangePicker && isDoubleView && '520px'}>
-              {(!openDecade && !openMonth) && (
-                <CalendarIconBtn ref={doubleNextMonthRef} onClick={() => handleNextMonth()}>
-                  <CalendarIcon name='Interface-chevron-right' />
-                </CalendarIconBtn>
-              )}
-              <CalendarIconBtn ref={doubleNextYearRef} onClick={() =>  handleNextYear()}>
-                <CalendarIcon name='Interface-chevron-double-right'/>
-              </CalendarIconBtn>
-            </HeaderIcons>
-          </CalendarHeader>
-        
-        )}
-      </>
-      ): (
-        <>
-          <CalendarHeader>
-            <HeaderIcons>
-              <CalendarIconBtn data-calendar-btn onClick={(e)=> {
-                e.preventDefault();
-                e.stopPropagation();
-                !openDecade ? handlePrevYear() : goToPreviousDecade();
-              }}>
-                  <CalendarIcon name='Interface-chevron-double-left' />
-              </CalendarIconBtn>
-                {(!openDecade && !openMonth) && ( 
-                  <CalendarIconBtn data-calendar-btn onClick={() => handlePrevMonth()}>
-                    <CalendarIcon name='Interface-chevron-left' />
-                  </CalendarIconBtn>
-                )}
-            </HeaderIcons>
-
-            <HeaderIcons>
-              {(!openDecade && !openMonth) && (
-                <CalendarIconBtn data-calendar-btn onClick={() => handleNextMonth()}>
-                  <CalendarIcon name='Interface-chevron-right' />
-                </CalendarIconBtn>
-              )}
-              <CalendarIconBtn data-calendar-btn onClick={() => !openDecade ? handleNextYear() : goToNextDecade()}>
-                <CalendarIcon name='Interface-chevron-double-right' />
-              </CalendarIconBtn>
-            </HeaderIcons>
-          </CalendarHeader>
-        </>
-      )}
       {!openDecade && !openMonth && (
           <DaysContainer secondCalendar={disableHeader}>
             {weekdays.map(({day, dayIndex}, index) => (
@@ -308,6 +297,11 @@ const Calendar = ({
             currentDecadeStart={currentDecadeStart}
             selectedDecade={selectedDecade}
             handleDecadeSelect={handleDecadeSelect}
+            setTabCount={setTabCount}
+            enableKey={tabCount === maxCount}
+            enabledKeyboardFunc={enableKeyboard}
+            goToNextDecade={goToNextDecade}
+            goToPreviousDecade={goToPreviousDecade}
           />
         ) : (
           <YearSelector
@@ -319,7 +313,13 @@ const Calendar = ({
             setShowYears={setShowYears}
             disableKeyboard={disableKeyboard}
             showYears={showYears}
+            setTabCount={setTabCount}
             setYearSelected={setYearSelected}
+            enableKey={tabCount === maxCount}
+            goToPreviousDecade={goToPreviousDecade}
+            goToNextDecade={goToNextDecade}
+            tabCount = {tabCount}
+            
           />
         )
       )}
@@ -330,6 +330,7 @@ const Calendar = ({
           setOpenMonth={setOpenMonth}
           date={date}
           currentMonth={currentMonth.getMonth()}
+          openMonth={openMonth}
         />
       )
     }
@@ -363,6 +364,7 @@ Calendar.propTypes = {
   enabledKeyboardFunc: PropTypes.func,
   openCalender: PropTypes.func,
   openCalenderEnd: PropTypes.func,
+  setOpenCalender: PropTypes.bool,
 };
 
 export default Calendar;

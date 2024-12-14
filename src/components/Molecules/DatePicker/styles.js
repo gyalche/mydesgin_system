@@ -106,12 +106,14 @@ export const DaysContainer = styled.div`
   margin-top: ${({secondCalendar}) => secondCalendar && '-8px'}
 `;
 
-export const Day = styled.div`
+export const Day = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
   height: 38px;
   text-align: center;
+  outline: none;
+  border: none;
   font-size: 12px;
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
@@ -369,6 +371,7 @@ export const DecadeGrid = styled.div`
   padding: 20px 10px;
   margin-top: -10px;
   height: 250px;
+  overflow: hidden;
 `;
 
 export const DecadeButton = styled.button`

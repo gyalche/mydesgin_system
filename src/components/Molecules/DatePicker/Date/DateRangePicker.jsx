@@ -11,12 +11,12 @@ import {
   InputWrapper,
   NextIcon,
   CalendarWrapperEnd,
- } from './styles';
-import { normalizeDate } from '../../../utils';
+ } from '../styles';
+import { normalizeDate } from '../../../../utils';
 import Calendar from './Calender';
-import InputField from './InputField';
-import closeOpenModal from '../../../hooks/closeOpenModal';
-import useClickOutside from '../../../hooks/useClickOutside';
+import InputField from '../InputField';
+import closeOpenModal from '../../../../hooks/closeOpenModal';
+import useClickOutside from '../../../../hooks/useClickOutside';
 const DateRangePicker = ({
   isDoubleView,
   isRangePicker,
@@ -209,6 +209,9 @@ const DateRangePicker = ({
         break;
       case 'ArrowDown':
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
+        break;
+      case 'Tab':
+        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
         break;
       case 'Enter':
         handleEnter(e);

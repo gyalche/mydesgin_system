@@ -6,7 +6,7 @@ export default {
   component: DatePicker,
 };
 
-const { Time, DateTime, DateRangePicker } = DatePicker;
+const { Time, DateTime, DateRangePicker, TimeRangePicker } = DatePicker;
 
 export const DatePickers = {
   title: 'DatePicker',
@@ -171,14 +171,68 @@ export const TimePickers = {
     initialValue: '',
     disabled: false,
     placeholder: 'hh:mm',
+    isTimeRange: false,
+  },
+  render: args => {
+    const updatedArgs = {
+      ...args,
+      initialValue: new Date('Dec 14 2024 1:45:00')
+    };
+    return <Time {...updatedArgs} />;
+  },
+};
+
+export const TimeRange = {
+  title: 'TimePicker',
+  component: Time,
+  parameters: {
+    layout: 'centered',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6273%3A32042&mode=dev',
+    },
+  },
+  argTypes: {
+    is12Hour: {
+      description: '12 hour mode (true) or 24 hour mode (false)',
+      control: { type: 'boolean' },
+    },
+    step: {
+      description: 'Time interval in minutes',
+      control: { type: 'number' },
+    },
+    disabled: {
+      description: 'enable and disable the description',
+      control: { type: 'boolean' }
+    },
+    initialValue: {
+      description:
+        'Initial time value of the TimePicker in "HH:mm AM/PM" format for 12-hour mode or "HH:mm" for 24-hour mode',
+      control: { type: 'text' },
+    },
+    placeholder: {
+      description: 'Placholder value for time',
+      control: { type: 'text' },
+    },
+    isTimeRange: {
+      description: 'enable and disable the time range picker',
+      control: { type: 'boolean' },
+    }
+  },
+  args: {
+    is12Hour: true,
+    step: 15,
+    initialValue: new Date(),
+    disabled: false,
+    placeholder: 'hh:mm',
     isTimeRange: true,
   },
   render: args => {
     const updatedArgs = {
       ...args,
-      initialValue: args.isTimeRange ? ['7:00 AM', '8:00 PM'] : '9:00 AM'
+      initialValue:  [new Date('Dec 14 2024 15:45:00'), new Date('Dec 14 2024 1:45:00')]
     };
-    return <Time {...updatedArgs} />;
+    return <TimeRangePicker {...updatedArgs} />;
   },
 };
 

@@ -42,3 +42,22 @@ export const getLocalizedMonthName = (date, locale) => {
 export const roundToNearestStep = (minute, step) => {
   return Math.floor(minute / step) * step;
 };
+
+export function createDateFromTime(timeString) {
+  const [time, amPm] = timeString.split(' ');
+  const [hours, minutes, seconds] = time.split(':').map(num => parseInt(num));
+
+  let hour = hours;
+  if (amPm === 'PM' && hour < 12) {
+    hour += 12;
+  } else if (amPm === 'AM' && hour === 12) {
+    hour = 0;
+  }
+  const baseDate = new Date();
+  baseDate.setHours(hour);
+  baseDate.setMinutes(minutes);
+  baseDate.setSeconds(seconds);
+  baseDate.setMilliseconds(0);
+
+  return baseDate;
+};

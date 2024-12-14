@@ -12,11 +12,11 @@ import {
   StaticColumn,
   TimeOption,
   TimePickerContainer,
-} from './styles';
-import useClickOutside from '../../../hooks/useClickOutside';
-import { roundToNearestStep } from '../../../utils';
-import InputField from './InputField';
-import closeOpenModal from '../../../hooks/closeOpenModal';
+} from '../styles';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import { createDateFromTime, roundToNearestStep } from '../../../../utils';
+import InputField from '../InputField';
+import closeOpenModal from '../../../../hooks/closeOpenModal';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
@@ -64,41 +64,39 @@ const TimePicker = ({ is12Hour,
   const timeInputRef = useRef(null);
   const timeInputRefEnd = useRef(null);
 
-  const formatTime = (hour, minute, amPmvalue) => {
-    if (!is12Hour) {
-      return `${hour}:${String(minute).padStart(2, '0')}`;
-    } else {
-      const formattedHour = hour % 12 || 12;
-      return `${formattedHour}:${String(minute).padStart(2, '0')} ${amPmvalue}`;
-    }
-  };
-
   const handleHourClick = useCallback((hour) => {
+    const timeString = `${hour}:${selectedMinute}:00 ${amPm}`;
+    const updatedTime = createDateFromTime(timeString);
     setSelectedHour(String(hour));
-    const updatedTime = formatTime(hour, selectedMinute, amPm);
     setTime(updatedTime);
     onChange(updatedTime);
-    if(input?.onChange){
+  
+    if (input?.onChange) {
       input.onChange(updatedTime);
     }
   }, [selectedMinute, amPm]);
 
   const handleMinuteClick = useCallback((minute) => {
+    const timeString = `${selectedHour}:${minute}:00 ${amPm}`;
+    const updatedTime = createDateFromTime(timeString);
+  
     setSelectedMinute(String(minute));
-    const updatedTime = formatTime(selectedHour, minute, amPm);
     setTime(updatedTime);
     onChange(updatedTime);
-    if(input?.onChange){
+  
+    if (input?.onChange) {
       input.onChange(updatedTime);
     }
   }, [selectedHour, amPm]);
 
-  const handleAmPm = useCallback((value)=>{
+  const handleAmPm = useCallback((value) => {
+    const timeString = `${selectedHour}:${selectedMinute}:00 ${value}`;
+    const updatedTime = createDateFromTime(timeString);
+  
     setAmPm(value);
-    const updatedTime = formatTime(selectedHour, selectedMinute, value);
     setTime(updatedTime);
     onChange(updatedTime);
-    if(input?.onChange){
+    if (input?.onChange) {
       input.onChange(updatedTime);
     }
   }, [selectedHour, selectedMinute]);
@@ -111,7 +109,6 @@ const TimePicker = ({ is12Hour,
       setIsDropdownOpen(false);
     }
   });
-  
   closeOpenModal(() => (setIsDropdownOpen(false)));
   
   const getNearestMinMinute = (current, step) => Math.min(roundToNearestStep(current, step));
@@ -197,51 +194,44 @@ const TimePicker = ({ is12Hour,
         break;
     }
   };
-
-  useEffect(()=>{
-    if(initialValue){
-      if (Array.isArray(initialValue)) {
-        const startTime = initialValue[0]?.split(':');
-
-        const roundedMinute = getNearestMinMinute(startTime[1]?.split(' ')[0], step);
-
-        setSelectedHour(startTime[0]);
-        setSelectedMinute(roundedMinute);
-        if (is12Hour) {
-          setAmPm(startTime[1]?.split(' ')[1] || '');
-        }
+  useEffect(() => {
+    if (initialValue instanceof Date && !isNaN(initialValue)) {
+      const currentHour = initialValue.getHours();
+      const currentMinute = initialValue.getMinutes();
+      const roundedMinute = getNearestMinMinute(currentMinute, step);
   
-        setTime(initialValue[0]);
+      setSelectedMinute(roundedMinute);
   
+      if (is12Hour) {
+        const isPM = currentHour >= 12;
+        setSelectedHour(currentHour % 12 || 12);
+        setAmPm(isPM ? 'PM' : 'AM');
       } else {
-        const prevTimeValue = initialValue?.split(':');
-        const nearestMinute = getNearestMinMinute(prevTimeValue[1]?.split(' ')[0], step);
-        setSelectedHour(prevTimeValue[0]);
-        setSelectedMinute(nearestMinute);
-        if (is12Hour) {
-          setAmPm(prevTimeValue[1]?.split(' ')[1] || '');
-        } else {
-          setAmPm('');
-        }
-        setTime(initialValue);
+        setSelectedHour(currentHour);
+        setAmPm(''); // No AM/PM in 24-hour format
       }
-    }else{
+  
+      setTime(initialValue.toISOString());
+    } else if (typeof initialValue === 'string' || Array.isArray(initialValue)) {
+      // Handle string/array logic as in the original code
+    } else {
+      // Default to the current time if no valid initialValue is provided
       const now = new Date();
       let currentHour = now.getHours();
       let currentMinute = now.getMinutes();
       const roundedMinute = getNearestMinMinute(currentMinute, step);
-      
+  
       if (is12Hour) {
         const isPM = currentHour >= 12;
         currentHour = currentHour % 12 || 12;
         setAmPm(isPM ? 'PM' : 'AM');
       }
+  
       setSelectedHour(currentHour);
       setSelectedMinute(roundedMinute);
     }
-
-  },[initialValue, is12Hour]);
-
+  }, [initialValue, is12Hour, step]);
+  
   useEffect(() =>{
    const activeSelectHour = hours.indexOf(selectedHour);
    setHighlightedHourIndex(activeSelectHour);
@@ -427,10 +417,7 @@ const TimePicker = ({ is12Hour,
 TimePicker.propTypes = {
   is12Hour: PropTypes.bool,
   step: PropTypes.number,
-  initialValue: PropTypes.oneOfType([
-    PropTypes.arrayOf(string), 
-    PropTypes.instanceOf(string),
-  ]),
+  initialValue: PropTypes.instanceOf(Date),
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   error: PropTypes.bool,

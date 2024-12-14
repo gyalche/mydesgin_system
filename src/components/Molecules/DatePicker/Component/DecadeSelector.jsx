@@ -1,47 +1,71 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { DecadeGrid, DecadeButton } from './styles';
+import { DecadeGrid, DecadeButton } from '../styles';
 
-const DecadeSelector = ({ currentDecadeStart, selectedDecade, handleDecadeSelect }) => {
+const DecadeSelector = ({ currentDecadeStart, 
+  selectedDecade, 
+  handleDecadeSelect, 
+  enableKey, 
+  setTabCount,
+ }) => {
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
-
-  useEffect(() => {
-    const selectedIndex = selectedDecade ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1)) : 1;
-    setFocusedButton(selectedIndex);
-    buttonRefs.current[selectedIndex]?.focus();
-  }, [selectedDecade, currentDecadeStart]);
-
+  
   const handleKeyDown = (event, index) => {
-    let newIndex;
     const totalButtons = buttonRefs.current.length;
+    let newIndex;
 
+    const navigateButton = (key) => {
+      switch (key) {
+        case 'ArrowRight': return (index + 1) % totalButtons;
+        case 'ArrowLeft': return (index - 1 + totalButtons) % totalButtons;
+        case 'ArrowDown': return index + 3 < totalButtons ? index + 3 : index;
+        case 'ArrowUp': return index - 3 >= 0 ? index - 3 : index;
+        default: return index;
+      }
+    };
+  
     switch (event.key) {
+      case 'Tab':
+        if (enableKey) {
+          newIndex = event.shiftKey 
+            ? (index - 1 + totalButtons) % totalButtons 
+            : (index + 1) % totalButtons;
+          break;
+        }
+        return;
+  
+      case 'Enter':
+        event.preventDefault();
+        event.stopPropagation();
+        setTabCount(0);
+        buttonRefs.current[enableKey ? index : index].click();
+        return;
+  
       case 'ArrowRight':
-        newIndex = (index + 1) % totalButtons;
-        break;
       case 'ArrowLeft':
-        newIndex = (index - 1 + totalButtons) % totalButtons;
-        break;
       case 'ArrowDown':
-        newIndex = index + 3 < totalButtons ? index + 3 : index;
-        break;
       case 'ArrowUp':
-        newIndex = index - 3 >= 0 ? index - 3 : index;
+        newIndex = navigateButton(event.key);
         break;
-      // case 'Enter':
-      //   buttonRefs.current[index].click();
-      //   return;
+  
       default:
         return;
     }
-    event.preventDefault();
-    event.stopPropagation();
-    if(newIndex>=0 && newIndex < totalButtons && buttonRefs?.current[newIndex]){
+  
+    // Validate and focus the new button
+    if (newIndex >= 0 && newIndex < totalButtons - 1 && buttonRefs.current[newIndex]) {
+      event.preventDefault();
+      event.stopPropagation();
       setFocusedButton(newIndex);
       buttonRefs.current[newIndex].focus();
     }
   };
+  useEffect(() => {
+    const selectedIndex = selectedDecade ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1)) : 1;
+    setFocusedButton(selectedIndex);
+    buttonRefs.current[selectedIndex]?.focus();
+  }, [selectedDecade, currentDecadeStart, enableKey]);
 
   return (
     <DecadeGrid>
@@ -75,6 +99,8 @@ DecadeSelector.propTypes = {
   currentDecadeStart: PropTypes.number.isRequired,
   selectedDecade: PropTypes.number,
   handleDecadeSelect: PropTypes.func.isRequired,
+  enableKey: PropTypes.bool,
+  setTabCount: PropTypes.number,
 };
 
 export default DecadeSelector;

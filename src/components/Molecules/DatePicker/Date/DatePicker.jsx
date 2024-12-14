@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PropTypes, { bool } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
   CalendarWrapper,
@@ -9,11 +9,12 @@ import {
   IconWrapper,
   InputContainer,
   InputWrapper,
- } from './styles';
+ } from '../styles';
 import Calendar from './Calender';
-import InputField from './InputField';
-import closeOpenModal from '../../../hooks/closeOpenModal';
-import useClickOutside from '../../../hooks/useClickOutside';
+import InputField from '../InputField';
+import closeOpenModal from '../../../../hooks/closeOpenModal';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import DecadeSelector from '../Component/DecadeSelector';
 
 const DatePicker = ({
   locale,
@@ -120,7 +121,7 @@ const DatePicker = ({
       e.stopPropagation();
       handleSingleDate(currentDate);
     };
-  
+    if(e.shiftKey) return;
     switch (e.key) {
       case 'ArrowLeft':
         updateDate((prev) => new Date(prev.setDate(prev.getDate() - 1)));
@@ -134,7 +135,13 @@ const DatePicker = ({
       case 'ArrowDown':
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
         break;
+      case 'Tab':
+        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+        // return;
+        break;
       case 'Enter':
+        e.preventDefault();
+        e.stopPropagation();
         handleEnter(e);
         break;
       default:
