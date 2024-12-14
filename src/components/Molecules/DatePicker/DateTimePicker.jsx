@@ -17,11 +17,7 @@ const DateTimePicker = ({ onChange,
   input,
   initialValue,
 }) => {
-  const [value, setValue] = useState({
-    date: input?.value?.date,
-    time: input?.value?.time,
-  });
-
+  const [value, setValue] = useState([]);
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
 
@@ -35,36 +31,58 @@ const DateTimePicker = ({ onChange,
     return type === 'date' ? isValidDate(value) : isValidTime(value);
   };
 
+  const handleDateTimeChange = (dateValue, timeValue, position) => {
+    const myData = { ...value };
+
+    const date = new Date(dateValue); // Ensure dateValue is a Date object
+    const [hours, minutes] = timeValue.split(':'); // Assuming time is in "hh:mm" format
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    if (position === 'start') {
+      myData['startDateTime'] = date;
+    } else if (position === 'end') {
+      myData['endDateTime'] = date;
+    }
+    if (onChange) {
+      onChange(myData);
+    }
+    if (input && typeof input.onChange === 'function') {
+      input.onChange(myData);
+    }
+    return myData;
+  };
+
   const handleChange = (value, type, position) => {
     if (!validateValue(value, type)) return;
-  
-    setValue((data) => {
-      const myData = { ...data };
-  
+
+    setValue((prevValue) => {
+      const myData = { ...prevValue };
+
+      // Handle double picker logic
       if (isDoublePicker) {
         if (!Array.isArray(myData[type])) {
           myData[type] = [null, null];
         }
         if (position === 'start') {
           myData[type][0] = value;
+          if (myData['time'] && myData['time'][0]) {
+            const startTime = myData['time'][0];
+            myData = handleDateTimeChange(value, startTime, 'start');
+          }
         } else if (position === 'end') {
           myData[type][1] = value;
+          if (myData['time'] && myData['time'][1]) {
+            const endTime = myData['time'][1];
+            myData = handleDateTimeChange(value, endTime, 'end');
+          }
         }
       } else {
         myData[type] = value;
       }
-
-      if (onChange) {
-        onChange(myData);
-      }
-      if (input && typeof input.onChange === 'function') {
-        input.onChange(myData);
-      }
-  
       return myData;
     });
   };
-  
+
   return (
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">

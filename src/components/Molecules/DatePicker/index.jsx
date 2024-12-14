@@ -2,7 +2,7 @@ import { default as Date } from './Date/DatePicker';
 import { default as Time } from './Time/TimePicker';
 import { default as DateTime } from './DateTimePicker';
 import { default as DateRangePicker } from './Date/DateRangePicker';
-import {default as TimeRangePicker} from './Time/TimeRangePicker';
+import { default as TimeRangePicker} from './Time/TimeRangePicker';
 
 const DatePicker = Date;
 DatePicker.Time = Time;

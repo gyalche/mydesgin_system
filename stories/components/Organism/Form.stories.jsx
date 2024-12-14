@@ -1,7 +1,7 @@
 import Form from 'components/Organisms/Form';
 export default {
-    title: 'Design System/Organisms/ReactForm',
-    component: Form,
+  title: 'Design System/Organisms/ReactForm',
+  component: Form,
 };
 
 export const ReactForm = {
@@ -53,4 +53,3 @@ export const ReactForm = {
     return <Form {...args}/>;
   },
 };
-

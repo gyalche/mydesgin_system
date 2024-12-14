@@ -7,17 +7,13 @@ import {
   Day,
   WeekdayHeader,
   TextAreaYearMonth,
-  CalendarHeader,
-  HeaderIcons,
-  CalendarIcon,
-  CalendarIconBtn,
-} from '../styles';
-import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../../utils';
-import closeOpenModal from '../../../../hooks/closeOpenModal';
-import CalendarNavigation from '../Component/Header';
-import DecadeSelector from '../Component/DecadeSelector';
-import YearSelector from '../Component/YearSelector';
-import MonthSelector from '../Component/MonthSelector';
+} from './styles';
+import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
+import closeOpenModal from '../../../hooks/closeOpenModal';
+import CalendarNavigation from './Component/Header';
+import DecadeSelector from './Component/DecadeSelector';
+import YearSelector from './Component/YearSelector';
+import MonthSelector from './Component/MonthSelector';
 
 const Calendar = ({
   date,

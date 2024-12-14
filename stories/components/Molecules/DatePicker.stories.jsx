@@ -297,13 +297,14 @@ export const DateTimePicker = {
   render: (args) => {
     const updatedArgs = {
       ...args,
-      initialValue: args.isDoublePicker ? {
-        date: [new Date(), new Date(new Date().setDate(new Date().getDate() + 8))],
-        time: ['10:00', '11:00']
-      } : {
-        date: new Date(),
-        time: '12:00'
-      },
+      initialValue: args.isDoublePicker ? [new Date('Dec 14 2024 15:45:00'), new Date('Dec 15 2024 1:45:00')] : new Date(),
+      // initialValue: args.isDoublePicker ? {
+      //   date: [new Date(), new Date(new Date().setDate(new Date().getDate() + 8))],
+      //   time: ['10:00', '11:00']
+      // } : {
+      //   date: new Date(),
+      //   time: '12:00'
+      // },
     };
     return <DateTime {...updatedArgs} />;
   },

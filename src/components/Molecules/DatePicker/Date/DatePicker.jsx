@@ -10,7 +10,7 @@ import {
   InputContainer,
   InputWrapper,
  } from '../styles';
-import Calendar from './Calender';
+import Calendar from '../Calender';
 import InputField from '../InputField';
 import closeOpenModal from '../../../../hooks/closeOpenModal';
 import useClickOutside from '../../../../hooks/useClickOutside';
@@ -195,25 +195,29 @@ const DatePicker = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
-  
+
   useEffect(() => {
-    if(isDateTimeDouble && Array.isArray(dateTimeDefault?.date)){
-      setStartDate(dateTimeDefault?.date[1]);
-    } else if(!isDateTimeDouble && dateTimeDefault?.date[0]){
-      setStartDate(dateTimeDefault?.date[0]);
-    } else if(!Array.isArray(dateTimeDefault?.date)){
-      setStartDate(dateTimeDefault?.date);
-    }else {
+    if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length >= 2) {
+      setStartDate(dateTimeDefault[1]);
+    }
+    else if (!isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 0) {
+      setStartDate(dateTimeDefault[0]);
+    }
+    else if (dateTimeDefault && !(Array.isArray(dateTimeDefault))) {
+      setStartDate(dateTimeDefault);
+    }
+    else {
       setStartDate(new Date());
     }
-  }, [dateTimeDefault]);
+  }, [dateTimeDefault, isDateTimeDouble]);
+  
 
   useEffect(() => {
     if(input?.value){
       setStartDate(input?.value);
     }
-    if(!isDateTimeDouble && !Array.isArray(dateTimeDefault?.date)){
-      setStartDate(dateTimeDefault?.date);
+    if(!isDateTimeDouble && !Array.isArray(dateTimeDefault)){
+      setStartDate(dateTimeDefault);
     }
   },[isDateTimeDouble]);
   useEffect(() => {
@@ -255,10 +259,6 @@ const DatePicker = ({
                 onClick={disabled ? ()=>{} : () => {
                   setStartDate('');
                   input?.onChange(null);
-                  // if(dateTimeStart) handleDateTime?.onChange({
-                  //   time: [...dateTimeDefault?.time],
-                  //   date: [null, dateTimeDefault?.date[1]]
-                  // });
                   setDisplayError(true);
                   if(dateTimeStart) (setDateTimeStart(false));
                   if(dateTimeEnd) setDateTimeEnd(false);

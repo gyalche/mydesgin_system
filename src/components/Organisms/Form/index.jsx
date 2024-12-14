@@ -1,21 +1,18 @@
+import DatePicker from 'components/Molecules/DatePicker';
+import DateRangePicker from 'components/Molecules/DatePicker/Date/DateRangePicker';
+import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
+import TimePicker from 'components/Molecules/DatePicker/Time/TimePicker';
+import TimeRangePicker from 'components/Molecules/DatePicker/Time/TimeRangePicker';
 import React, { useState } from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
-import DatePicker from 'components/Molecules/DatePicker/DatePicker';
-import TimePicker from 'components/Molecules/DatePicker/TimePicker';
-import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
-import DateRangePicker from 'components/Molecules/DatePicker/DateRangePicker';
-import TimeRangePicker from 'components/Molecules/DatePicker/TimeRangePicker';
 
 const Form = () => {
   const initialValues = {
     dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))],
-    time: ['1:00', '2:00'],
     singleDate: new Date(new Date().setDate(new Date().getDate() + 9)),
-    singleTime: '1:30 PM',
-    dateTime: {
-      date:  [new Date(), new Date(new Date().setDate(new Date().getDate() + 11))],
-      time: ['3:00', '4:50'],
-    },
+    singleTime: new Date('Dec 14 2024 15:45:00'),
+    time: [new Date(), new Date('Dec 14 2024 1:45:00')],
+    dateTime: [new Date(), new Date(new Date().setDate(new Date().getDate() + 11))]
   };
 
   const onSubmit = (values) => {

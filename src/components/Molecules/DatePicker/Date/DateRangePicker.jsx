@@ -13,7 +13,7 @@ import {
   CalendarWrapperEnd,
  } from '../styles';
 import { normalizeDate } from '../../../../utils';
-import Calendar from './Calender';
+import Calendar from '../Calender';
 import InputField from '../InputField';
 import closeOpenModal from '../../../../hooks/closeOpenModal';
 import useClickOutside from '../../../../hooks/useClickOutside';
