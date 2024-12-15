@@ -61,3 +61,18 @@ export function createDateFromTime(timeString) {
 
   return baseDate;
 };
+
+export const  combineDateAndTime = (startDate, startTime) => {
+  if (!startDate || !startTime) {
+    throw new Error('Both startDate and startTime are required.');
+  }
+  const updatedDate = new Date(startDate);
+
+  updatedDate.setHours(startTime.getHours());
+  updatedDate.setMinutes(startTime.getMinutes());
+  updatedDate.setSeconds(startTime.getSeconds());
+  updatedDate.setMilliseconds(startTime.getMilliseconds());
+
+  return updatedDate;
+};
+

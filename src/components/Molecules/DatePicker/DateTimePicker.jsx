@@ -4,6 +4,7 @@ import DatePicker from './Date/DatePicker';
 import PropTypes from 'prop-types';
 import { DateTimeContainer, NextIcon } from './styles';
 import { Layout } from 'components/Atoms';
+import { combineDateAndTime } from '../../../utils/index';
 
 const DateTimePicker = ({ onChange, 
   disabled,
@@ -17,77 +18,55 @@ const DateTimePicker = ({ onChange,
   input,
   initialValue,
 }) => {
-  const [value, setValue] = useState([]);
+
+  const initialValues = input?.value ?? initialValue ?? new Date();
+
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
 
-  const validateValue = (value, type) => {
-    const isValidDate = (date) => date instanceof Date && !isNaN(date);
-    const isValidTime = (time) => {
-      const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-      return typeof time === 'string' && timeRegex.test(time);
-    };
-  
-    return type === 'date' ? isValidDate(value) : isValidTime(value);
-  };
+  const [dateTimeStartvalue, setDateTimeStartValue] = useState(Array.isArray(initialValues) ? initialValues[0] : initialValues);
+  const [dateTimeEndvalue, setDateTimeEndValue] = useState(Array.isArray(initialValues) ? initialValues[1]: initialValues);
 
-  const handleDateTimeChange = (dateValue, timeValue, position) => {
-    const myData = { ...value };
-
-    const date = new Date(dateValue); // Ensure dateValue is a Date object
-    const [hours, minutes] = timeValue.split(':'); // Assuming time is in "hh:mm" format
-    date.setHours(hours);
-    date.setMinutes(minutes);
-    if (position === 'start') {
-      myData['startDateTime'] = date;
-    } else if (position === 'end') {
-      myData['endDateTime'] = date;
-    }
-    if (onChange) {
-      onChange(myData);
-    }
-    if (input && typeof input.onChange === 'function') {
-      input.onChange(myData);
-    }
-    return myData;
-  };
-
-  const handleChange = (value, type, position) => {
-    if (!validateValue(value, type)) return;
-
-    setValue((prevValue) => {
-      const myData = { ...prevValue };
-
-      // Handle double picker logic
-      if (isDoublePicker) {
-        if (!Array.isArray(myData[type])) {
-          myData[type] = [null, null];
-        }
-        if (position === 'start') {
-          myData[type][0] = value;
-          if (myData['time'] && myData['time'][0]) {
-            const startTime = myData['time'][0];
-            myData = handleDateTimeChange(value, startTime, 'start');
-          }
-        } else if (position === 'end') {
-          myData[type][1] = value;
-          if (myData['time'] && myData['time'][1]) {
-            const endTime = myData['time'][1];
-            myData = handleDateTimeChange(value, endTime, 'end');
-          }
-        }
-      } else {
-        myData[type] = value;
+  const handleChange = (value, type) => {
+    setDateTimeStartValue((prevValue) => {
+      if (type === 'date') {
+        // When the date changes, combine it with the existing time
+        return combineDateAndTime(value, prevValue);
       }
-      return myData;
+      
+      if (type === 'time') {
+        // When the time changes, combine it with the existing date
+        return combineDateAndTime(prevValue, value);
+      }
+      return prevValue;
     });
   };
 
+  const handleChangeEnd = (value, type) => {
+    setDateTimeEndValue((prevValue) => {
+      if (type === 'date') {
+        // When the date changes, combine it with the existing time
+        return combineDateAndTime(value, prevValue);
+      }
+      
+      if (type === 'time') {
+        // When the time changes, combine it with the existing date
+        return combineDateAndTime(prevValue, value);
+      }
+      return prevValue;
+    });
+  };
+
+  useEffect(() => {
+    onChange([dateTimeStartvalue, dateTimeEndvalue]);
+    input?.onChange([dateTimeStartvalue, dateTimeEndvalue]);
+  }, [dateTimeStartvalue, dateTimeEndvalue]);
+  
   return (
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">
         <DatePicker
-          onChange={(e) => handleChange(e, 'date', 'start')}
+          onChange={(e) => handleChange(e, 'date')}
           disabled={disabled}
           isRangePicker={isRangePicker}
           isDoubleView={isDoubleView}
@@ -95,16 +74,16 @@ const DateTimePicker = ({ onChange,
           placeholder={placeholder.date}
           dateTimeStart={dateTimeStart}
           setDateTimeStart={setDateTimeStart}
-          dateTimeDefault={input?.value ?? initialValue}
+          dateTimeDefault={initialValues}
           handleDateTime={input}
         />
         <TimePicker
           is12Hour={is12Hour}
-          onChange={(e) => handleChange(e, 'time', 'start')}
+          onChange={(e) => handleChange(e, 'time')}
           disabled={disabled}
           placeholder={placeholder.time}
           isTimeRange={isTimeRange}
-          dateTimeDefault={input?.value ?? initialValue}
+          dateTimeDefault={initialValues}
         />
       </Layout.Flex>
 
@@ -114,7 +93,7 @@ const DateTimePicker = ({ onChange,
 
           <Layout.Flex alignItems="center" gap="6px" ml="-1px">
             <DatePicker
-              onChange={(e) => handleChange(e, 'date', 'end')}
+              onChange={(e) => handleChangeEnd(e,'date')}
               disabled={disabled}
               locale={locale}
               placeholder={placeholder.date}
@@ -123,16 +102,16 @@ const DateTimePicker = ({ onChange,
               dateTimeEnd={dateTimeEnd}
               setDateTimeEnd={setDateTimeEnd}
               isDateTimeDouble={true}
-              dateTimeDefault={input?.value ?? initialValue}
+              dateTimeDefault={initialValues}
             />
             <TimePicker
               is12Hour={is12Hour}
-              onChange={(e) => handleChange(e, 'time', 'end')}
+              onChange={(e) => handleChangeEnd(e, 'time')}
               disabled={disabled}
               placeholder={placeholder.time}
               isTimeRange={isTimeRange}
               isDateTimeDouble={true}
-              dateTimeDefault={input?.value ?? initialValue}
+              dateTimeDefault={initialValues}
             />
           </Layout.Flex>
         </>
