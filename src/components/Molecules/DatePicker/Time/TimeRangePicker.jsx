@@ -61,7 +61,6 @@ const TimeRangePicker = ({ is12Hour,
   const [highlightedHourEndIndex, setHighlightedHourEndIndex] = useState(-1);
   const [highlightedMinuteEndIndex, setHighlightedMinuteEndIndex] = useState(-1);
   const [highlightedAmPmEndIndex, setHighlightedAmPmEndIndex] = useState(-1);
-
   const columns = ['hour', 'minute', 'ampm'];
 
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
@@ -70,7 +69,6 @@ const TimeRangePicker = ({ is12Hour,
   const timeValue = `${selectedHour ? selectedHour : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
   const timeValueEnd = `${selectedHourEnd ? selectedHourEnd : 'hh'}:${selectedMinuteEnd !== '' ? 
     String(selectedMinuteEnd).padStart(2, '0') : 'mm'} ${amPmEnd}`;
-
   const timePickerRef = useRef(null);
   const timeInputRef = useRef(null);
   const timeInputRefEnd = useRef(null);
@@ -126,7 +124,7 @@ const TimeRangePicker = ({ is12Hour,
     const updatedEndTime = createDateFromTime(timeString);
     setEndTime(updatedEndTime);
     onChange([time, updatedEndTime]);
-      input.onChange([time, updatedEndTime]);
+    input?.onChange([time, updatedEndTime]);
   }, [selectedMinuteEnd, amPmEnd, time]);
 
   const handleEndMinuteClick = useCallback((minute) => {
@@ -145,7 +143,6 @@ const TimeRangePicker = ({ is12Hour,
   const handleEndAmPm = useCallback((value) => {
     const timeString = `${selectedHourEnd}:${selectedMinuteEnd}:00 ${value}`;
     const updatedTime = createDateFromTime(timeString);
-  
     setAmPmEnd(value);
     setEndTime([time, updatedTime]);
     onChange([time, updatedTime]);
@@ -277,16 +274,15 @@ const TimeRangePicker = ({ is12Hour,
       };
     };
   
-    // Check if input.value is an array of two Date objects
-    if (Array.isArray(input?.value) && input.value.length === 2) {
-      const startDate = input.value[0];
-      const endDate = input.value[1];
+    if (Array.isArray(input?.value || initialValue)) {
+      const startDate = input?.value[0] || initialValue[0];
+      const endDate = input?.value[1] || initialValue[1];
   
       const startTime = handleDate(startDate);
       const endTime = handleDate(endDate);
   
       setTime(createDateFromTime(`${startTime.hour}:${startTime.minute} ${startTime.amPm}`));
-
+      
       setSelectedHour(startTime.hour);
       setSelectedMinute(startTime.minute);
       setAmPm(startTime.amPm);
@@ -296,18 +292,8 @@ const TimeRangePicker = ({ is12Hour,
       setSelectedMinuteEnd(endTime.minute);
       setAmPmEnd(endTime.amPm);
     }
-    // If it's a single Date object
-    else if (input?.value instanceof Date && !isNaN(input.value)) {
-      const singleDate = input.value;
-      const singleTime = handleDate(singleDate);
-  
-      setTime(`${singleTime.hour}:${singleTime.minute} ${singleTime.amPm}`);
-      setSelectedHour(singleTime.hour);
-      setSelectedMinute(singleTime.minute);
-      setAmPm(singleTime.amPm);
-    }
   }, [input?.value, is12Hour, step]);
-  
+
   useEffect(() =>{
    const activeSelectHour = hours.indexOf(selectedHour);
    setHighlightedHourIndex(activeSelectHour);
@@ -360,13 +346,13 @@ const TimeRangePicker = ({ is12Hour,
   }, [openTime, openTimeEnd]);
 
   useEffect(() => {
-    if (Array.isArray(input?.value) && input.value.length === 2) {
+    if (Array.isArray(input?.value || initialValue)) {
       const handleDate = (date) => {
         const hours = date.getHours();
         const minutes = date.getMinutes();
         const roundedMinute = getNearestMinMinute(minutes, step);
         const isPM = hours >= 12;
-        const hour = is12Hour ? hours % 12 || 12 : hours; // 12-hour format handling
+        const hour = is12Hour ? hours % 12 || 12 : hours;
         const amPmValue = is12Hour ? (isPM ? 'PM' : 'AM') : '';
   
         return {
@@ -375,8 +361,8 @@ const TimeRangePicker = ({ is12Hour,
           amPm: amPmValue,
         };
       };
-      const startDate = input.value[0];
-      const endDate = input.value[1];
+      const startDate = input?.value[0] || initialValue[0];
+      const endDate = input?.value[1] || initialValue[1];
   
       const startTime = handleDate(startDate);
       const timeEnd = handleDate(endDate);
@@ -391,7 +377,7 @@ const TimeRangePicker = ({ is12Hour,
       setSelectedMinuteEnd(timeEnd.minute);
       setAmPmEnd(timeEnd.amPm);
     }
-  }, [is12Hour, step, input.value]);
+  }, [is12Hour, step, input?.value]);
   return (
     <TimePickerContainer ref={timePickerRef}>
       <InputContainer>

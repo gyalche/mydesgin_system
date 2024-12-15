@@ -30,12 +30,10 @@ const DateTimePicker = ({ onChange,
   const handleChange = (value, type) => {
     setDateTimeStartValue((prevValue) => {
       if (type === 'date') {
-        // When the date changes, combine it with the existing time
         return combineDateAndTime(value, prevValue);
       }
       
       if (type === 'time') {
-        // When the time changes, combine it with the existing date
         return combineDateAndTime(prevValue, value);
       }
       return prevValue;
@@ -45,12 +43,9 @@ const DateTimePicker = ({ onChange,
   const handleChangeEnd = (value, type) => {
     setDateTimeEndValue((prevValue) => {
       if (type === 'date') {
-        // When the date changes, combine it with the existing time
         return combineDateAndTime(value, prevValue);
-      }
-      
+      } 
       if (type === 'time') {
-        // When the time changes, combine it with the existing date
         return combineDateAndTime(prevValue, value);
       }
       return prevValue;
@@ -58,9 +53,15 @@ const DateTimePicker = ({ onChange,
   };
 
   useEffect(() => {
-    onChange([dateTimeStartvalue, dateTimeEndvalue]);
-    input?.onChange([dateTimeStartvalue, dateTimeEndvalue]);
-  }, [dateTimeStartvalue, dateTimeEndvalue]);
+    if(isDoublePicker || Array.isArray(initialValues)){
+      onChange([dateTimeStartvalue, dateTimeEndvalue]);
+      input?.onChange([dateTimeStartvalue, dateTimeEndvalue]);
+    }else {
+      onChange(dateTimeStartvalue);
+      input?.onChange(dateTimeStartvalue);
+    }
+
+  }, [dateTimeStartvalue, dateTimeEndvalue, initialValues]);
   
   return (
     <DateTimeContainer>
@@ -87,7 +88,7 @@ const DateTimePicker = ({ onChange,
         />
       </Layout.Flex>
 
-      {isDoublePicker && (
+      {Array.isArray(initialValues) && (
         <>
           <NextIcon name="Interface-arrow-right" />
 
