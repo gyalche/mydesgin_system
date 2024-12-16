@@ -30,7 +30,6 @@ const DatePicker = ({
   input,
   isDateTimeDouble,
   dateTimeDefault,
-  handleDateTime,
 }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [openCalender, setOpenCalender] = useState(false);
@@ -41,9 +40,12 @@ const DatePicker = ({
   const [secondInputFocus, setSecondInputFocus] = useState(false);
   const [enableKeyboard, setEnableKeyboard] = useState(true);
   const [displayError, setDisplayError] = useState(false);
+
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
+
+  const doesMonthAndYearMatch = startDate.getFullYear() === currentMonth.getFullYear() && startDate.getMonth() === currentMonth.getMonth();
 
   const handleSingleDate = useCallback((date) => {
     setEnableKeyboard(true);
@@ -136,7 +138,9 @@ const DatePicker = ({
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
         break;
       case 'Tab':
-        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+        if(doesMonthAndYearMatch && openCalender){
+          updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+        }
         // return;
         break;
       case 'Enter':
@@ -220,6 +224,7 @@ const DatePicker = ({
       setStartDate(dateTimeDefault);
     }
   },[isDateTimeDouble]);
+
   useEffect(() => {
     if(input?.value || initialValue){
       setStartDate(input?.value ?? initialValue);

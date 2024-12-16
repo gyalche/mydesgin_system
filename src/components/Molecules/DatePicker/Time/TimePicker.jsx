@@ -40,6 +40,8 @@ const TimePicker = ({ is12Hour,
   const [activeColumn, setActiveColumn] = useState('hour');
   const [timeError, setTimeError] = useState(false);
 
+  const [roundUpMinute, setRoundUpMinute] = useState(null);
+
   const [highlightedHourIndex, setHighlightedHourIndex] = useState(-1);
   const [highlightedMinuteIndex, setHighlightedMinuteIndex] = useState(-1);
   const [highlightedAmPmIndex, setHighlightedAmPmIndex] = useState(-1);
@@ -81,6 +83,7 @@ const TimePicker = ({ is12Hour,
     const updatedTime = createDateFromTime(timeString);
   
     setSelectedMinute(String(minute));
+    setRoundUpMinute(String(minute));
     setTime(updatedTime);
     onChange(updatedTime);
   
@@ -200,9 +203,8 @@ const TimePicker = ({ is12Hour,
       const currentHour = initialValue.getHours();
       const currentMinute = initialValue.getMinutes();
       const roundedMinute = getNearestMinMinute(currentMinute, step);
-  
-      setSelectedMinute(roundedMinute);
-  
+      setSelectedMinute(currentMinute);
+      setRoundUpMinute(roundedMinute);
       if (is12Hour) {
         const isPM = currentHour >= 12;
         setSelectedHour(currentHour % 12 || 12);
@@ -213,13 +215,12 @@ const TimePicker = ({ is12Hour,
       }
   
       setTime(initialValue.toISOString());
-    } else if (typeof initialValue === 'string' || Array.isArray(initialValue)) {
     } else {
       const now = new Date();
       let currentHour = now.getHours();
       let currentMinute = now.getMinutes();
       const roundedMinute = getNearestMinMinute(currentMinute, step);
-  
+      setRoundUpMinute(roundedMinute);
       if (is12Hour) {
         const isPM = currentHour >= 12;
         currentHour = currentHour % 12 || 12;
@@ -227,7 +228,7 @@ const TimePicker = ({ is12Hour,
       }
   
       setSelectedHour(currentHour);
-      setSelectedMinute(roundedMinute);
+      setSelectedMinute(currentMinute);
     }
   }, [initialValue, is12Hour, step]);
   
@@ -269,92 +270,6 @@ const TimePicker = ({ is12Hour,
     };
   }, [openTime]);
 
-  // useEffect(() => {
-  //   if ((input?.value || dateTimeDefault?.time) && !isDateTimeDouble) {
-  //     const timeParts = input?.value?.split(':')
-  //     || Array.isArray(dateTimeDefault?.time) ? dateTimeDefault?.time[0]?.split(':') : dateTimeDefault?.time?.split(':');
-  //     if (timeParts?.length >= 2) {
-  //       const hour = timeParts[0];
-  //       const minutePart = timeParts[1].split(' ');
-  //       const minute = minutePart[0];
-  //       const amPmValue = minutePart[1] || '';
-  //       setTime(`${hour}:${minute} ${amPmValue}`);
-  //       setSelectedHour(hour);
-  //       setSelectedMinute(minute);
-  //       if (is12Hour) {
-  //         setAmPm(amPmValue || '');
-  //       } else {
-  //         setAmPm('');
-  //       }
-  //     }
-  //   }
-  // }, [input?.value, dateTimeDefault]);
-  // useEffect(() => {
-  //   if (input?.value && !isDateTimeDouble) {
-  //     const timeParts = input?.value?.split(':');
-  //     if (timeParts.length >= 2) {
-  //       const hour = timeParts[0];
-  //       const [minute, amPmValue = ''] = timeParts[1].split(' ');
-  //       setSelectedHour(hour);
-  //       setSelectedMinute(minute);
-  //       setAmPm(is12Hour ? amPmValue : '');
-  //       setTime(`${hour}:${minute} ${amPmValue}`);
-  //     }
-  //   }
-  // }, []);
-  
-  // useEffect(() => {
-  //   if(isDateTimeDouble && Array.isArray(dateTimeDefault?.time)){
-  //     const timeParts = dateTimeDefault?.time[1]?.split(':');
-  //     if (timeParts?.length >= 2) {
-  //       const hour = timeParts[0];
-  //       const minutePart = timeParts[1].split(' ');
-  //       const minute = minutePart[0];
-  //       const amPmValue = minutePart[1] || '';
-  //       setTime(`${hour}:${minute} ${amPmValue}`);
-  //       setSelectedHour(hour);
-  //       setSelectedMinute(minute);
-  //       if (is12Hour) {
-  //         setAmPm(amPmValue || '');
-  //       } else {
-  //         setAmPm('');
-  //       }
-  //     }
-  //   }
-  // },[]);
-  // useEffect(() => {
-  //   if ((input?.value || dateTimeDefault) && !isDateTimeDouble) {
-  //     // Handling single Date object or string value from input
-  //     let timeParts = [];
-  
-  //     if (input?.value) {
-  //       timeParts = input?.value?.split(':');
-  //     } else if (dateTimeDefault instanceof Date && !isNaN(dateTimeDefault)) {
-  //       // If it's a single Date object
-  //       const date = dateTimeDefault;
-  //       const hours = date.getHours();
-  //       const minutes = date.getMinutes();
-  //       const amPmValue = hours >= 12 ? 'PM' : 'AM';
-  //       timeParts = [`${hours % 12 || 12}`, `${minutes} ${amPmValue}`];
-  //     } else if (Array.isArray(dateTimeDefault) && dateTimeDefault[0] instanceof Date) {
-  //       // Handle double picker, get time from first date in the array
-  //       const date = dateTimeDefault[0];
-  //       const hours = date.getHours();
-  //       const minutes = date.getMinutes();
-  //       const amPmValue = hours >= 12 ? 'PM' : 'AM';
-  //       timeParts = [`${hours % 12 || 12}`, `${minutes} ${amPmValue}`];
-  //     }
-  
-  //     if (timeParts.length >= 2) {
-  //       const hour = timeParts[0];
-  //       const [minute, amPmValue = ''] = timeParts[1].split(' ');
-  //       setTime(`${hour}:${minute} ${amPmValue}`);
-  //       setSelectedHour(hour);
-  //       setSelectedMinute(minute);
-  //       setAmPm(is12Hour ? amPmValue : '');
-  //     }
-  //   }
-  // }, [input?.value, dateTimeDefault, isDateTimeDouble, is12Hour]);
   useEffect(() => {
     if ((input?.value || dateTimeDefault) && !isDateTimeDouble) {
       let timeParts = [];
@@ -373,11 +288,11 @@ const TimePicker = ({ is12Hour,
         date = dateTimeDefault[0];
       }
   
-      // If we successfully obtained a valid Date object, extract time
       if (date) {
         const hours = date.getHours();
         const minutes = date.getMinutes();
         const amPmValue = hours >= 12 ? 'PM' : 'AM';
+        setRoundUpMinute(getNearestMinMinute(minutes, step));
         timeParts = [`${hours % 12 || 12}`, `${minutes} ${amPmValue}`];
   
         const hour = timeParts[0];
@@ -388,7 +303,7 @@ const TimePicker = ({ is12Hour,
         setAmPm(is12Hour ? amPm : '');
       }
     }
-  }, [input?.value, dateTimeDefault, isDateTimeDouble, is12Hour]);
+  }, [input?.value, isDateTimeDouble, is12Hour]);
   
   useEffect(() => {
     if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 1) {
@@ -406,7 +321,7 @@ const TimePicker = ({ is12Hour,
         setAmPm(is12Hour ? amPmValue : '');
       }
     }
-  }, [dateTimeDefault, isDateTimeDouble, is12Hour]);
+  }, [isDateTimeDouble, is12Hour]);
   
   return (
     <TimePickerContainer ref={timePickerRef}>
@@ -470,7 +385,7 @@ const TimePicker = ({ is12Hour,
                   <TimeOption
                     key={index}
                     onClick={() => handleMinuteClick(minute)}
-                    selected={String(minute) === String(selectedMinute)}
+                    selected={String(minute) === String(roundUpMinute)}
                     highlighted={highlightedMinuteIndex === index && activeColumn === 'minute'}
                   >
                     {String(minute).padStart(2, '0')}

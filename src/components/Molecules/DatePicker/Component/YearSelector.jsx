@@ -22,7 +22,7 @@ const YearSelector = ({
     const currentYear = new Date().getFullYear();
     const currentYearIndex = yearsInDecade.indexOf(currentYear);
     setSelectedYearIndex(currentYearIndex !== -1 ? currentYearIndex : -1);
-  }, [yearsInDecade]);
+  }, [setSelectedYearIndex]);
 
   const handleKeyDown = (event) => {
     let newIndex = selectedYearIndex;

@@ -61,22 +61,33 @@ describe('TimePicker Component', () => {
       fireEvent.click(hourOption);
       expect(mockOnChange).toHaveBeenCalledWith(expect.stringContaining('5'));
     });
-
-      // Test for selecting minute
-    it('updates selected minute and calls onChange when a minute is selected', async () => {
-      render(<TimePicker onChange={mockOnChange} is12Hour={false}/>);
-      const inputField = screen.getByPlaceholderText('hh:mm');
-      fireEvent.click(inputField);
-      const hourOption = screen.getByText('5');
-      fireEvent.click(hourOption);
-
-      const minuteOption = screen.getByText('30');
-      fireEvent.click(minuteOption);
-
-      await waitFor(() => {
-        expect(mockOnChange).toHaveBeenCalledWith(expect.stringContaining('5:30'));
+      
+      it('updates selected minute and calls onChange when a minute is selected', async () => {
+        const mockOnChange = jest.fn();
+        render(<TimePicker onChange={mockOnChange} is12Hour={false} />);
+      
+        const inputField = screen.getByPlaceholderText('hh:mm');
+        fireEvent.click(inputField);
+      
+        const hourOption = screen.getByText('5');
+        fireEvent.click(hourOption);
+      
+        const minuteOption = screen.getByText('30');
+        fireEvent.click(minuteOption);
+      
+        // Expected Date object
+        const expectedDate = new Date();
+        expectedDate.setHours(5, 30, 0, 0); // Set time to 5:30 with 0 seconds and milliseconds
+      
+        await waitFor(() => {
+          // Assert that mockOnChange was called with a Date object matching 5:30
+          expect(mockOnChange).toHaveBeenCalledWith(expect.any(Date));
+          const receivedDate = mockOnChange.mock.calls[0][0]; // Get the first argument of the first call
+          expect(receivedDate.getHours()).toBe(expectedDate.getHours());
+          expect(receivedDate.getMinutes()).toBe(expectedDate.getMinutes());
+        });
       });
-    });
+      
 
 // Test for selecting AM/PM
   it('updates AM/PM and calls onChange when AM/PM is selected', async () => {

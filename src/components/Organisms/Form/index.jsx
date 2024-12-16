@@ -3,22 +3,21 @@ import DateRangePicker from 'components/Molecules/DatePicker/Date/DateRangePicke
 import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
 import TimePicker from 'components/Molecules/DatePicker/Time/TimePicker';
 import TimeRangePicker from 'components/Molecules/DatePicker/Time/TimeRangePicker';
-import React, { useState } from 'react';
+import React from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 
 const Form = () => {
   const initialValues = {
     dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))],
     singleDate: new Date(new Date().setDate(new Date().getDate() + 9)),
-    singleTime: new Date('Dec 14 2024 15:45:00'),
-    time: [new Date(), new Date('Dec 14 2024 1:45:00')],
-    dateTime: [new Date(), new Date(new Date().setDate(new Date().getDate() + 11))]
+    singleTime: new Date('Dec 14 2024 15:20:00'),
+    time: [new Date(), new Date('Dec 14 2024 1:10:00')],
+    dateTime:  new Date('Dec 14 2024 1:50:00'),
   };
 
   const onSubmit = (values) => {
     // console.log('Submission values:', values);
   };
-
 
   return (
     <div>

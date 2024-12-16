@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { DecadeButton, DecadeGrid } from '../styles';
 import { getLocalizedMonthName } from '../../../../utils';
 
-const MonthSelector = ({ locale, setCurrentMonth, setOpenMonth, date, currentMonth, openMonth }) => {
+const MonthSelector = ({ locale, setCurrentMonth, setOpenMonth, date, currentMonth }) => {
   const [focusedButton, setFocusedButton] = useState(currentMonth || 0);
-  const [tabCount, setTabCount] = useState(0); // Add tabCount to track Tab presses
+  const [tabCount, setTabCount] = useState(0); 
   const buttonRefs = useRef([]);
 
   useEffect(() => {
@@ -71,6 +71,12 @@ const MonthSelector = ({ locale, setCurrentMonth, setOpenMonth, date, currentMon
     };
   }, []);
 
+  useEffect(() => {
+    if(tabCount === 3){
+      buttonRefs.current[focusedButton - 1]?.focus();
+    }
+  }, [tabCount]);
+
   return (
     <DecadeGrid>
       {Array.from({ length: 12 }, (_, index) => (
@@ -97,6 +103,7 @@ MonthSelector.propTypes = {
   date: PropTypes.instanceOf(Date).isRequired,
   currentMonth: PropTypes.number,
   openMonth: PropTypes.bool,
+  tabCounts: PropTypes.number
 };
 
 export default MonthSelector;

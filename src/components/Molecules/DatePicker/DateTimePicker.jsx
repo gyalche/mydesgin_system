@@ -20,6 +20,7 @@ const DateTimePicker = ({ onChange,
 }) => {
 
   const initialValues = input?.value ?? initialValue ?? new Date();
+  const [isRange, setIsRange] = useState(Array.isArray(initialValue || input?.value) || isDoublePicker);
 
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
@@ -53,15 +54,15 @@ const DateTimePicker = ({ onChange,
   };
 
   useEffect(() => {
-    if(isDoublePicker || Array.isArray(initialValues)){
-      onChange([dateTimeStartvalue, dateTimeEndvalue]);
-      input?.onChange([dateTimeStartvalue, dateTimeEndvalue]);
-    }else {
+    if (isDoublePicker || Array.isArray(initialValues)) {
+      const updatedValue = [dateTimeStartvalue, dateTimeEndvalue];
+      onChange(updatedValue);
+      input?.onChange(updatedValue);
+    } else {
       onChange(dateTimeStartvalue);
       input?.onChange(dateTimeStartvalue);
     }
-
-  }, [dateTimeStartvalue, dateTimeEndvalue, initialValues]);
+  }, [dateTimeStartvalue, dateTimeEndvalue, isDoublePicker]);
   
   return (
     <DateTimeContainer>
@@ -88,7 +89,7 @@ const DateTimePicker = ({ onChange,
         />
       </Layout.Flex>
 
-      {Array.isArray(initialValues) && (
+      {isRange && (
         <>
           <NextIcon name="Interface-arrow-right" />
 
@@ -127,7 +128,7 @@ DateTimePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
   is12Hour: PropTypes.bool,
-  isDoublePicker: PropTypes.bool,
+  isRangePicker: PropTypes.bool,
   locale: PropTypes.string,
   placeholder: PropTypes.shape({
     date: PropTypes.string,
@@ -136,6 +137,7 @@ DateTimePicker.propTypes = {
   isTimeRange: PropTypes.bool,
   input: PropTypes.oneOfType([PropTypes.object]),
   initialValue: PropTypes.any,
+  isDoublePicker: PropTypes.bool,
 };
 
 DateTimePicker.defaultProps = {
@@ -144,7 +146,7 @@ DateTimePicker.defaultProps = {
   isDoubleView: false,
   isRangePicker: false,
   is12Hour: false,
-  isDoublePicker: true,
+  isDoublePicker: false,
   locale: 'en-US',
   placeholder: {
     date: 'yyyy/mm/dd',

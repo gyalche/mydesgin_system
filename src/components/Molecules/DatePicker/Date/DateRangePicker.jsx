@@ -51,6 +51,9 @@ const DateRangePicker = ({
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
 
+  const doesMonthAndYearMatch = startDate.getFullYear() === currentMonth.getFullYear() && startDate.getMonth() === currentMonth.getMonth();
+  const doesMonthAndYearMatchForEndcal = endDate.getFullYear() === currentMonth.getFullYear() && endDate.getMonth() === currentMonth.getMonth();
+
   const handleDateRangeClick = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
@@ -211,7 +214,11 @@ const DateRangePicker = ({
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
         break;
       case 'Tab':
-        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+        if(doesMonthAndYearMatch && openCalender){
+          updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+        }else if(doesMonthAndYearMatchForEndcal && openCalenderEnd){
+          updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+        }
         break;
       case 'Enter':
         handleEnter(e);

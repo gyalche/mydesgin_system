@@ -61,6 +61,9 @@ const TimeRangePicker = ({ is12Hour,
   const [highlightedHourEndIndex, setHighlightedHourEndIndex] = useState(-1);
   const [highlightedMinuteEndIndex, setHighlightedMinuteEndIndex] = useState(-1);
   const [highlightedAmPmEndIndex, setHighlightedAmPmEndIndex] = useState(-1);
+
+  const [roundMinuteFirst, setRoundMinueFirst] = useState(null);
+  const [roundMinuteSecond, setRoundMinueSecond] = useState(null);
   const columns = ['hour', 'minute', 'ampm'];
 
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
@@ -262,14 +265,13 @@ const TimeRangePicker = ({ is12Hour,
     const handleDate = (date) => {
       const hours = date.getHours();
       const minutes = date.getMinutes();
-      const roundedMinute = getNearestMinMinute(minutes, step);
       const isPM = hours >= 12;
       const hour = is12Hour ? hours % 12 || 12 : hours; // 12-hour format handling
       const amPmValue = is12Hour ? (isPM ? 'PM' : 'AM') : ''; // If using 12-hour format, set AM/PM
   
       return {
         hour,
-        minute: roundedMinute,
+        minute: minutes,
         amPm: amPmValue,
       };
     };
@@ -286,10 +288,12 @@ const TimeRangePicker = ({ is12Hour,
       setSelectedHour(startTime.hour);
       setSelectedMinute(startTime.minute);
       setAmPm(startTime.amPm);
-  
+      setRoundMinueFirst(getNearestMinMinute(startTime.minute, step));
       setEndTime(`${endTime.hour}:${endTime.minute} ${endTime.amPm}`);
+
       setSelectedHourEnd(endTime.hour);
       setSelectedMinuteEnd(endTime.minute);
+      setRoundMinueSecond(getNearestMinMinute(endTime.minute, step));
       setAmPmEnd(endTime.amPm);
     }
   }, [input?.value, is12Hour, step]);
@@ -357,7 +361,7 @@ const TimeRangePicker = ({ is12Hour,
   
         return {
           hour,
-          minute: roundedMinute,
+          minute: minutes,
           amPm: amPmValue,
         };
       };
@@ -484,7 +488,7 @@ const TimeRangePicker = ({ is12Hour,
                   <TimeOption
                     key={index}
                     onClick={() => handleMinuteClick(minute)}
-                    selected={String(minute) === String(selectedMinute)}
+                    selected={String(minute) === String(roundMinuteFirst)}
                     highlighted={highlightedMinuteIndex === index && activeColumn === 'minute'}
                   >
                     {String(minute).padStart(2, '0')}
@@ -528,7 +532,7 @@ const TimeRangePicker = ({ is12Hour,
                 <TimeOption
                  key={index} 
                  onClick={() => handleEndMinuteClick(minute)} 
-                 selected={String(minute) === String(selectedMinuteEnd)}
+                 selected={String(minute) === String(roundMinuteSecond)}
                  highlighted={highlightedMinuteEndIndex === index && activeColumn === 'minute'}
                  >
                   {String(minute).padStart(2, '0')}

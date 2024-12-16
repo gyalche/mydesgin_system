@@ -52,7 +52,6 @@ const Calendar = ({
   const doublePrevMonthRef=useRef(null);
   const doubleNextYearRef=useRef(null);
   const doubleNextMonthRef=useRef(null);
-  const currentMonthButtonRef = useRef(null);
 
   const doubleViewRefs = {
     1: doublePrevYearRef,
@@ -140,7 +139,7 @@ const Calendar = ({
   
   useEffect(()=>{
     setSelectedDecade(currentDecadeStart);
-  },[]);
+  },[setSelectedDecade]);
 
   useEffect(() => {
     if (currentMonth.getTime() !== date.getTime()) {
@@ -200,7 +199,6 @@ const Calendar = ({
 
   useEffect(() => {
     if(yearSelected) disableKeyboard();
-    // enableKeyboard();
   }, [yearSelected]);
   
   useEffect(() => {
@@ -222,22 +220,22 @@ const Calendar = ({
       </CalenderMonths>
 
       <CalendarNavigation
-         isDoubleView={isDoubleView}
-         disableHeader={disableHeader}
-         openDecade={openDecade}
-         openMonth={openMonth}
-         isRangePicker={isRangePicker}
-         handlePrevYear={handlePrevYear}
-         handleNextYear={handleNextYear}
-         handlePrevMonth={handlePrevMonth}
-         handleNextMonth={handleNextMonth}
-         goToPreviousDecade={showYears ? goToPreviousDecadeInYears : goToPreviousDecade}
-         goToNextDecade={showYears ? goToNextDecadeInYears : goToNextDecade}
-         doublePrevYearRef={doublePrevYearRef}
-         doubleNextYearRef={doubleNextYearRef}
-         doublePrevMonthRef={doublePrevMonthRef}
-         doubleNextMonthRef={doubleNextMonthRef}
-         showYears={showYears}
+        isDoubleView={isDoubleView}
+        disableHeader={disableHeader}
+        openDecade={openDecade}
+        openMonth={openMonth}
+        isRangePicker={isRangePicker}
+        handlePrevYear={handlePrevYear}
+        handleNextYear={handleNextYear}
+        handlePrevMonth={handlePrevMonth}
+        handleNextMonth={handleNextMonth}
+        goToPreviousDecade={showYears ? goToPreviousDecadeInYears : goToPreviousDecade}
+        goToNextDecade={showYears ? goToNextDecadeInYears : goToNextDecade}
+        doublePrevYearRef={doublePrevYearRef}
+        doubleNextYearRef={doubleNextYearRef}
+        doublePrevMonthRef={doublePrevMonthRef}
+        doubleNextMonthRef={doubleNextMonthRef}
+        showYears={showYears}
       />
 
       {!openDecade && !openMonth && (
@@ -315,7 +313,6 @@ const Calendar = ({
             goToPreviousDecade={goToPreviousDecade}
             goToNextDecade={goToNextDecade}
             tabCount = {tabCount}
-            
           />
         )
       )}
