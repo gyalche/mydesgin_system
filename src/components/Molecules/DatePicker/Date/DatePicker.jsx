@@ -45,8 +45,7 @@ const DatePicker = ({
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
 
-  const isValidDate = (date) => date instanceof Date && !isNaN(date);
-  const doesMonthAndYearMatch = isValidDate(startDate?.getFullYear()) === currentMonth?.getFullYear() && 
+  const doesMonthAndYearMatch = startDate?.getFullYear() === currentMonth?.getFullYear() && 
     startDate?.getMonth() === currentMonth?.getMonth();
 
   const handleSingleDate = useCallback((date) => {
