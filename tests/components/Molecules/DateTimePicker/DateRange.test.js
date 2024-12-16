@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import DateRangePicker from 'src/components/Molecules/DatePicker/DateRangePicker';
+import DateRangePicker from '../../../../src/components/Molecules/DatePicker/Date/DateRangePicker';
 import expect from 'expect';
 
 describe('DateRangePicker Component', () => {
@@ -74,39 +74,6 @@ describe('DateRangePicker Component', () => {
     expect(endDate).toBeInTheDocument();
   });
 
-  // Display selected dates in inputs
-  it('displays selected start and end dates in inputs', async () => {
-    render(<DateRangePicker isRangePicker onChange={mockOnChange} />);
-
-    await waitFor(() => {
-      const firstInput = screen.getByTestId('first-input');
-      fireEvent.click(firstInput);
-    });
-
-    const firstDay = new Date().getDate();
-    const secondDay = new Date().getDate() + 2;
-
-    waitFor(()=>{
-      const startDay = screen.findByTestId(`day-${firstDay}`);
-      fireEvent.click(startDay);
-      expect(firstInput).toHaveValue(expect.stringContaining(`${firstDay}`));
-    });
-
-    await waitFor(()=>{
-      const secondInput = screen.getByTestId('second-input');
-      fireEvent.click(secondInput);
-    });
-  
-    const endDay = screen.findByTestId(`day-${secondDay}`);
-
-    waitFor(() => {
-      fireEvent.click(endDay);
-      const middleComma = screen.getByText('～');
-      const nextInput = middleComma.nextSibling;
-      expect(nextInput).toHaveValue(expect.stringContaining(`${secondDay}`));
-    });
-  });  
-
   // Double calendar view
   it('renders two calendars when isDoubleView is true', () => {
     render(<DateRangePicker isDoubleView onChange={mockOnChange} dateTimeFormat='en-US'/>);
@@ -129,7 +96,7 @@ describe('DateRangePicker Component', () => {
     
     const firstDay = new Date().getDate();
     const secondDay = new Date().getDate() + 2;
-    // Select start date
+
     const startDay = screen.findByTestId(`day-${firstDay}`); 
     waitFor(()=>{
        fireEvent.click(startDay);

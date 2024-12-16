@@ -45,7 +45,9 @@ const DatePicker = ({
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
 
-  const doesMonthAndYearMatch = startDate.getFullYear() === currentMonth.getFullYear() && startDate.getMonth() === currentMonth.getMonth();
+  const isValidDate = (date) => date instanceof Date && !isNaN(date);
+  const doesMonthAndYearMatch = isValidDate(startDate?.getFullYear()) === currentMonth?.getFullYear() && 
+    startDate?.getMonth() === currentMonth?.getMonth();
 
   const handleSingleDate = useCallback((date) => {
     setEnableKeyboard(true);
@@ -141,7 +143,6 @@ const DatePicker = ({
         if(doesMonthAndYearMatch && openCalender){
           updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
         }
-        // return;
         break;
       case 'Enter':
         e.preventDefault();

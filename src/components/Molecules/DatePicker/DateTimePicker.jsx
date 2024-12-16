@@ -68,6 +68,7 @@ const DateTimePicker = ({ onChange,
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">
         <DatePicker
+          data-testid = 'first-input'
           onChange={(e) => handleChange(e, 'date')}
           disabled={disabled}
           isRangePicker={isRangePicker}
@@ -95,6 +96,7 @@ const DateTimePicker = ({ onChange,
 
           <Layout.Flex alignItems="center" gap="6px" ml="-1px">
             <DatePicker
+              data-testid = 'second-input'
               onChange={(e) => handleChangeEnd(e,'date')}
               disabled={disabled}
               locale={locale}

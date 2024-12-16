@@ -10,7 +10,7 @@ const DecadeSelector = ({ currentDecadeStart,
  }) => {
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
-  
+
   const handleKeyDown = (event, index) => {
     const totalButtons = buttonRefs.current.length;
     let newIndex;

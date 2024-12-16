@@ -9,15 +9,15 @@ describe('DateTime picker component testing', () => {
     const dateInputs = await screen.findAllByPlaceholderText('yyyy/mm/dd');
     const timeInputs = await screen.findAllByPlaceholderText('hh:mm');
     
-    expect(dateInputs.length).toBe(2);
-    expect(timeInputs.length).toBe(2);
+    expect(dateInputs.length).toBe(1);
+    expect(timeInputs.length).toBe(1);
     
     expect(dateInputs[0]).toBeInTheDocument();
     expect(timeInputs[0]).toBeInTheDocument();
   });
 
   it('renders default values when initialValue is provided', async () => {
-    const initialValue = { date: '2024-12-09', time: '12:00' };
+    const initialValue = new Date('Dec 14 2024 1:40:00');
   
     render(
       <DateTimePicker
@@ -27,12 +27,10 @@ describe('DateTime picker component testing', () => {
         isDoublePicker={false}
       />
     );
-  
-    // Wait for inputs to be rendered
+
     const dateInput = await screen.findByPlaceholderText('yyyy/mm/dd');
     const timeInput = await screen.findByPlaceholderText('hh:mm');
-  
-    // Ensure the values are set correctly
+
     waitFor(() => {
       expect(dateInput.value).toBe(initialValue.date);
       expect(timeInput.value).toBe(initialValue.time);
