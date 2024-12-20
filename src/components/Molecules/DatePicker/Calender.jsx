@@ -318,6 +318,7 @@ const Calendar = ({
             goToNextDecade={goToNextDecade}
             goToPreviousDecade={goToPreviousDecade}
             enableFocus={modalFocus ? modalFocus : undefined}
+            setModalFocus={setModalFocus}
           />
         ) : (
           <YearSelector
@@ -350,6 +351,7 @@ const Calendar = ({
           openMonth={openMonth}
           enableFocus={modalFocus ? modalFocus : undefined}
           tabCount={tabCount}
+          setModalFocus={setModalFocus}
         />
       )
     }

@@ -12,6 +12,7 @@ const DecadeSelector = ({
   goToNextDecade,
   goToPreviousDecade,
   enableFocus,
+  setModalFocus
  }) => {
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
@@ -21,7 +22,7 @@ const DecadeSelector = ({
     let newIndex;
 
     const navigateButton = (key) => {
-
+      setModalFocus(false);
       switch (key) {
         case 'ArrowRight': return (index + 1) % totalButtons;
         case 'ArrowLeft': return (index - 1 + totalButtons) % totalButtons;
@@ -103,6 +104,7 @@ DecadeSelector.propTypes = {
   goToNextDecade: PropTypes.func,
   goToPreviousDecade: PropTypes.func,
   enableFocus: PropTypes.bool,
+  setModalFocus: PropTypes.bool,
 };
 
 export default DecadeSelector;

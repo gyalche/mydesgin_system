@@ -30,7 +30,7 @@ const YearSelector = ({
   const handleKeyDown = (event) => {
     let newIndex = selectedYearIndex;
     const totalButtons = buttonRefs.current.length;
-    // if(enableFocus) setModalFocus(false);
+    setModalFocus(false);
     switch (event.key) {
       case 'ArrowRight':
         if (selectedYearIndex === totalButtons - 1) {

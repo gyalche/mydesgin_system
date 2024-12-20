@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 import { ButtonActive, DecadeButton, DecadeGrid } from '../styles';
 import { getLocalizedMonthName } from '../../../../utils';
 
-const MonthSelector = ({ locale, setCurrentMonth, setOpenMonth, date, currentMonth, enableFocus, tabCount }) => {
+const MonthSelector = ({ locale, 
+  setCurrentMonth, 
+  setOpenMonth, 
+  date, 
+  currentMonth, 
+  enableFocus, 
+  tabCount,
+  setModalFocus
+}) => {
   const [focusedButton, setFocusedButton] = useState(currentMonth || 0);
   // const [tabCount, setTabCount] = useState(0);
   const buttonRefs = useRef([]);
@@ -25,7 +33,7 @@ const MonthSelector = ({ locale, setCurrentMonth, setOpenMonth, date, currentMon
     let newIndex;
 
     const navigateButton = (key) => {
-
+      // setModalFocus(false);
       switch (key) {
         case 'ArrowRight': return (index + 1) % totalButtons;
         case 'ArrowLeft': return (index - 1 + totalButtons) % totalButtons;
@@ -97,6 +105,7 @@ MonthSelector.propTypes = {
   tabCounts: PropTypes.number,
   enableFocus: PropTypes.bool,
   tabCount: PropTypes.number,
+  setModalFocus: PropTypes.bool,
 };
 
 export default MonthSelector;
