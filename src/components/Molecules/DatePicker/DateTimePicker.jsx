@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { DateTimeContainer, NextIcon } from './styles';
 import { Layout } from 'components/Atoms';
 import { combineDateAndTime } from '../../../utils/index';
-import DateRangePicker from './DatePicker';
 import TimeRangePicker from './TimePicker';
 
 const DateTimePicker = ({ onChange, 
@@ -71,7 +70,7 @@ const DateTimePicker = ({ onChange,
   return (
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">
-        <DateRangePicker
+        <DatePicker
           data-testid = 'first-input'
           onChange={(value) => handleChange(value, 'date')}
           disabled={disabled}
@@ -84,6 +83,7 @@ const DateTimePicker = ({ onChange,
           dateTimeDefault={initialValues}
           handleDateTime={input}
           dateTimeValue={true}
+          onlyFuture={false}
         />
         <TimeRangePicker
           is12Hour={is12Hour}
@@ -101,7 +101,7 @@ const DateTimePicker = ({ onChange,
           <NextIcon name="Interface-arrow-right" />
 
           <Layout.Flex alignItems="center" gap="6px" ml="-1px">
-            <DateRangePicker
+            <DatePicker
               data-testid = 'second-input'
               onChange={(value) => handleChangeEnd(value,'date')}
               disabled={disabled}
