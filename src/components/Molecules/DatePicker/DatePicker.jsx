@@ -11,13 +11,14 @@ import {
   InputWrapper,
   NextIcon,
   CalendarWrapperEnd,
- } from '../styles';
-import { normalizeDate } from '../../../../utils';
-import Calendar from '../Calender';
-import InputField from '../InputField';
-import closeOpenModal from '../../../../hooks/closeOpenModal';
-import useClickOutside from '../../../../hooks/useClickOutside';
-const DateRangePicker = ({
+ } from './styles';
+import { normalizeDate } from '../../../utils';
+import Calendar from './Calender';
+import InputField from './InputField';
+import closeOpenModal from '../../../hooks/closeOpenModal';
+import useClickOutside from '../../../hooks/useClickOutside';
+
+const DatePicker = ({
   isDoubleView,
   isRangePicker,
   initialValue,
@@ -31,9 +32,13 @@ const DateRangePicker = ({
   setDateTimeStart,
   setDateTimeEnd,
   input,
+  onlyFuture,
+  dateTimeValue,
+  isDateTimeDouble,
+  dateTimeDefault,
 }) => {
-  const [startDate, setStartDate] = useState(input?.value[0]);
-  const [endDate, setEndDate] = useState(input?.value[1]);
+  const [startDate, setStartDate] = useState(Array.isArray(input?.value) ? input?.value[0] : input?.value);
+  const [endDate, setEndDate] = useState(Array.isArray(input?.value) ? input?.value[1] : input?.value);
   const [openCalender, setOpenCalender] = useState(false);
   const [openCalenderEnd, setOpenCalenderEnd] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -51,15 +56,20 @@ const DateRangePicker = ({
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
 
-  const doesMonthAndYearMatch = startDate?.getFullYear() === currentMonth?.getFullYear() 
-    && startDate?.getMonth() === currentMonth?.getMonth();
-  const doesMonthAndYearMatchForEndcal = endDate && endDate?.getFullYear() === currentMonth?.getFullYear() 
-    && endDate?.getMonth() === currentMonth?.getMonth();
-
+  const handleSingleDate = useCallback((date) => {
+    setEnableKeyboard(true);
+    setStartDate(date);
+    setDisplayErrorFirst(true);
+    onChange(date);
+    if(input?.onChange){
+      input.onChange(date);
+    }
+  }, [setStartDate]);
+  
   const handleDateRangeClick = useCallback((date) => {
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
-    if (normalizedDate < today) return;
+    if (onlyFuture && normalizedDate < today) return;
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate('');
@@ -133,10 +143,10 @@ const DateRangePicker = ({
       setDateRange(initialValue);
     }
     else if(!isRangePicker){
-      setStartDate(initialValue);
+      setStartDate(initialValue || input?.value);
       setEndDate(null);
     }
-  },[initialValue, isRangePicker]);
+  },[initialValue, isRangePicker, input?.value]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -171,20 +181,25 @@ const DateRangePicker = ({
         if (isPrevMonth && newYear === currentYear) handlePrevMonth();
         if(newYear > currentYear) handleNextMonth();
         if(newYear < currentYear) handlePrevMonth();
-        return newDate < todayNormalized ? todayNormalized : newDate;
+        return onlyFuture ? newDate < todayNormalized ? todayNormalized : newDate : newDate;
       });
     };
     const handleEnter = () => {
       e.preventDefault();
       e.stopPropagation();
+      if(openCalender && !isRangePicker){
+        setStartDate(currentDate);
+        input.onChange(currentDate);
+        onChange(currentDate);
+      }
        if (openCalender) {
-        if ((startDate || endDate) && currentDate >= todayNormalized) {
+        if ((startDate || endDate) && isRangePicker) {
           setStartDate(currentDate);
           input.onChange([currentDate, endDate]);
           setOpenCalender(false);
           setOpenCalenderEnd(true);
           inputRefEnd?.current?.focus();
-        } else if(!startDate && currentDate >= todayNormalized) {
+        } else if(!startDate && isRangePicker) {
           setStartDate(currentDate);
           setOpenCalender(false);
           setOpenCalenderEnd(true);
@@ -216,13 +231,10 @@ const DateRangePicker = ({
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
         break;
       case 'Tab':
-        if(doesMonthAndYearMatch && openCalender){
           updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
-        }else if(doesMonthAndYearMatchForEndcal && openCalenderEnd){
-          updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
-        }
         break;
       case 'Enter':
+        if(!isRangePicker || dateTimeValue) handleSingleDate(currentDate);
         handleEnter(e);
         break;
       default:
@@ -285,6 +297,27 @@ const DateRangePicker = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [firstInputFocus, secondInputFocus]);
+  useEffect(() => {
+    if(dateTimeValue){
+      if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length >= 2) {
+        setStartDate(dateTimeDefault[1]);
+      }
+      else if (!isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 0) {
+        setStartDate(dateTimeDefault[0]);
+      }
+      else if (dateTimeDefault && !(Array.isArray(dateTimeDefault))) {
+        setStartDate(dateTimeDefault);
+      }
+    }
+
+  }, [dateTimeDefault, isDateTimeDouble, dateTimeDefault]);
+  
+
+  useEffect(() => {
+    if(!isDateTimeDouble && !Array.isArray(dateTimeDefault) && dateTimeValue){
+      setStartDate(dateTimeDefault);
+    }
+  },[isDateTimeDouble, dateTimeValue]);
 
   return (
     <DatePickerContainer>
@@ -298,7 +331,7 @@ const DateRangePicker = ({
             disabled={disabled}
             width={124}
             height={40}
-            error={displayErrorFirst && startDate==''}
+            error={displayErrorFirst && startDate===''}
             placeholder={placeholder}
             ref={inputRefStart}
             onKeyDown={(e) => {
@@ -312,20 +345,38 @@ const DateRangePicker = ({
           />
           <IconWrapper>
             {startDate || dateTimeStart || dateTimeEnd ? (
-              <InputIcon onClick={disabled ? ()=>{} : () => {
-                  setStartDate('');
-                  setDisplayErrorFirst(true);
-                  input.onChange([null, endDate]);
-                  if (Array.isArray(dateRange) && dateRange.length > 0) {
-                    dateRange.shift();
-                  }
-                  if(dateTimeStart) setDateTimeStart(false);
-                  if(dateTimeEnd) setDateTimeEnd(false);
-                }}
-                data-testid='icon-click'
-              >
-                <Icon name="alert-circle-solid-cross" />
-              </InputIcon>
+              <>
+                {dateTimeValue ? (
+                  <InputIcon 
+                   onClick={disabled ? ()=>{} : () => {
+                     setStartDate('');
+                     input?.onChange(null);
+                     setDisplayErrorFirst(true);
+                     if(dateTimeStart) setDateTimeStart(false);
+                     if(dateTimeEnd) setDateTimeEnd(false);
+                   }}
+                   data-testid='icon-click'
+                 >
+                   <Icon name="alert-circle-solid-cross" />
+                 </InputIcon>
+                ) : (
+                  <InputIcon onClick={disabled ? ()=>{} : () => {
+                      setStartDate('');
+                      setDisplayErrorFirst(true);
+                      if(isRangePicker){
+                        input.onChange([null, endDate]);
+                        if (Array.isArray(dateRange) && dateRange.length > 0) {
+                          dateRange.shift();
+                        }
+                      }
+                      input.onChange(null);
+                    }}
+                    data-testid='icon-click'
+                  >
+                    <Icon name="alert-circle-solid-cross" />
+                  </InputIcon>
+                )}
+              </>
             ) : (
               <InputIcon onClick={() => setOpenCalender(!openCalender)}>
                 <Icon name="Interface-calendar-dot" />
@@ -333,50 +384,54 @@ const DateRangePicker = ({
             )}
           </IconWrapper>
         </InputWrapper>
-            <NextIcon name="Interface-arrow-right" />
-            <InputWrapper isRangePicker={isRangePicker}>
-              <InputField
-                data-testid="second-input"
-                className='secondInput'
-                readOnly
-                value={endDate && endDate.toLocaleDateString(locale)}
-                onClick={() => (setOpenCalender(false), setOpenCalenderEnd(!openCalenderEnd))}
-                disabled={disabled}
-                width={124}
-                height={40}
-                placeholder={placeholder}
-                activeSecondInput={startDate && !endDate || openCalenderEnd}
-                error={displayErrorLast && endDate==''}
-                ref={inputRefEnd}
-                onKeyDown={(e) => {
-                  if (e.key === 'Tab' && e.shiftKey) {
-                    e.preventDefault();
-                    inputRefStart.current?.focus();
-                    setSecondInputFocus(false);
-                    setFirstInputFocus(true);
-                  }
-                }}
-              />
-              <IconWrapper>
-                {endDate ? (
-                  <InputIcon onClick={disabled ? ()=>{} : () => {
-                    setEndDate('');
-                    setDisplayErrorLast(true);
-                    input.onChange([startDate ? startDate : null, null]);
-                    dateRange.pop();
-                    setHoveredDate(startDate);
-                  }}
-                  data-testid='icon-button'
-                  >
-                    <Icon name="alert-circle-solid-cross" />
-                  </InputIcon>
-                ) : (
-                  <InputIcon onClick={() => setOpenCalenderEnd(!openCalenderEnd)}>
-                    <Icon name="Interface-calendar-dot" />
-                  </InputIcon>
-                )}
-              </IconWrapper>
-            </InputWrapper>
+        {isRangePicker && (
+          <>
+        <NextIcon name="Interface-arrow-right" />
+        <InputWrapper isRangePicker={isRangePicker}>
+          <InputField
+            data-testid="second-input"
+            className='secondInput'
+            readOnly
+            value={endDate && endDate.toLocaleDateString(locale)}
+            onClick={() => (setOpenCalender(false), setOpenCalenderEnd(!openCalenderEnd))}
+            disabled={disabled}
+            width={124}
+            height={40}
+            placeholder={placeholder}
+            activesecondinput={startDate && !endDate || openCalenderEnd}
+            error={displayErrorLast && endDate==''}
+            ref={inputRefEnd}
+            onKeyDown={(e) => {
+              if (e.key === 'Tab' && e.shiftKey) {
+                e.preventDefault();
+                inputRefStart.current?.focus();
+                setSecondInputFocus(false);
+                setFirstInputFocus(true);
+              }
+            }}
+          />
+          <IconWrapper>
+            {endDate ? (
+              <InputIcon onClick={disabled ? ()=>{} : () => {
+                setEndDate('');
+                setDisplayErrorLast(true);
+                input.onChange([startDate ? startDate : null, null]);
+                dateRange.pop();
+                setHoveredDate(startDate);
+              }}
+              data-testid='icon-button'
+              >
+                <Icon name="alert-circle-solid-cross" />
+              </InputIcon>
+            ) : (
+              <InputIcon onClick={() => setOpenCalenderEnd(!openCalenderEnd)}>
+                <Icon name="Interface-calendar-dot" />
+              </InputIcon>
+            )}
+          </IconWrapper>
+        </InputWrapper>
+          </>
+        )}
       </InputContainer>
 
       {openCalender && !disabled &&  (
@@ -388,7 +443,7 @@ const DateRangePicker = ({
               startDate={startDate}
               endDate={endDate}
               weekdays={weekdays}
-              // handleSingleDate={handleSingleDate}
+              handleSingleDate={handleSingleDate}
               handleDateRangeClick={handleDateRangeClick}
               isRangePicker={isRangePicker}
               isInRange={isInRange}
@@ -406,6 +461,7 @@ const DateRangePicker = ({
               isDoubleView={isDoubleView}
               openCalender={openCalender}
               openCalenderEnd={openCalenderEnd}
+              onlyFuture={onlyFuture}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -414,7 +470,7 @@ const DateRangePicker = ({
                 startDate={startDate}
                 endDate={endDate}
                 weekdays={weekdays}
-                // handleSingleDate={handleSingleDate}
+                handleSingleDate={handleSingleDate}
                 handleDateRangeClick={handleDateRangeClick}
                 isRangePicker={isRangePicker}
                 isInRange={isInRange}
@@ -433,6 +489,7 @@ const DateRangePicker = ({
                 disableHeader={true}
                 openCalender={openCalender}
                 openCalenderEnd={openCalenderEnd}
+                onlyFuture={onlyFuture}
               />
             )}
           </Calenders>
@@ -447,7 +504,7 @@ const DateRangePicker = ({
               startDate={startDate}
               endDate={endDate}
               weekdays={weekdays}
-              // handleSingleDate={handleSingleDate}
+              handleSingleDate={handleSingleDate}
               handleDateRangeClick={handleDateRangeClick}
               isRangePicker={isRangePicker}
               isInRange={isInRange}
@@ -465,6 +522,7 @@ const DateRangePicker = ({
               isDoubleView={isDoubleView}
               openCalender={openCalender}
               openCalenderEnd={openCalenderEnd}
+              onlyFuture={onlyFuture}
             />
             {(isDoubleView && isRangePicker) && (
               <Calendar
@@ -473,7 +531,7 @@ const DateRangePicker = ({
                 startDate={startDate}
                 endDate={endDate}
                 weekdays={weekdays}
-                // handleSingleDate={handleSingleDate}
+                handleSingleDate={handleSingleDate}
                 handleDateRangeClick={handleDateRangeClick}
                 isRangePicker={isRangePicker}
                 isInRange={isInRange}
@@ -492,6 +550,7 @@ const DateRangePicker = ({
                 disableHeader={true}
                 openCalender={openCalender}
                 openCalenderEnd={openCalenderEnd}
+                onlyFuture={onlyFuture}
               />
             )}
           </Calenders>
@@ -501,7 +560,7 @@ const DateRangePicker = ({
   );
 };
 
-DateRangePicker.propTypes = {
+DatePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
   initialValue: PropTypes.oneOfType([
@@ -520,11 +579,15 @@ DateRangePicker.propTypes = {
   input: PropTypes.oneOfType([
     PropTypes.object,
   ]),
+  onlyFuture: PropTypes.bool,
+  dateTimeValue: PropTypes.bool,
+  isDateTimeDouble: PropTypes.bool,
+  dateTimeDefault: PropTypes.any,
 };
 
-DateRangePicker.defaultProps = {
+DatePicker.defaultProps = {
   isDoubleView: false,
-  isRangePicker: true,
+  isRangePicker: false,
   initialValue: null,
   locale: 'en-US',
   onChange: () => {},
@@ -535,6 +598,9 @@ DateRangePicker.defaultProps = {
   dateTimeEnd: false,
   setDateTimeStart: false,
   setDateTimeEnd: false,
+  onlyFuture: true,
+  dateTimeValue: false,
+  isDateTimeDouble: false,
 };
 
-export default DateRangePicker;
+export default DatePicker;

@@ -6,69 +6,11 @@ export default {
   component: DatePicker,
 };
 
-const { Time, DateTime, DateRangePicker, TimeRangePicker } = DatePicker;
+const { Time, DateTime } = DatePicker;
 
 export const DatePickers = {
   title: 'DatePicker',
   component: DatePicker,
-  parameters: {
-    layout: 'centered',
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6273%3A32042&mode=dev',
-    },
-  },
-  argTypes: {
-    isRangePicker: {
-      description: 'Ranged selection mode',
-      control: { type: 'boolean' },
-    },
-    isDoubleView: {
-      description: 'Display two months side by side, "isRangePicker" value must be true',
-      control: { type: 'boolean' },
-    },
-    disabled: {
-      description: 'enable and disable the description',
-      control: { type: 'boolean' }
-    },
-    locale: {
-      description: 'Locale format of the calendar. Default is ja-JP',
-      control: { type: 'select' },
-      options: ['ja-JP', 'en-US']
-    },
-    textCancel: {
-      description: 'Text to be shown for the Cancel action',
-      control: { type: 'text' },
-    },
-    initialValue: {
-      description:
-        'Initial Date value of the Datepicker, could be a date or an array of dates if in ranged mode',
-      control: { type: 'date' },
-    },
-    placeholder: {
-      description: 'Placeholder value',
-      control: { type: 'text' },
-    }
-  },
-  args: {
-    disabled: false,
-    locale: 'ja-JP',
-    textCancel: 'キャンセル',
-    initialValue: new Date(),
-    placeholder: 'yyyy/mm/dd'
-  },
-  render: (args) => {
-    const updatedArgs = {
-      ...args,
-      initialValue: new Date(new Date().setDate(new Date().getDate() + 8)),
-    };
-    return <DatePicker {...updatedArgs} />;
-  },
-};
-
-export const RangePicker = {
-  title: 'DatePicker',
-  component: DateRangePicker,
   parameters: {
     layout: 'centered',
     design: {
@@ -83,6 +25,10 @@ export const RangePicker = {
     },
     isDoubleView: {
       description: 'Display two months side by side, "isRangePicker" value must be true',
+      control: { type: 'boolean' },
+    },
+    onlyFuture: {
+      description: 'Allows user to select future date or past date aswell',
       control: { type: 'boolean' },
     },
     disabled: {
@@ -114,20 +60,17 @@ export const RangePicker = {
     locale: 'ja-JP',
     textCancel: 'キャンセル',
     initialValue: new Date(),
-    isRangePicker: true,
-    placeholder: 'yyyy/mm/dd'
+    placeholder: 'yyyy/mm/dd',
+    onlyFuture: true,
   },
   render: (args) => {
     const updatedArgs = {
       ...args,
-      initialValue: args.isRangePicker
-        ? [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))]
-        : new Date(new Date().setDate(new Date().getDate() + 8)),
+      initialValue: args?.isRangePicker ? [new Date, new Date('Dec 28 2024 1:45:00')] : new Date('Dec 14 2024 1:45:00'),
     };
-    return <DateRangePicker {...updatedArgs} />;
+    return <DatePicker {...updatedArgs} />;
   },
 };
-
 export const TimePickers = {
   title: 'TimePicker',
   component: Time,
@@ -168,75 +111,22 @@ export const TimePickers = {
   args: {
     is12Hour: true,
     step: 15,
-    initialValue: '',
+    initialValue: new Date(),
     disabled: false,
     placeholder: 'hh:mm',
-    isTimeRange: false,
+    isRangePicker: true,
   },
   render: args => {
     const updatedArgs = {
       ...args,
-      initialValue: new Date('Dec 14 2024 1:40:00')
+      initialValue:  args.isRangePicker ? [new Date('Dec 14 2024 15:45:00'), new Date('Dec 14 2024 1:45:00')] 
+      : new Date('Dec 14 2024 1:45:00')
     };
     return <Time {...updatedArgs} />;
   },
 };
 
-export const TimeRange = {
-  title: 'TimePicker',
-  component: Time,
-  parameters: {
-    layout: 'centered',
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6273%3A32042&mode=dev',
-    },
-  },
-  argTypes: {
-    is12Hour: {
-      description: '12 hour mode (true) or 24 hour mode (false)',
-      control: { type: 'boolean' },
-    },
-    step: {
-      description: 'Time interval in minutes',
-      control: { type: 'number' },
-    },
-    disabled: {
-      description: 'enable and disable the description',
-      control: { type: 'boolean' }
-    },
-    initialValue: {
-      description:
-        'Initial time value of the TimePicker in "HH:mm AM/PM" format for 12-hour mode or "HH:mm" for 24-hour mode',
-      control: { type: 'text' },
-    },
-    placeholder: {
-      description: 'Placholder value for time',
-      control: { type: 'text' },
-    },
-    isTimeRange: {
-      description: 'enable and disable the time range picker',
-      control: { type: 'boolean' },
-    }
-  },
-  args: {
-    is12Hour: true,
-    step: 15,
-    initialValue: new Date(),
-    disabled: false,
-    placeholder: 'hh:mm',
-    isTimeRange: true,
-  },
-  render: args => {
-    const updatedArgs = {
-      ...args,
-      initialValue:  [new Date('Dec 14 2024 15:45:00'), new Date('Dec 14 2024 1:45:00')]
-    };
-    return <TimeRangePicker {...updatedArgs} />;
-  },
-};
-
-export const DateTimePicker = {
+export const DateTimePickers = {
   title: 'datetime',
   component: DateTime,
   parameters: {
@@ -292,12 +182,11 @@ export const DateTimePicker = {
       date: 'yyyy/mm/dd',
       time: 'hh:mm',
     },
-    isTimeRange: false,
   },
   render: (args) => {
     const updatedArgs = {
       ...args,
-      initialValue: args.isDoublePicker ? [new Date('Dec 14 2024 15:45:00'), new Date('Dec 15 2024 1:45:00')] : new Date(),
+      initialValue: args.isDoublePicker ? [new Date('Dec 14 2024 15:40:00'), new Date('Dec 15 2024 1:45:00')] : new Date(),
     };
     return <DateTime {...updatedArgs} />;
   },

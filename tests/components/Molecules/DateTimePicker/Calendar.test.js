@@ -26,7 +26,7 @@ describe('Calendar Component', () => {
     isRangePicker: false,
     isInRange: jest.fn(),
     isInHoverRange: jest.fn(),
-    setHoveredDate: jest.fn(),
+    setHoveredDate: null,
     isSelected: null,
     enableKeyboard: mockEnableKeyboard,
     disableKeyboard: mockDisableKeyboard,

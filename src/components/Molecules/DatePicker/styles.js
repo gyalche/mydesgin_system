@@ -1,6 +1,11 @@
 import { Icon, Input } from 'components/Atoms';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
+export const focusBorderStyle = css`
+  border: ${({ focus }) => (focus ? '1px solid var(--rds-color-neutral-3)' : 'none')};
+  transition: ${({ focus }) =>
+    focus ? 'border 0.3s ease' : 'border 0.3s ease, background-color 0.3s ease'};
+`;
 export const DatePickerContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,8 +32,8 @@ export const InputWrapper = styled.div`
 export const InputFieldStyle = styled(Input)`
   width: ${({width}) => `${width}px`};
   height: ${({height}) => `${height}px`};
-  border: ${({error, activeSecondInput}) => error ? '1px solid red' : 
-    activeSecondInput && '1px solid var(--rds-color-primary-1-normal)'};
+  border: ${({error, activesecondinput}) => error ? '1px solid red' : 
+  activesecondinput && '1px solid var(--rds-color-primary-1-normal)'};
   outline: ${({error}) => error && 'none'};
   line-height: 22.4px;
   padding-right: 1px;
@@ -39,7 +44,7 @@ export const InputFieldStyle = styled(Input)`
   };
 
   &:focus {
-    border: ${({activeSecondInput}) => activeSecondInput && true};
+    border: ${({activesecondinput}) => activesecondinput && true};
   };
   &::placeholder {
     color: var(--rds-color-neutral-6);
@@ -69,7 +74,7 @@ export const CalendarHeader = styled.div`
   color: var(--rds-color-neutral-8);
   padding: 12px 12px 0 12px;
   position: relative;
-  margin-top: -60px;
+  margin-top: 10px;
 `;
 
 export const WeekdayHeader = styled.div`
@@ -91,6 +96,7 @@ export const HeaderIcons = styled.div`
   display: flex;
   flex-wrap: nowrap;
   margin-left: ${({m}) => m && m};
+  margin-top: -20px;
 `;
 
 export const CalendarContainer = styled.div`
@@ -103,7 +109,10 @@ export const CalendarContainer = styled.div`
 export const DaysContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  margin-top: ${({secondCalendar}) => secondCalendar && '-8px'}
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 2px 0px 8px 0px;
+  ${focusBorderStyle};
 `;
 
 export const Day = styled.button`
@@ -117,8 +126,8 @@ export const Day = styled.button`
   font-size: 12px;
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
-  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect, isToday, isKeyboardSelect}) => {
-    if(!isRangePicker || isSelected && isToday || (isKeyboardSelect && !isEndSelect)) return '4px';
+  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect, istoday, isKeyboardSelect}) => {
+    if(!isRangePicker || isSelected && istoday || (isKeyboardSelect && !isEndSelect)) return '4px';
     if((currentDate && !isSelected)) return '4px';
     if(isSelected && isRangePicker && !isEndSelect) return '4px 0px 0px 4px';
     if(isSelected && !isRangePicker) return '4px';
@@ -178,14 +187,13 @@ export const Calenders = styled.div`
 export const CalenderMonths = styled.div`
   color: var(--rds-color-neutral-9);
   text-align: center;
-  padding-bottom: 20px;
   font-size: 17px;
   font-weight: 700;
   display: flex;
   gap: 5px;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: -19px;
 `;
 
 export const TimePickerContainer = styled.div`
@@ -345,8 +353,13 @@ export const DateTimeContainer = styled.div`
   align-items: center;
 `;
 
-export const TextAreaYearMonth = styled.span`
-  cursor: ${({openDecade}) => !openDecade ? 'pointer' : 'auto'};
+export const TextAreaYearMonth = styled.button`
+  // cursor: ${({openDecade}) => !openDecade ? 'pointer' : 'auto'};
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  font-weight: bold;
   z-index: 9999;
   &:hover {
     background-color: ${({openDecade}) => !openDecade && 'var(--rds-color-neutral-1)'};
@@ -357,8 +370,7 @@ export const TextAreaYearMonth = styled.span`
   border-radius: 5px;
 
   &:focus {
-    background-color: red;
-    colo: green;
+    background-color: var(--rds-color-neutral-1)};
   }
 `;
 
@@ -368,10 +380,10 @@ export const DecadeGrid = styled.div`
   gap: 10px;
   border-radius: 8px;
   overflow: scroll;
-  padding: 20px 10px;
   margin-top: -10px;
   height: 250px;
   overflow: hidden;
+  ${focusBorderStyle}
 `;
 
 export const DecadeButton = styled.button`
@@ -401,4 +413,8 @@ export const DecadeButton = styled.button`
     color: var(--rds-color-primary-1-normal);
     border: 1px solid var(--rds-color-primary-1-normal);
   }
+`;
+export const ButtonActive = styled.button`
+  z-index: -9999;
+  position: absolute;
 `;

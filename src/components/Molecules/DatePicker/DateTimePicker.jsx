@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import TimePicker from './Time/TimePicker';
-import DatePicker from './Date/DatePicker';
+import TimePicker from './TimePicker';
+import DatePicker from './DatePicker';
 import PropTypes from 'prop-types';
 import { DateTimeContainer, NextIcon } from './styles';
 import { Layout } from 'components/Atoms';
 import { combineDateAndTime } from '../../../utils/index';
+import DateRangePicker from './DatePicker';
+import TimeRangePicker from './TimePicker';
 
 const DateTimePicker = ({ onChange, 
   disabled,
@@ -27,7 +29,7 @@ const DateTimePicker = ({ onChange,
 
   const [dateTimeStartvalue, setDateTimeStartValue] = useState(Array.isArray(initialValues) ? initialValues[0] : initialValues);
   const [dateTimeEndvalue, setDateTimeEndValue] = useState(Array.isArray(initialValues) ? initialValues[1]: initialValues);
-
+  
   const handleChange = (value, type) => {
     setDateTimeStartValue((prevValue) => {
       if (type === 'date') {
@@ -37,12 +39,14 @@ const DateTimePicker = ({ onChange,
       if (type === 'time') {
         return combineDateAndTime(prevValue, value);
       }
+
       return prevValue;
     });
   };
 
   const handleChangeEnd = (value, type) => {
     setDateTimeEndValue((prevValue) => {
+    
       if (type === 'date') {
         return combineDateAndTime(value, prevValue);
       } 
@@ -63,15 +67,15 @@ const DateTimePicker = ({ onChange,
       input?.onChange(dateTimeStartvalue);
     }
   }, [dateTimeStartvalue, dateTimeEndvalue, isDoublePicker]);
-  
+
   return (
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">
-        <DatePicker
+        <DateRangePicker
           data-testid = 'first-input'
-          onChange={(e) => handleChange(e, 'date')}
+          onChange={(value) => handleChange(value, 'date')}
           disabled={disabled}
-          isRangePicker={isRangePicker}
+          isRangePicker={false}
           isDoubleView={isDoubleView}
           locale={locale}
           placeholder={placeholder.date}
@@ -79,14 +83,16 @@ const DateTimePicker = ({ onChange,
           setDateTimeStart={setDateTimeStart}
           dateTimeDefault={initialValues}
           handleDateTime={input}
+          dateTimeValue={true}
         />
-        <TimePicker
+        <TimeRangePicker
           is12Hour={is12Hour}
-          onChange={(e) => handleChange(e, 'time')}
+          onChange={(value) => handleChange(value, 'time')}
           disabled={disabled}
           placeholder={placeholder.time}
-          isTimeRange={isTimeRange}
+          isRangePicker={false}
           dateTimeDefault={initialValues}
+          dateTimeValue={true}
         />
       </Layout.Flex>
 
@@ -95,27 +101,29 @@ const DateTimePicker = ({ onChange,
           <NextIcon name="Interface-arrow-right" />
 
           <Layout.Flex alignItems="center" gap="6px" ml="-1px">
-            <DatePicker
+            <DateRangePicker
               data-testid = 'second-input'
-              onChange={(e) => handleChangeEnd(e,'date')}
+              onChange={(value) => handleChangeEnd(value,'date')}
               disabled={disabled}
               locale={locale}
               placeholder={placeholder.date}
-              isRangePicker={isRangePicker}
+              isRangePicker={false}
               isDoubleView={isDoubleView}
               dateTimeEnd={dateTimeEnd}
               setDateTimeEnd={setDateTimeEnd}
               isDateTimeDouble={true}
               dateTimeDefault={initialValues}
+              dateTimeValue={true}
             />
-            <TimePicker
+            <TimeRangePicker
               is12Hour={is12Hour}
-              onChange={(e) => handleChangeEnd(e, 'time')}
+              onChange={(value) => handleChangeEnd(value, 'time')}
               disabled={disabled}
               placeholder={placeholder.time}
-              isTimeRange={isTimeRange}
+              isRangePicker={false}
               isDateTimeDouble={true}
               dateTimeDefault={initialValues}
+              dateTimeValue={true}
             />
           </Layout.Flex>
         </>

@@ -1,21 +1,27 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { DecadeGrid, DecadeButton } from '../styles';
+import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
+import { ToastButton } from 'components/Molecules/Toast/CommonToastStyle';
 
-const DecadeSelector = ({ currentDecadeStart, 
+const DecadeSelector = ({
+  currentDecadeStart, 
   selectedDecade, 
   handleDecadeSelect, 
   enableKey, 
   setTabCount,
+  goToNextDecade,
+  goToPreviousDecade,
+  enableFocus,
  }) => {
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
-
+  
   const handleKeyDown = (event, index) => {
     const totalButtons = buttonRefs.current.length;
     let newIndex;
 
     const navigateButton = (key) => {
+
       switch (key) {
         case 'ArrowRight': return (index + 1) % totalButtons;
         case 'ArrowLeft': return (index - 1 + totalButtons) % totalButtons;
@@ -26,15 +32,6 @@ const DecadeSelector = ({ currentDecadeStart,
     };
   
     switch (event.key) {
-      case 'Tab':
-        if (enableKey) {
-          newIndex = event.shiftKey 
-            ? (index - 1 + totalButtons) % totalButtons 
-            : (index + 1) % totalButtons;
-          break;
-        }
-        return;
-  
       case 'Enter':
         event.preventDefault();
         event.stopPropagation();
@@ -52,8 +49,8 @@ const DecadeSelector = ({ currentDecadeStart,
       default:
         return;
     }
-  
-    // Validate and focus the new button
+    if(newIndex === 0) goToPreviousDecade();
+    if(newIndex === totalButtons - 1) goToNextDecade();
     if (newIndex >= 0 && newIndex < totalButtons - 1 && buttonRefs.current[newIndex]) {
       event.preventDefault();
       event.stopPropagation();
@@ -61,6 +58,7 @@ const DecadeSelector = ({ currentDecadeStart,
       buttonRefs.current[newIndex].focus();
     }
   };
+  
   useEffect(() => {
     const selectedIndex = selectedDecade ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1)) : 1;
     setFocusedButton(selectedIndex);
@@ -68,7 +66,8 @@ const DecadeSelector = ({ currentDecadeStart,
   }, [selectedDecade, currentDecadeStart, enableKey]);
 
   return (
-    <DecadeGrid>
+    <DecadeGrid focus={enableFocus}>
+       <ButtonActive data-calendar-btn />
       <DecadeButton disabled ref={(el) => (buttonRefs.current[0] = el)}>
         {currentDecadeStart - 10} - {currentDecadeStart - 1}
       </DecadeButton>
@@ -101,6 +100,9 @@ DecadeSelector.propTypes = {
   handleDecadeSelect: PropTypes.func.isRequired,
   enableKey: PropTypes.bool,
   setTabCount: PropTypes.number,
+  goToNextDecade: PropTypes.func,
+  goToPreviousDecade: PropTypes.func,
+  enableFocus: PropTypes.bool,
 };
 
 export default DecadeSelector;

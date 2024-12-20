@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { DecadeGrid, DecadeButton } from '../styles';
+import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
 
 const YearSelector = ({
   selectedDecade,
@@ -11,13 +11,16 @@ const YearSelector = ({
   currentMonth,
   showYears,
   setYearSelected,
-  enableKey,
   setTabCount,
   tabCount,
+  goToPreviousDecade,
+  goToNextDecade,
+  enableFocus,
+  setModalFocus,
 }) => {
   const [selectedYearIndex, setSelectedYearIndex] = useState(0);
   const buttonRefs = useRef([]);
-
+  const totalButtons = buttonRefs?.current?.length;
   useEffect(() => {
     const currentYear = new Date().getFullYear();
     const currentYearIndex = yearsInDecade.indexOf(currentYear);
@@ -27,60 +30,49 @@ const YearSelector = ({
   const handleKeyDown = (event) => {
     let newIndex = selectedYearIndex;
     const totalButtons = buttonRefs.current.length;
-    if(tabCount === 2){
-      switch (event.key) {
-        case 'Tab':
-          newIndex = (selectedYearIndex + 1) % totalButtons;
-          break;
-        case 'ArrowRight':
-          newIndex = (selectedYearIndex + 1) % totalButtons;
-          break;
-        case 'ArrowLeft':
-          newIndex = (selectedYearIndex - 1 + totalButtons) % totalButtons;
-          break;
-        case 'ArrowDown':
-          newIndex = selectedYearIndex + 3 < totalButtons ? selectedYearIndex + 3 : selectedYearIndex;
-          break;
-        case 'ArrowUp':
-          newIndex = selectedYearIndex - 3 >= 0 ? selectedYearIndex - 3 : selectedYearIndex;
-          break;
-        case 'Enter':
-          setTabCount(0);
-          buttonRefs.current[newIndex]?.click();
+    // if(enableFocus) setModalFocus(false);
+    switch (event.key) {
+      case 'ArrowRight':
+        if (selectedYearIndex === totalButtons - 1) {
+          goToNextDecade();
+          setSelectedYearIndex(0);
           return;
-        default:
+        }
+        newIndex = (selectedYearIndex + 1) % totalButtons;
+        break;
+      case 'ArrowLeft':
+        if (selectedYearIndex === 0) {
+          goToPreviousDecade();
+          setSelectedYearIndex(yearsInDecade.length - 1);
           return;
-      }
-    }else{
-      switch (event.key) {
-        case 'ArrowRight':
-          newIndex = (selectedYearIndex + 1) % totalButtons;
-          break;
-        case 'ArrowLeft':
-          newIndex = (selectedYearIndex - 1 + totalButtons) % totalButtons;
-          break;
-        case 'ArrowDown':
-          newIndex = selectedYearIndex + 3 < totalButtons ? selectedYearIndex + 3 : selectedYearIndex;
-          break;
-        case 'ArrowUp':
-          newIndex = selectedYearIndex - 3 >= 0 ? selectedYearIndex - 3 : selectedYearIndex;
-          break;
-        case 'Enter':
-          setTabCount(0);
-          buttonRefs.current[newIndex]?.click();
-          return;
-        default:
-          return;
-      }
+        }
+        newIndex = (selectedYearIndex - 1 + totalButtons) % totalButtons;
+        break;
+      case 'ArrowDown':
+        newIndex = selectedYearIndex + 3 < totalButtons ? selectedYearIndex + 3 : selectedYearIndex;
+        break;
+      case 'ArrowUp':
+        newIndex = selectedYearIndex - 3 >= 0 ? selectedYearIndex - 3 : selectedYearIndex;
+        break;
+      case 'Enter':
+        event.preventDefault();
+        event.stopPropagation();
+        setTabCount(0);
+        buttonRefs.current[newIndex]?.click();
+        return;
+      default:
+        return;
     }
+  
     event.preventDefault();
     event.stopPropagation();
+  
     setSelectedYearIndex(newIndex);
     buttonRefs.current[newIndex]?.focus();
   };
 
   useEffect(() => {
-    if (showYears) {
+    if (showYears && (tabCount==0 || tabCount === 4) ) {
       document?.addEventListener('keydown', handleKeyDown);
     }
     return () => {
@@ -99,7 +91,8 @@ const YearSelector = ({
   };
 
   return (
-    <DecadeGrid>
+    <DecadeGrid focus={enableFocus}>
+      <ButtonActive data-calendar-btn />
       <DecadeButton disabled>{selectedDecade - 1}</DecadeButton>
       {yearsInDecade.map((year, index) => (
         <DecadeButton
@@ -132,6 +125,8 @@ YearSelector.propTypes = {
   goToPreviousDecade: PropTypes.func,
   goToNextDecade: PropTypes.func,
   tabCount: PropTypes.func,
+  enableFocus: PropTypes.bool,
+  setModalFocus: PropTypes.bool,
 };
 
 export default YearSelector;

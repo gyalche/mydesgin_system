@@ -1,18 +1,16 @@
-import DatePicker from 'components/Molecules/DatePicker';
-import DateRangePicker from 'components/Molecules/DatePicker/Date/DateRangePicker';
+import DatePicker from 'components/Molecules/DatePicker/DatePicker';
 import DateTimePicker from 'components/Molecules/DatePicker/DateTimePicker';
-import TimePicker from 'components/Molecules/DatePicker/Time/TimePicker';
-import TimeRangePicker from 'components/Molecules/DatePicker/Time/TimeRangePicker';
+import TimePicker from 'components/Molecules/DatePicker/TimePicker';
 import React from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 
 const Form = () => {
   const initialValues = {
     dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))],
-    singleDate: new Date(new Date().setDate(new Date().getDate() + 9)),
+    singleDate: new Date('Dec 21 2024 1:50:00'),
     singleTime: new Date('Dec 14 2024 15:20:00'),
     time: [new Date(), new Date('Dec 14 2024 1:10:00')],
-    dateTime:  new Date('Dec 14 2024 1:50:00'),
+    dateTime:  [new Date('Dec 18 2024 1:50:00'), new Date('Dec 20 2024 1:20:00')],
   };
 
   const onSubmit = (values) => {
@@ -37,13 +35,13 @@ const Form = () => {
               {/* Single date picker */}
               <div>
                 <label>Date:</label>
-                <Field name="singleDate" component={DatePicker} />
+                <Field name="singleDate" component={DatePicker}/>
               </div>
 
               {/* Date range picker */}
               <div>
                 <label>Daterange:</label>
-                <Field name="dateRange" component={DateRangePicker}/>
+                <Field name="dateRange" render={({input}) => <DatePicker input={input} isRangePicker={true}/>}/>
               </div>
 
               {/* Single TimePicker */}
@@ -54,7 +52,7 @@ const Form = () => {
 
               <div>
                 <label>Time Range:</label>
-                <Field name="time" component={TimeRangePicker}/>
+                <Field name="time" render={({input}) => <TimePicker input={input} isRangePicker={true} />}/>
               </div>
 
               <div>

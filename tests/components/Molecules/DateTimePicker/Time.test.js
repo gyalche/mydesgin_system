@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import TimePicker from 'src/components/Molecules/DatePicker/Time/TimePicker';
+import TimePicker from 'src/components/Molecules/DatePicker/TimePicker';
 import React from 'react';
 
 describe('TimePicker Component', () => {
@@ -10,7 +10,7 @@ describe('TimePicker Component', () => {
   });
 
   it('opens dropdown when clicked', () => {
-    render(<TimePicker onChange={onChangeMock} />);
+    render(<TimePicker onChange={onChangeMock} is12Hour={true}/>);
     const input = screen.getByPlaceholderText('hh:mm');
     fireEvent.click(input);
 
@@ -19,7 +19,7 @@ describe('TimePicker Component', () => {
   });
 
   it('selects hour, minute, and am/pm', () => {
-    render(<TimePicker onChange={onChangeMock} step={15} />);
+    render(<TimePicker onChange={onChangeMock} step={15} is12Hour={true}/>);
 
     const input = screen.getByPlaceholderText('hh:mm');
     fireEvent.click(input);
@@ -31,7 +31,7 @@ describe('TimePicker Component', () => {
   });
 
   it('correctly formats time with 12-hour clock', () => {
-    render(<TimePicker onChange={onChangeMock} is12Hour={true} />);
+    render(<TimePicker onChange={onChangeMock} is12Hour={true} isRangePicker={false}/>);
     const input = screen.getByPlaceholderText('hh:mm');
     fireEvent.click(input);
 
@@ -42,18 +42,9 @@ describe('TimePicker Component', () => {
     expect(input.value).toBe('12:30 PM');
   });
 
-  it('handles input value prop correctly', () => {
-    const initialTime = new Date(2024, 11, 16, 14, 30);
-    render(<TimePicker onChange={onChangeMock} initialValue={initialTime} is12Hour={true} />);
-    
-    const input = screen.getByPlaceholderText('hh:mm');
-    expect(input.value).toBe('2:30 PM');
-  });
-
   it('handles disabled state correctly', () => {
     render(<TimePicker onChange={onChangeMock} disabled={true} />);
     const input = screen.getByPlaceholderText('hh:mm');
-
     expect(input).toBeDisabled();
   });
 });

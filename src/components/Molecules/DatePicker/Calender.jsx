@@ -7,6 +7,7 @@ import {
   Day,
   WeekdayHeader,
   TextAreaYearMonth,
+  ButtonActive,
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 import closeOpenModal from '../../../hooks/closeOpenModal';
@@ -39,15 +40,21 @@ const Calendar = ({
   disableHeader,
   openCalender,
   openCalenderEnd,
+  onlyFuture,
 }) => {
+  const currentYear = new Date(Date.now()).getFullYear();
+
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
   const [showYears, setShowYears] = useState(false);
   const [selectedDecade, setSelectedDecade] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
   const [yearSelected, setYearSelected] = useState(false);
+  const [currentDecadeStart, setCurrentDecadestart] = useState(Math.floor(currentYear / 10) * 10);
+
   const [tabCount, setTabCount] = useState(0);
-  
+  const [modalFocus, setModalFocus] = useState(false);
+
   const doublePrevYearRef=useRef(null);
   const doublePrevMonthRef=useRef(null);
   const doubleNextYearRef=useRef(null);
@@ -61,12 +68,9 @@ const Calendar = ({
   };
 
   const days = getDaysInMonth(currentMonth);
-  const currentYear = new Date(Date.now()).getFullYear();
-  const currentDecadeStart = Math.floor(currentYear / 10) * 10;
 
-  // const displayYear = new Date(currentMonth).getFullYear() !== currentYear && currentMonth.getFullYear();
   const displayYear = currentMonth.getFullYear();
-
+  const maxCount = openDecade || openMonth || showYears  ? 4 : isDoubleView ? 8 : 7;
   const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
 
   const handleMouseEnter = useCallback((day) => {
@@ -102,41 +106,23 @@ const Calendar = ({
 
   closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
 
-  const goToNextDecadeInYears = () => {
+  const goToNextDecade = () => {
+    setCurrentDecadestart((prev) => prev + 10);
     setSelectedDecade((currentDecade) => {
       const nextDecade = currentDecade + 10;
       return nextDecade;
     });
   };
 
-  const goToPreviousDecadeInYears = () => {
+  const goToPreviousDecade = () => {
     enableKeyboard();
+    setCurrentDecadestart((prev) => prev - 10);
     setSelectedDecade((currentDecade) => {
       const previousDecade = currentDecade - 10;
       return previousDecade;
     });
   };
-  const goToPreviousDecade = () => {
-    setSelectedDecade((currentDecade) => {
-      const previousDecade = currentDecade - 10;
-      if (previousDecade >= currentDecadeStart) {
-        return previousDecade;
-      }
-      return currentDecade;
-    });
-  };
-  
-  const goToNextDecade = () => {
-    setSelectedDecade((currentDecade) => {
-      const nextDecade = currentDecade + 10;
-      if (nextDecade <= currentDecadeStart + 90) {
-        return nextDecade;
-      }
-      return currentDecade;
-    });
-  };
-  
-  
+
   useEffect(()=>{
     setSelectedDecade(currentDecadeStart);
   },[setSelectedDecade]);
@@ -157,26 +143,38 @@ const Calendar = ({
     setDates(currentMonth);
   }, [setDates]);
 
-  const maxCount = openDecade || openMonth  ? 3 : 4;
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       if(e.shiftKey){
         disableKeyboard();
         setTabCount(0);
       }
-      if(e.key === 'Tab' && tabCount >= maxCount) return enableKeyboard();
+      if(e.key === 'Tab' && modalFocus || e.key !== 'Tab') {
+        setModalFocus(false);
+      };
+      if (isDoubleView) {
+        switch (e.key) {
+          case 'Tab':
+            doubleViewRefs[tabCount]?.current?.focus();
+            setTabCount((prev) => Math.min(prev + 1, 4));
+            break;
+          default:
+            break;
+        }
+      }
       if ((openCalender || openCalenderEnd)) {
         if (e.key === 'Tab') {
+          if(tabCount == maxCount) setTabCount(0);
           e.preventDefault();
           disableKeyboard();
           if (e.shiftKey) {
-            setTabCount((prevTabCount) => Math.max(0, prevTabCount - 1));
+            setTabCount((prevTabCount) => (prevTabCount === 1 ? maxCount : prevTabCount - 1));
           } else {
-            setTabCount((prevTabCount) => Math.max(prevTabCount + 1));
+            setTabCount((prevTabCount) => (prevTabCount === maxCount ? 1 : prevTabCount + 1));
           }
           const selector = '[data-calendar-btn]';
           const buttons = document.querySelectorAll(selector);
+
           const focusedIndex = Array.from(buttons).findIndex(
             (button) => button === document.activeElement
           );
@@ -184,44 +182,62 @@ const Calendar = ({
           const nextIndex = e.shiftKey
             ? ((focusedIndex - 1 + buttons.length) % buttons.length, setTabCount(0))
             : (focusedIndex + 1) % buttons.length;
-          
-          buttons[nextIndex]?.focus();
+              buttons[nextIndex]?.focus();
         }
       }
     };
-    if(((openCalender || openCalenderEnd) && !openMonth) ){
+    if((openCalender || openCalenderEnd)){
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [openCalender, openCalenderEnd, tabCount, isDoubleView]);
+  }, [openCalender, openCalenderEnd, tabCount, isDoubleView, modalFocus, openMonth]);
 
   useEffect(() => {
     if(yearSelected) disableKeyboard();
   }, [yearSelected]);
-  
+
+  const calenderRef = useRef();
+
   useEffect(() => {
     if (isDoubleView) {
       doubleViewRefs[tabCount]?.current?.focus();
     }
-  }, [tabCount, isDoubleView]);
+    if(tabCount >= maxCount){
+      setModalFocus(true);
+      enableKeyboard();
+      setTabCount(0);
+      if(calenderRef?.current){
+        calenderRef?.current?.click();
+      }
+    }
+  }, [isDoubleView, tabCount]);
 
+  useEffect(() => {
+    let timer;
+    if(modalFocus){
+      timer= setTimeout(() => {
+        setModalFocus(false);
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [modalFocus]);
   return (
     <CalendarContainer data-testid='calender-container'>
-      <CalenderMonths>
-          <TextAreaYearMonth onClick={()=>!showYears && (openSelectDecade(), setTabCount(0))} openDecade={openDecade} >
-          {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : displayYear}
-          </TextAreaYearMonth>
-          {(!openDecade && !openMonth) && <TextAreaYearMonth onClick={() => (openSelectMonth(), setTabCount(0))}>
-            {getLocalizedMonthName(currentMonth, locale)}
-            </TextAreaYearMonth>
-          }
-      </CalenderMonths>
-
       <CalendarNavigation
         isDoubleView={isDoubleView}
         disableHeader={disableHeader}
+        setTabCount={setTabCount}
+        openSelectDecade={openSelectDecade}
+        openSelectMonth={openSelectMonth}
+        selectedDecade={selectedDecade}
+        displayYear={displayYear}
+        currentMonth={currentMonth}
+        locale={locale}
         openDecade={openDecade}
         openMonth={openMonth}
         isRangePicker={isRangePicker}
@@ -229,17 +245,22 @@ const Calendar = ({
         handleNextYear={handleNextYear}
         handlePrevMonth={handlePrevMonth}
         handleNextMonth={handleNextMonth}
-        goToPreviousDecade={showYears ? goToPreviousDecadeInYears : goToPreviousDecade}
-        goToNextDecade={showYears ? goToNextDecadeInYears : goToNextDecade}
+        goToPreviousDecade={goToPreviousDecade}
+        goToNextDecade={ goToNextDecade}
         doublePrevYearRef={doublePrevYearRef}
         doubleNextYearRef={doubleNextYearRef}
         doublePrevMonthRef={doublePrevMonthRef}
         doubleNextMonthRef={doubleNextMonthRef}
         showYears={showYears}
+        tabCount={tabCount}
       />
 
       {!openDecade && !openMonth && (
-          <DaysContainer secondCalendar={disableHeader}>
+          <DaysContainer
+            focus={modalFocus ? modalFocus : undefined}
+            secondCalendar={disableHeader}
+            >
+              <ButtonActive data-calendar-btn />
             {weekdays.map(({day, dayIndex}, index) => (
               <WeekdayHeader
                 key={index}
@@ -250,7 +271,7 @@ const Calendar = ({
               </WeekdayHeader>
             ))}
               {days.map((day, index) => {
-                const dayDate = day?.date;
+                const dayDate = new Date(day?.date);
                 const isValidDate = dayDate instanceof Date && !isNaN(dayDate);
                 if (!isValidDate) return null;
                 const notCurrent = !day?.isCurrentMonth;
@@ -266,7 +287,7 @@ const Calendar = ({
                     isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
                       && normalizeDate(dayDate) !== normalizeDate(startDate)}
                     isInRange={isInRange && isInRange(dayDate)}
-                    isDisabled={normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
+                    isDisabled={onlyFuture && normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
                     isSaturday={dayOfWeek === 5}
                     isSunday={dayOfWeek === 6}
                     onClick={!isRangePicker ? () => (handleSingleDate(dayDate)) : 
@@ -276,7 +297,7 @@ const Calendar = ({
                     onMouseLeave={handleMouseLeave}
                     data-testid={`day-${dayDate.getDate()}`}
                     isRangePicker={isRangePicker}
-                    isToday={normalizeDate(startDate) == normalizeDate(endDate)}
+                    istoday={normalizeDate(startDate) == normalizeDate(endDate)}
                   >
                     {dayDate.getDate()}
                   </Day>
@@ -296,6 +317,7 @@ const Calendar = ({
             enabledKeyboardFunc={enableKeyboard}
             goToNextDecade={goToNextDecade}
             goToPreviousDecade={goToPreviousDecade}
+            enableFocus={modalFocus ? modalFocus : undefined}
           />
         ) : (
           <YearSelector
@@ -312,7 +334,9 @@ const Calendar = ({
             enableKey={tabCount === maxCount}
             goToPreviousDecade={goToPreviousDecade}
             goToNextDecade={goToNextDecade}
-            tabCount = {tabCount}
+            enableFocus={modalFocus ? modalFocus : undefined}
+            tabCount={tabCount}
+            setModalFocus={setModalFocus}
           />
         )
       )}
@@ -324,6 +348,8 @@ const Calendar = ({
           date={date}
           currentMonth={currentMonth.getMonth()}
           openMonth={openMonth}
+          enableFocus={modalFocus ? modalFocus : undefined}
+          tabCount={tabCount}
         />
       )
     }
@@ -343,7 +369,7 @@ Calendar.propTypes = {
   isInRange: PropTypes.func,
   isInHoverRange: PropTypes.func,
   hoveredDate: PropTypes.instanceOf(Date),
-  setHoveredDate: PropTypes.instanceOf(Date),
+  setHoveredDate: PropTypes.any,
   isSelected: PropTypes.instanceOf(Date),
   enableKeyboard: PropTypes.func,
   disableKeyboard: PropTypes.func,
@@ -358,6 +384,9 @@ Calendar.propTypes = {
   openCalender: PropTypes.func,
   openCalenderEnd: PropTypes.func,
   setOpenCalender: PropTypes.bool,
+  showMeNext: PropTypes.bool,
+  showMePrev: PropTypes.bool,
+  onlyFuture: PropTypes.bool,
 };
 
 export default Calendar;
