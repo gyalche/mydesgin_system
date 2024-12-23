@@ -274,9 +274,7 @@ const Calendar = ({
       
         <DoubleViewContainer focus={modalFocus}>
         <>
-          {isDoubleView && (
             <ButtonActive data-calendar-btn />
-          )}
           {!openDecade && !openMonth && (
             <DaysContainer
               focus={modalFocus && !isDoubleView ? modalFocus : undefined}
