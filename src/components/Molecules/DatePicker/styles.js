@@ -398,7 +398,7 @@ export const DecadeButton = styled.button`
   font-size: 12px;
   background-color: transparent;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${({disabled}) => !disabled && 'pointer'};
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 96.33px;
   margin: 8px 0px;
@@ -410,7 +410,7 @@ export const DecadeButton = styled.button`
   }};
   background-color: ${({keyboardSelect}) => keyboardSelect && 'var(--rds-color-chart-1)'};
   &:hover {
-   background-color: ${({keyboardSelect}) => !keyboardSelect && 'var(--rds-color-neutral-1)'}; 
+   background-color: ${({keyboardSelect, disabled}) => !keyboardSelect && !disabled && 'var(--rds-color-neutral-1)'}; 
   }
 
   &:focus {

@@ -58,17 +58,6 @@ const Calendar = ({
   const [tabCount, setTabCount] = useState(0);
   const [modalFocus, setModalFocus] = useState(false);
 
-  const doublePrevYearRef=useRef(null);
-  const doublePrevMonthRef=useRef(null);
-  const doubleNextYearRef=useRef(null);
-  const doubleNextMonthRef=useRef(null);
-
-  const doubleViewRefs = {
-    1: doublePrevYearRef,
-    2: doublePrevMonthRef,
-    3: doubleNextMonthRef,
-    4: doubleNextYearRef,
-  };
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
   const days = getDaysInMonth(currentMonth);
   const nextMonthDays= getDaysInMonth(nextMonth);
@@ -159,23 +148,6 @@ const Calendar = ({
       if(e.key === 'Tab' && modalFocus || e.key !== 'Tab') {
         setModalFocus(false);
       };
-      // if(e.key === 'Enter' && openCalender){
-      //   e.preventDefault();
-      //   e.stopPropagation();
-      //   setOpenCalender(false), 
-      //   setOpenCalenderEnd(true);
-      // };
-
-      if (isDoubleView) {
-        switch (e.key) {
-          case 'Tab':
-            doubleViewRefs[tabCount]?.current?.focus();
-            // setTabCount((prev) => Math.min(prev + 1, 4));
-            break;
-          default:
-            break;
-        }
-      }
       if ((openCalender || openCalenderEnd)) {
         if (e.key === 'Tab') {
           if(tabCount == maxCount) setTabCount(0);
@@ -215,9 +187,6 @@ const Calendar = ({
   const calenderRef = useRef();
 
   useEffect(() => {
-    if (isDoubleView) {
-      doubleViewRefs[tabCount]?.current?.focus();
-    }
     if(tabCount >= maxCount){
       setModalFocus(true);
       enableKeyboard();
@@ -226,7 +195,7 @@ const Calendar = ({
         calenderRef?.current?.click();
       }
     }
-  }, [isDoubleView, tabCount]);
+  }, [tabCount]);
 
   useEffect(() => {
     let timer;
@@ -264,10 +233,6 @@ const Calendar = ({
           handleNextMonth={handleNextMonth}
           goToPreviousDecade={goToPreviousDecade}
           goToNextDecade={ goToNextDecade}
-          doublePrevYearRef={doublePrevYearRef}
-          doubleNextYearRef={doubleNextYearRef}
-          doublePrevMonthRef={doublePrevMonthRef}
-          doubleNextMonthRef={doubleNextMonthRef}
           showYears={showYears}
           tabCount={tabCount}
         />
