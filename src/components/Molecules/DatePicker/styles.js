@@ -119,7 +119,10 @@ export const DaysContainer = styled.div`
 export const DoubleViewContainer = styled.div`
   display: flex;
   border-radius: 10px;
-  ${focusBorderStyle}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ${focusBorderStyle};
 `;
 export const Day = styled.button`
   display: flex;
