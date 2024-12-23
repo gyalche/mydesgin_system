@@ -8,10 +8,11 @@ import {
   WeekdayHeader,
   TextAreaYearMonth,
   ButtonActive,
+  DoubleViewContainer,
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 import closeOpenModal from '../../../hooks/closeOpenModal';
-import CalendarNavigation from './Component/Header';
+import CalendarNavigation from './Component/NavigationHeader';
 import DecadeSelector from './Component/DecadeSelector';
 import YearSelector from './Component/YearSelector';
 import MonthSelector from './Component/MonthSelector';
@@ -41,6 +42,8 @@ const Calendar = ({
   openCalender,
   openCalenderEnd,
   onlyFuture,
+  setOpenCalenderEnd,
+  setOpenCalender
 }) => {
   const currentYear = new Date(Date.now()).getFullYear();
 
@@ -66,11 +69,15 @@ const Calendar = ({
     3: doubleNextMonthRef,
     4: doubleNextYearRef,
   };
-
+  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
   const days = getDaysInMonth(currentMonth);
+  const nextMonthDays= getDaysInMonth(nextMonth);
 
   const displayYear = currentMonth.getFullYear();
-  const maxCount = openDecade || openMonth || showYears  ? 4 : isDoubleView ? 8 : 7;
+  const maxCount =(openDecade || openMonth || showYears) && !isDoubleView? 4 : 
+  (openDecade || openMonth || showYears) && isDoubleView ? 4 :
+  (isDoubleView && isRangePicker) ? 9 : 7 ;
+
   const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
 
   const handleMouseEnter = useCallback((day) => {
@@ -152,11 +159,18 @@ const Calendar = ({
       if(e.key === 'Tab' && modalFocus || e.key !== 'Tab') {
         setModalFocus(false);
       };
+      // if(e.key === 'Enter' && openCalender){
+      //   e.preventDefault();
+      //   e.stopPropagation();
+      //   setOpenCalender(false), 
+      //   setOpenCalenderEnd(true);
+      // };
+
       if (isDoubleView) {
         switch (e.key) {
           case 'Tab':
             doubleViewRefs[tabCount]?.current?.focus();
-            setTabCount((prev) => Math.min(prev + 1, 4));
+            // setTabCount((prev) => Math.min(prev + 1, 4));
             break;
           default:
             break;
@@ -226,86 +240,150 @@ const Calendar = ({
       clearTimeout(timer);
     };
   }, [modalFocus]);
+
   return (
-    <CalendarContainer data-testid='calender-container'>
-      <CalendarNavigation
-        isDoubleView={isDoubleView}
-        disableHeader={disableHeader}
-        setTabCount={setTabCount}
-        openSelectDecade={openSelectDecade}
-        openSelectMonth={openSelectMonth}
-        selectedDecade={selectedDecade}
-        displayYear={displayYear}
-        currentMonth={currentMonth}
-        locale={locale}
-        openDecade={openDecade}
-        openMonth={openMonth}
-        isRangePicker={isRangePicker}
-        handlePrevYear={handlePrevYear}
-        handleNextYear={handleNextYear}
-        handlePrevMonth={handlePrevMonth}
-        handleNextMonth={handleNextMonth}
-        goToPreviousDecade={goToPreviousDecade}
-        goToNextDecade={ goToNextDecade}
-        doublePrevYearRef={doublePrevYearRef}
-        doubleNextYearRef={doubleNextYearRef}
-        doublePrevMonthRef={doublePrevMonthRef}
-        doubleNextMonthRef={doubleNextMonthRef}
-        showYears={showYears}
-        tabCount={tabCount}
-      />
-
-      {!openDecade && !openMonth && (
-          <DaysContainer
-            focus={modalFocus ? modalFocus : undefined}
-            secondCalendar={disableHeader}
-            >
-              <ButtonActive data-calendar-btn />
-            {weekdays.map(({day, dayIndex}, index) => (
-              <WeekdayHeader
-                key={index}
-                isSaturday={dayIndex === 6}
-                isSunday={dayIndex === 0}
+    <CalendarContainer data-testid='calender-container'
+      isDoubleView={isDoubleView && isRangePicker}
+    >
+        <CalendarNavigation
+          isDoubleView={isDoubleView}
+          disableHeader={disableHeader}
+          setTabCount={setTabCount}
+          openSelectDecade={openSelectDecade}
+          openSelectMonth={openSelectMonth}
+          selectedDecade={selectedDecade}
+          displayYear={displayYear}
+          currentMonth={currentMonth}
+          locale={locale}
+          openDecade={openDecade}
+          openMonth={openMonth}
+          isRangePicker={isRangePicker}
+          handlePrevYear={handlePrevYear}
+          handleNextYear={handleNextYear}
+          handlePrevMonth={handlePrevMonth}
+          handleNextMonth={handleNextMonth}
+          goToPreviousDecade={goToPreviousDecade}
+          goToNextDecade={ goToNextDecade}
+          doublePrevYearRef={doublePrevYearRef}
+          doubleNextYearRef={doubleNextYearRef}
+          doublePrevMonthRef={doublePrevMonthRef}
+          doubleNextMonthRef={doubleNextMonthRef}
+          showYears={showYears}
+          tabCount={tabCount}
+        />
+      
+        <DoubleViewContainer focus={modalFocus}>
+        <>
+          {isDoubleView && (
+            <ButtonActive data-calendar-btn />
+          )}
+          {!openDecade && !openMonth && (
+            <DaysContainer
+              focus={modalFocus && !isDoubleView ? modalFocus : undefined}
+              secondCalendar={disableHeader}
               >
-                {day}
-              </WeekdayHeader>
-            ))}
-              {days.map((day, index) => {
-                const dayDate = new Date(day?.date);
-                const isValidDate = dayDate instanceof Date && !isNaN(dayDate);
-                if (!isValidDate) return null;
-                const notCurrent = !day?.isCurrentMonth;
-                const dayOfWeek = dayDate?.getDay();
-                return (
-                  <Day
-                    key={`${day?.date}-${index}`}
-                    currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
-                    isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
-                      || normalizeDate(dayDate) === normalizeDate(endDate)
-                    }
-                    isEndSelect={normalizeDate(dayDate) !== normalizeDate(startDate)}
-                    isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
-                      && normalizeDate(dayDate) !== normalizeDate(startDate)}
-                    isInRange={isInRange && isInRange(dayDate)}
-                    isDisabled={onlyFuture && normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
-                    isSaturday={dayOfWeek === 5}
-                    isSunday={dayOfWeek === 6}
-                    onClick={!isRangePicker ? () => (handleSingleDate(dayDate)) : 
-                      () => (handleDateRangeClick(dayDate), enableKeyboard())}
-                    isInHoverRange={isInHoverRange && isInHoverRange(dayDate)}
-                    onMouseEnter={() => handleMouseEnter(dayDate)}
-                    onMouseLeave={handleMouseLeave}
-                    data-testid={`day-${dayDate.getDate()}`}
-                    isRangePicker={isRangePicker}
-                    istoday={normalizeDate(startDate) == normalizeDate(endDate)}
-                  >
-                    {dayDate.getDate()}
-                  </Day>
-                );
-              })}
-          </DaysContainer>
-      )}
+              {weekdays.map(({day, dayIndex}, index) => (
+                <WeekdayHeader
+                  key={index}
+                  isSaturday={dayIndex === 6}
+                  isSunday={dayIndex === 0}
+                >
+                  {day}
+                </WeekdayHeader>
+              ))}
 
+                {days.map((day, index) => {
+                  const dayDate = new Date(day?.date);
+                  const isValidDate = dayDate instanceof Date && !isNaN(dayDate);
+                  if (!isValidDate) return null;
+                  const notCurrent = !day?.isCurrentMonth;
+                  const dayOfWeek = dayDate?.getDay();
+                  return (
+                    <Day
+                      key={`${day?.date}-${index}`}
+                      currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
+                      isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
+                        || normalizeDate(dayDate) === normalizeDate(endDate)
+                      }
+                      isEndSelect={normalizeDate(dayDate) !== normalizeDate(startDate)}
+                      isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
+                        && normalizeDate(dayDate) !== normalizeDate(startDate)}
+                      isInRange={isInRange && isInRange(dayDate)}
+                      isDisabled={onlyFuture && normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
+                      isSaturday={dayOfWeek === 5}
+                      isSunday={dayOfWeek === 6}
+                      onClick={!isRangePicker ? () => (handleSingleDate(dayDate)) : 
+                        () => (handleDateRangeClick(dayDate), enableKeyboard())}
+                      isInHoverRange={isInHoverRange && isInHoverRange(dayDate)}
+                      onMouseEnter={() => handleMouseEnter(dayDate)}
+                      onMouseLeave={handleMouseLeave}
+                      data-testid={`day-${dayDate.getDate()}`}
+                      isRangePicker={isRangePicker}
+                      istoday={normalizeDate(startDate) == normalizeDate(endDate)}
+                    >
+                      {dayDate.getDate()}
+                    </Day>
+                  );
+                })}
+            </DaysContainer>
+          )}
+        </>
+          {isDoubleView && isRangePicker && (
+            <>
+              {!openDecade && !openMonth && (
+                <DaysContainer
+                  focus={modalFocus && !isDoubleView ? modalFocus : undefined}
+                  secondCalendar={disableHeader}
+                  style={{width: '320px'}}
+                  >
+                  {weekdays.map(({day, dayIndex}, index) => (
+                    <WeekdayHeader
+                      key={index}
+                      isSaturday={dayIndex === 6}
+                      isSunday={dayIndex === 0}
+                    >
+                      {day}
+                    </WeekdayHeader>
+                  ))}
+
+                    {nextMonthDays.map((day, index) => {
+                      const dayDate = new Date(day?.date);
+                      const isValidDate = dayDate instanceof Date && !isNaN(dayDate);
+                      if (!isValidDate) return null;
+                      const notCurrent = !day?.isCurrentMonth;
+                      const dayOfWeek = dayDate?.getDay();
+                      return (
+                        <Day
+                          key={`${day?.date}-${index}`}
+                          currentDate={normalizeDate(new Date()) === normalizeDate(dayDate)}
+                          isSelected={normalizeDate(dayDate) === normalizeDate(startDate) 
+                            || normalizeDate(dayDate) === normalizeDate(endDate)
+                          }
+                          isEndSelect={normalizeDate(dayDate) !== normalizeDate(startDate)}
+                          isKeyboardSelect={normalizeDate(dayDate) === normalizeDate(isSelected) 
+                            && normalizeDate(dayDate) !== normalizeDate(startDate)}
+                          isInRange={isInRange && isInRange(dayDate)}
+                          isDisabled={onlyFuture && normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
+                          isSaturday={dayOfWeek === 5}
+                          isSunday={dayOfWeek === 6}
+                          onClick={!isRangePicker ? () => (handleSingleDate(dayDate)) : 
+                            () => (handleDateRangeClick(dayDate), enableKeyboard())}
+                          isInHoverRange={isInHoverRange && isInHoverRange(dayDate)}
+                          onMouseEnter={() => handleMouseEnter(dayDate)}
+                          onMouseLeave={handleMouseLeave}
+                          data-testid={`day-${dayDate.getDate()}`}
+                          isRangePicker={isRangePicker}
+                          istoday={normalizeDate(startDate) == normalizeDate(endDate)}
+                        >
+                          {dayDate.getDate()}
+                        </Day>
+                      );
+                    })}
+                </DaysContainer>
+              )}
+            </>
+          )}
+        </DoubleViewContainer>
       {openDecade && (
         !showYears ? (
           <DecadeSelector
@@ -319,6 +397,7 @@ const Calendar = ({
             goToPreviousDecade={goToPreviousDecade}
             enableFocus={modalFocus ? modalFocus : undefined}
             setModalFocus={setModalFocus}
+            isDoubleView = {isDoubleView && isRangePicker}
           />
         ) : (
           <YearSelector
@@ -338,6 +417,7 @@ const Calendar = ({
             enableFocus={modalFocus ? modalFocus : undefined}
             tabCount={tabCount}
             setModalFocus={setModalFocus}
+            isDoubleView = {isDoubleView && isRangePicker}
           />
         )
       )}
@@ -389,6 +469,7 @@ Calendar.propTypes = {
   showMeNext: PropTypes.bool,
   showMePrev: PropTypes.bool,
   onlyFuture: PropTypes.bool,
+  setOpenCalenderEnd: PropTypes.bool,
 };
 
 export default Calendar;

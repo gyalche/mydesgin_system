@@ -337,6 +337,7 @@ const DatePicker = ({
             onKeyDown={(e) => {
               if (e.key === 'Tab' && !e.shiftKey && isRangePicker && !openCalender) {
                 e.preventDefault();
+                e.stopPropagation();
                 inputRefEnd.current?.focus();
                 setFirstInputFocus(false);
                 setSecondInputFocus(true);
@@ -433,7 +434,6 @@ const DatePicker = ({
           </>
         )}
       </InputContainer>
-
       {openCalender && !disabled &&  (
         <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <Calenders data-testid='container-id'>
@@ -461,9 +461,11 @@ const DatePicker = ({
               isDoubleView={isDoubleView}
               openCalender={openCalender}
               openCalenderEnd={openCalenderEnd}
+              setOpenCalenderEnd={setOpenCalenderEnd}
+              setOpenCalender={setOpenCalender}
               onlyFuture={onlyFuture}
             />
-            {(isDoubleView && isRangePicker) && (
+            {/* {(isDoubleView && isRangePicker) && (
               <Calendar
                 date={nextMonth}
                 locale={locale}
@@ -491,7 +493,7 @@ const DatePicker = ({
                 openCalenderEnd={openCalenderEnd}
                 onlyFuture={onlyFuture}
               />
-            )}
+            )} */}
           </Calenders>
         </CalendarWrapper>
       )}
@@ -524,7 +526,7 @@ const DatePicker = ({
               openCalenderEnd={openCalenderEnd}
               onlyFuture={onlyFuture}
             />
-            {(isDoubleView && isRangePicker) && (
+            {/* {(isDoubleView && isRangePicker) && (
               <Calendar
                 date={nextMonth}
                 locale={locale}
@@ -546,13 +548,13 @@ const DatePicker = ({
                 handlePrevMonth={handlePrevMonth}
                 handleNextMonth={handleNextMonth}
                 setDates={onChangeCurrent}
-                isDoubleView={isDoubleView}
+                // isDoubleView={isDoubleView}
                 disableHeader={true}
                 openCalender={openCalender}
                 openCalenderEnd={openCalenderEnd}
                 onlyFuture={onlyFuture}
               />
-            )}
+            )} */}
           </Calenders>
         </CalendarWrapperEnd>
       )}

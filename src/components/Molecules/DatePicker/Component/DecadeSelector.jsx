@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
-import { ToastButton } from 'components/Molecules/Toast/CommonToastStyle';
 
 const DecadeSelector = ({
   currentDecadeStart, 
@@ -12,7 +11,8 @@ const DecadeSelector = ({
   goToNextDecade,
   goToPreviousDecade,
   enableFocus,
-  setModalFocus
+  setModalFocus,
+  isDoubleView,
  }) => {
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
@@ -20,14 +20,14 @@ const DecadeSelector = ({
   const handleKeyDown = (event, index) => {
     const totalButtons = buttonRefs.current.length;
     let newIndex;
-
+    const isDoubleIndexes = isDoubleView ? 4 : 3;
     const navigateButton = (key) => {
       setModalFocus(false);
       switch (key) {
         case 'ArrowRight': return (index + 1) % totalButtons;
         case 'ArrowLeft': return (index - 1 + totalButtons) % totalButtons;
-        case 'ArrowDown': return index + 3 < totalButtons ? index + 3 : index;
-        case 'ArrowUp': return index - 3 >= 0 ? index - 3 : index;
+        case 'ArrowDown': return index + isDoubleIndexes < totalButtons ? index + isDoubleIndexes : index;
+        case 'ArrowUp': return index - isDoubleIndexes >= 0 ? index - isDoubleIndexes : index;
         default: return index;
       }
     };
@@ -65,14 +65,14 @@ const DecadeSelector = ({
     setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
   }, [selectedDecade, currentDecadeStart, enableKey]);
-
+  
   return (
-    <DecadeGrid focus={enableFocus}>
+    <DecadeGrid focus={enableFocus} isDoubleView={isDoubleView}>
        <ButtonActive data-calendar-btn />
       <DecadeButton disabled ref={(el) => (buttonRefs.current[0] = el)}>
-        {currentDecadeStart - 10} - {currentDecadeStart - 1}
+        {currentDecadeStart - 16} - {currentDecadeStart - 1}
       </DecadeButton>
-      {Array.from({ length: 10 }, (_, index) => {
+      {Array.from({ length: isDoubleView ? 14 : 10 }, (_, index) => {
         const decadeStart = Math.floor(currentDecadeStart / 10) * 10 + index * 10;
         return (
           <DecadeButton
@@ -88,8 +88,8 @@ const DecadeSelector = ({
           </DecadeButton>
         );
       })}
-      <DecadeButton disabled ref={(el) => (buttonRefs.current[11] = el)}>
-        {currentDecadeStart + 100} - {currentDecadeStart + 109}
+      <DecadeButton disabled ref={(el) => (buttonRefs.current[isDoubleView ? 15 : 11] = el)}>
+        {currentDecadeStart + 140} - {currentDecadeStart + 149}
       </DecadeButton>
     </DecadeGrid>
   );
@@ -105,6 +105,7 @@ DecadeSelector.propTypes = {
   goToPreviousDecade: PropTypes.func,
   enableFocus: PropTypes.bool,
   setModalFocus: PropTypes.bool,
+  isDoubleView: PropTypes.bool,
 };
 
 export default DecadeSelector;

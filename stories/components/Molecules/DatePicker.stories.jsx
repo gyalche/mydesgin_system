@@ -55,13 +55,14 @@ export const DatePickers = {
     }
   },
   args: {
-    isDoubleView: false,
+    isDoubleView: true,
     disabled: false,
     locale: 'ja-JP',
     textCancel: 'キャンセル',
     initialValue: new Date(),
     placeholder: 'yyyy/mm/dd',
     onlyFuture: true,
+    isRangePicker: true,
   },
   render: (args) => {
     const updatedArgs = {

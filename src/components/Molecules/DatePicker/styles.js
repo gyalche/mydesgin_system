@@ -100,7 +100,7 @@ export const HeaderIcons = styled.div`
 `;
 
 export const CalendarContainer = styled.div`
-  width: 340px;
+  width: ${({isDoubleView}) => isDoubleView ? '680px' : '340px'};
   height: 320px; 
   padding: 10px;
   background-color: var(--rds-color-neutral-0);
@@ -112,9 +112,15 @@ export const DaysContainer = styled.div`
   border-radius: 8px;
   overflow: hidden;
   padding: 2px 0px 8px 0px;
+  width: 320px;
   ${focusBorderStyle};
 `;
 
+export const DoubleViewContainer = styled.div`
+  display: flex;
+  border-radius: 10px;
+  ${focusBorderStyle}
+`;
 export const Day = styled.button`
   display: flex;
   align-items: center;
@@ -123,6 +129,7 @@ export const Day = styled.button`
   text-align: center;
   outline: none;
   border: none;
+  gap: 0px;
   font-size: 12px;
   border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
   cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
@@ -354,7 +361,6 @@ export const DateTimeContainer = styled.div`
 `;
 
 export const TextAreaYearMonth = styled.button`
-  // cursor: ${({openDecade}) => !openDecade ? 'pointer' : 'auto'};
   border: none;
   outline: none;
   background: transparent;
@@ -368,7 +374,7 @@ export const TextAreaYearMonth = styled.button`
   padding-left: 7px;
   padding-right: 7px;
   border-radius: 5px;
-
+  margin-left: ${({isDoubleView}) => isDoubleView && '120px'};
   &:focus {
     background-color: var(--rds-color-neutral-1)};
   }
@@ -376,13 +382,15 @@ export const TextAreaYearMonth = styled.button`
 
 export const DecadeGrid = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns:${({isDoubleView}) => isDoubleView ? 'auto auto auto auto' : 'auto auto auto'};
+  place-items: center;
   gap: 10px;
+  padding: 0;
   border-radius: 8px;
   overflow: scroll;
   margin-top: -10px;
   height: 250px;
-  overflow: hidden;
+  background-color: var(--rds-color-neutral-0);
   ${focusBorderStyle}
 `;
 
@@ -415,6 +423,6 @@ export const DecadeButton = styled.button`
   }
 `;
 export const ButtonActive = styled.button`
-  z-index: -9999;
+  z-index: -99999;
   position: absolute;
 `;
