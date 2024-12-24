@@ -187,6 +187,11 @@ const DatePicker = ({
     const handleEnter = () => {
       e.preventDefault();
       e.stopPropagation();
+      if(openCalender && isRangePicker){
+        setOpenCalender(false);
+        setOpenCalenderEnd(true);
+        inputRefEnd.current?.focus();
+      }
       if(openCalender && !isRangePicker){
         setStartDate(currentDate);
         input.onChange(currentDate);
