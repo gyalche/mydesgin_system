@@ -123,6 +123,7 @@ export const DoubleViewContainer = styled.div`
   align-items: center;
   justify-content: center;
   ${focusBorderStyle};
+  margin-top: -4px;
 `;
 export const Day = styled.button`
   display: flex;

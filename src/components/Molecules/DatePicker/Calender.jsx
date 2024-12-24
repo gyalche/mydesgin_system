@@ -236,7 +236,7 @@ const Calendar = ({
           tabCount={tabCount}
         />
       
-        <DoubleViewContainer focus={modalFocus}>
+        <DoubleViewContainer focus={modalFocus && isDoubleView}>
         <>
           <ButtonActive data-calendar-btn />
           {!openDecade && !openMonth && (
