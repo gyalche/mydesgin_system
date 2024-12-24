@@ -394,8 +394,7 @@ export const DecadeGrid = styled.div`
   padding: 0;
   border-radius: 8px;
   overflow: scroll;
-  margin-top: -10px;
-  // height: 250px;
+  margin-top: -6px;
   background-color: var(--rds-color-neutral-0);
   ${focusBorderStyle}
 `;
