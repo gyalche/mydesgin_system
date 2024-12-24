@@ -55,7 +55,7 @@ export const DatePickers = {
     }
   },
   args: {
-    isDoubleView: true,
+    isDoubleView: false,
     disabled: false,
     locale: 'ja-JP',
     textCancel: 'キャンセル',
