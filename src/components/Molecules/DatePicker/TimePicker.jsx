@@ -578,7 +578,7 @@ const TimePicker = ({ is12Hour,
                   <TimeOption
                     key={index}
                     onClick={() => handleMinuteClick(minute)}
-                    selected={String(minute) === String(dateTimeValue ? roundUpMinute : roundMinuteFirst)}
+                    selected={String(minute) === String(dateTimeValue ? roundUpMinute : roundMinuteFirst || roundUpMinute)}
                     highlighted={highlightedMinuteIndex === index && activeColumn === 'minute'}
                   >
                     {String(minute).padStart(2, '0')}

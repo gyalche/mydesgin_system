@@ -25,7 +25,6 @@ const DatePicker = ({
   locale,
   onChange,
   disabled,
-  error,
   placeholder,
   dateTimeStart,
   dateTimeEnd,
@@ -470,35 +469,6 @@ const DatePicker = ({
               setOpenCalender={setOpenCalender}
               onlyFuture={onlyFuture}
             />
-            {/* {(isDoubleView && isRangePicker) && (
-              <Calendar
-                date={nextMonth}
-                locale={locale}
-                startDate={startDate}
-                endDate={endDate}
-                weekdays={weekdays}
-                handleSingleDate={handleSingleDate}
-                handleDateRangeClick={handleDateRangeClick}
-                isRangePicker={isRangePicker}
-                isInRange={isInRange}
-                isInHoverRange={isInHoverRange}
-                hoveredDate={hoveredDate}
-                setHoveredDate={setHoveredDate}
-                isSelected={currentDate}
-                enableKeyboard={enabledKeyboardFunc}
-                disableKeyboard={disableKeyboardFunc}
-                handlePrevYear={handlePrevYear}
-                handleNextYear={handleNextYear}
-                handlePrevMonth={handlePrevMonth}
-                handleNextMonth={handleNextMonth}
-                setDates={onChangeCurrent}
-                isDoubleView={isDoubleView}
-                disableHeader={true}
-                openCalender={openCalender}
-                openCalenderEnd={openCalenderEnd}
-                onlyFuture={onlyFuture}
-              />
-            )} */}
           </Calenders>
         </CalendarWrapper>
       )}
@@ -531,35 +501,6 @@ const DatePicker = ({
               openCalenderEnd={openCalenderEnd}
               onlyFuture={onlyFuture}
             />
-            {/* {(isDoubleView && isRangePicker) && (
-              <Calendar
-                date={nextMonth}
-                locale={locale}
-                startDate={startDate}
-                endDate={endDate}
-                weekdays={weekdays}
-                handleSingleDate={handleSingleDate}
-                handleDateRangeClick={handleDateRangeClick}
-                isRangePicker={isRangePicker}
-                isInRange={isInRange}
-                isInHoverRange={isInHoverRange}
-                hoveredDate={hoveredDate}
-                setHoveredDate={setHoveredDate}
-                isSelected={currentDate}
-                enableKeyboard={enabledKeyboardFunc}
-                disableKeyboard={disableKeyboardFunc}
-                handlePrevYear={handlePrevYear}
-                handleNextYear={handleNextYear}
-                handlePrevMonth={handlePrevMonth}
-                handleNextMonth={handleNextMonth}
-                setDates={onChangeCurrent}
-                // isDoubleView={isDoubleView}
-                disableHeader={true}
-                openCalender={openCalender}
-                openCalenderEnd={openCalenderEnd}
-                onlyFuture={onlyFuture}
-              />
-            )} */}
           </Calenders>
         </CalendarWrapperEnd>
       )}

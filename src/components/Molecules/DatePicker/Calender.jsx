@@ -2,11 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CalendarContainer,
-  CalenderMonths,
   DaysContainer,
   Day,
   WeekdayHeader,
-  TextAreaYearMonth,
   ButtonActive,
   DoubleViewContainer,
 } from './styles';

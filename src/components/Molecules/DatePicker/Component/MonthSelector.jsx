@@ -33,7 +33,7 @@ const MonthSelector = ({ locale,
     let newIndex;
 
     const navigateButton = (key) => {
-      // setModalFocus(false);
+      setModalFocus(false);
       switch (key) {
         case 'ArrowRight': return (index + 1) % totalButtons;
         case 'ArrowLeft': return (index - 1 + totalButtons) % totalButtons;

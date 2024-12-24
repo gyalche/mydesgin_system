@@ -32,8 +32,8 @@ describe('DateTime picker component testing', () => {
     const timeInput = await screen.findByPlaceholderText('hh:mm');
 
     waitFor(() => {
-      expect(dateInput.value).toBe(initialValue.date);
-      expect(timeInput.value).toBe(initialValue.time);
+      expect(dateInput.value).toBe(initialValue);
+      expect(timeInput.value).toBe(initialValue);
     });
   });
   
