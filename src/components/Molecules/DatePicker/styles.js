@@ -183,7 +183,9 @@ export const CalendarWrapper = styled.div`
   margin-left: ${({isRangePicker, isDoubleView}) => !isRangePicker ? '215px' : 
     isRangePicker && isDoubleView ? '410px' : '65px'};
 `;
-
+export const DayContainerWrapper = styled.div`
+  min-height: 270px;
+`;
 export const CalendarWrapperEnd = styled(CalendarWrapper)`
   margin-left: ${({isDoubleView}) => isDoubleView ? '407px' : '377px'};
 `;

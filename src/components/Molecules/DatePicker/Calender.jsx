@@ -7,6 +7,7 @@ import {
   WeekdayHeader,
   ButtonActive,
   DoubleViewContainer,
+  DayContainerWrapper,
 } from './styles';
 import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
 import closeOpenModal from '../../../hooks/closeOpenModal';
@@ -236,7 +237,7 @@ const Calendar = ({
         />
       
         <DoubleViewContainer focus={modalFocus}>
-        <>
+        <DayContainerWrapper>
           <ButtonActive data-calendar-btn />
           {!openDecade && !openMonth && (
             <DaysContainer
@@ -288,9 +289,9 @@ const Calendar = ({
                 })}
             </DaysContainer>
           )}
-        </>
+        </DayContainerWrapper>
           {isDoubleView && isRangePicker && (
-            <>
+            <DayContainerWrapper>
               {!openDecade && !openMonth && (
                 <DaysContainer
                   focus={modalFocus && !isDoubleView ? modalFocus : undefined}
@@ -342,7 +343,7 @@ const Calendar = ({
                     })}
                 </DaysContainer>
               )}
-            </>
+            </DayContainerWrapper>
           )}
         </DoubleViewContainer>
       {openDecade && (
