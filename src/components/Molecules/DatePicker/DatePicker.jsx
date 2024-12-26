@@ -169,9 +169,12 @@ const DatePicker = ({
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     if(!(currentDate instanceof Date)) return;
     const updateDate = (changeFn) => {
-      if(currentDate.getFullYear() !== currentMonth.getFullYear()) return;
+      const notCurrentMontAndYear = currentDate.getFullYear() !== currentMonth.getFullYear();
+      // if(notCurrentMontAndYear) return;
       setCurrentDate((prev) => {
-        const newDate = changeFn(prev);
+        const adjustDate = new Date(currentMonth);
+        adjustDate.setDate(currentDate.getDate());
+        const newDate = notCurrentMontAndYear ? changeFn(adjustDate) : changeFn(prev);
         const newYear = newDate.getFullYear();
         const currentYear = currentMonth.getFullYear();
         const isNextMonth = newDate.getMonth() > currentMonth.getMonth();
@@ -234,13 +237,10 @@ const DatePicker = ({
       case 'ArrowDown':
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
         break;
-      case 'Tab':
-        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
-        break;
       case 'Enter':
-        if(!isRangePicker || dateTimeValue) handleSingleDate(currentDate);
-        handleEnter(e);
-        break;
+      if(!isRangePicker || dateTimeValue) handleSingleDate(currentDate);
+      handleEnter(e);
+      break;
       default:
         break;
     }

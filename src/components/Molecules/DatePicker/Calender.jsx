@@ -97,6 +97,7 @@ const Calendar = ({
     setShowYears(true);
     disableKeyboard();
     setTabCount(0);
+    setModalFocus(false);
   };
 
   closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
@@ -227,7 +228,6 @@ const Calendar = ({
         <>
           <ButtonActive data-calendar-btn onFocus={()=> {
             setModalFocus(true);
-            // setTabCount(0);
             enableKeyboard();
           }}/>
           {!openDecade && !openMonth && (
@@ -266,8 +266,8 @@ const Calendar = ({
                         isDisabled={onlyFuture && normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
                         isSaturday={dayOfWeek === 5}
                         isSunday={dayOfWeek === 6}
-                        onClick={!isRangePicker ? () => (handleSingleDate(dayDate)) : 
-                          () => (handleDateRangeClick(dayDate), enableKeyboard())}
+                        onClick={!isRangePicker ? () => (handleSingleDate(dayDate), setModalFocus(false)) : 
+                          () => (handleDateRangeClick(dayDate), enableKeyboard(), setModalFocus(false))}
                         isInHoverRange={isInHoverRange && isInHoverRange(dayDate)}
                         onMouseEnter={() => handleMouseEnter(dayDate)}
                         onMouseLeave={handleMouseLeave}

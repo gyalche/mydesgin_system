@@ -2,9 +2,9 @@ import { Icon, Input } from 'components/Atoms';
 import styled, { css } from 'styled-components';
 
 export const focusBorderStyle = css`
-  border: ${({ focus }) => (focus ? '1px solid var(--rds-color-neutral-3)' : 'none')};
   transition: ${({ focus }) =>
-    focus ? 'border 0.3s ease' : 'border 0.3s ease, background-color 0.3s ease'};
+    focus ? 'background-color 0.3s ease' : 'border 0.3s ease, background-color 0.3s ease'};
+  background-color: ${({ focus }) => (focus ? 'var(--rds-color-neutral-1)' : 'transparent')};
 `;
 export const DatePickerContainer = styled.div`
   display: flex;

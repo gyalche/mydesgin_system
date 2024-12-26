@@ -41,6 +41,10 @@ const YearSelector = ({
         newIndex = (selectedYearIndex + 1) % totalButtons;
         break;
       case 'ArrowLeft':
+        if(selectedYearIndex < 0){
+          setSelectedYearIndex(0);
+          return;
+        };
         if (selectedYearIndex === 0) {
           goToPreviousDecade();
           setSelectedYearIndex(yearsInDecade.length - 1);
@@ -49,9 +53,17 @@ const YearSelector = ({
         newIndex = (selectedYearIndex - 1 + totalButtons) % totalButtons;
         break;
       case 'ArrowDown':
+        if(selectedYearIndex < 0){
+          setSelectedYearIndex(0);
+          return;
+        };
         newIndex = selectedYearIndex + 3 < totalButtons ? selectedYearIndex + 3 : selectedYearIndex;
         break;
       case 'ArrowUp':
+        if(selectedYearIndex < 0){
+          setSelectedYearIndex(0);
+          return;
+        };
         newIndex = selectedYearIndex - 3 >= 0 ? selectedYearIndex - 3 : selectedYearIndex;
         break;
       case 'Enter':
@@ -87,6 +99,7 @@ const YearSelector = ({
     setShowYears(false);
     setYearSelected(true);
     setTabCount(0);
+    setModalFocus(false);
   };
 
   return (

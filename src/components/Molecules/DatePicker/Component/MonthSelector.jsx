@@ -13,7 +13,6 @@ const MonthSelector = ({ locale,
   setModalFocus
 }) => {
   const [focusedButton, setFocusedButton] = useState(currentMonth || 0);
-  // const [tabCount, setTabCount] = useState(0);
   const buttonRefs = useRef([]);
 
   useEffect(() => {
@@ -26,6 +25,7 @@ const MonthSelector = ({ locale,
     }
     setCurrentMonth(new Date(date.getFullYear(), monthIndex, 1));
     setOpenMonth(false);
+    setModalFocus(false);
   };
 
   const handleKeyDown = (event, index) => {
