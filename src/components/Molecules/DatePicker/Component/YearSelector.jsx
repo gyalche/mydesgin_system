@@ -16,21 +16,21 @@ const YearSelector = ({
   goToPreviousDecade,
   goToNextDecade,
   enableFocus,
-  setModalFocus,
 }) => {
   const [selectedYearIndex, setSelectedYearIndex] = useState(0);
   const buttonRefs = useRef([]);
   const totalButtons = buttonRefs?.current?.length;
+
   useEffect(() => {
-    const currentYear = new Date().getFullYear();
+    const currentYear = new Date(currentMonth).getFullYear();
     const currentYearIndex = yearsInDecade.indexOf(currentYear);
     setSelectedYearIndex(currentYearIndex !== -1 ? currentYearIndex : -1);
-  }, [setSelectedYearIndex]);
+  }, [setSelectedYearIndex, currentMonth]);
 
   const handleKeyDown = (event) => {
     let newIndex = selectedYearIndex;
     const totalButtons = buttonRefs.current.length;
-    setModalFocus(false);
+    // setModalFocus(false);
     switch (event.key) {
       case 'ArrowRight':
         if (selectedYearIndex === totalButtons - 1) {
@@ -70,7 +70,6 @@ const YearSelector = ({
     setSelectedYearIndex(newIndex);
     buttonRefs.current[newIndex]?.focus();
   };
-
   useEffect(() => {
     if (showYears && (tabCount==0 || tabCount === 4) ) {
       document?.addEventListener('keydown', handleKeyDown);

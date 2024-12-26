@@ -183,18 +183,6 @@ const Calendar = ({
     if(yearSelected) disableKeyboard();
   }, [yearSelected]);
 
-  const calenderRef = useRef();
-
-  useEffect(() => {
-    if(tabCount >= maxCount){
-      setModalFocus(true);
-      enableKeyboard();
-      setTabCount(0);
-      if(calenderRef?.current){
-        calenderRef?.current?.click();
-      }
-    }
-  }, [tabCount]);
 
   useEffect(() => {
     let timer;
@@ -208,7 +196,6 @@ const Calendar = ({
       clearTimeout(timer);
     };
   }, [modalFocus]);
-
   return (
     <CalendarContainer data-testid='calender-container'
       isDoubleView={isDoubleView && isRangePicker}
@@ -238,7 +225,11 @@ const Calendar = ({
       
         <DoubleViewContainer focus={modalFocus && isDoubleView}>
         <>
-          <ButtonActive data-calendar-btn />
+          <ButtonActive data-calendar-btn onFocus={()=> {
+            setModalFocus(true);
+            // setTabCount(0);
+            enableKeyboard();
+          }}/>
           {!openDecade && !openMonth && (
             <DayContainerWrapper>
               <DaysContainer
@@ -354,14 +345,11 @@ const Calendar = ({
         !showYears ? (
           <DecadeSelector
             currentDecadeStart={currentDecadeStart}
-            selectedDecade={selectedDecade}
+            selectedDecade={Math.floor(currentMonth?.getFullYear() / 10) * 10}
             handleDecadeSelect={handleDecadeSelect}
-            setTabCount={setTabCount}
-            enableKey={tabCount === maxCount}
-            enabledKeyboardFunc={enableKeyboard}
             goToNextDecade={goToNextDecade}
             goToPreviousDecade={goToPreviousDecade}
-            enableFocus={modalFocus ? modalFocus : undefined}
+            enableFocus={modalFocus ? modalFocus : false}
             setModalFocus={setModalFocus}
             isDoubleView = {isDoubleView && isRangePicker}
           />
@@ -377,10 +365,9 @@ const Calendar = ({
             showYears={showYears}
             setTabCount={setTabCount}
             setYearSelected={setYearSelected}
-            enableKey={tabCount === maxCount}
             goToPreviousDecade={goToPreviousDecade}
             goToNextDecade={goToNextDecade}
-            enableFocus={modalFocus ? modalFocus : undefined}
+            enableFocus={modalFocus ? modalFocus : false}
             tabCount={tabCount}
             setModalFocus={setModalFocus}
             isDoubleView = {isDoubleView && isRangePicker}

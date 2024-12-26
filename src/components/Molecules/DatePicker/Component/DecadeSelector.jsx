@@ -6,8 +6,6 @@ const DecadeSelector = ({
   currentDecadeStart, 
   selectedDecade, 
   handleDecadeSelect, 
-  enableKey, 
-  setTabCount,
   goToNextDecade,
   goToPreviousDecade,
   enableFocus,
@@ -16,7 +14,7 @@ const DecadeSelector = ({
  }) => {
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
-  
+
   const handleKeyDown = (event, index) => {
     const totalButtons = buttonRefs.current.length;
     let newIndex;
@@ -36,8 +34,7 @@ const DecadeSelector = ({
       case 'Enter':
         event.preventDefault();
         event.stopPropagation();
-        setTabCount(0);
-        buttonRefs.current[enableKey ? index : index].click();
+        buttonRefs.current[enableFocus ? index : index].click();
         return;
   
       case 'ArrowRight':
@@ -64,7 +61,7 @@ const DecadeSelector = ({
     const selectedIndex = selectedDecade ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1)) : 1;
     setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
-  }, [selectedDecade, currentDecadeStart, enableKey]);
+  }, [selectedDecade, currentDecadeStart, enableFocus]);
   
   return (
     <DecadeGrid focus={enableFocus} isDoubleView={isDoubleView}>
