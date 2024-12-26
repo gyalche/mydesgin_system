@@ -70,7 +70,7 @@ const DecadeSelector = ({
     <DecadeGrid focus={enableFocus} isDoubleView={isDoubleView}>
        <ButtonActive data-calendar-btn />
       <DecadeButton disabled ref={(el) => (buttonRefs.current[0] = el)}>
-        {currentDecadeStart - 16} - {currentDecadeStart - 1}
+        {currentDecadeStart - 10} - {currentDecadeStart - 1}
       </DecadeButton>
       {Array.from({ length: isDoubleView ? 14 : 10 }, (_, index) => {
         const decadeStart = Math.floor(currentDecadeStart / 10) * 10 + index * 10;
@@ -89,7 +89,7 @@ const DecadeSelector = ({
         );
       })}
       <DecadeButton disabled ref={(el) => (buttonRefs.current[isDoubleView ? 15 : 11] = el)}>
-        {currentDecadeStart + 140} - {currentDecadeStart + 149}
+        {isDoubleView ? currentDecadeStart + 140 : currentDecadeStart + 100} - {isDoubleView ? currentDecadeStart + 149 : currentDecadeStart + 109}
       </DecadeButton>
     </DecadeGrid>
   );
