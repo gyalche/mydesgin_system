@@ -148,7 +148,7 @@ const TimePicker = ({ is12Hour,
   const handleEndMinuteClick = useCallback((minute) => {
     const timeString = `${selectedHourEnd}:${minute}:00 ${amPmEnd}`;
     const updatedTime = createDateFromTime(timeString);
-  
+    setRoundMinueSecond(getNearestMinMinute(minute, step));
     setSelectedMinuteEnd(String(minute));
     setTime(updatedTime);
     onChange([time, updatedTime]);

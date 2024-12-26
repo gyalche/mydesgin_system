@@ -120,7 +120,7 @@ export const TimePickers = {
   render: args => {
     const updatedArgs = {
       ...args,
-      initialValue:  args.isRangePicker ? [new Date('Dec 14 2024 15:45:00'), new Date('Dec 14 2024 1:45:00')] 
+      initialValue:  args.isRangePicker ? [new Date('Dec 14 2024 15:25:00'), new Date('Dec 14 2024 1:10:00')] 
       : new Date('Dec 14 2024 1:45:00')
     };
     return <Time {...updatedArgs} />;
