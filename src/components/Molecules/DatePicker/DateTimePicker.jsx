@@ -81,7 +81,7 @@ const DateTimePicker = ({ onChange,
           dateTimeDefault={initialValues}
           handleDateTime={input}
           dateTimeValue={true}
-          onlyFuture={false}
+          onlyFuture={true}
         />
         <TimeRangePicker
           is12Hour={is12Hour}
