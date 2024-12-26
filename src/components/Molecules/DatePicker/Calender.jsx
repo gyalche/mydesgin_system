@@ -142,7 +142,7 @@ const Calendar = ({
     const handleKeyDown = (e) => {
       if(e.shiftKey){
         disableKeyboard();
-        setTabCount(0);
+        return;
       }
       if(e.key === 'Tab' && modalFocus || e.key !== 'Tab') {
         setModalFocus(false);
