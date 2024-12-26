@@ -72,9 +72,9 @@ const DatePicker = ({
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate('');
-      setDateRange([date, endDate]);
-      onChange([date, endDate]);
-      input.onChange([date, endDate]);
+      setDateRange([date, null]);
+      onChange([date, null]);
+      input.onChange([date, null]);
     } else if (normalizedDate < normalizeDate(startDate)) {
       setStartDate(date);
       onChange([date, endDate]);
@@ -356,6 +356,7 @@ const DatePicker = ({
                    onClick={disabled ? ()=>{} : () => {
                      setStartDate('');
                      input?.onChange(null);
+                     onChange(null);
                      setDisplayErrorFirst(true);
                      if(dateTimeStart) setDateTimeStart(false);
                      if(dateTimeEnd) setDateTimeEnd(false);
@@ -375,6 +376,7 @@ const DatePicker = ({
                         }
                       }
                       input.onChange(null);
+                      onChange(null);
                     }}
                     data-testid='icon-click'
                   >

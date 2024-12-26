@@ -101,6 +101,7 @@ const TimePicker = ({ is12Hour,
     setSelectedMinute(String(minute));
     setRoundUpMinute(String(minute));
     setTime(updatedTime);
+
     if(!isRangePicker){
       onChange(updatedTime);
       input?.onChange(updatedTime);
@@ -236,7 +237,6 @@ const TimePicker = ({ is12Hour,
   
     const handleEnter = (isEndTime) => {
       const { hoursIndex, minutesIndex, ampmIndex } = getColumnIndices(activeColumn, isEndTime);
-      
       if (activeColumn === 'hour' && hoursIndex >= 0) {
         isEndTime ? handleEndHourClick(hours[hoursIndex]) : handleHourClick(hours[hoursIndex]);
       } else if (activeColumn === 'minute' && minutesIndex >= 0) {
@@ -289,7 +289,7 @@ const TimePicker = ({ is12Hour,
         amPm: amPmValue,
       };
     };
-  
+
     if (Array.isArray(input?.value || initialValue)) {
       const startDate = input?.value[0] || initialValue[0];
       const endDate = input?.value[1] || initialValue[1];
@@ -298,11 +298,10 @@ const TimePicker = ({ is12Hour,
       const endTime = handleDate(endDate);
   
       setTime(createDateFromTime(`${startTime.hour}:${startTime.minute} ${startTime.amPm}`));
-      
       setSelectedHour(startTime.hour);
       setSelectedMinute(startTime.minute);
       setAmPm(startTime.amPm);
-      setRoundMinueFirst(getNearestMinMinute(startTime.minute, step));
+      setRoundUpMinute(getNearestMinMinute(startTime?.minute, step));
       setEndTime(`${endTime.hour}:${endTime.minute} ${endTime.amPm}`);
 
       setSelectedHourEnd(endTime.hour);
@@ -420,6 +419,7 @@ const TimePicker = ({ is12Hour,
         const minutes = date.getMinutes();
         const amPmValue = hours >= 12 ? 'PM' : 'AM';
         setRoundUpMinute(getNearestMinMinute(minutes, step));
+
         timeParts = [`${hours % 12 || 12}`, `${minutes} ${amPmValue}`];
   
         const hour = timeParts[0];
@@ -431,7 +431,7 @@ const TimePicker = ({ is12Hour,
       }
     }
   }, [input?.value, isDateTimeDouble, is12Hour]);
-  
+
   useEffect(() => {
     if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 1) {
       const endDate = dateTimeDefault[1];
@@ -578,7 +578,7 @@ const TimePicker = ({ is12Hour,
                   <TimeOption
                     key={index}
                     onClick={() => handleMinuteClick(minute)}
-                    selected={String(minute) === String(dateTimeValue ? roundUpMinute : roundMinuteFirst || roundUpMinute)}
+                    selected={String(minute) === String(roundUpMinute || roundMinuteFirst || roundUpMinute)}
                     highlighted={highlightedMinuteIndex === index && activeColumn === 'minute'}
                   >
                     {String(minute).padStart(2, '0')}
