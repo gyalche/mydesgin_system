@@ -415,7 +415,10 @@ export const DecadeButton = styled.button`
   }};
   background-color: ${({keyboardSelect}) => keyboardSelect && 'var(--rds-color-chart-1)'};
   &:hover {
-   background-color: ${({keyboardSelect, disabled}) => !keyboardSelect && !disabled && 'var(--rds-color-neutral-1)'}; 
+   background-color: ${({keyboardSelect, disabled, isFocused}) => {
+    if(!keyboardSelect && !disabled && !isFocused) return 'var(--rds-color-neutral-1)';
+    if(isFocused) return 'var(--rds-color-neutral-2)';
+   }}; 
   }
 
   &:focus {

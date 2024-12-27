@@ -112,6 +112,7 @@ const YearSelector = ({
           onClick={(event) => handleYearSelection(year, event)}
           tabIndex={0}
           keyboardSelect={selectedYearIndex === index}
+          isFocused={enableFocus}
         >
           {year}
         </DecadeButton>

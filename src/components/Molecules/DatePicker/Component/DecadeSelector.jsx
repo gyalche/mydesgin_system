@@ -80,6 +80,7 @@ const DecadeSelector = ({
             onKeyDown={(event) => handleKeyDown(event, index + 1)}
             tabIndex={0}
             keyboardSelect={(focusedButton === index + 1) && (selectedDecade !== decadeStart)}
+            isFocused={enableFocus}
           >
             {decadeStart} - {decadeStart + 9}
           </DecadeButton>

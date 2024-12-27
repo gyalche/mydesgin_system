@@ -87,6 +87,7 @@ const MonthSelector = ({ locale,
           onKeyDown={(event) => handleKeyDown(event, index)}
           tabIndex={0}
           keyboardSelect={focusedButton === index && currentMonth !== index}
+          isFocused={enableFocus}
         >
           {getLocalizedMonthName(new Date(0, index), locale)}
         </DecadeButton>
