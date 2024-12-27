@@ -247,8 +247,8 @@ const DatePicker = ({
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
         break;
       case 'Enter':
-      if(!isRangePicker || dateTimeValue) handleSingleDate(currentDate);
-      handleEnter(e);
+        if(!isRangePicker || dateTimeValue) handleSingleDate(currentDate);
+        handleEnter(e);
       break;
       default:
         break;
