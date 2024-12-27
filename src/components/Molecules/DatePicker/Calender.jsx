@@ -9,7 +9,7 @@ import {
   DoubleViewContainer,
   DayContainerWrapper,
 } from './styles';
-import { getDaysInMonth, getLocalizedMonthName, normalizeDate } from '../../../utils';
+import { getDaysInMonth, normalizeDate } from '../../../utils';
 import closeOpenModal from '../../../hooks/closeOpenModal';
 import CalendarNavigation from './Component/NavigationHeader';
 import DecadeSelector from './Component/DecadeSelector';
@@ -41,8 +41,6 @@ const Calendar = ({
   openCalender,
   openCalenderEnd,
   onlyFuture,
-  setOpenCalenderEnd,
-  setOpenCalender
 }) => {
   const currentYear = new Date(Date.now()).getFullYear();
 
@@ -51,7 +49,6 @@ const Calendar = ({
   const [showYears, setShowYears] = useState(false);
   const [selectedDecade, setSelectedDecade] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(date);
-  const [yearSelected, setYearSelected] = useState(false);
   const [currentDecadeStart, setCurrentDecadestart] = useState(Math.floor(currentYear / 10) * 10);
 
   const [tabCount, setTabCount] = useState(0);
@@ -64,7 +61,7 @@ const Calendar = ({
   const displayYear = currentMonth.getFullYear();
   const maxCount =(openDecade || openMonth || showYears) && !isDoubleView? 4 : 
   (openDecade || openMonth || showYears) && isDoubleView ? 4 :
-  (isDoubleView && isRangePicker) ? 9 : 7 ;
+  (isDoubleView && isRangePicker) ? 9 : 7;
 
   const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
 
@@ -95,9 +92,9 @@ const Calendar = ({
     if(typeof decadeStart !== 'number' || decadeStart < 1000 || decadeStart > 9999) return;
     setSelectedDecade(decadeStart);
     setShowYears(true);
-    disableKeyboard();
     setTabCount(0);
     setModalFocus(false);
+    enableKeyboard();
   };
 
   closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
@@ -147,7 +144,8 @@ const Calendar = ({
       }
       if(e.key === 'Tab' && modalFocus || e.key !== 'Tab') {
         setModalFocus(false);
-      };
+        return;
+      }
       if ((openCalender || openCalenderEnd)) {
         if (e.key === 'Tab') {
           if(tabCount == maxCount) setTabCount(0);
@@ -179,11 +177,6 @@ const Calendar = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [openCalender, openCalenderEnd, tabCount, isDoubleView, modalFocus, openMonth]);
-
-  useEffect(() => {
-    if(yearSelected) disableKeyboard();
-  }, [yearSelected]);
-
 
   useEffect(() => {
     let timer;
@@ -252,6 +245,7 @@ const Calendar = ({
                     if (!isValidDate) return null;
                     const notCurrent = !day?.isCurrentMonth;
                     const dayOfWeek = dayDate?.getDay();
+
                     return (
                       <Day
                         key={`${day?.date}-${index}`}
@@ -264,8 +258,8 @@ const Calendar = ({
                           && normalizeDate(dayDate) !== normalizeDate(startDate)}
                         isInRange={isInRange && isInRange(dayDate)}
                         isDisabled={onlyFuture && normalizeDate(dayDate) < normalizeDate(new Date()) || notCurrent}
-                        isSaturday={dayOfWeek === 5}
-                        isSunday={dayOfWeek === 6}
+                        isSaturday={dayOfWeek === 6}
+                        isSunday={dayOfWeek === 0}
                         onClick={!isRangePicker ? () => (handleSingleDate(dayDate), setModalFocus(false)) : 
                           () => (handleDateRangeClick(dayDate), enableKeyboard(), setModalFocus(false))}
                         isInHoverRange={isInHoverRange && isInHoverRange(dayDate)}
@@ -361,16 +355,15 @@ const Calendar = ({
             setCurrentMonth={setDates}
             setOpenDecade={setOpenDecade}
             setShowYears={setShowYears}
-            disableKeyboard={disableKeyboard}
             showYears={showYears}
             setTabCount={setTabCount}
-            setYearSelected={setYearSelected}
             goToPreviousDecade={goToPreviousDecade}
             goToNextDecade={goToNextDecade}
             enableFocus={modalFocus ? modalFocus : false}
             tabCount={tabCount}
             setModalFocus={setModalFocus}
             isDoubleView = {isDoubleView && isRangePicker}
+            enableKeyboard={enableKeyboard}
           />
         )
       )}
@@ -415,14 +408,10 @@ Calendar.propTypes = {
   setDates: PropTypes.any,
   isDoubleView: PropTypes.bool,
   disableHeader: PropTypes.bool,
-  enabledKeyboardFunc: PropTypes.func,
   openCalender: PropTypes.func,
   openCalenderEnd: PropTypes.func,
-  setOpenCalender: PropTypes.bool,
-  showMeNext: PropTypes.bool,
-  showMePrev: PropTypes.bool,
   onlyFuture: PropTypes.bool,
-  setOpenCalenderEnd: PropTypes.bool,
+  setEnableKeyboard: PropTypes.bool,
 };
 
 export default Calendar;

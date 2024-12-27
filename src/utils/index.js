@@ -6,7 +6,7 @@ export const getDaysInMonth = (date) => {
     const month = date.getMonth();
     
     // Get the first day of the month
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const firstDayOfMonth = new Date(year, month, 0).getDay();
 
     // Get the last day of the month
     const lastDateOfMonth = new Date(year, month + 1, 0);
@@ -27,7 +27,7 @@ export const getDaysInMonth = (date) => {
     
     // Add the first few days of the next month
     const lastDayOfMonth = lastDateOfMonth.getDay();
-    for (let i = 1; i < 7 - lastDayOfMonth; i++) {
+    for (let i = 1; i < 7 - lastDayOfMonth + 1; i++) {
       days.push({date: new Date(year, month + 1, i), isCurrentMonth: false});
     }
     return days;

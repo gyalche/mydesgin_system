@@ -10,16 +10,16 @@ const YearSelector = ({
   setShowYears,
   currentMonth,
   showYears,
-  setYearSelected,
   setTabCount,
   tabCount,
   goToPreviousDecade,
   goToNextDecade,
   enableFocus,
+  setModalFocus,
+  enableKeyboard,
 }) => {
   const [selectedYearIndex, setSelectedYearIndex] = useState(0);
   const buttonRefs = useRef([]);
-  const totalButtons = buttonRefs?.current?.length;
 
   useEffect(() => {
     const currentYear = new Date(currentMonth).getFullYear();
@@ -30,7 +30,6 @@ const YearSelector = ({
   const handleKeyDown = (event) => {
     let newIndex = selectedYearIndex;
     const totalButtons = buttonRefs.current.length;
-    // setModalFocus(false);
     switch (event.key) {
       case 'ArrowRight':
         if (selectedYearIndex === totalButtons - 1) {
@@ -69,6 +68,7 @@ const YearSelector = ({
       case 'Enter':
         event.preventDefault();
         event.stopPropagation();
+        enableKeyboard();
         setTabCount(0);
         buttonRefs.current[newIndex]?.click();
         return;
@@ -97,7 +97,6 @@ const YearSelector = ({
     setCurrentMonth(new Date(year, currentMonth.getMonth(), 1));
     setOpenDecade(false);
     setShowYears(false);
-    setYearSelected(true);
     setTabCount(0);
     setModalFocus(false);
   };
@@ -131,7 +130,6 @@ YearSelector.propTypes = {
   setShowYears: PropTypes.func.isRequired,
   currentMonth: PropTypes.instanceOf(Date).isRequired,
   showYears: PropTypes.bool,
-  setYearSelected: PropTypes.func.isRequired,
   enableKey: PropTypes.bool,
   setTabCount: PropTypes.number,
   goToPreviousDecade: PropTypes.func,
@@ -139,6 +137,7 @@ YearSelector.propTypes = {
   tabCount: PropTypes.func,
   enableFocus: PropTypes.bool,
   setModalFocus: PropTypes.bool,
+  enableKeyboard: PropTypes.func,
 };
 
 export default YearSelector;

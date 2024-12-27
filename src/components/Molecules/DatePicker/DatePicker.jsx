@@ -54,6 +54,7 @@ const DatePicker = ({
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
+  const notCurrentMontAndYear = currentDate.getFullYear() !== currentMonth.getFullYear();
 
   const handleSingleDate = useCallback((date) => {
     setEnableKeyboard(true);
@@ -133,8 +134,6 @@ const DatePicker = ({
   useClickOutside(datePickerRef, () => (setOpenCalender(false), setOpenCalenderEnd(false)));
   closeOpenModal(() => (setOpenCalender(false), setOpenCalenderEnd(false)));
 
-  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
-
   useEffect(() => {
     if(Array.isArray(initialValue) && isRangePicker){
       setStartDate(initialValue[0]);
@@ -164,17 +163,23 @@ const DatePicker = ({
     setWeekdays(calculatedWeekdays);
   }, [locale]);
 
+  const selectPreviousDate = (monthAndYearNotSame) => {
+    if(monthAndYearNotSame){
+      const adjustDate = new Date(currentMonth);
+      adjustDate.setDate(currentDate.getDate());
+      setCurrentDate(adjustDate);
+      updateDate(new Date(adjustDate));
+
+      return;
+    }
+  };
   const handleKeyDown = (e) => {
     const today = new Date();
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    if(!(currentDate instanceof Date)) return;
     const updateDate = (changeFn) => {
-      const notCurrentMontAndYear = currentDate.getFullYear() !== currentMonth.getFullYear();
       // if(notCurrentMontAndYear) return;
       setCurrentDate((prev) => {
-        const adjustDate = new Date(currentMonth);
-        adjustDate.setDate(currentDate.getDate());
-        const newDate = notCurrentMontAndYear ? changeFn(adjustDate) : changeFn(prev);
+        const newDate = changeFn(prev);
         const newYear = newDate.getFullYear();
         const currentYear = currentMonth.getFullYear();
         const isNextMonth = newDate.getMonth() > currentMonth.getMonth();
@@ -226,15 +231,19 @@ const DatePicker = ({
   
     switch (e.key) {
       case 'ArrowLeft':
+        selectPreviousDate(notCurrentMontAndYear);
         updateDate((prev) => new Date(prev.setDate(prev.getDate() - 1)));
         break;
       case 'ArrowRight':
+        selectPreviousDate(notCurrentMontAndYear);
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
         break;
       case 'ArrowUp':
+        selectPreviousDate(notCurrentMontAndYear);
         updateDate((prev) => new Date(prev.setDate(prev.getDate() - 7)));
         break;
       case 'ArrowDown':
+        selectPreviousDate(notCurrentMontAndYear);
         updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
         break;
       case 'Enter':
@@ -262,7 +271,7 @@ const DatePicker = ({
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [currentDate, openCalender, openCalenderEnd, enableKeyboard, hoveredDate, startDate, endDate]);
+  }, [currentDate, openCalender, openCalenderEnd, enableKeyboard, hoveredDate, startDate, endDate, notCurrentMontAndYear]);
 
   useEffect(() => {
     const fallbackDate = new Date();
@@ -338,6 +347,10 @@ const DatePicker = ({
             error={displayErrorFirst && startDate===''}
             placeholder={placeholder}
             ref={inputRefStart}
+            onFocus={() => {
+              if(openCalender) setOpenCalender(false);
+              if(openCalenderEnd) setOpenCalenderEnd(false);
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Tab' && !e.shiftKey && isRangePicker && !openCalender) {
                 e.preventDefault();
@@ -408,6 +421,10 @@ const DatePicker = ({
             activesecondinput={startDate && !endDate || openCalenderEnd}
             error={displayErrorLast && endDate==''}
             ref={inputRefEnd}
+            onFocus={() => {
+              if(openCalender) setOpenCalender(false);
+              if(openCalenderEnd) setOpenCalenderEnd(false);
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Tab' && e.shiftKey) {
                 e.preventDefault();
@@ -470,6 +487,7 @@ const DatePicker = ({
               setOpenCalenderEnd={setOpenCalenderEnd}
               setOpenCalender={setOpenCalender}
               onlyFuture={onlyFuture}
+              setEnableKeyboard={setEnableKeyboard}
             />
           </Calenders>
         </CalendarWrapper>
@@ -502,6 +520,8 @@ const DatePicker = ({
               openCalender={openCalender}
               openCalenderEnd={openCalenderEnd}
               onlyFuture={onlyFuture}
+              setEnableKeyboard={setEnableKeyboard}
+
             />
           </Calenders>
         </CalendarWrapperEnd>
