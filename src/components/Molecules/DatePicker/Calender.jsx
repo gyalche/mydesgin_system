@@ -41,6 +41,8 @@ const Calendar = ({
   openCalender,
   openCalenderEnd,
   onlyFuture,
+  setOpenCalender,
+  setOpenCalenderEnd
 }) => {
   const currentYear = new Date(Date.now()).getFullYear();
 
@@ -140,15 +142,28 @@ const Calendar = ({
     const handleKeyDown = (e) => {
       if(e.shiftKey){
         disableKeyboard();
+        setModalFocus(false);
         return;
       }
       if(e.key === 'Tab' && modalFocus || e.key !== 'Tab') {
         setModalFocus(false);
-        return;
       }
       if ((openCalender || openCalenderEnd)) {
         if (e.key === 'Tab') {
-          if(tabCount == maxCount) setTabCount(0);
+          if(tabCount === maxCount) {
+            setTabCount(0);
+          };
+          if( modalFocus ){
+            if(openCalender){
+              setOpenCalender(false);
+            }
+            if(isRangePicker && openCalender){
+              setOpenCalender(false);
+              setOpenCalenderEnd(true);
+            }else {
+              setOpenCalenderEnd(false);
+            }
+          }
           e.preventDefault();
           disableKeyboard();
           if (e.shiftKey) {
@@ -412,6 +427,8 @@ Calendar.propTypes = {
   openCalenderEnd: PropTypes.func,
   onlyFuture: PropTypes.bool,
   setEnableKeyboard: PropTypes.bool,
+  setOpenCalender: PropTypes.bool,
+  setOpenCalenderEnd: PropTypes.bool,
 };
 
 export default Calendar;

@@ -519,6 +519,8 @@ const DatePicker = ({
               isDoubleView={isDoubleView}
               openCalender={openCalender}
               openCalenderEnd={openCalenderEnd}
+              setOpenCalenderEnd={setOpenCalenderEnd}
+              setOpenCalender={setOpenCalender}
               onlyFuture={onlyFuture}
               setEnableKeyboard={setEnableKeyboard}
 
