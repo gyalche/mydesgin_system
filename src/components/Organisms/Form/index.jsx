@@ -10,7 +10,7 @@ const Form = () => {
     singleDate: new Date('Dec 21 2024 1:50:00'),
     singleTime: new Date('Dec 14 2024 15:20:00'),
     time: [new Date(), new Date('Dec 14 2024 1:20:00')],
-    dateTime: new Date('Dec 20 2024 1:20:00'),
+    dateTime: new Date('Dec 20 2024 1:50:00'),
   };
 
   const onSubmit = (values) => {

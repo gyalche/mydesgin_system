@@ -45,7 +45,6 @@ const Calendar = ({
   setOpenCalenderEnd
 }) => {
   const currentYear = new Date(Date.now()).getFullYear();
-
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
   const [showYears, setShowYears] = useState(false);
