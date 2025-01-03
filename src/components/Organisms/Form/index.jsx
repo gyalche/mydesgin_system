@@ -7,8 +7,8 @@ import { Field, Form as FinalForm } from 'react-final-form';
 const Form = () => {
   const initialValues = {
     dateRange: [new Date(), new Date(new Date().setDate(new Date().getDate() + 14))],
-    singleDate: new Date('Dec 21 2024 1:50:00'),
-    singleTime: new Date('Dec 14 2024 15:20:00'),
+    singleDate: new Date('Jan 21 2024 1:50:00'),
+    singleTime: new Date('Jan 14 2024 15:20:00'),
     time: [new Date(), new Date('Dec 14 2024 1:20:00')],
     dateTime: new Date('Dec 20 2024 1:50:00'),
   };

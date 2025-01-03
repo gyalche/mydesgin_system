@@ -67,7 +67,7 @@ export const DatePickers = {
   render: (args) => {
     const updatedArgs = {
       ...args,
-      initialValue: args?.isRangePicker ? [new Date, new Date('Dec 28 2024 1:45:00')] : new Date('Dec 14 2024 1:45:00'),
+      initialValue: args?.isRangePicker ? [new Date, new Date('Dec 28 2025 1:45:00')] : new Date('Dec 14 2025 1:45:00'),
     };
     return <DatePicker {...updatedArgs} />;
   },
@@ -120,8 +120,8 @@ export const TimePickers = {
   render: args => {
     const updatedArgs = {
       ...args,
-      initialValue:  args.isRangePicker ? [new Date('Dec 14 2024 15:25:00'), new Date('Dec 14 2024 1:10:00')] 
-      : new Date('Dec 14 2024 1:45:00')
+      initialValue:  args.isRangePicker ? [new Date('Dec 14 2025 15:25:00'), new Date('Dec 14 2025 1:10:00')] 
+      : new Date('Dec 14 2025 1:45:00')
     };
     return <Time {...updatedArgs} />;
   },
@@ -187,7 +187,7 @@ export const DateTimePickers = {
   render: (args) => {
     const updatedArgs = {
       ...args,
-      initialValue: args.isDoublePicker ? [new Date('Dec 14 2024 15:40:00'), new Date('Dec 15 2024 1:45:00')] : new Date(),
+      initialValue: args.isDoublePicker ? [new Date('Dec 14 2025 15:40:00'), new Date('Dec 15 2025 1:45:00')] : new Date(),
     };
     return <DateTime {...updatedArgs} />;
   },

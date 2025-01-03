@@ -173,7 +173,6 @@ const DatePicker = ({
       return;
     }
   };
-  
   const handleKeyDown = (e) => {
     e.preventDefault();
     const today = new Date();
@@ -197,6 +196,7 @@ const DatePicker = ({
     const handleEnter = () => {
       e.preventDefault();
       e.stopPropagation();
+
       if(openCalender && isRangePicker){
         setOpenCalender(false);
         setOpenCalenderEnd(true);
@@ -207,7 +207,7 @@ const DatePicker = ({
         input.onChange(currentDate);
         onChange(currentDate);
       }
-       if (openCalender) {
+      if (openCalender) {
         if ((startDate || endDate) && isRangePicker) {
           setStartDate(currentDate);
           input.onChange([currentDate, endDate]);
@@ -275,7 +275,6 @@ const DatePicker = ({
       };
     }
   }, [currentDate, currentMonth, openCalender, openCalenderEnd, enableKeyboard, hoveredDate, startDate, endDate, notCurrentMontAndYear]);
-
   useEffect(() => {
     const fallbackDate = new Date();
   
@@ -302,8 +301,9 @@ const DatePicker = ({
           setOpenCalenderEnd(false);
           setOpenCalender(true);
         } else if (secondInputFocus) {
-          setOpenCalender(false);
           setOpenCalenderEnd(true);
+          setOpenCalender(false);
+
         }
       }
     };
@@ -329,7 +329,6 @@ const DatePicker = ({
     }
 
   }, [dateTimeDefault, isDateTimeDouble, dateTimeDefault]);
-  
 
   useEffect(() => {
     if(!isDateTimeDouble && !Array.isArray(dateTimeDefault) && dateTimeValue){
@@ -349,7 +348,7 @@ const DatePicker = ({
             disabled={disabled}
             width={124}
             height={40}
-            error={displayErrorFirst && startDate===''}
+            error={displayErrorFirst && startDate === ''}
             placeholder={placeholder}
             ref={inputRefStart}
             onFocus={() => {
@@ -480,6 +479,7 @@ const DatePicker = ({
               setOpenCalender={setOpenCalender}
               onlyFuture={onlyFuture}
               setEnableKeyboard={setEnableKeyboard}
+              inputRefEnd={inputRefEnd}
             />
           </Calenders>
         </CalendarWrapper>
