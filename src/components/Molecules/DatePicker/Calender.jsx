@@ -42,7 +42,8 @@ const Calendar = ({
   openCalenderEnd,
   onlyFuture,
   setOpenCalender,
-  inputRefEnd
+  inputRefEnd,
+  setOpenCalenderEnd
 }) => {
   const currentYear = new Date(Date.now()).getFullYear();
   const [openDecade, setOpenDecade] = useState(false);
@@ -153,8 +154,9 @@ const Calendar = ({
             setTabCount(0);
           };
           if(modalFocus){
-            if(openCalender){
+            if(openCalender || openCalenderEnd){
               setOpenCalender(false);
+              setOpenCalenderEnd(false);
             }
             if(isRangePicker && openCalender){
               setOpenCalender(false);
