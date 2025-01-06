@@ -303,7 +303,9 @@ const DatePicker = ({
         } else if (secondInputFocus) {
           setOpenCalenderEnd(true);
           setOpenCalender(false);
-
+        } else{
+          setOpenCalenderEnd(false);
+          setOpenCalender(false);
         }
       }
     };
