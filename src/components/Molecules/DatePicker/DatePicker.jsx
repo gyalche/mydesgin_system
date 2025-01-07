@@ -355,13 +355,6 @@ const DatePicker = ({
             error={displayErrorFirst && startDate === ''}
             placeholder={placeholder}
             ref={inputRefStart}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                e.stopPropagation();
-                setOpenCalender(!openCalender);
-              }
-            }}
             onFocus={() => {
               if(openCalender) setOpenCalender(false);
               if(openCalenderEnd) setOpenCalenderEnd(false);
@@ -429,14 +422,6 @@ const DatePicker = ({
                 activesecondinput={startDate && !endDate || openCalenderEnd}
                 error={displayErrorLast && endDate==''}
                 ref={inputRefEnd}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setOpenCalender(false);
-                    setOpenCalenderEnd(!openCalenderEnd);
-                  }
-                }}
                 onFocus={() => {
                   if(openCalender) setOpenCalender(false);
                   if(openCalenderEnd) setOpenCalenderEnd(false);
