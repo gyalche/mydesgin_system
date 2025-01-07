@@ -50,7 +50,7 @@ const DatePicker = ({
   const [enableKeyboard, setEnableKeyboard] = useState(true);
   const [displayErrorFirst, setDisplayErrorFirst] = useState(false);
   const [displayErrorLast, setDisplayErrorLast] = useState(false);
-  
+
   const notCurrentMontAndYear = currentDate.getMonth() !== currentMonth.getMonth() || currentDate.getFullYear() !== currentMonth.getFullYear();
 
   const datePickerRef = useRef(null);
@@ -173,6 +173,7 @@ const DatePicker = ({
       return;
     }
   };
+
   const handleKeyDown = (e) => {
     e.preventDefault();
     const today = new Date();
@@ -275,6 +276,7 @@ const DatePicker = ({
       };
     }
   }, [currentDate, currentMonth, openCalender, openCalenderEnd, enableKeyboard, hoveredDate, startDate, endDate, notCurrentMontAndYear]);
+
   useEffect(() => {
     const fallbackDate = new Date();
   
@@ -337,7 +339,7 @@ const DatePicker = ({
       setStartDate(dateTimeDefault);
     }
   },[isDateTimeDouble, dateTimeValue]);
-
+ 
   return (
     <DatePickerContainer>
       <InputContainer>
@@ -353,6 +355,13 @@ const DatePicker = ({
             error={displayErrorFirst && startDate === ''}
             placeholder={placeholder}
             ref={inputRefStart}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                e.stopPropagation();
+                setOpenCalender(!openCalender);
+              }
+            }}
             onFocus={() => {
               if(openCalender) setOpenCalender(false);
               if(openCalenderEnd) setOpenCalenderEnd(false);
@@ -420,6 +429,14 @@ const DatePicker = ({
                 activesecondinput={startDate && !endDate || openCalenderEnd}
                 error={displayErrorLast && endDate==''}
                 ref={inputRefEnd}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setOpenCalender(false);
+                    setOpenCalenderEnd(!openCalenderEnd);
+                  }
+                }}
                 onFocus={() => {
                   if(openCalender) setOpenCalender(false);
                   if(openCalenderEnd) setOpenCalenderEnd(false);

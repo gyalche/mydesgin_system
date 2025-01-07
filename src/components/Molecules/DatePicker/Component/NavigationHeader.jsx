@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { CalendarHeader, CalendarIconBtn, CalendarIcon, HeaderIcons, CalenderMonths, TextAreaYearMonth } from '../styles';
 import { getLocalizedMonthName } from '../../../../utils';
