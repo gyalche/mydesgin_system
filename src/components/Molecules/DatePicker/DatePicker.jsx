@@ -298,8 +298,8 @@ const DatePicker = ({
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
-        e.preventDefault();
-        e.stopPropagation();
+        // e.preventDefault();
+        // e.stopPropagation();
         if (firstInputFocus) {
           setOpenCalenderEnd(false);
           setOpenCalender(true);
