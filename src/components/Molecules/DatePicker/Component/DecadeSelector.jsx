@@ -16,6 +16,11 @@ const DecadeSelector = ({
   const buttonRefs = useRef([]);
 
   const handleKeyDown = (event, index) => {
+    if (focusedButton === null) {
+      setFocusedButton(1);
+      buttonRefs.current[1]?.focus();
+      return;
+    }
     const totalButtons = buttonRefs.current.length;
     let newIndex;
     const isDoubleIndexes = isDoubleView ? 4 : 3;
@@ -58,11 +63,14 @@ const DecadeSelector = ({
   };
   
   useEffect(() => {
-    const selectedIndex = selectedDecade ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1)) : 1;
+    const selectedIndex = selectedDecade !== null && selectedDecade >= currentDecadeStart 
+      ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1)) 
+      : focusedButton > 9 ? 10 : 1;
+    
     setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
   }, [selectedDecade, currentDecadeStart, enableFocus]);
-  
+
   return (
     <DecadeGrid focus={enableFocus} isDoubleView={isDoubleView}>
        <ButtonActive data-calendar-btn />
