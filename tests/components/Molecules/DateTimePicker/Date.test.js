@@ -6,7 +6,7 @@ import expect from 'expect';
 describe('DateRangePicker Component', () => {
   const mockOnChange = jest.fn();
   const today = new Date();
-  const monthName = today.toLocaleString('en-US', {month: 'short'});
+  const monthName = today.toLocaleString('ja-JP', {month: 'short'});
   const currentMonth = new RegExp(monthName, 'i');
   
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('DateRangePicker Component', () => {
   });
 
   it('opens calendar on clicking the input field', async () => {
-    render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US'/>);
+    render(<DatePicker onChange={mockOnChange} dateTimeFormat='ja-JP'/>);
     const input = await screen.findByTestId('first-input');
     fireEvent.click(input);
     const check = screen.queryByText(currentMonth);
@@ -32,7 +32,7 @@ describe('DateRangePicker Component', () => {
   });
   
   it('closes calendar when clicked outside', async () => {
-    render(<DatePicker onChange={mockOnChange} dateTimeFormat='en-US'/>);
+    render(<DatePicker onChange={mockOnChange} dateTimeFormat='ja-JP'/>);
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
     const calender = screen.getByTestId('calender-id');

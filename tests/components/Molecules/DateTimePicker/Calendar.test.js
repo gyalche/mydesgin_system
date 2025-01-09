@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import Calendar from 'src/components/Molecules/DatePicker/Calender';
+import Calendar from 'src/components/Molecules/DatePicker/Calendar';
 
 describe('Calendar Component', () => {
   const mockHandleSingleDate = jest.fn();
