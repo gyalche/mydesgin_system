@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
   CalendarWrapper,
-  Calenders,
+  Calendars,
   InputIcon,
   DatePickerContainer,
   IconWrapper,
@@ -13,7 +13,7 @@ import {
   CalendarWrapperEnd,
  } from './styles';
 import { normalizeDate } from '../../../utils';
-import Calendar from './Calender';
+import Calendar from './Calendar';
 import InputField from './InputField';
 import closeOpenModal from '../../../hooks/closeOpenModal';
 import useClickOutside from '../../../hooks/useClickOutside';
@@ -45,8 +45,6 @@ const DatePicker = ({
   const [hoveredDate, setHoveredDate] = useState(null);
   const [weekdays, setWeekdays] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [firstInputFocus, setFirstInputFocus] = useState(false);
-  const [secondInputFocus, setSecondInputFocus] = useState(false);
   const [enableKeyboard, setEnableKeyboard] = useState(true);
   const [displayErrorFirst, setDisplayErrorFirst] = useState(false);
   const [displayErrorLast, setDisplayErrorLast] = useState(false);
@@ -178,9 +176,7 @@ const DatePicker = ({
     e.preventDefault();
     const today = new Date();
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
     const updateDate = (changeFn) => {
-      // if(notCurrentMontAndYear) return;
       setCurrentDate((prev) => {
         const newDate = changeFn(prev);
         const newYear = newDate.getFullYear();
@@ -296,31 +292,6 @@ const DatePicker = ({
   }, [startDate, openCalender, openCalenderEnd]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Enter') {
-        // e.preventDefault();
-        // e.stopPropagation();
-        if (firstInputFocus) {
-          setOpenCalenderEnd(false);
-          setOpenCalender(true);
-        } else if (secondInputFocus) {
-          setOpenCalenderEnd(true);
-          setOpenCalender(false);
-        } else{
-          setOpenCalenderEnd(false);
-          setOpenCalender(false);
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [firstInputFocus, secondInputFocus]);
-
-  useEffect(() => {
     if(dateTimeValue){
       if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length >= 2) {
         setStartDate(dateTimeDefault[1]);
@@ -340,7 +311,26 @@ const DatePicker = ({
       setStartDate(dateTimeDefault);
     }
   },[isDateTimeDouble, dateTimeValue]);
- 
+
+  const handleInputKeyDown = (e, isStartInput) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+      if (isStartInput) {
+        setOpenCalenderEnd(false);
+        setOpenCalender(!openCalender);
+        if (!openCalender) {
+          inputRefStart.current?.focus();
+        }
+      } else {
+        setOpenCalender(false);
+        setOpenCalenderEnd(!openCalenderEnd);
+        if (!openCalenderEnd) {
+          inputRefEnd.current?.focus();
+        }
+      }
+    }
+  };
   return (
     <DatePickerContainer>
       <InputContainer>
@@ -356,11 +346,10 @@ const DatePicker = ({
             error={displayErrorFirst && startDate === ''}
             placeholder={placeholder}
             ref={inputRefStart}
-            onFocus={() => {
-              if(openCalender) setOpenCalender(false);
-              if(openCalenderEnd) setOpenCalenderEnd(false);
-              setFirstInputFocus(true);
-              setSecondInputFocus(false);
+            onKeyDown={(e) => {
+              if (!openCalender && !openCalenderEnd) {
+                handleInputKeyDown(e, true);
+              }
             }}
           />
           <IconWrapper>
@@ -423,11 +412,10 @@ const DatePicker = ({
                 activesecondinput={startDate && !endDate || openCalenderEnd}
                 error={displayErrorLast && endDate==''}
                 ref={inputRefEnd}
-                onFocus={() => {
-                  if(openCalender) setOpenCalender(false);
-                  if(openCalenderEnd) setOpenCalenderEnd(false);
-                  setFirstInputFocus(false);
-                  setSecondInputFocus(true);
+                onKeyDown={(e) => {
+                  if (!openCalender && !openCalenderEnd) {
+                    handleInputKeyDown(e, false);
+                  }
                 }}
               />
               <IconWrapper>
@@ -455,7 +443,7 @@ const DatePicker = ({
       </InputContainer>
       {openCalender && !disabled &&  (
         <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
-          <Calenders data-testid='container-id'>
+          <Calendars data-testid='container-id'>
             <Calendar
               date={currentMonth}
               locale={locale}
@@ -486,12 +474,12 @@ const DatePicker = ({
               setEnableKeyboard={setEnableKeyboard}
               inputRefEnd={inputRefEnd}
             />
-          </Calenders>
+          </Calendars>
         </CalendarWrapper>
       )}
       {openCalenderEnd && !disabled && (
         <CalendarWrapperEnd ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
-          <Calenders data-testid='container-id'>
+          <Calendars data-testid='container-id'>
             <Calendar
               date={currentMonth}
               locale={locale}
@@ -521,7 +509,7 @@ const DatePicker = ({
               onlyFuture={onlyFuture}
               setEnableKeyboard={setEnableKeyboard}
             />
-          </Calenders>
+          </Calendars>
         </CalendarWrapperEnd>
       )}
     </DatePickerContainer>
@@ -557,7 +545,7 @@ DatePicker.defaultProps = {
   isDoubleView: false,
   isRangePicker: false,
   initialValue: null,
-  locale: 'en-US',
+  locale: 'ja-JP',
   onChange: () => {},
   disabled: false,
   error: false,

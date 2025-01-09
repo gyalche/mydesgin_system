@@ -464,7 +464,11 @@ const TimePicker = ({ is12Hour,
             width={is12Hour ? 95 : 85}
             height={40}
             error={dateTimeValue ? timeError && time === '' : timeErrorFirst && time === ''}
-            onKeyDown={(e) => { 
+            onKeyDown={(e) => {
+              if(e.key === 'Enter'){
+                timeInputRef?.current?.click();
+                if(isDropdownOpen) setIsDropdownOpen(true);
+              }
               if (e.key === 'Tab' && !e.shiftKey && isRangePicker) {
                 e.preventDefault();
                 timeInputRefEnd.current?.focus();
@@ -523,6 +527,10 @@ const TimePicker = ({ is12Hour,
                   height={40}
                   error={timeErrorLast && endTime == ''}
                   onKeyDown={(e) => {
+                    if(e.key === 'Enter'){
+                      timeInputRefEnd?.current?.click();
+                      if(isEndTimeDropdownOpen) setIsEndTimeDropdownOpen(true);
+                    }
                     if (e.key === 'Tab' && e.shiftKey) {
                       e.preventDefault();
                       timeInputRef.current?.focus();

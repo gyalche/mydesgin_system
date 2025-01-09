@@ -10,7 +10,6 @@ const closeOpenModal = (callback) => {
             } catch (error) {
               new Error(error);
             }
-            
           }
         }
       };

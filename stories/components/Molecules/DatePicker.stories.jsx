@@ -177,8 +177,8 @@ export const DateTimePickers = {
     is12Hour: false,
     isDoubleView: false,
     isRangePicker: false,
-    isDoublePicker: true,
-    locale: 'en-US',
+    isDoublePicker: false,
+    locale: 'ja-JP',
     placeholder: {
       date: 'yyyy/mm/dd',
       time: 'hh:mm',

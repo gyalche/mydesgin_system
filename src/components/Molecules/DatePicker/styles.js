@@ -191,7 +191,7 @@ export const CalendarWrapperEnd = styled(CalendarWrapper)`
   margin-left: ${({isDoubleView}) => isDoubleView ? '407px' : '377px'};
 `;
 
-export const Calenders = styled.div`
+export const Calendars = styled.div`
   display: flex;
   gap: 5px;
   border-radius: 4px;
