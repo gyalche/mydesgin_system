@@ -469,6 +469,7 @@ const TimePicker = ({ is12Hour,
                 timeInputRef?.current?.click();
                 if(isDropdownOpen) setIsDropdownOpen(true);
               }
+              if(e.key === 'Tab' && isDropdownOpen) setIsDropdownOpen(false);
               if (e.key === 'Tab' && !e.shiftKey && isRangePicker) {
                 e.preventDefault();
                 timeInputRefEnd.current?.focus();
@@ -531,6 +532,7 @@ const TimePicker = ({ is12Hour,
                       timeInputRefEnd?.current?.click();
                       if(isEndTimeDropdownOpen) setIsEndTimeDropdownOpen(true);
                     }
+                    if(e.key === 'Tab' && isEndTimeDropdownOpen) setIsEndTimeDropdownOpen(false);
                     if (e.key === 'Tab' && e.shiftKey) {
                       e.preventDefault();
                       timeInputRef.current?.focus();

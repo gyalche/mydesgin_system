@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
+import useHandleDecadeKeyDown from '../../../../hooks/useHandleDecadeKeydown';
 
 const DecadeSelector = ({
   currentDecadeStart, 
@@ -14,62 +15,20 @@ const DecadeSelector = ({
  }) => {
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
-
-  const handleKeyDown = (event, index) => {
-    if (focusedButton === null) {
-      setFocusedButton(1);
-      buttonRefs.current[1]?.focus();
-      return;
-    }
-    const totalButtons = buttonRefs.current.length;
-    let newIndex;
-    const isDoubleIndexes = isDoubleView ? 4 : 3;
-    const navigateButton = (key) => {
-      setModalFocus(false);
-      switch (key) {
-        case 'ArrowRight': return (index + 1) % totalButtons;
-        case 'ArrowLeft': return (index - 1 + totalButtons) % totalButtons;
-        case 'ArrowDown': return index + isDoubleIndexes < totalButtons ? index + isDoubleIndexes : index;
-        case 'ArrowUp': return index - isDoubleIndexes >= 0 ? index - isDoubleIndexes : index;
-        default: return index;
-      }
-    };
   
-    switch (event.key) {
-      case 'Enter':
-        event.preventDefault();
-        event.stopPropagation();
-        buttonRefs.current[enableFocus ? index : index].click();
-        return;
-  
-      case 'ArrowRight':
-      case 'ArrowLeft':
-      case 'ArrowDown':
-      case 'ArrowUp':
-        newIndex = navigateButton(event.key);
-        break;
-  
-      default:
-        return;
-    }
-    if(newIndex === 0) goToPreviousDecade();
-    if(newIndex === totalButtons - 1) goToNextDecade();
-    if (newIndex >= 0 && newIndex < totalButtons - 1 && buttonRefs.current[newIndex]) {
-      event.preventDefault();
-      event.stopPropagation();
-      setFocusedButton(newIndex);
-      buttonRefs.current[newIndex].focus();
-    }
-  };
-  
-  useEffect(() => {
-    const selectedIndex = selectedDecade !== null && selectedDecade >= currentDecadeStart 
-      ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1)) 
-      : focusedButton > 9 ? 10 : 1;
-    
-    setFocusedButton(selectedIndex);
-    buttonRefs.current[selectedIndex]?.focus();
-  }, [selectedDecade, currentDecadeStart, enableFocus]);
+  const { handleKeyDown } = useHandleDecadeKeyDown({
+    buttonRefs,
+    enableFocus,
+    setModalFocus,
+    goToNextDecade,
+    goToPreviousDecade,
+    isDoubleView,
+    handleDecadeSelect,
+    focusedButton,
+    setFocusedButton,
+    currentDecadeStart,
+    selectedDecade,
+  });
 
   return (
     <DecadeGrid focus={enableFocus} isDoubleView={isDoubleView}>
