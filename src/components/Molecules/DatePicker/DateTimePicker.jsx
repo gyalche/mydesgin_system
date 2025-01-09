@@ -155,7 +155,7 @@ DateTimePicker.defaultProps = {
   isRangePicker: false,
   is12Hour: false,
   isDoublePicker: false,
-  locale: 'en-US',
+  locale: 'ja-JP',
   placeholder: {
     date: 'yyyy/mm/dd',
     time: 'hh:mm',

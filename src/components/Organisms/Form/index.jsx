@@ -57,7 +57,7 @@ const Form = () => {
 
               <div>
                 <label>DateTime Picker:</label>
-                <Field name="dateTime" component={DateTimePicker} isDoublePicker={false}/>
+                <Field name="dateTime" component={DateTimePicker} />
               </div>
             </div>
 
