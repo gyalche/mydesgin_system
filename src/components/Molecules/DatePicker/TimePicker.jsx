@@ -20,6 +20,7 @@ import { createDateFromTime, roundToNearestStep } from '../../../utils';
 import InputField from './InputField';
 import closeOpenModal from '../../../hooks/closeOpenModal';
 import useTimePickerKeyboardNavigation from '../../../hooks/useTimePickerKeyboard';
+import { useTimeHandlers } from '../../../hooks/useTimeHandlers';
 
 const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
 
@@ -47,9 +48,6 @@ const TimePicker = ({ is12Hour,
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEndTimeDropdownOpen, setIsEndTimeDropdownOpen] = useState(false);
 
-  const [openTime, setOpenTime] = useState(false);
-  const [openTimeEnd, setOpenTimeEnd] = useState(false);
-
   const [time, setTime] = useState('');
   const [endTime, setEndTime] = useState('');
 
@@ -68,8 +66,7 @@ const TimePicker = ({ is12Hour,
   const [highlightedMinuteEndIndex, setHighlightedMinuteEndIndex] = useState(-1);
   const [highlightedAmPmEndIndex, setHighlightedAmPmEndIndex] = useState(-1);
 
-  const [roundMinuteFirst, setRoundMinueFirst] = useState(null);
-  const [roundMinuteSecond, setRoundMinueSecond] = useState(null);
+  const [roundMinuteSecond, setRoundMinuteSecond] = useState(null);
   const columns = ['hour', 'minute', 'ampm'];
 
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
@@ -81,85 +78,38 @@ const TimePicker = ({ is12Hour,
   const timePickerRef = useRef(null);
   const timeInputRef = useRef(null);
   const timeInputRefEnd = useRef(null);
-
-  const handleHourClick = useCallback((hour) => {
-    const timeString = `${hour}:${selectedMinute}:00 ${amPm}`;
-    const updatedTime = createDateFromTime(timeString);
-    setSelectedHour(String(hour));
-    setTime(updatedTime);
-    if(!isRangePicker){
-      onChange(updatedTime);
-      input?.onChange(updatedTime);
-    }else {
-      onChange([updatedTime, endTime]);
-      input?.onChange([updatedTime, endTime]);
-    }
-  }, [selectedMinute, amPm]);
-
-  const handleMinuteClick = useCallback((minute) => {
-    const timeString = `${selectedHour}:${minute}:00 ${amPm}`;
-    const updatedTime = createDateFromTime(timeString);
-    setSelectedMinute(String(minute));
-    setRoundUpMinute(String(minute));
-    setTime(updatedTime);
-
-    if(!isRangePicker){
-      onChange(updatedTime);
-      input?.onChange(updatedTime);
-    }else {
-      onChange([updatedTime, endTime]);
-      input?.onChange([updatedTime, endTime]);
-    }
-  }, [selectedHour, amPm]);
-
-  const handleAmPm = useCallback((value) => {
-    const timeString = `${selectedHour}:${selectedMinute}:00 ${value}`;
-    const updatedTime = createDateFromTime(timeString);
   
-    setAmPm(value);
-    setTime([updatedTime, endTime]);
-    onChange([updatedTime, endTime]);
-    if(!isRangePicker){
-      onChange(updatedTime);
-      input?.onChange(updatedTime);
-    }else {
-      onChange([updatedTime, endTime]);
-      input?.onChange([updatedTime, endTime]);
-    }
-  }, [selectedHour, selectedMinute]);
-  
-  const handleEndHourClick = useCallback((hour) => {
-    setSelectedHourEnd(String(hour));
-    const timeString = `${hour}:${selectedMinuteEnd}:00 ${amPmEnd}`;
-    const updatedEndTime = createDateFromTime(timeString);
-    setEndTime(updatedEndTime);
-    onChange([time, updatedEndTime]);
-    input?.onChange([time, updatedEndTime]);
-  }, [selectedMinuteEnd, amPmEnd, time]);
-
-  const handleEndMinuteClick = useCallback((minute) => {
-    const timeString = `${selectedHourEnd}:${minute}:00 ${amPmEnd}`;
-    const updatedTime = createDateFromTime(timeString);
-    setRoundMinueSecond(getNearestMinMinute(minute, step));
-    setSelectedMinuteEnd(String(minute));
-    setTime(updatedTime);
-    onChange([time, updatedTime]);
-  
-    if (input?.onChange) {
-      input.onChange([time, updatedTime]);
-    }
-  }, [selectedHourEnd, amPmEnd, time]);
-
-  const handleEndAmPm = useCallback((value) => {
-    const timeString = `${selectedHourEnd}:${selectedMinuteEnd}:00 ${value}`;
-    const updatedTime = createDateFromTime(timeString);
-    setAmPmEnd(value);
-    setEndTime([time, updatedTime]);
-    onChange([time, updatedTime]);
-    if (input?.onChange) {
-      input.onChange([time, updatedTime]);
-    }
-  }, [selectedHour, selectedMinute]);
+  const {
+    handleHourClick,
+    handleMinuteClick,
+    handleAmPm,
+    handleEndHourClick,
+    handleEndMinuteClick,
+    handleEndAmPm
+  } = useTimeHandlers({
+    selectedHour,
+    selectedMinute,
+    selectedHourEnd,
+    selectedMinuteEnd,
+    amPm,
+    amPmEnd,
+    time,
+    endTime,
+    step,
+    isRangePicker,
+    setSelectedHour,
+    setSelectedMinute,
+    setAmPm,
+    setTime,
+    setRoundUpMinute,
+    setSelectedHourEnd,
+    setSelectedMinuteEnd,
+    setAmPmEnd,
+    setEndTime,
+    setRoundMinuteSecond,
+    onChange,
+    input
+  });
 
   const toggleDropdown = () => {
     setIsEndTimeDropdownOpen(false);
@@ -169,6 +119,7 @@ const TimePicker = ({ is12Hour,
     setIsDropdownOpen(false);
     setIsEndTimeDropdownOpen(!isEndTimeDropdownOpen);
   };
+
   //custom hook for outside click to close the model
   useClickOutside(timePickerRef, () => {
     if ((selectedHour && (amPm || !is12Hour)) || !time || isRangePicker) {
@@ -217,33 +168,10 @@ const TimePicker = ({ is12Hour,
 
       setSelectedHourEnd(endTime.hour);
       setSelectedMinuteEnd(endTime.minute);
-      setRoundMinueSecond(getNearestMinMinute(endTime.minute, step));
+      setRoundMinuteSecond(getNearestMinMinute(endTime.minute, step));
       setAmPmEnd(endTime.amPm);
     }
   }, [input?.value, is12Hour, step]);
-
-  useEffect(() =>{
-   const activeSelectHour = hours.indexOf(selectedHour);
-   setHighlightedHourIndex(activeSelectHour);
-
-   const activeMinute = minutes.indexOf(selectedMinute);
-   setHighlightedMinuteIndex(activeMinute);
-
-   const activeAmPm = AmPmValue.findIndex((data) => data?.name === amPm);
-   setHighlightedAmPmIndex(activeAmPm);
-
-  },[selectedHour, selectedMinute, amPm]);
-
-  useEffect(() => {
-    const activeSelectHourEnd = hours.indexOf(selectedHourEnd);
-    setHighlightedHourEndIndex(activeSelectHourEnd);
-  
-    const activeMinuteEnd = minutes.indexOf(selectedMinuteEnd);
-    setHighlightedMinuteEndIndex(activeMinuteEnd);
-  
-    const activeAmPmEnd = AmPmValue.findIndex((data) => data?.name === amPmEnd);
-    setHighlightedAmPmEndIndex(activeAmPmEnd);
-   },[selectedHourEnd, selectedMinuteEnd, amPmEnd, isEndTimeDropdownOpen]);
 
   useTimePickerKeyboardNavigation({
     isDropdownOpen,
@@ -386,8 +314,6 @@ const TimePicker = ({ is12Hour,
               if (e.key === 'Tab' && !e.shiftKey && isRangePicker) {
                 e.preventDefault();
                 timeInputRefEnd.current?.focus();
-                setOpenTime(false);
-                setOpenTimeEnd(true);
               }
             }}
           />
@@ -449,8 +375,6 @@ const TimePicker = ({ is12Hour,
                     if (e.key === 'Tab' && e.shiftKey) {
                       e.preventDefault();
                       timeInputRef.current?.focus();
-                      setOpenTimeEnd(false);
-                      setOpenTime(true);
                     }
                   }}
                 />
@@ -501,7 +425,7 @@ const TimePicker = ({ is12Hour,
                   <TimeOption
                     key={index}
                     onClick={() => handleMinuteClick(minute)}
-                    selected={String(minute) === String(roundUpMinute || roundMinuteFirst || roundUpMinute)}
+                    selected={String(minute) === String(roundUpMinute)}
                     highlighted={highlightedMinuteIndex === index && activeColumn === 'minute'}
                   >
                     {String(minute).padStart(2, '0')}
@@ -605,5 +529,4 @@ TimePicker.defaultProps = {
   isDateTimeDouble: false,
   dateTimeValue: false,
 };
-
 export default TimePicker;
