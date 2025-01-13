@@ -58,39 +58,37 @@ function useDatePickerKeyboardHandler({
     const handleEnter = () => {
       e.preventDefault();
       e.stopPropagation();
-
-      if (openCalender && isRangePicker) {
-        setOpenCalender(false);
-        setOpenCalenderEnd(true);
-        inputRefEnd.current?.focus();
-      }
-      if (openCalender && !isRangePicker) {
-        setStartDate(currentDate);
-        input.onChange(currentDate);
-        onChange(currentDate);
-      }
+    
       if (openCalender) {
-        if ((startDate || endDate) && isRangePicker) {
-          setStartDate(currentDate);
-          input.onChange([currentDate, endDate]);
+        if (isRangePicker) {
+          if (!startDate) {
+            setStartDate(currentDate);
+          } else if (endDate || currentDate < startDate) {
+            setStartDate(currentDate);
+          } else {
+            setEndDate(currentDate);
+            setHoveredDate(currentDate);
+            setOpenCalenderEnd(false);
+            input.onChange([startDate, currentDate]);
+            onChange([startDate, currentDate]);
+            return;
+          }
           setOpenCalender(false);
           setOpenCalenderEnd(true);
-          inputRefEnd?.current?.focus();
-        } else if (!startDate && isRangePicker) {
+          inputRefEnd.current?.focus();
+        } else {
           setStartDate(currentDate);
+          input.onChange(currentDate);
+          onChange(currentDate);
           setOpenCalender(false);
-          setOpenCalenderEnd(true);
-          inputRefEnd?.current?.focus();
         }
-      } else if (startDate) {
-        setEndDate(currentDate);
-        input.onChange([startDate, currentDate]);
-        setHoveredDate(currentDate);
-        setOpenCalenderEnd(false);
-      } else if (openCalenderEnd && currentDate >= startDate) {
-        setEndDate(currentDate);
-        setHoveredDate(currentDate);
-        setOpenCalenderEnd(false);
+      } else if (openCalenderEnd) {
+        if (currentDate >= startDate) {
+          setEndDate(currentDate);
+          setHoveredDate(currentDate);
+          setOpenCalenderEnd(false);
+          input.onChange([startDate, currentDate]);
+        }
       }
     };
 
