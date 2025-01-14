@@ -16,16 +16,34 @@ const useCalendarNavigator = ({
 }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.shiftKey) {
-        disableKeyboard();
-        setModalFocus(false);
-        return;
-      }
       if ((e.key === 'Tab' && modalFocus) || e.key !== 'Tab') {
         setModalFocus(false);
       }
       if (openCalender || openCalenderEnd) {
         if (e.key === 'Tab') {
+          e.preventDefault();
+          if (e.shiftKey) {
+            const buttons = document.querySelectorAll('[data-calendar-btn]');
+            const focusedIndex = Array.from(buttons).findIndex(
+              (button) => button === document.activeElement
+            );
+            if (focusedIndex === 0) {
+              setOpenCalender(false);
+              setOpenCalenderEnd(false);
+              disableKeyboard();
+              setModalFocus(false);
+              setTabCount(0);
+              return;
+            }
+            setTabCount((prevTabCount) =>
+              prevTabCount === 1 ? maxCount : prevTabCount - 1
+            );
+
+            const prevIndex = (focusedIndex - 1 + buttons.length) % buttons.length;
+            buttons[prevIndex]?.focus();
+            return;
+          }
+
           if (tabCount === maxCount) {
             setTabCount(0);
           }
@@ -34,33 +52,24 @@ const useCalendarNavigator = ({
               setOpenCalender(false);
               setOpenCalenderEnd(false);
             }
+
             if (isRangePicker && openCalender) {
               setOpenCalender(false);
               inputRefEnd?.current?.focus();
               inputRefEnd?.current?.click();
             }
           }
-          e.preventDefault();
-          disableKeyboard();
-          if (e.shiftKey) {
-            setTabCount((prevTabCount) =>
-              prevTabCount === 1 ? maxCount : prevTabCount - 1
-            );
-          } else {
-            setTabCount((prevTabCount) =>
-              prevTabCount === maxCount ? 1 : prevTabCount + 1
-            );
-          }
-          const selector = '[data-calendar-btn]';
-          const buttons = document.querySelectorAll(selector);
 
+          disableKeyboard();
+          setTabCount((prevTabCount) =>
+            prevTabCount === maxCount ? 1 : prevTabCount + 1
+          );
+          const buttons = document.querySelectorAll('[data-calendar-btn]');
           const focusedIndex = Array.from(buttons).findIndex(
             (button) => button === document.activeElement
           );
-
-          const nextIndex = e.shiftKey
-            ? ((focusedIndex - 1 + buttons.length) % buttons.length, setTabCount(0))
-            : (focusedIndex + 1) % buttons.length;
+          
+          const nextIndex = focusedIndex === -1 ? 0 : (focusedIndex + 1) % buttons.length;
           buttons[nextIndex]?.focus();
         }
       }

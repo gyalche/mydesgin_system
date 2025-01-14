@@ -224,7 +224,7 @@ const DatePicker = ({
             placeholder={placeholder}
             ref={inputRefStart}
             onKeyDown={(e) => {
-              if (!openCalender || !openCalenderEnd) {
+              if (!openCalender && !openCalenderEnd) {
                 handleInputKeyDown(e, true);
               }
             }}
@@ -290,7 +290,7 @@ const DatePicker = ({
                 error={displayErrorLast && endDate==''}
                 ref={inputRefEnd}
                 onKeyDown={(e) => {
-                  if (!openCalender || !openCalenderEnd) {
+                  if (!openCalender && !openCalenderEnd) {
                     handleInputKeyDown(e, false);
                   }
                 }}
