@@ -11,10 +11,10 @@ import {
 } from './styles';
 import { getDaysInMonth, normalizeDate } from '../../../utils';
 import closeOpenModal from '../../../hooks/closeOpenModal';
-import CalendarNavigation from './Component/NavigationHeader';
-import DecadeSelector from './Component/DecadeSelector';
-import YearSelector from './Component/YearSelector';
-import MonthSelector from './Component/MonthSelector';
+import CalendarNavigation from './Components/NavigationHeader';
+import DecadeSelector from './Components/DecadeSelector';
+import YearSelector from './Components/YearSelector';
+import MonthSelector from './Components/MonthSelector';
 import useCalendarNavigator from '../../../hooks/useCalendarNavigator';
 
 const Calendar = ({
