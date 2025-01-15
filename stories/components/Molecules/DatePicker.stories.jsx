@@ -146,6 +146,10 @@ export const DateTimePickers = {
       description: '12 Hour format for time',
       control: { type: 'boolean' },
     },
+    step: {
+      description: 'Time interval in minutes',
+      control: { type: 'number' },
+    },
     isDoubleView : {
       description: 'double view calender, with current and next month',
       control: { type: 'boolean' },
@@ -183,6 +187,7 @@ export const DateTimePickers = {
       date: 'yyyy/mm/dd',
       time: 'hh:mm',
     },
+    step: 15,
   },
   render: (args) => {
     const updatedArgs = {

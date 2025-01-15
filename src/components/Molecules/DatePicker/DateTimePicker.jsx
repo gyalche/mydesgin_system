@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { DateTimeContainer, NextIcon } from './styles';
 import { Layout } from 'components/Atoms';
 import { combineDateAndTime } from '../../../utils/index';
-import TimeRangePicker from './TimePicker';
 
 const DateTimePicker = ({ onChange, 
   disabled,
@@ -16,6 +15,7 @@ const DateTimePicker = ({ onChange,
   placeholder,
   input,
   initialValue,
+  step,
 }) => {
 
   const initialValues = input?.value ?? initialValue ?? new Date();
@@ -83,7 +83,7 @@ const DateTimePicker = ({ onChange,
           dateTimeValue={true}
           onlyFuture={true}
         />
-        <TimeRangePicker
+        <TimePicker
           is12Hour={is12Hour}
           onChange={(value) => handleChange(value, 'time')}
           disabled={disabled}
@@ -91,6 +91,7 @@ const DateTimePicker = ({ onChange,
           isRangePicker={false}
           dateTimeDefault={initialValues}
           dateTimeValue={true}
+          step={step}
         />
       </Layout.Flex>
 
@@ -113,7 +114,7 @@ const DateTimePicker = ({ onChange,
               dateTimeDefault={initialValues}
               dateTimeValue={true}
             />
-            <TimeRangePicker
+            <TimePicker
               is12Hour={is12Hour}
               onChange={(value) => handleChangeEnd(value, 'time')}
               disabled={disabled}
@@ -122,6 +123,7 @@ const DateTimePicker = ({ onChange,
               isDateTimeDouble={true}
               dateTimeDefault={initialValues}
               dateTimeValue={true}
+              step={step}
             />
           </Layout.Flex>
         </>
@@ -146,6 +148,7 @@ DateTimePicker.propTypes = {
   input: PropTypes.oneOfType([PropTypes.object]),
   initialValue: PropTypes.any,
   isDoublePicker: PropTypes.bool,
+  step: PropTypes.bool,
 };
 
 DateTimePicker.defaultProps = {
@@ -162,6 +165,7 @@ DateTimePicker.defaultProps = {
   },
   isTimeRange: false,
   initialValue: null,
+  step: 15,
 };
 
 export default DateTimePicker;
