@@ -158,10 +158,6 @@ export const DateTimePickers = {
       description: 'Pick the range of date',
       control: { type: 'boolean' },
     },
-    isDoublePicker: {
-      description: 'Time and time has start and end picker double view',
-      control: { type: 'boolean' },
-    },
     locale: {
       description: 'Locale format of the calendar. Default is ja-JP',
       control: { type: 'select' },
@@ -181,7 +177,6 @@ export const DateTimePickers = {
     is12Hour: false,
     isDoubleView: false,
     isRangePicker: false,
-    isDoublePicker: false,
     locale: 'ja-JP',
     placeholder: {
       date: 'yyyy/mm/dd',
@@ -192,7 +187,7 @@ export const DateTimePickers = {
   render: (args) => {
     const updatedArgs = {
       ...args,
-      initialValue: args.isDoublePicker ? [new Date('Dec 14 2025 15:40:00'), new Date('Dec 15 2025 1:45:00')] : new Date(),
+      initialValue: args.isRangePicker ? [new Date('Dec 14 2025 15:40:00'), new Date('Dec 15 2025 1:45:00')] : new Date(),
     };
     return <DateTime {...updatedArgs} />;
   },

@@ -8,7 +8,7 @@ import { combineDateAndTime } from '../../../utils/index';
 
 const DateTimePicker = ({ onChange, 
   disabled,
-  isDoublePicker,
+  isRangePicker,
   isDoubleView,
   is12Hour,
   locale,
@@ -17,9 +17,8 @@ const DateTimePicker = ({ onChange,
   initialValue,
   step,
 }) => {
-
   const initialValues = input?.value ?? initialValue ?? new Date();
-  const [isRange, setIsRange] = useState(Array.isArray(initialValue || input?.value) || isDoublePicker);
+  const [isRange, setIsRange] = useState(false);
 
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
@@ -55,15 +54,17 @@ const DateTimePicker = ({ onChange,
   };
 
   useEffect(() => {
-    if (isDoublePicker || Array.isArray(initialValues)) {
+    if (isRangePicker || Array.isArray(initialValues || input?.value)) {
       const updatedValue = [dateTimeStartvalue, dateTimeEndvalue];
       onChange(updatedValue);
       input?.onChange(updatedValue);
+      setIsRange(true);
     } else {
       onChange(dateTimeStartvalue);
       input?.onChange(dateTimeStartvalue);
+      setIsRange(false);
     }
-  }, [dateTimeStartvalue, dateTimeEndvalue, isDoublePicker]);
+  }, [dateTimeStartvalue, dateTimeEndvalue, isRangePicker, input]);
 
   return (
     <DateTimeContainer>
@@ -147,7 +148,6 @@ DateTimePicker.propTypes = {
   isTimeRange: PropTypes.bool,
   input: PropTypes.oneOfType([PropTypes.object]),
   initialValue: PropTypes.any,
-  isDoublePicker: PropTypes.bool,
   step: PropTypes.bool,
 };
 
@@ -157,7 +157,6 @@ DateTimePicker.defaultProps = {
   isDoubleView: false,
   isRangePicker: false,
   is12Hour: false,
-  isDoublePicker: false,
   locale: 'ja-JP',
   placeholder: {
     date: 'yyyy/mm/dd',
