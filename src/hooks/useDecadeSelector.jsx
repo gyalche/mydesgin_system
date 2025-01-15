@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const useHandleDecadeKeyDown = ({
+const useDecadeSelector = ({
   buttonRefs,
   enableFocus,
   setModalFocus,
@@ -94,4 +94,4 @@ const useHandleDecadeKeyDown = ({
   return { handleKeyDown };
 };
 
-export default useHandleDecadeKeyDown;
+export default useDecadeSelector;

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
-import useHandleDecadeKeyDown from '../../../../hooks/useHandleDecadeKeydown';
+import useDecadeSelector from '../../../../hooks/useDecadeSelector';
 
 const DecadeSelector = ({
   currentDecadeStart, 
@@ -16,7 +16,7 @@ const DecadeSelector = ({
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
   
-  const { handleKeyDown } = useHandleDecadeKeyDown({
+  const { handleKeyDown } = useDecadeSelector({
     buttonRefs,
     enableFocus,
     setModalFocus,
