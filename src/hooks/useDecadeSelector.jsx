@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 
 const useDecadeSelector = ({
   buttonRefs,
@@ -7,7 +7,6 @@ const useDecadeSelector = ({
   goToNextDecade,
   goToPreviousDecade,
   isDoubleView,
-  handleDecadeSelect,
   focusedButton,
   setFocusedButton,
   currentDecadeStart,

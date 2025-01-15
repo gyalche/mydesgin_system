@@ -11,7 +11,6 @@ const useYearSelector = ({
   goToPreviousDecade,
   goToNextDecade,
   enableKeyboard,
-  enableFocus,
   setModalFocus,
   showYears,
 }) => {
