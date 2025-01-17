@@ -12,12 +12,11 @@ import {
   NextIcon,
   CalendarWrapperEnd,
  } from './styles';
-import { normalizeDate } from '../../../utils';
 import Calendar from './Calendar';
 import InputField from './InputField';
 import closeOpenModal from '../../../hooks/closeOpenModal';
 import useClickOutside from '../../../hooks/useClickOutside';
-import useDatePickerKeyboardHandler from '../../../hooks/useDatePickerKeyboard';
+import useDatePickerSelector from '../../../hooks/useDatePickerSelector';
 
 const DatePicker = ({
   isDoubleView,
@@ -37,176 +36,54 @@ const DatePicker = ({
   isDateTimeDouble,
   dateTimeDefault,
 }) => {
-  const [startDate, setStartDate] = useState(Array.isArray(input?.value) ? input?.value[0] : input?.value);
-  const [endDate, setEndDate] = useState(Array.isArray(input?.value) ? input?.value[1] : input?.value);
-  const [openCalender, setOpenCalender] = useState(false);
-  const [openCalenderEnd, setOpenCalenderEnd] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [dateRange, setDateRange] = useState(null);
-  const [hoveredDate, setHoveredDate] = useState(null);
-  const [weekdays, setWeekdays] = useState([]);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [enableKeyboard, setEnableKeyboard] = useState(true);
-  const [displayErrorFirst, setDisplayErrorFirst] = useState(false);
-  const [displayErrorLast, setDisplayErrorLast] = useState(false);
-
-  const notCurrentMontAndYear = currentDate.getMonth() !== currentMonth.getMonth() || currentDate.getFullYear() !== currentMonth.getFullYear();
-
-  const datePickerRef = useRef(null);
-  const inputRefEnd = useRef(null);
-  const inputRefStart = useRef(null);
-
-  const handleSingleDate = useCallback((date) => {
-    setEnableKeyboard(true);
-    setStartDate(date);
-    setDisplayErrorFirst(true);
-    onChange(date);
-    if(input?.onChange){
-      input.onChange(date);
-    }
-  }, [setStartDate]);
-  
-  const handleDateRangeClick = useCallback((date) => {
-    const normalizedDate = normalizeDate(date);
-    const today = normalizeDate(new Date());
-    if (onlyFuture && normalizedDate < today) return;
-    if (!startDate || (startDate && endDate)) {
-      setStartDate(date);
-      setEndDate('');
-      setDateRange([date, null]);
-      onChange([date, null]);
-      input.onChange([date, null]);
-    } else if (normalizedDate < normalizeDate(startDate)) {
-      setStartDate(date);
-      onChange([date, endDate]);
-      input.onChange([date, endDate]);
-    } else {
-      setEndDate(date);
-      setDateRange([startDate, date]);
-      onChange([startDate, date]);
-      input.onChange([startDate, date]);
-      setOpenCalender(false);
-      setOpenCalenderEnd(false);
-    }
-  }, [startDate, endDate]);
-
-  const isInRange = useCallback((day) => {
-    const normalizedDay = normalizeDate(day);
-    const normalizedStartDate = normalizeDate(startDate);
-    const normalizedEndDate = normalizeDate(endDate);
-    return normalizedStartDate && normalizedEndDate && normalizedDay > normalizedStartDate && normalizedDay < normalizedEndDate;
-  },[startDate, endDate]);
-
-  const handlePrevYear = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() - 1, prevMonth.getMonth(), 1));
-  }, [setCurrentMonth]);
-
-  const handleNextYear = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() + 1, prevMonth.getMonth(), 1));
-  }, [setCurrentMonth]);
-
-  const handlePrevMonth = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
-  }, [setCurrentMonth]);
-
-  const handleNextMonth = useCallback(() => {
-    setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
-  }, [setCurrentMonth]);
-
-  const isInHoverRange = useCallback((day) => {
-    if (!startDate || !hoveredDate) return false;
-    const normalizedDay = normalizeDate(day);
-    const normalizedStartDate = normalizeDate(startDate);
-    const normalizedHoveredDate = normalizeDate(hoveredDate);
-
-    return (
-      (normalizedDay >= normalizedStartDate && normalizedDay <= normalizedHoveredDate) ||
-      (normalizedDay <= normalizedStartDate && normalizedDay >= normalizedHoveredDate)
-    );
-  }, [startDate, hoveredDate]);
-
-  const onChangeCurrent = useCallback((val) => {
-    if(!(val instanceof Date)) return;
-    setCurrentMonth(val);
-  }, [setCurrentMonth]);
-
-  //custom hook to close the model
-  useClickOutside(datePickerRef, () => (setOpenCalender(false), setOpenCalenderEnd(false)));
-  closeOpenModal(() => (setOpenCalender(false), setOpenCalenderEnd(false)));
-
-  useEffect(() => {
-    if(Array.isArray(initialValue) && isRangePicker){
-      setStartDate(initialValue[0]);
-      setEndDate(initialValue[1]);
-      setDateRange(initialValue);
-    }
-    else if(!isRangePicker){
-      setStartDate(initialValue || input?.value);
-      setEndDate(null);
-    }
-  },[initialValue, isRangePicker, input?.value]);
-
-  useEffect(() => {
-    const currentDate = new Date();
-    const currentDay = currentDate.getDay();
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDay + 1);
-
-    const calculatedWeekdays = [...Array(7).keys()].map((index) => {
-      const date = new Date(startOfWeek);
-      date.setDate(startOfWeek.getDate() + index);
-      return {
-        day: new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(date),
-        dayIndex: date.getDay(),
-      };
-    });
-    setWeekdays(calculatedWeekdays);
-  }, [locale]);
-
-  const selectPreviousDate = (monthAndYearNotSame) => {
-    if(monthAndYearNotSame){
-      const adjustDate = new Date(currentMonth);
-      adjustDate.setDate(currentDate.getDate());
-      setCurrentDate(adjustDate);
-      updateDate(new Date(adjustDate));
-      return;
-    }
-  };
   const {
     enabledKeyboardFunc,
     disableKeyboardFunc,
-    handleInputKeyDown
-  } = useDatePickerKeyboardHandler({
-    openCalender,
-    openCalenderEnd,
-    currentDate,
-    setCurrentDate,
-    currentMonth,
+    handleInputKeyDown,
     startDate,
+    setStartDate,
     endDate,
+    setEndDate,
+    openCalendar,
+    setOpenCalendar,
+    openCalendarEnd,
+    setOpenCalendarEnd,
+    currentMonth,
+    dateRange,
+    hoveredDate,
+    setHoveredDate,
+    weekdays,
+    currentDate,
+    displayErrorFirst,
+    displayErrorLast,
+    datePickerRef,
+    inputRefEnd,
+    inputRefStart,
+    handleDateRangeClick,
+    isInRange,
+    handlePrevYear,
+    handleNextYear,
+    handleSingleDate,
+    isInHoverRange,
+    onChangeCurrent,
+    handlePrevMonth,
+    handleNextMonth,
+    setDisplayErrorFirst,
+    setDisplayErrorLast
+  } = useDatePickerSelector({
     isRangePicker,
     onlyFuture,
     input,
     onChange,
-    inputRefEnd,
-    inputRefStart,
-    selectPreviousDate,
-    handleNextMonth,
-    handlePrevMonth,
-    hoveredDate,
-    setHoveredDate,
-    setStartDate,
-    setEndDate,
     disabled,
     dateTimeValue,
-    handleSingleDate,
-    notCurrentMontAndYear,
     dateTimeDefault,
     isDateTimeDouble,
-    setCurrentMonth,
-    setOpenCalender,
-    setOpenCalenderEnd
+    initialValue,
+    locale
   });
+  useClickOutside(datePickerRef, () => (setOpenCalendar(false), setOpenCalendarEnd(false)));
+  closeOpenModal(() => (setOpenCalendar(false), setOpenCalendarEnd(false)));
 
   return (
     <DatePickerContainer>
@@ -216,15 +93,15 @@ const DatePicker = ({
             data-testid="first-input"
             readOnly
             value={startDate && startDate.toLocaleDateString(locale)}
-            onClick={() => (setOpenCalenderEnd(false), setOpenCalender(!openCalender))}
+            onClick={() => (setOpenCalendarEnd(false), setOpenCalendar(!openCalendar))}
             disabled={disabled}
             width={124}
             height={40}
-            error={displayErrorFirst && startDate === ''}
+            isInvalid={displayErrorFirst && startDate === ''}
             placeholder={placeholder}
             ref={inputRefStart}
             onKeyDown={(e) => {
-              if (!openCalender && !openCalenderEnd) {
+              if (!openCalendar && !openCalendarEnd) {
                 handleInputKeyDown(e, true);
               }
             }}
@@ -266,7 +143,7 @@ const DatePicker = ({
                 )}
               </>
             ) : (
-              <InputIcon onClick={() => setOpenCalender(!openCalender)}>
+              <InputIcon onClick={() => setOpenCalendar(!openCalendar)}>
                 <Icon name="Interface-calendar-dot" />
               </InputIcon>
             )}
@@ -281,16 +158,16 @@ const DatePicker = ({
                 className='secondInput'
                 readOnly
                 value={endDate && endDate.toLocaleDateString(locale)}
-                onClick={() => (setOpenCalender(false), setOpenCalenderEnd(!openCalenderEnd))}
+                onClick={() => (setOpenCalendar(false), setOpenCalendarEnd(!openCalendarEnd))}
                 disabled={disabled}
                 width={124}
                 height={40}
                 placeholder={placeholder}
-                activesecondinput={startDate && !endDate || openCalenderEnd}
-                error={displayErrorLast && endDate==''}
+                activesecondinput={startDate && !endDate || openCalendarEnd}
+                isInvalid={displayErrorLast && endDate==''}
                 ref={inputRefEnd}
                 onKeyDown={(e) => {
-                  if (!openCalender && !openCalenderEnd) {
+                  if (!openCalendar && !openCalendarEnd) {
                     handleInputKeyDown(e, false);
                   }
                 }}
@@ -309,7 +186,7 @@ const DatePicker = ({
                     <Icon name="alert-circle-solid-cross" />
                   </InputIcon>
                 ) : (
-                  <InputIcon onClick={() => setOpenCalenderEnd(!openCalenderEnd)}>
+                  <InputIcon onClick={() => setOpenCalendarEnd(!openCalendarEnd)}>
                     <Icon name="Interface-calendar-dot" />
                   </InputIcon>
                 )}
@@ -318,8 +195,8 @@ const DatePicker = ({
           </>
         )}
       </InputContainer>
-      {openCalender && !disabled &&  (
-        <CalendarWrapper ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
+      {openCalendar && !disabled &&  (
+        <CalendarWrapper ref={datePickerRef} data-testid='calendar-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <Calendars data-testid='container-id'>
             <Calendar
               date={currentMonth}
@@ -343,19 +220,18 @@ const DatePicker = ({
               handleNextMonth={handleNextMonth}
               setDates={onChangeCurrent}
               isDoubleView={isDoubleView}
-              openCalender={openCalender}
-              openCalenderEnd={openCalenderEnd}
-              setOpenCalenderEnd={setOpenCalenderEnd}
-              setOpenCalender={setOpenCalender}
+              openCalendar={openCalendar}
+              openCalendarEnd={openCalendarEnd}
+              setOpenCalendarEnd={setOpenCalendarEnd}
+              setOpenCalendar={setOpenCalendar}
               onlyFuture={onlyFuture}
-              setEnableKeyboard={setEnableKeyboard}
               inputRefEnd={inputRefEnd}
             />
           </Calendars>
         </CalendarWrapper>
       )}
-      {openCalenderEnd && !disabled && (
-        <CalendarWrapperEnd ref={datePickerRef} data-testid='calender-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
+      {openCalendarEnd && !disabled && (
+        <CalendarWrapperEnd ref={datePickerRef} data-testid='calendar-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
           <Calendars data-testid='container-id'>
             <Calendar
               date={currentMonth}
@@ -379,12 +255,11 @@ const DatePicker = ({
               handleNextMonth={handleNextMonth}
               setDates={onChangeCurrent}
               isDoubleView={isDoubleView}
-              openCalender={openCalender}
-              openCalenderEnd={openCalenderEnd}
-              setOpenCalenderEnd={setOpenCalenderEnd}
-              setOpenCalender={setOpenCalender}
+              openCalendar={openCalendar}
+              openCalendarEnd={openCalendarEnd}
+              setOpenCalendarEnd={setOpenCalendarEnd}
+              setOpenCalendar={setOpenCalendar}
               onlyFuture={onlyFuture}
-              setEnableKeyboard={setEnableKeyboard}
             />
           </Calendars>
         </CalendarWrapperEnd>

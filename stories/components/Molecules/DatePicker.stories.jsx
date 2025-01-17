@@ -151,7 +151,7 @@ export const DateTimePickers = {
       control: { type: 'number' },
     },
     isDoubleView : {
-      description: 'double view calender, with current and next month',
+      description: 'double view calendar, with current and next month',
       control: { type: 'boolean' },
     },
     isRangePicker: {

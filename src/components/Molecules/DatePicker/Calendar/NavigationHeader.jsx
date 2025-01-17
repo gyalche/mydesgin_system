@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CalendarHeader, CalendarIconBtn, CalendarIcon, HeaderIcons, CalenderMonths, TextAreaYearMonth } from '../styles';
+import { CalendarHeader, CalendarIconBtn, CalendarIcon, HeaderIcons, CalendarMonths, TextAreaYearMonth } from '../styles';
 import { getLocalizedMonthName } from '../../../../utils';
 
 const CalendarNavigation = ({
@@ -47,7 +47,7 @@ const CalendarNavigation = ({
               )}
             </HeaderIcons>
       
-              <CalenderMonths>
+              <CalendarMonths>
                   <TextAreaYearMonth data-calendar-btn 
                     onClick={()=>!showYears && (openSelectDecade(), setTabCount(0))}
                     openDecade={openDecade}
@@ -59,24 +59,24 @@ const CalendarNavigation = ({
                     {getLocalizedMonthName(currentMonth, locale)}
                     </TextAreaYearMonth>
                   }
-              </CalenderMonths>
+              </CalendarMonths>
 
             {isDoubleView && isRangePicker && (
-                <CalenderMonths>
+                <CalendarMonths>
                 {!openDecade && !openMonth && (
                   <>
-                  <TextAreaYearMonth data-calendar-btn 
-                    onClick={()=>!showYears && (openSelectDecade(), setTabCount(0))}
-                    openDecade={openDecade}
-                  >
-                  {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : nextMonth.getFullYear()}
-                  </TextAreaYearMonth>
-                  <TextAreaYearMonth data-calendar-btn onClick={() => (openSelectMonth(), setTabCount(0))}>
-                  {getLocalizedMonthName(nextMonth, locale)}
-                  </TextAreaYearMonth>
+                    <TextAreaYearMonth data-calendar-btn 
+                      onClick={()=>!showYears && (openSelectDecade(), setTabCount(0))}
+                      openDecade={openDecade}
+                    >
+                    {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : nextMonth.getFullYear()}
+                    </TextAreaYearMonth>
+                    <TextAreaYearMonth data-calendar-btn onClick={() => (openSelectMonth(), setTabCount(0))}>
+                    {getLocalizedMonthName(nextMonth, locale)}
+                    </TextAreaYearMonth>
                   </>
                 )}
-                </CalenderMonths>
+                </CalendarMonths>
             )}
             <HeaderIcons>
               {!openDecade && !openMonth && (

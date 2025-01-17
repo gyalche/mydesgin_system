@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 
 const useCalendarNavigator = ({
-  openCalender,
-  openCalenderEnd,
+  openCalendar,
+  openCalendarEnd,
   tabCount,
   setTabCount,
   maxCount,
   modalFocus,
   setModalFocus,
   isRangePicker,
-  setOpenCalender,
-  setOpenCalenderEnd,
+  setOpenCalendar,
+  setOpenCalendarEnd,
   inputRefEnd,
   disableKeyboard,
 }) => {
@@ -19,7 +19,7 @@ const useCalendarNavigator = ({
       if ((e.key === 'Tab' && modalFocus) || e.key !== 'Tab') {
         setModalFocus(false);
       }
-      if (openCalender || openCalenderEnd) {
+      if (openCalendar || openCalendarEnd) {
         if (e.key === 'Tab') {
           e.preventDefault();
           if (e.shiftKey) {
@@ -28,8 +28,8 @@ const useCalendarNavigator = ({
               (button) => button === document.activeElement
             );
             if (focusedIndex === 0) {
-              setOpenCalender(false);
-              setOpenCalenderEnd(false);
+              setOpenCalendar(false);
+              setOpenCalendarEnd(false);
               disableKeyboard();
               setModalFocus(false);
               setTabCount(0);
@@ -48,13 +48,13 @@ const useCalendarNavigator = ({
             setTabCount(0);
           }
           if (modalFocus) {
-            if (openCalender || openCalenderEnd) {
-              setOpenCalender(false);
-              setOpenCalenderEnd(false);
+            if (openCalendar || openCalendarEnd) {
+              setOpenCalendar(false);
+              setOpenCalendarEnd(false);
             }
 
-            if (isRangePicker && openCalender) {
-              setOpenCalender(false);
+            if (isRangePicker && openCalendar) {
+              setOpenCalendar(false);
               inputRefEnd?.current?.focus();
               inputRefEnd?.current?.click();
             }
@@ -75,7 +75,7 @@ const useCalendarNavigator = ({
       }
     };
 
-    if (openCalender || openCalenderEnd) {
+    if (openCalendar || openCalendarEnd) {
       window.addEventListener('keydown', handleKeyDown);
     }
 
@@ -83,16 +83,16 @@ const useCalendarNavigator = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [
-    openCalender,
-    openCalenderEnd,
+    openCalendar,
+    openCalendarEnd,
     tabCount,
     maxCount,
     modalFocus,
     isRangePicker,
     setTabCount,
     setModalFocus,
-    setOpenCalender,
-    setOpenCalenderEnd,
+    setOpenCalendar,
+    setOpenCalendarEnd,
     inputRefEnd,
     disableKeyboard,
   ]);

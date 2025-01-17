@@ -8,14 +8,14 @@ import {
   ButtonActive,
   DoubleViewContainer,
   DayContainerWrapper,
-} from './styles';
-import { getDaysInMonth, normalizeDate } from '../../../utils';
-import closeOpenModal from '../../../hooks/closeOpenModal';
-import CalendarNavigation from './Components/NavigationHeader';
-import DecadeSelector from './Components/DecadeSelector';
-import YearSelector from './Components/YearSelector';
-import MonthSelector from './Components/MonthSelector';
-import useCalendarNavigator from '../../../hooks/useCalendarNavigator';
+} from '../styles';
+import { getDaysInMonth, normalizeDate } from '../../../../utils';
+import closeOpenModal from '../../../../hooks/closeOpenModal';
+import CalendarNavigation from './NavigationHeader';
+import DecadeSelector from './DecadeSelector';
+import YearSelector from './YearSelector';
+import MonthSelector from './MonthSelector';
+import useCalendarNavigator from '../../../../hooks/useCalendarNavigator';
 
 const Calendar = ({
   date,
@@ -39,12 +39,12 @@ const Calendar = ({
   setDates,
   isDoubleView,
   disableHeader,
-  openCalender,
-  openCalenderEnd,
+  openCalendar,
+  openCalendarEnd,
   onlyFuture,
-  setOpenCalender,
+  setOpenCalendar,
   inputRefEnd,
-  setOpenCalenderEnd
+  setOpenCalendarEnd
 }) => {
   const currentYear = new Date(Date.now()).getFullYear();
   const [openDecade, setOpenDecade] = useState(false);
@@ -57,7 +57,6 @@ const Calendar = ({
   const [tabCount, setTabCount] = useState(0);
   const [modalFocus, setModalFocus] = useState(false);
 
-  
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
   const days = getDaysInMonth(currentMonth);
   const nextMonthDays= getDaysInMonth(nextMonth);
@@ -70,16 +69,16 @@ const Calendar = ({
   const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
 
   useCalendarNavigator({
-    openCalender,
-    openCalenderEnd,
+    openCalendar,
+    openCalendarEnd,
     tabCount,
     setTabCount,
     maxCount,
     modalFocus,
     setModalFocus,
     isRangePicker,
-    setOpenCalender,
-    setOpenCalenderEnd,
+    setOpenCalendar,
+    setOpenCalendarEnd,
     inputRefEnd,
     disableKeyboard,
   });
@@ -167,7 +166,7 @@ const Calendar = ({
     };
   }, [modalFocus]);
   return (
-    <CalendarContainer data-testid='calender-container'
+    <CalendarContainer data-testid='calendar-container'
       isDoubleView={isDoubleView && isRangePicker}
     >
         <CalendarNavigation
@@ -384,13 +383,11 @@ Calendar.propTypes = {
   setDates: PropTypes.any,
   isDoubleView: PropTypes.bool,
   disableHeader: PropTypes.bool,
-  openCalender: PropTypes.func,
-  openCalenderEnd: PropTypes.func,
+  openCalendar: PropTypes.func,
+  openCalendarEnd: PropTypes.func,
   onlyFuture: PropTypes.bool,
-  setEnableKeyboard: PropTypes.bool,
-  setOpenCalender: PropTypes.bool,
-  setOpenCalenderEnd: PropTypes.bool,
+  setOpenCalendar: PropTypes.bool,
+  setOpenCalendarEnd: PropTypes.bool,
   inputRefEnd: PropTypes.any,
 };
-
 export default Calendar;

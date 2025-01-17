@@ -35,12 +35,12 @@ describe('DateRangePicker Component', () => {
     render(<DatePicker onChange={mockOnChange} dateTimeFormat='ja-JP'/>);
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
-    const calender = screen.getByTestId('calender-id');
-    expect(calender).toBeInTheDocument();
+    const calendar = screen.getByTestId('calendar-id');
+    expect(calendar).toBeInTheDocument();
 
     //ther is an error so i have commented, needs to check date components
     // fireEvent.click(document.body);
-    // expect(calender).not.toBeInTheDocument();
+    // expect(calendar).not.toBeInTheDocument();
   });
   
   it('prevents selecting past dates', async () => {
@@ -71,7 +71,7 @@ describe('DateRangePicker Component', () => {
     render(<DatePicker isDoubleView onChange={mockOnChange} dateTimeFormat='en-US'/>);
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
-    const calendars = screen.getAllByTestId('calender-container');
+    const calendars = screen.getAllByTestId('calendar-container');
     waitFor(() => {
       expect(calendars.length).toBe(2);
     });

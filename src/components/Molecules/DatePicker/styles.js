@@ -32,8 +32,7 @@ export const InputWrapper = styled.div`
 export const InputFieldStyle = styled(Input)`
   width: ${({width}) => `${width}px`};
   height: ${({height}) => `${height}px`};
-  border: ${({error, activesecondinput}) => error ? '1px solid red' : 
-  activesecondinput && '1px solid var(--rds-color-primary-1-normal)'};
+  border: ${({activesecondinput}) => activesecondinput && '1px solid var(--rds-color-primary-1-normal)'};
   outline: ${({error}) => error && 'none'};
   line-height: 22.4px;
   padding-right: 1px;
@@ -197,7 +196,7 @@ export const Calendars = styled.div`
   border-radius: 4px;
 `;
 
-export const CalenderMonths = styled.div`
+export const CalendarMonths = styled.div`
   color: var(--rds-color-neutral-9);
   text-align: center;
   font-size: 17px;

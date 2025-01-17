@@ -29,7 +29,6 @@ const TimePicker = ({ is12Hour,
   initialValue,
   onChange,
   disabled,
-  error,
   placeholder,
   isRangePicker,
   input,
@@ -75,6 +74,7 @@ const TimePicker = ({ is12Hour,
   const timeValue = `${selectedHour ? selectedHour : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
   const timeValueEnd = `${selectedHourEnd ? selectedHourEnd : 'hh'}:${selectedMinuteEnd !== '' ? 
     String(selectedMinuteEnd).padStart(2, '0') : 'mm'} ${amPmEnd}`;
+
   const timePickerRef = useRef(null);
   const timeInputRef = useRef(null);
   const timeInputRefEnd = useRef(null);
@@ -304,7 +304,7 @@ const TimePicker = ({ is12Hour,
             disabled={disabled}
             width={is12Hour ? 95 : 85}
             height={40}
-            error={dateTimeValue ? timeError && time === '' : timeErrorFirst && time === ''}
+            isInvalid={dateTimeValue ? timeError && time === '' : timeErrorFirst && time === ''}
             onKeyDown={(e) => {
               if(e.key === 'Enter'){
                 timeInputRef?.current?.click();
@@ -365,7 +365,7 @@ const TimePicker = ({ is12Hour,
                   disabled={disabled}
                   width={is12Hour ? 95 : 85}
                   height={40}
-                  error={timeErrorLast && endTime == ''}
+                  isInvalid={timeErrorLast && endTime == ''}
                   onKeyDown={(e) => {
                     if(e.key === 'Enter'){
                       timeInputRefEnd?.current?.click();

@@ -37,8 +37,8 @@ describe('Calendar Component', () => {
     setDates: mockSetDates,
     isDoubleView: false,
     disableHeader: false,
-    openCalender: true,
-    openCalenderEnd: false,
+    openCalendar: true,
+    openCalendarEnd: false,
   };
 
   test('opens decade selector when clicking on the year text', async() => {
