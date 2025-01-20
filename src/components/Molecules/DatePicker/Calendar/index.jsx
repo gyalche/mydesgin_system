@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
 import {
   CalendarContainer,
   DaysContainer,
@@ -9,13 +10,14 @@ import {
   DoubleViewContainer,
   DayContainerWrapper,
 } from '../styles';
+
 import { getDaysInMonth, normalizeDate } from '../../../../utils';
-import closeOpenModal from '../../../../hooks/closeOpenModal';
 import CalendarNavigation from './NavigationHeader';
 import DecadeSelector from './DecadeSelector';
 import YearSelector from './YearSelector';
 import MonthSelector from './MonthSelector';
 import useCalendarNavigator from '../../../../hooks/useCalendarNavigator';
+import closeOpenModal from '../../../../hooks/closeOpenModal';
 
 const Calendar = ({
   date,
@@ -46,29 +48,21 @@ const Calendar = ({
   inputRefEnd,
   setOpenCalendarEnd
 }) => {
-  const currentYear = new Date(Date.now()).getFullYear();
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
   const [showYears, setShowYears] = useState(false);
-  const [selectedDecade, setSelectedDecade] = useState(null);
-  const [currentMonth, setCurrentMonth] = useState(date);
-  const [currentDecadeStart, setCurrentDecadestart] = useState(Math.floor(currentYear / 10) * 10);
 
   const [tabCount, setTabCount] = useState(0);
   const [modalFocus, setModalFocus] = useState(false);
 
-  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
-  const days = getDaysInMonth(currentMonth);
-  const nextMonthDays= getDaysInMonth(nextMonth);
-
-  const displayYear = currentMonth.getFullYear();
-  const maxCount =(openDecade || openMonth || showYears) && !isDoubleView? 4 : 
+  const maxCount = (openDecade || openMonth || showYears) && !isDoubleView? 4 : 
   (openDecade || openMonth || showYears) && isDoubleView ? 4 :
   (isDoubleView && isRangePicker) ? 9 : 7;
 
-  const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
+  closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
 
-  useCalendarNavigator({
+  const { selectedDecade, currentMonth, currentDecadeStart, handleMouseEnter, handleMouseLeave, openSelectDecade,
+    openSelectMonth, handleDecadeSelect, goToNextDecade, goToPreviousDecade } = useCalendarNavigator({
     openCalendar,
     openCalendarEnd,
     tabCount,
@@ -76,95 +70,31 @@ const Calendar = ({
     maxCount,
     modalFocus,
     setModalFocus,
+    enableKeyboard,
+    disableKeyboard,
     isRangePicker,
     setOpenCalendar,
     setOpenCalendarEnd,
     inputRefEnd,
     disableKeyboard,
+    startDate,
+    endDate,
+    setHoveredDate,
+    date,
+    showYears,
+    openDecade,
+    setDates,
+    setOpenDecade,
+    setShowYears,
+    setOpenMonth
   });
-  const handleMouseEnter = useCallback((day) => {
-    if (isRangePicker && startDate && !endDate && (day instanceof Date)) {
-      setHoveredDate(day);
-    }
-  }, [startDate, endDate, isRangePicker, setHoveredDate]);
 
-  const handleMouseLeave = () => {
-    setHoveredDate(null);
-  };
+  const displayYear = currentMonth.getFullYear();
+  const yearsInDecade = Array.from({ length: 10 }, (_, index) => selectedDecade + index);
+  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+  const days = getDaysInMonth(currentMonth);
+  const nextMonthDays= getDaysInMonth(nextMonth);
 
-  const openSelectDecade = () => {
-    setOpenDecade(true);
-    setShowYears(false);
-    setOpenMonth(false);
-    disableKeyboard();
-  };
-
-  const openSelectMonth = () => {
-    setOpenMonth(true);
-    setOpenDecade(false);
-    disableKeyboard();
-  };
-
-  const handleDecadeSelect = (decadeStart) => {
-    if(typeof decadeStart !== 'number' || decadeStart < 1000 || decadeStart > 9999) return;
-    setSelectedDecade(decadeStart);
-    setShowYears(true);
-    setTabCount(0);
-    setModalFocus(false);
-    enableKeyboard();
-  };
-
-  closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
-
-  const goToNextDecade = () => {
-    setCurrentDecadestart((prev) => prev + 10);
-    setSelectedDecade((currentDecade) => {
-      const nextDecade = currentDecade + 10;
-      return nextDecade;
-    });
-  };
-
-  const goToPreviousDecade = () => {
-    enableKeyboard();
-    setCurrentDecadestart((prev) => prev - 10);
-    setSelectedDecade((currentDecade) => {
-      const previousDecade = currentDecade - 10;
-      return previousDecade;
-    });
-  };
-
-  useEffect(()=>{
-    setSelectedDecade(currentDecadeStart);
-  },[setSelectedDecade]);
-
-  useEffect(() => {
-    if (currentMonth.getTime() !== date.getTime()) {
-      setCurrentMonth(date);
-    }
-  }, [date]);
-
-  useEffect(() => {
-    if(!openDecade && !showYears){
-      enableKeyboard();
-    }
-  },[showYears, openDecade]);
-
-  useEffect(() => {
-    setDates(currentMonth);
-  }, [setDates]);
-
-  useEffect(() => {
-    let timer;
-    if(modalFocus){
-      timer= setTimeout(() => {
-        setModalFocus(false);
-      }, 5000);
-    }
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [modalFocus]);
   return (
     <CalendarContainer data-testid='calendar-container'
       isDoubleView={isDoubleView && isRangePicker}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
@@ -14,8 +14,6 @@ import {
  } from './styles';
 import Calendar from './Calendar';
 import InputField from './InputField';
-import closeOpenModal from '../../../hooks/closeOpenModal';
-import useClickOutside from '../../../hooks/useClickOutside';
 import useDatePickerSelector from '../../../hooks/useDatePickerSelector';
 
 const DatePicker = ({
@@ -37,21 +35,13 @@ const DatePicker = ({
   dateTimeDefault,
 }) => {
   const {
-    enabledKeyboardFunc,
-    disableKeyboardFunc,
-    handleInputKeyDown,
     startDate,
-    setStartDate,
     endDate,
-    setEndDate,
     openCalendar,
-    setOpenCalendar,
     openCalendarEnd,
-    setOpenCalendarEnd,
     currentMonth,
     dateRange,
     hoveredDate,
-    setHoveredDate,
     weekdays,
     currentDate,
     displayErrorFirst,
@@ -59,7 +49,15 @@ const DatePicker = ({
     datePickerRef,
     inputRefEnd,
     inputRefStart,
+    setEndDate,
+    setStartDate,
+    setHoveredDate,
+    setOpenCalendar,
+    setOpenCalendarEnd,
     handleDateRangeClick,
+    enabledKeyboardFunc,
+    disableKeyboardFunc,
+    handleInputKeyDown,
     isInRange,
     handlePrevYear,
     handleNextYear,
@@ -82,8 +80,6 @@ const DatePicker = ({
     initialValue,
     locale
   });
-  useClickOutside(datePickerRef, () => (setOpenCalendar(false), setOpenCalendarEnd(false)));
-  closeOpenModal(() => (setOpenCalendar(false), setOpenCalendarEnd(false)));
 
   return (
     <DatePickerContainer>

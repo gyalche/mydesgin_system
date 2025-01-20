@@ -300,6 +300,7 @@ export const ScrollColumn = styled.ul`
   max-height: 260px;
   overflow-y: auto;
   border-right: 1px solid var(--rds-color-neutral-2);
+  scroll-behavior: smooth;
 `;
 
 export const StaticColumn = styled.ul`

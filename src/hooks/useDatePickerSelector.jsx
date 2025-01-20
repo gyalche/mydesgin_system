@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { normalizeDate } from '../utils';
+import useClickOutside from './useClickOutside';
+import closeOpenModal from './closeOpenModal';
 
 function useDatePickerSelector({
   isRangePicker,
@@ -31,6 +33,9 @@ function useDatePickerSelector({
   const datePickerRef = useRef(null);
   const inputRefEnd = useRef(null);
   const inputRefStart = useRef(null);
+
+  useClickOutside(datePickerRef, () => (setOpenCalendar(false), setOpenCalendarEnd(false)));
+  closeOpenModal(() => (setOpenCalendar(false), setOpenCalendarEnd(false)));
 
   const handleSingleDate = useCallback((date) => {
     setStartDate(date);
