@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Label from 'components/Atoms/Label';
 import * as Layout from 'components/Atoms/Layout';
 
@@ -7,15 +8,15 @@ export default {
   component: Label,
 };
 
-export const Labels =  {
+export const Labels = {
   title: 'Label',
   component: Label,
   parameters: {
     layout: 'centered',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=6073-10769&mode=design&t=10zB8cK7Dj60yRZA-0'
-    }
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=6073-10769&mode=design&t=10zB8cK7Dj60yRZA-0',
+    },
   },
   argTypes: {
     content: {
@@ -25,21 +26,19 @@ export const Labels =  {
     },
     disabled: {
       description: 'Disabled state or not',
-      control: { type: 'boolean'}
-    }
+      control: { type: 'boolean' },
+    },
   },
-  args:{
+  args: {
     content: 'Label',
     disabled: false,
   },
-  render: (args) => {
-    return  (
-      <Layout.Block>
-        <Layout.Item>
-          <Label {...args}>{args.content}</Label>
-        </Layout.Item>
+  render: args => (
+    <Layout.Block>
+      <Layout.Item>
+        <Label {...args}>{args.content}</Label>
+      </Layout.Item>
 
-      </Layout.Block>
-    );
-  }
+    </Layout.Block>
+  ),
 };

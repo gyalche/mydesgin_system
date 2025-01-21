@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Dropdown from 'components/Atoms/Dropdown';
 
 export default {
@@ -62,11 +63,13 @@ export const Dropdowns = {
       { label: 'Skyblue', value: 14 },
     ],
   },
-  render: (args) => {
-    const { w, h, isOpen, scroll, options } = args;
+  render: args => {
+    const {
+      w, h, isOpen, scroll, options,
+    } = args;
     return (
       <Dropdown w={w} h={h} isOpen={isOpen} scroll={scroll}>
-        {options.map((item) => (
+        {options.map(item => (
           <div key={item.value}>{item.label}</div>
         ))}
       </Dropdown>

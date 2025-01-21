@@ -1,24 +1,25 @@
+import styled from 'styled-components';
+
 const Flex = styled.div.withConfig({
-  shouldForwardProp: prop =>
-    ![
-      'justifyContent',
-      'alignItems',
-      'minW',
-      'maxH',
-      'minH',
-      'w',
-      'h',
-      'mt',
-      'mr',
-      'mb',
-      'ml',
-      'pt',
-      'pr',
-      'pb',
-      'pl',
-      'overflowX',
-      'overflowY'
-    ].includes(prop),
+  shouldForwardProp: prop => ![
+    'justifyContent',
+    'alignItems',
+    'minW',
+    'maxH',
+    'minH',
+    'w',
+    'h',
+    'mt',
+    'mr',
+    'mb',
+    'ml',
+    'pt',
+    'pr',
+    'pb',
+    'pl',
+    'overflowX',
+    'overflowY',
+  ].includes(prop),
 })`
   display: flex;
   flex-direction: ${({ direction }) => direction || 'row'};
@@ -45,9 +46,8 @@ const Flex = styled.div.withConfig({
   overflow-x: ${({ overflowX }) => overflowX || 'visible'};
   overflow-y: ${({ overflowY }) => overflowY || 'visible'};
 
-  ${({ disabled }) =>
-    disabled &&
-    `
+  ${({ disabled }) => disabled
+    && `
     pointer-events: none;
     user-select: none;
     
@@ -56,7 +56,5 @@ const Flex = styled.div.withConfig({
     }
   `}
 `;
-
-import styled from 'styled-components';
 
 export default Flex;

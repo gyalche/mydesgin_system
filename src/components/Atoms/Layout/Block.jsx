@@ -20,9 +20,8 @@ const Block = styled.div`
   border: ${({ border }) => border || 'none'};
   border-radius: ${({ borderRadius }) => borderRadius || 'unset'};
 
-  ${({ disabled }) =>
-    disabled &&
-    `
+  ${({ disabled }) => disabled
+    && `
     pointer-events: none;
     user-select: none;
     

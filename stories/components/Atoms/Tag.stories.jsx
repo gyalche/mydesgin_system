@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Tag from 'components/Atoms/Tags';
 import Avatar from 'components/Atoms/Avatar';
 import * as Layout from 'components/Atoms/Layout';
@@ -8,7 +9,7 @@ const onCloseClicked = () => {
 };
 
 export default {
-  title: 'Design System/Atoms'
+  title: 'Design System/Atoms',
 };
 
 export const Tags = {
@@ -38,19 +39,19 @@ export const Tags = {
     disabled: false,
   },
 
-  render: (args) => (
+  render: args => (
     <Layout.Flex direction="column">
       <Layout.Item mt="20px">
         <Tag {...args} onCloseClick={onCloseClicked} />
       </Layout.Item>
       <Layout.Item mt="20px">
         <Tag
-          content={
+          content={(
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Avatar name="D" size="small" />
               <span style={{ marginLeft: '8px' }}>Effect</span>
             </div>
-          }
+          )}
           onCloseClick={onCloseClicked}
         />
       </Layout.Item>
@@ -58,5 +59,5 @@ export const Tags = {
         <Tag content={args.content} />
       </Layout.Item>
     </Layout.Flex>
-  )
+  ),
 };

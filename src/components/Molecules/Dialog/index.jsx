@@ -1,5 +1,5 @@
-import { default as DialogMain } from './Dialog';
-import { default as DialogAlert } from './DialogAlert';
+import DialogMain from './Dialog';
+import DialogAlert from './DialogAlert';
 
 const Dialog = DialogMain;
 

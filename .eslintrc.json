@@ -1,35 +1,92 @@
 {
+  "parser": "@babel/eslint-parser",
   "env": {
     "browser": true,
+    "node": true,
+    "jest": true,
     "es2021": true
   },
   "extends": [
-    "plugin:react/recommended"
+    "eslint:recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended"
   ],
   "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    },
-    "ecmaVersion": 12,
-    "sourceType": "module"
+    }
   },
   "plugins": [
-    "react"
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "@stylistic/js"
   ],
-  "ignorePatterns": ["src/components/Atoms/Logo/**", "src/components/Atoms/ProductLogo/Logos/**"],
+  "ignorePatterns": [
+    "src/components/Atoms/Logo/**/*",
+    "src/components/Atoms/ProductLogo/Logos/**/*"
+  ],
   "rules": {
-    "eol-last": ["error", "always"],
-    "import/prefer-default-export": "off",
-    "max-len": [2, 150],
-    "no-param-reassign": ["error", { "props": false }],
-    "quotes": [2, "single", {
-      "avoidEscape": true,
-      "allowTemplateLiterals": false
-    }],
-    "semi": [2, "always"],
+    "@stylistic/js/quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": false }],
+    "max-len": ["error", { "code": 150 }],
+    "@stylistic/js/indent": ["error", 2, { "SwitchCase": 1 }],
+    "arrow-body-style": ["error", "as-needed"],
+    "@stylistic/js/comma-dangle": ["error", "always-multiline"],
+    "prefer-template": "error",
+    "no-var": "error",
+    "class-methods-use-this": "off",
+    "@stylistic/js/object-curly-spacing": ["error", "always"],
+    "@stylistic/js/array-bracket-spacing": ["error", "never"],
+    "@stylistic/js/arrow-parens": ["error", "as-needed"],
+    "arrow-parens": "off",
+
+    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+    "react/jsx-first-prop-new-line": ["error", "multiline"],
     "react/jsx-props-no-spreading": "off",
-    "no-console": [2],
-    "import/no-cycle": "off"
+    "react/forbid-prop-types": "error",
+    "react/self-closing-comp": "error",
+    "react/no-danger": "warn",
+    "react/jsx-no-bind": "off",
+    "react/prop-types": "error",
+    "react/jsx-boolean-value": ["error", "always"],
+    "react/no-unknown-property": "error",
+    "react/jsx-no-useless-fragment": "warn",
+    "react/no-array-index-key": "warn",
+
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+
+    "import/imports-first": "error",
+    "import/newline-after-import": "error",
+    "import/no-dynamic-require": "error",
+    "import/no-unresolved": "error",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-named-as-default": "off",
+    "import/prefer-default-export": "off",
+    "import/no-webpack-loader-syntax": "error",
+    "import/no-cycle": "warn",
+    "import/order": ["warn", { "groups": ["builtin", "external", "internal"], "newlines-between": "always" }],
+
+    "jsx-a11y/aria-props": "error",
+    "jsx-a11y/heading-has-content": "error",
+    "jsx-a11y/mouse-events-have-key-events": "error",
+    "jsx-a11y/role-has-required-aria-props": "error",
+    "jsx-a11y/role-supports-aria-props": "error",
+    "jsx-a11y/anchor-has-content": "error",
+    "jsx-a11y/click-events-have-key-events": "error",
+    "jsx-a11y/no-static-element-interactions": "error",
+
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-use-before-define": "error",
+    "no-param-reassign": ["error", { "props": false }],
+    "@stylistic/js/no-confusing-arrow": "off",
+    "@stylistic/js/newline-per-chained-call": "error",
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   },
   "settings": {
     "react": {
@@ -40,15 +97,5 @@
         "paths": ["src"]
       }
     }
-  },
-  "overrides": [
-    {
-      // or whatever matches stories specified in .storybook/main.js
-      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
-      "rules": {
-        "react/react-in-jsx-scope": "off",
-        "react/jsx-key": "off"
-      }
-    }
-  ]
+  }
 }

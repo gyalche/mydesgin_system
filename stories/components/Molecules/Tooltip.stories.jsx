@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Icon } from 'components/Atoms';
 import * as Layout from 'components/Atoms/Layout';
 import { Tooltip } from 'components/Molecules';
@@ -106,13 +107,11 @@ export const Tooltips = {
     fontColor: 'var(--rds-color-neutral-0)',
     placement: 'right',
   },
-  render: args => {
-    return (
-      <Layout.Block>
-        <Layout.Item>
-          <Tooltip {...args}>{args.content}</Tooltip>
-        </Layout.Item>
-      </Layout.Block>
-    );
-  },
+  render: args => (
+    <Layout.Block>
+      <Layout.Item>
+        <Tooltip {...args}>{args.content}</Tooltip>
+      </Layout.Item>
+    </Layout.Block>
+  ),
 };

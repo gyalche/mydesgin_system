@@ -1,4 +1,5 @@
 import React from 'react';
+
 import * as Layout from 'components/Atoms/Layout';
 import Button from 'components/Atoms/Button';
 import { Toast, ToastProvider, useToast } from 'components/Molecules/Toast';
@@ -45,25 +46,27 @@ export const Toasts = {
     action: {
       name: 'Action Button',
       description: 'Toggle to show or hide the action button',
-      control: { type: 'boolean' },
+      control: { type: 'function' },
     },
     btnLabel: {
       name: 'Button Label',
       description: 'Label of the Action Button',
       control: { type: 'text' },
-      if: { arg: 'action' }, 
+      if: { arg: 'action' },
     },
   },
   args: {
     title: 'Info message.',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.',
-    action: true,
+    action: () => alert('action button clicked'),
     btnLabel: 'action',
   },
   render: args => {
-    const TestComponent = args => {
-      const { title, description, placement, duration, action, btnLabel } = args;
+    function TestComponent() {
+      const {
+        title, description, placement, duration, action, btnLabel,
+      } = args;
       const toast = useToast();
 
       const handleSuccessClick = () => {
@@ -106,7 +109,7 @@ export const Toasts = {
           </Layout.Item>
         </Layout.Flex>
       );
-    };
+    }
 
     return (
       <ToastProvider>

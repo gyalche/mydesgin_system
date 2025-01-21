@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import { Icon } from 'components/Atoms';
 
 const PaginationContainer = styled.div`
@@ -37,13 +38,11 @@ const PaginationControl = styled.div`
 
 const PaginationItem = styled.li`
   align-items: center;
-  background-color: ${({ $active }) =>
-    $active
-      ? 'var(--rds-color-primary-1-subtle)'
-      : 'var(--rds-color-neutral-0)'};
+  background-color: ${({ $active }) => ($active
+    ? 'var(--rds-color-primary-1-subtle)'
+    : 'var(--rds-color-neutral-0)')};
   border-radius: 5px;
-  color: ${({ $active }) =>
-    $active ? 'var(--rds-color-primary-1-dark)' : 'var(--rds-color-neutral-8)'};
+  color: ${({ $active }) => ($active ? 'var(--rds-color-primary-1-dark)' : 'var(--rds-color-neutral-8)')};
   cursor: pointer;
   display: flex;
   font-size: 14px;
@@ -61,10 +60,22 @@ const PaginationItem = styled.li`
   }
 `;
 
-const Pagination = ({ totalPages, currentPage, onPageChange }) => {
+function Pagination({ totalPages, currentPage, onPageChange }) {
   const handlePageChange = page => {
     if (page !== currentPage && page >= 1 && page <= totalPages) {
       onPageChange(page);
+    }
+  };
+
+  const handlePreviousChange = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextChange = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
     }
   };
 
@@ -84,18 +95,6 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     }
   };
 
-  const handlePreviousChange = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
-    }
-  };
-
-  const handleNextChange = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-    }
-  };
-
   const renderPaginationItems = () => {
     const paginationItems = [];
 
@@ -106,18 +105,18 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     paginationItems.push(
       <PaginationItem
         key={1}
-        $active={1 === currentPage}
+        $active={currentPage === 1}
         onClick={() => handlePageChange(1)}
         onKeyDown={event => handleKeyDown(event, 1)}
         tabIndex={0}
       >
         1
-      </PaginationItem>
+      </PaginationItem>,
     );
 
     // Range of pages to display
     let start = Math.max(2, currentPage - Math.floor(visiblePages / 2));
-    let end = Math.min(start + visiblePages - 1, totalPages - 1);
+    const end = Math.min(start + visiblePages - 1, totalPages - 1);
 
     // If there are not enough pages after the current page, adjust the range
     if (end === totalPages - 1) {
@@ -128,11 +127,11 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
       paginationItems.push(
         <PaginationItem key="ellipsis-start" data-testid="ellipsis-start">
           ...
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
 
-    for (let i = start; i <= end; i++) {
+    for (let i = start; i <= end; i += 1) {
       paginationItems.push(
         <PaginationItem
           key={i}
@@ -142,7 +141,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
           tabIndex={0}
         >
           {i}
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
 
@@ -150,7 +149,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
       paginationItems.push(
         <PaginationItem key="ellipsis-end" data-testid="ellipsis-end">
           ...
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
 
@@ -165,7 +164,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
           tabIndex={0}
         >
           {totalPages}
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
 
@@ -176,7 +175,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     <PaginationContainer>
       <PaginationList>
         <PaginationControl
-          $isPrevious
+          $isPrevious={true}
           onClick={() => handlePreviousChange()}
           onKeyDown={event => handleKeyDown(event, null, 'isPrevious')}
           tabIndex={0}
@@ -196,7 +195,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
       </PaginationList>
     </PaginationContainer>
   );
-};
+}
 
 Pagination.defaultProps = {
   currentPage: 1,

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
+
 import Dialog from 'components/Molecules/Dialog';
 import { Button, Icon } from 'components/Atoms';
 import { Flex } from 'components/Atoms/Layout';
@@ -10,6 +11,78 @@ export default {
 };
 
 const { Alert } = Dialog;
+
+const TitleText = styled.span`
+  color: var(--rds-color-neutral-11);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+`;
+
+const ContentText = styled.span`
+  color: var(--rds-color-neutral-9);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+`;
+
+function DialogStory(args) {
+  const ref = useRef();
+
+  const buttons = [
+    {
+      text: 'Close',
+      button: Button,
+      onClick: 'close',
+    },
+    {
+      text: 'OK',
+      button: Button,
+      onClick: () => alert('OK'),
+    },
+  ];
+
+  const handleDialogOpen = () => {
+    if (args?.modal) {
+      return ref?.current?.showModal();
+    }
+    return ref.current.show();
+  };
+
+  return (
+    <>
+      <Button onClick={handleDialogOpen}>Open dialog</Button>
+      <Dialog buttons={buttons} ref={ref} {...args}>
+        <Flex alignItems="center" mb="16px">
+          <Flex alignItems="center" mr="12px" mt="4px" w="auto">
+            <Icon name="alert-circle-solid-check" />
+          </Flex>
+          <TitleText>メッセージを送信しました</TitleText>
+        </Flex>
+        <ContentText>
+          この文章はダミーコピーですお読みにならないで下さい。構成を分かりやすくするため使用しています。本来の文言とは全く違った内容を記載しています。
+        </ContentText>
+      </Dialog>
+    </>
+  );
+}
+
+function AlertStory(args) {
+  const ref = useRef();
+
+  const handleDialogOpen = () => {
+    ref.current.show();
+  };
+
+  return (
+    <>
+      <Button onClick={handleDialogOpen}>Open dialog alert</Button>
+      <Alert ref={ref} {...args} />
+    </>
+  );
+}
 
 export const Dialogs = {
   title: 'Dialog',
@@ -46,59 +119,7 @@ export const Dialogs = {
     w: '400px',
     maxW: '500px',
   },
-  render: args => {
-    const TitleText = styled.span`
-      color: var(--rds-color-neutral-11);
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 120%;
-    `;
-
-    const ContentText = styled.span`
-      color: var(--rds-color-neutral-9);
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 160%;
-    `;
-
-    const ref = useRef();
-
-    const buttons = [
-      {
-        text: 'Close',
-        button: Button,
-        onClick: 'close',
-      },
-      {
-        text: 'OK',
-        button: Button,
-        onClick: () => alert('OK'),
-      },
-    ];
-
-    const handleDialogOpen = () => {
-      args.modal ? ref.current.showModal() : ref.current.show();
-    };
-
-    return (
-      <>
-        <Button onClick={handleDialogOpen}>Open dialog</Button>
-        <Dialog buttons={buttons} ref={ref} {...args}>
-          <Flex alignItems="center" mb="16px">
-            <Flex alignItems="center" mr="12px" mt="4px" w="auto">
-              <Icon name="alert-circle-solid-check" />
-            </Flex>
-            <TitleText>メッセージを送信しました</TitleText>
-          </Flex>
-          <ContentText>
-            この文章はダミーコピーですお読みにならないで下さい。構成を分かりやすくするため使用しています。本来の文言とは全く違った内容を記載しています。
-          </ContentText>
-        </Dialog>
-      </>
-    );
-  },
+  render: DialogStory,
 };
 
 export const DialogAlerts = {
@@ -151,18 +172,5 @@ export const DialogAlerts = {
     maxW: '500px',
     onOK: () => alert('OK'),
   },
-  render: args => {
-    const ref = useRef();
-
-    const handleDialogOpen = () => {
-      ref.current.show();
-    };
-
-    return (
-      <>
-        <Button onClick={handleDialogOpen}>Open dialog alert</Button>
-        <Alert ref={ref} {...args} />
-      </>
-    );
-  },
+  render: AlertStory,
 };

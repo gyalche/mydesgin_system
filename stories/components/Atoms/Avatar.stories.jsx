@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Avatar from 'components/Atoms/Avatar';
 import * as Layout from 'components/Atoms/Layout';
 
@@ -39,9 +40,9 @@ export const Avatars = {
     size: 'medium',
     fontSize: '12px',
   },
-  render: (args) => {
+  render: args => {
     const text = args.name.trim()[0];
-    
+
     return (
       <Layout.Block>
         <Layout.Item mt="20px">

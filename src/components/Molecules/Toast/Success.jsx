@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Layout } from 'components/Atoms';
-import { Typography } from 'components/Atoms';
+
+import { Layout, Typography } from 'components/Atoms';
+
 import StyledToast, {
   BtnLabel,
   CloseIcon,
@@ -22,7 +23,6 @@ export default function Success({
   ...rest
 }) {
   const [isFadingOut, setIsFadingOut] = useState(false);
-
   const closeToast = () => {
     setIsFadingOut(true);
     setTimeout(() => {
@@ -45,13 +45,13 @@ export default function Success({
           </Layout.Block>
           {description && <Description>{description}</Description>}
           {action && btnLabel && title && btnLabel && description && (
-            <ToastButton data-testid="button-id" mt="8px" onClick={action} compact $withDescription={description}>
+            <ToastButton data-testid="button-id" mt="8px" onClick={action} compact={true} $withDescription={description}>
               <BtnLabel>{btnLabel}</BtnLabel>
             </ToastButton>
           )}
         </TextContainer>
         {action && btnLabel && title && !description && (
-          <ToastButton data-testid="right-side-btn" onClick={action} compact $withDescription={description}>
+          <ToastButton data-testid="right-side-btn" onClick={action} compact={true} $withDescription={description}>
             <BtnLabel>{btnLabel}</BtnLabel>
           </ToastButton>
         )}
@@ -78,6 +78,7 @@ Success.propTypes = {
 Success.defaultProps = {
   title: '',
   description: null,
-  action: null,
+  action: () => {},
   btnLabel: 'action',
+  $fadeOut: false,
 };

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Icon, Layout, Typography } from 'components/Atoms';
 
 const { Flex } = Layout;
@@ -37,8 +38,7 @@ const icons = {
 };
 
 const Bullet = styled.div`
-  background-color: ${({ $appearance }) =>
-    appearanceColors[$appearance]?.bulletColor || 'transparent'};
+  background-color: ${({ $appearance }) => appearanceColors[$appearance]?.bulletColor || 'transparent'};
   border-radius: 50%;
   width: 8px;
   height: 8px;
@@ -47,8 +47,7 @@ const Bullet = styled.div`
 `;
 
 const StyledIcon = styled(Icon)`
-  color: ${({ $appearance }) =>
-    appearanceColors[$appearance]?.iconColor || 'inherit'};
+  color: ${({ $appearance }) => appearanceColors[$appearance]?.iconColor || 'inherit'};
   width: 16px;
   height: 16px;
   margin-right: 4px;
@@ -56,11 +55,10 @@ const StyledIcon = styled(Icon)`
 `;
 
 const Label = styled(Typography).attrs(() => ({ level: 'p4' }))`
-  color: ${({ $appearance }) =>
-    appearanceColors[$appearance]?.textColor || 'var(--rds-color-neutral-10)'};
+  color: ${({ $appearance }) => appearanceColors[$appearance]?.textColor || 'var(--rds-color-neutral-10)'};
 `;
 
-export const Status = ({ appearance, children }) => {
+export function Status({ appearance, children }) {
   const renderBullet = [
     'disabled',
     'enabled',
@@ -82,11 +80,10 @@ export const Status = ({ appearance, children }) => {
       </Flex>
     </Flex>
   );
-};
+}
 
 Status.defaultProps = {
   appearance: 'none',
-  children: null,
 };
 
 Status.propTypes = {

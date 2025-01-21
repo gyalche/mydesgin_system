@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+
 import IconButton from 'components/Molecules/IconButton';
 
 import {
@@ -82,8 +83,8 @@ function Tooltip({
 
   const updateContentWidth = () => {
     if (contentRef.current) {
-      const width = contentRef.current.offsetWidth;
-      setContentWidth(width);
+      const widthOffSet = contentRef.current.offsetWidth;
+      setContentWidth(widthOffSet);
     }
   };
 

@@ -1,22 +1,26 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import { Icon } from 'components/Atoms';
 import { Flex } from 'components/Atoms/Layout';
+
 import { CloseIconPlacement, DialogContainer } from './styles';
 
-const Dialog = forwardRef(function Dialog(
-  { showClose, w, maxW, buttons, children, ...rest },
-  ref
-) {
-  const handleDialogClose = () => {
+const Dialog = forwardRef((
+  {
+    showClose, w, maxW, buttons, children, ...rest
+  },
+  ref,
+) => {
+  const handleDialogClose = useCallback(() => {
     ref.current.close();
-  };
+  }, [ref]);
 
-  const handleOutsideClick = event => {
+  const handleOutsideClick = useCallback(event => {
     if (ref.current && !ref.current.contains(event.target)) {
       handleDialogClose();
     }
-  };
+  }, [ref, handleDialogClose]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
@@ -24,7 +28,7 @@ const Dialog = forwardRef(function Dialog(
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, []);
+  }, [handleOutsideClick]);
 
   return (
     ref && (
@@ -47,7 +51,9 @@ const Dialog = forwardRef(function Dialog(
         {buttons?.length > 0 && (
           <Flex alignItems="center" gap="12px" justifyContent="end" mt="16px">
             {buttons.map(buttonData => {
-              const { text, button: BtnComponent, onClick, props } = buttonData;
+              const {
+                text, button: BtnComponent, onClick, props,
+              } = buttonData;
 
               const handleClick = () => {
                 if (onClick === 'close') {
@@ -73,6 +79,8 @@ const Dialog = forwardRef(function Dialog(
     )
   );
 });
+
+Dialog.displayName = 'Dialog';
 
 Dialog.defaultProps = {
   showClose: false,

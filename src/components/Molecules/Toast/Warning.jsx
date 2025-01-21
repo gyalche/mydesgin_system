@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
 import { Layout, Typography } from 'components/Atoms';
 
 import StyledToast, {
@@ -41,17 +42,17 @@ export default function Warning({
           <Layout.Block mt={description && '4px'}>
             <Typography level="h7">{title}</Typography>
           </Layout.Block>
-          {description && <Description $isWarning>{description}</Description>}
+          {description && <Description $isWarning={true}>{description}</Description>}
           {action && title && btnLabel && description && (
-            <ToastButton data-testid="button-id" mt="8px" onClick={action} compact $withDescription={description}>
+            <ToastButton data-testid="button-id" mt="8px" onClick={action} compact={true} $withDescription={description}>
               <BtnLabel>{btnLabel}</BtnLabel>
             </ToastButton>
           )}
         </TextContainer>
         {action && btnLabel && title && !description && (
-          <ToastButton compact data-testid="right-side-btn" onClick={action} $withDescription={description}>
+          <ToastButton compact={true} data-testid="right-side-btn" onClick={action} $withDescription={description}>
             <BtnLabel>{btnLabel}</BtnLabel>
-          </ToastButton> 
+          </ToastButton>
         )}
         <StyledIcon
           name="action-cross"
@@ -69,13 +70,14 @@ Warning.propTypes = {
   description: PropTypes.string,
   close: PropTypes.func.isRequired,
   $fadeOut: PropTypes.bool,
-  action:PropTypes.func,
-  btnLabel:PropTypes.string,
+  action: PropTypes.func,
+  btnLabel: PropTypes.string,
 };
 
 Warning.defaultProps = {
   title: '',
   description: null,
-  action: null,
+  action: () => {},
   btnLabel: 'action',
+  $fadeOut: false,
 };

@@ -1,6 +1,6 @@
-
 import React from 'react';
 import styled from 'styled-components';
+
 import Icon from 'components/Atoms/Icon';
 import * as logos from 'components/Atoms/Logo';
 import icons from 'shared/css/icons.module.css';
@@ -13,11 +13,11 @@ export default {
 export const IndividualTest = {
   title: 'Icon',
   render: ({ name }) => (
-    <Icon name={name}></Icon>
+    <Icon name={name} />
   ),
   args: {
     name: 'global-cog',
-  }
+  },
 };
 
 const PreviewItem = styled.div`
@@ -57,18 +57,18 @@ export const IconList = {
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=131-1294&mode=design&t=g6nxjdQUCysTShhd-0'
-    }
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=131-1294&mode=design&t=g6nxjdQUCysTShhd-0',
+    },
   },
   title: 'Icon List',
   render: () => {
-    const iconNameList = Object.getOwnPropertyNames(icons).map(key => key.substring(4,key.length));
+    const iconNameList = Object.getOwnPropertyNames(icons).map(key => key.substring(4, key.length));
     return (
       <div>
         {iconNameList.map(key => (
           <PreviewItem title={key}>
             <Content>
-              <Icon name={key}></Icon>
+              <Icon name={key} />
             </Content>
             <Label>{key}</Label>
           </PreviewItem>
@@ -83,8 +83,8 @@ export const LogoList = {
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=131-1294&mode=design&t=g6nxjdQUCysTShhd-0'
-    }
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=131-1294&mode=design&t=g6nxjdQUCysTShhd-0',
+    },
   },
   title: 'Logo List',
   render: () => {
@@ -97,7 +97,7 @@ export const LogoList = {
           return (
             <PreviewItem title={key}>
               <Content>
-                <Logo style={{width: '36px'}}/>
+                <Logo style={{ width: '36px' }} />
               </Content>
               <Label>{key}</Label>
             </PreviewItem>

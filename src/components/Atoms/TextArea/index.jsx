@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledTextArea = styled.textarea.withConfig({
-  shouldForwardProp: prop =>
-    !['isInvalid', 'compact', 'w', 'h', 'mt', 'mr', 'mb', 'ml'].includes(prop),
+  shouldForwardProp: prop => !['isInvalid', 'compact', 'w', 'h', 'mt', 'mr', 'mb', 'ml'].includes(prop),
 })`
   background: var(--rds-color-neutral-0);
-  border: ${({ isInvalid }) =>
-    isInvalid
-      ? '1px solid var(--rds-color-secondary-3-normal)'
-      : '1px solid var(--rds-color-neutral-3)'};
+  border: ${({ isInvalid }) => (isInvalid
+    ? '1px solid var(--rds-color-secondary-3-normal)'
+    : '1px solid var(--rds-color-neutral-3)')};
   border-radius: 4px;
   color: var(--rds-color-neutral-10);
   height: ${({ h }) => h};
@@ -37,7 +35,9 @@ const StyledTextArea = styled.textarea.withConfig({
   }
 `;
 
-const TextArea = ({ mt, mr, mb, ml, w, h, isInvalid, ...inputProps }) => {
+function TextArea({
+  mt, mr, mb, ml, w, h, isInvalid, ...inputProps
+}) {
   return (
     <StyledTextArea
       {...inputProps}
@@ -50,7 +50,7 @@ const TextArea = ({ mt, mr, mb, ml, w, h, isInvalid, ...inputProps }) => {
       isInvalid={isInvalid}
     />
   );
-};
+}
 
 TextArea.propTypes = {
   mt: PropTypes.string,

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import * as Layout from 'components/Atoms/Layout';
 
 const HeaderContainer = styled.header`
@@ -21,8 +22,7 @@ const MainContentWrapper = styled.div`
   height: 48px;
 `;
 
-const Header = ({ leftContent, centerContent, rightContent }) => {
-
+function Header({ leftContent, centerContent, rightContent }) {
   return (
     <HeaderContainer>
       <MainContentWrapper />
@@ -45,7 +45,7 @@ const Header = ({ leftContent, centerContent, rightContent }) => {
       </Layout.Flex>
     </HeaderContainer>
   );
-};
+}
 
 Header.propTypes = {
   leftContent: PropTypes.PropTypes.oneOfType([
@@ -59,13 +59,13 @@ Header.propTypes = {
   rightContent: PropTypes.PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
-  ])
+  ]),
 };
 
 Header.defaultProps = {
   leftContent: null,
   centerContent: null,
-  rightContent: null
+  rightContent: null,
 };
 
 export default Header;

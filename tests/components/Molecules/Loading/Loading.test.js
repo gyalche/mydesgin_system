@@ -16,7 +16,7 @@ describe('Spinner Component', () => {
 
   it('renders with large size', () => {
     render(<Spinner size="large" />);
-    const spinnerIcon = screen.findByRole('img', { name: /global-spinner/i });;
+    const spinnerIcon = screen.findByRole('img', { name: /global-spinner/i });
     
     waitFor(() => {
       expect(spinnerIcon).toHaveStyleRule('font-size: 48px');

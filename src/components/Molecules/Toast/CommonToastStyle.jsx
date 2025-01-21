@@ -1,6 +1,6 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
+
 import { Flex } from 'components/Atoms/Layout';
 import { Button, Icon, Typography } from 'components/Atoms';
 
@@ -31,7 +31,7 @@ export const actionButtonStyle = css`
 
 export const ToastContainer = styled(Flex)`
   gap: 12px;
-  margin: ${({ $withDescription }) => $withDescription ? '12px' : '8px'};
+  margin: ${({ $withDescription }) => ($withDescription ? '12px' : '8px')};
 `;
 
 export const StyledIcon = styled(Icon)`
@@ -43,12 +43,11 @@ export const StyledIcon = styled(Icon)`
 export const TextContainer = styled(Flex)`
   align-self: center;
   flex-direction: column;
-  width: ${({$withDescription}) => !$withDescription && '80%'};
+  width: ${({ $withDescription }) => !$withDescription && '80%'};
 `;
 
 export const Description = styled(Typography).attrs(() => ({ level: 'p2' }))`
-  color: ${({ $isWarning }) =>
-    $isWarning ? 'var(--rds-color-neutral-9)' : 'inherit'};
+  color: ${({ $isWarning }) => ($isWarning ? 'var(--rds-color-neutral-9)' : 'inherit')};
   line-height: 160%;
   margin-top: 8px;
 `;
@@ -56,12 +55,12 @@ export const Description = styled(Typography).attrs(() => ({ level: 'p2' }))`
 export const CloseIcon = styled(Icon)`
   cursor: pointer;
   font-size: 24px;
-  margin-top: ${({$withDescription}) => !$withDescription && '4px'}
+  margin-top: ${({ $withDescription }) => !$withDescription && '4px'}
 `;
 
 export const ToastButton = styled(Button.Subtle)`
   background-color: var(--rds-neutral-0);
-  margin-top: ${({$withDescription}) => !$withDescription && '4px'};
+  margin-top: ${({ $withDescription }) => !$withDescription && '4px'};
   max-width: calc(100% / 3);
   white-space: nowrap;
 `;
@@ -78,7 +77,7 @@ export const ToastIcon = styled(Icon)`
 `;
 
 export const TitleWrapper = styled.div`
-  margin-top: ${({noDescriptiion})=> !noDescriptiion ? '-10px' : '0'}
+  margin-top: ${({ noDescriptiion }) => (!noDescriptiion ? '-10px' : '0')}
 `;
 
 const getToastsPlacementStyles = placement => {
@@ -118,10 +117,9 @@ const handlePlacement = placement => {
 
 export const CommonToastStyle = styled.div`
   align-items: center;
-  animation: ${({ $placement, $isFadingOut }) =>
-    $isFadingOut
-      ? 'fadeOut 1s forwards'
-      : `${handlePlacement($placement)} 0.2s ease forwards`};
+  animation: ${({ $placement, $isFadingOut }) => ($isFadingOut
+    ? 'fadeOut 1s forwards'
+    : `${handlePlacement($placement)} 0.2s ease forwards`)};
   border-radius: 4px;
   box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-alpha-3);
   display: flex;

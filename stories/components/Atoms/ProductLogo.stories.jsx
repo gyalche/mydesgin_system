@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ProductLogo from 'components/Atoms/ProductLogo';
 import * as Layout from 'components/Atoms/Layout';
 
@@ -28,13 +29,11 @@ export const ProductLogos = {
   args: {
     product: 'Receptionist',
   },
-  render: args => {
-    return (
-      <Layout.Block>
-        <Layout.Item>
-          <ProductLogo {...args} />
-        </Layout.Item>
-      </Layout.Block>
-    );
-  },
+  render: args => (
+    <Layout.Block>
+      <Layout.Item>
+        <ProductLogo {...args} />
+      </Layout.Item>
+    </Layout.Block>
+  ),
 };

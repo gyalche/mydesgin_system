@@ -1,10 +1,10 @@
-import { default as Danger } from './Danger';
-import { default as Link } from './Link';
-import { default as Primary } from './Primary';
-import { default as Secondary } from './Secondary';
-import { default as Subtle } from './Subtle';
-import { default as SubtleLink } from './SubtleLink';
-import { default as Warning } from './Warning';
+import Danger from './Danger';
+import Link from './Link';
+import Primary from './Primary';
+import Secondary from './Secondary';
+import Subtle from './Subtle';
+import SubtleLink from './SubtleLink';
+import Warning from './Warning';
 
 const Button = Primary;
 

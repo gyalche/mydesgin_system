@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelect } from 'downshift';
+
 import Dropdown from 'components/Atoms/Dropdown';
+
 import Option from './Option';
 import DefaultDisplay from './DefaultDisplay';
 
@@ -42,7 +44,7 @@ const SelectorList = styled.ul`
   }
 `;
 
-const SelectorInput = ({
+function SelectorInput({
   h,
   w,
   mt,
@@ -59,22 +61,10 @@ const SelectorInput = ({
   value,
   onChange,
   ...rest
-}) => {
+}) {
   const [controlledSelectedItem, setControlledSelectedItem] = useState(
-    value || input?.value || options[0]
+    value || input?.value || options[0],
   );
-
-  useEffect(() => {
-    setControlledSelectedItem(value || input?.value || options[0]);
-  }, [value, input?.value, options, setControlledSelectedItem]);
-
-  useEffect(() => {
-    if (onChange) {
-      onChange(selectedItem);
-      return;
-    }
-    input?.onChange(selectedItem);
-  }, [controlledSelectedItem, onChange, input?.onChange]);
 
   const {
     isOpen,
@@ -86,9 +76,21 @@ const SelectorInput = ({
   } = useSelect({
     items: options,
     selectedItem: controlledSelectedItem,
-    onSelectedItemChange: ({ selectedItem }) => setControlledSelectedItem(selectedItem),
+    onSelectedItemChange: ({ selectedItem: selectedItemValue }) => setControlledSelectedItem(selectedItemValue),
     initialSelectedItem: controlledSelectedItem,
   });
+
+  useEffect(() => {
+    setControlledSelectedItem(value || input?.value || options[0]);
+  }, [value, input?.value, options, setControlledSelectedItem]);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(selectedItem);
+      return;
+    }
+    input?.onChange(selectedItem);
+  }, [controlledSelectedItem, onChange, input, selectedItem]);
 
   const OptionsComponent = optionsComponent;
   const DisplayComponent = display || DefaultDisplay;
@@ -126,8 +128,8 @@ const SelectorInput = ({
           $h={dropdownHeight}
           {...getMenuProps({}, { suppressRefError: true })}
         >
-          {options.length > 0 &&
-            options.map((item, index) => (
+          {options.length > 0
+            && options.map((item, index) => (
               <OptionsComponent
                 key={item.value}
                 item={item}
@@ -142,7 +144,7 @@ const SelectorInput = ({
       </Dropdown>
     </SelectorContainer>
   );
-};
+}
 
 SelectorInput.defaultProps = {
   h: '40px',
@@ -155,6 +157,11 @@ SelectorInput.defaultProps = {
   options: [],
   optionsComponent: Option,
   label: null,
+  name: '',
+  value: null,
+  onChange: () => {},
+  display: null,
+  input: {},
 };
 
 SelectorInput.propTypes = {
@@ -167,12 +174,21 @@ SelectorInput.propTypes = {
   dropdownHeight: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  options: PropTypes.array,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ),
   optionsComponent: PropTypes.func,
   onChange: PropTypes.func,
   display: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   label: PropTypes.string,
-  input: PropTypes.object,
+  input: PropTypes.shape({
+    value: PropTypes.string,
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+  }),
 };
 
 export default SelectorInput;

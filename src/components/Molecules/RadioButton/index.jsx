@@ -1,12 +1,13 @@
-import Icon from 'components/Atoms/Icon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
+import Icon from 'components/Atoms/Icon';
+
 const RadioButtonLabel = styled.label`
   cursor: pointer;
   padding: 8px 20px 8px 20px;
-  padding-${({ position }) => position }: 32px;
+  padding-${({ position }) => position}: 32px;
   border: 1px solid transparent;
   position: relative;
 
@@ -20,7 +21,7 @@ const RadioButtonLabel = styled.label`
 `;
 
 const RadioButtonIcon = styled.span`
-  ${({ position }) => position }: 0;
+  ${({ position }) => position}: 0;
   cursor: pointer;
   font-size: 20px;
   position: absolute;
@@ -41,7 +42,7 @@ const RadioButtonIcon = styled.span`
 const HiddenRadio = styled.input`
   opacity: 0;
   position: absolute;
-  ${({ position }) => position }: 0;
+  ${({ position }) => position}: 0;
 
   &:checked + ${RadioButtonIcon} {
     color: var(--rds-color-primary-1-normal);
@@ -57,10 +58,12 @@ const HiddenRadio = styled.input`
   }
 `;
 
-const RadioButton = ({ label, checked, onChange, value, disabled, position }) => {
+function RadioButton({
+  label, checked, onChange, value, disabled, position,
+}) {
   const actualPosition = position === 'right' ? position : 'left';
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     if (onChange) {
       onChange(event);
     }
@@ -83,7 +86,7 @@ const RadioButton = ({ label, checked, onChange, value, disabled, position }) =>
       {label}
     </RadioButtonLabel>
   );
-};
+}
 
 RadioButton.defaultProps = {
   checked: true,
