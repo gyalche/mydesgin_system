@@ -26,13 +26,13 @@ const DatePicker = ({
   placeholder,
   dateTimeStart,
   dateTimeEnd,
-  setDateTimeStart,
-  setDateTimeEnd,
   input,
   onlyFuture,
   dateTimeValue,
   isDateTimeDouble,
   dateTimeDefault,
+  setDateTimeStart,
+  setDateTimeEnd
 }) => {
   const {
     startDate,
@@ -40,7 +40,6 @@ const DatePicker = ({
     openCalendar,
     openCalendarEnd,
     currentMonth,
-    dateRange,
     hoveredDate,
     weekdays,
     currentDate,
@@ -49,8 +48,6 @@ const DatePicker = ({
     datePickerRef,
     inputRefEnd,
     inputRefStart,
-    setEndDate,
-    setStartDate,
     setHoveredDate,
     setOpenCalendar,
     setOpenCalendarEnd,
@@ -66,8 +63,9 @@ const DatePicker = ({
     onChangeCurrent,
     handlePrevMonth,
     handleNextMonth,
-    setDisplayErrorFirst,
-    setDisplayErrorLast
+    clearStartDate,
+    clearEndDate,
+    clearStartDateWhenNoDateTime
   } = useDatePickerSelector({
     isRangePicker,
     onlyFuture,
@@ -78,7 +76,11 @@ const DatePicker = ({
     dateTimeDefault,
     isDateTimeDouble,
     initialValue,
-    locale
+    locale,
+    dateTimeStart,
+    dateTimeEnd,
+    setDateTimeStart,
+    setDateTimeEnd
   });
 
   return (
@@ -107,31 +109,13 @@ const DatePicker = ({
               <>
                 {dateTimeValue ? (
                   <InputIcon 
-                   onClick={disabled ? ()=>{} : () => {
-                     setStartDate('');
-                     input?.onChange(null);
-                     onChange(null);
-                     setDisplayErrorFirst(true);
-                     if(dateTimeStart) setDateTimeStart(false);
-                     if(dateTimeEnd) setDateTimeEnd(false);
-                   }}
+                   onClick={disabled ? ()=>{} : clearStartDate}
                    data-testid='icon-click'
                  >
                    <Icon name="alert-circle-solid-cross" />
                  </InputIcon>
                 ) : (
-                  <InputIcon onClick={disabled ? ()=>{} : () => {
-                      setStartDate('');
-                      setDisplayErrorFirst(true);
-                      if(isRangePicker){
-                        input.onChange([null, endDate]);
-                        if (Array.isArray(dateRange) && dateRange.length > 0) {
-                          dateRange.shift();
-                        }
-                      }
-                      input.onChange(null);
-                      onChange(null);
-                    }}
+                  <InputIcon onClick={disabled ? () => {} : clearStartDateWhenNoDateTime}
                     data-testid='icon-click'
                   >
                     <Icon name="alert-circle-solid-cross" />
@@ -160,7 +144,7 @@ const DatePicker = ({
                 height={40}
                 placeholder={placeholder}
                 activesecondinput={startDate && !endDate || openCalendarEnd}
-                isInvalid={displayErrorLast && endDate==''}
+                isInvalid={displayErrorLast && endDate === ''}
                 ref={inputRefEnd}
                 onKeyDown={(e) => {
                   if (!openCalendar && !openCalendarEnd) {
@@ -170,19 +154,13 @@ const DatePicker = ({
               />
               <IconWrapper>
                 {endDate ? (
-                  <InputIcon onClick={disabled ? ()=>{} : () => {
-                    setEndDate('');
-                    setDisplayErrorLast(true);
-                    input.onChange([startDate ? startDate : null, null]);
-                    dateRange.pop();
-                    setHoveredDate(startDate);
-                  }}
+                  <InputIcon onClick={disabled ? () => {} : clearEndDate}
                   data-testid='icon-button'
                   >
                     <Icon name="alert-circle-solid-cross" />
                   </InputIcon>
                 ) : (
-                  <InputIcon onClick={() => setOpenCalendarEnd(!openCalendarEnd)}>
+                  <InputIcon onClick={() => (setOpenCalendarEnd(!openCalendarEnd))}>
                     <Icon name="Interface-calendar-dot" />
                   </InputIcon>
                 )}

@@ -29,7 +29,7 @@ const useCalendarNavigator = ({
   const [currentMonth, setCurrentMonth] = useState(date);
   const [currentDecadeStart, setCurrentDecadestart] = useState(Math.floor(currentYear / 10) * 10);
   const [selectedDecade, setSelectedDecade] = useState(null);
-
+  
   const handleMouseEnter = useCallback((day) => {
     if (isRangePicker && startDate && !endDate && (day instanceof Date)) {
       setHoveredDate(day);

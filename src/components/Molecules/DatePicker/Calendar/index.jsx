@@ -120,6 +120,7 @@ const Calendar = ({
           goToNextDecade={ goToNextDecade}
           showYears={showYears}
           tabCount={tabCount}
+          setModalFocus={setModalFocus}
         />
       
         <DoubleViewContainer focus={modalFocus && isDoubleView}>

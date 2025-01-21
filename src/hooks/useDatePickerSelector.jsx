@@ -14,6 +14,10 @@ function useDatePickerSelector({
   isDateTimeDouble,
   initialValue,
   locale,
+  dateTimeStart,
+  dateTimeEnd,
+  setDateTimeStart,
+  setDateTimeEnd
 }) {
   const [startDate, setStartDate] = useState(Array.isArray(input?.value) ? input?.value[0] : input?.value);
   const [endDate, setEndDate] = useState(Array.isArray(input?.value) ? input?.value[1] : input?.value);
@@ -93,6 +97,36 @@ function useDatePickerSelector({
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
   }, [setCurrentMonth]);
 
+  const clearStartDate = () => {
+    setStartDate('');
+    // input?.onChange(null);
+    // onChange(null);
+    if(dateTimeStart) setDateTimeStart(false);
+    if(dateTimeEnd) setDateTimeEnd(false);
+  };
+  const clearStartDateWhenNoDateTime = () => {
+    setStartDate('');
+    setDisplayErrorFirst(true);
+    if(isRangePicker){
+      input.onChange([null, endDate]);
+      if (Array.isArray(dateRange) && dateRange.length > 0) {
+        dateRange.shift();
+      }
+    }
+    input.onChange(null);
+    onChange(null);
+  };
+
+  const clearEndDate = () => {
+    setEndDate('');
+    setDisplayErrorLast(true);
+    input.onChange([startDate ? startDate : null, null]);
+    onChange([startDate ? startDate : null, null]);
+    dateRange.pop();
+    setHoveredDate(startDate);
+  };
+
+ 
   const isInHoverRange = useCallback((day) => {
     if (!startDate || !hoveredDate) return false;
     const normalizedDay = normalizeDate(day);
@@ -204,6 +238,7 @@ function useDatePickerSelector({
           setHoveredDate(currentDate);
           setOpenCalendarEnd(false);
           input.onChange([startDate, currentDate]);
+          onChange([startDate, currentDate]);
         }
       }
     };
@@ -311,50 +346,37 @@ function useDatePickerSelector({
   }, [currentDate, currentMonth, openCalendar, openCalendarEnd, enableKeyboard, hoveredDate, startDate, endDate, notCurrentMontAndYear]);
 
   return {
+    startDate,
+    endDate,
+    openCalendar,
+    openCalendarEnd,
+    currentMonth,
+    hoveredDate,
+    weekdays,
+    currentDate,
+    displayErrorFirst,
+    displayErrorLast,
     datePickerRef,
     inputRefEnd,
     inputRefStart,
-    startDate,
-    endDate,
-    setStartDate,
-    setEndDate,
-    openCalendar,
-    setOpenCalendar,
-    openCalendarEnd,
-    setOpenCalendarEnd,
-    currentMonth,
-    setCurrentMonth,
-    dateRange,
-    setDateRange,
-    hoveredDate,
     setHoveredDate,
-    weekdays,
-    currentDate,
-    setCurrentDate,
-    displayErrorFirst,
-    setDisplayErrorFirst,
-    displayErrorLast,
-    setDisplayErrorLast,
-    handleKeyDown,
-    enableKeyboard,
-    disableKeyboardFunc,
-    enabledKeyboardFunc,
+    setOpenCalendar,
+    setOpenCalendarEnd,
     handleDateRangeClick,
+    enabledKeyboardFunc,
+    disableKeyboardFunc,
+    handleInputKeyDown,
     isInRange,
     handlePrevYear,
     handleNextYear,
     handleSingleDate,
     isInHoverRange,
     onChangeCurrent,
-    handleInputKeyDown,
     handlePrevMonth,
     handleNextMonth,
-    displayErrorFirst,
-    setDisplayErrorFirst,
-    displayErrorLast,
-    setDisplayErrorLast
+    clearStartDate,
+    clearEndDate,
+    clearStartDateWhenNoDateTime
   };
-
 }
-
 export default useDatePickerSelector;

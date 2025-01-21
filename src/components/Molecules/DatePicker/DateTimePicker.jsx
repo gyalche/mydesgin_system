@@ -25,7 +25,7 @@ const DateTimePicker = ({ onChange,
 
   const [dateTimeStartvalue, setDateTimeStartValue] = useState(Array.isArray(initialValues) ? initialValues[0] : initialValues);
   const [dateTimeEndvalue, setDateTimeEndValue] = useState(Array.isArray(initialValues) ? initialValues[1]: initialValues);
-  
+
   const handleChange = (value, type) => {
     setDateTimeStartValue((prevValue) => {
       if (type === 'date') {

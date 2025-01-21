@@ -50,7 +50,6 @@ const useDecadeSelector = ({
         case 'ArrowDown':
         case 'ArrowUp':
           const newIndex = navigateButton(event.key);
-
           if (newIndex === 0) goToPreviousDecade();
           if (newIndex === totalButtons - 1) goToNextDecade();
 
