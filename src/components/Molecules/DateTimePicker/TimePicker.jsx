@@ -1,4 +1,4 @@
-import React, {useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'components/Atoms';
 import {
@@ -7,7 +7,7 @@ import {
   HourMinuteWrapper,
   IconWrapper,
   InputContainer,
-  InputIcon, 
+  InputIcon,
   InputWrapper,
   NextIcon,
   ScrollColumn,
@@ -17,6 +17,7 @@ import {
 } from './styles';
 import InputField from './InputField';
 import { useTimePickerSelector } from '../../../hooks/useTimePickerSelector';
+import { AmPmValue } from '../../../constants';
 
 const TimePicker = ({ is12Hour,
   step,
@@ -30,8 +31,6 @@ const TimePicker = ({ is12Hour,
   dateTimeDefault,
   dateTimeValue
 }) => {
-  const AmPmValue = [{name: 'AM', value:'am'}, {name: 'PM', value:'pm'}];
-  
   const timePickerRef = useRef(null);
   const timeInputRef = useRef(null);
   const timeInputRefEnd = useRef(null);

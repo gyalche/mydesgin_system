@@ -91,5 +91,4 @@ const useDecadeSelector = ({
 
   return { handleKeyDown };
 };
-
 export default useDecadeSelector;

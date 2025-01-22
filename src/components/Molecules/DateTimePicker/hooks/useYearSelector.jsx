@@ -78,6 +78,7 @@ const useYearSelector = ({
     setSelectedYearIndex(newIndex);
     buttonRefs.current[newIndex]?.focus();
   };
+
   useEffect(() => {
     if (showYears && (tabCount==0 || tabCount === 4) ) {
       document?.addEventListener('keydown', handleKeyDown);

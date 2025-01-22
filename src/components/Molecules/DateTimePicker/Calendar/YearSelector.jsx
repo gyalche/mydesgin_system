@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
-import useYearSelector from '../../../../hooks/useYearSelector';
+import useYearSelector from '../hooks/useYearSelector';
 
 const YearSelector = ({
   selectedDecade,
@@ -51,7 +51,6 @@ const YearSelector = ({
           {year}
         </DecadeButton>
       ))}
-     
       <DecadeButton disabled>{selectedDecade + 10}</DecadeButton>
     </DecadeGrid>
   );

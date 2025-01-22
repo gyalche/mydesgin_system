@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
-import useDecadeSelector from '../../../../hooks/useDecadeSelector';
+import useDecadeSelector from '../hooks/useDecadeSelector';
 
 const DecadeSelector = ({
-  currentDecadeStart, 
+  currentDecadeStart,
   selectedDecade, 
   handleDecadeSelect, 
   goToNextDecade,
@@ -32,7 +32,7 @@ const DecadeSelector = ({
 
   return (
     <DecadeGrid focus={enableFocus} isDoubleView={isDoubleView}>
-       <ButtonActive data-calendar-btn />
+      <ButtonActive data-calendar-btn />
       <DecadeButton disabled ref={(el) => (buttonRefs.current[0] = el)}>
         {currentDecadeStart - 10} - {currentDecadeStart - 1}
       </DecadeButton>

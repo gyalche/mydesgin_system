@@ -1,8 +1,8 @@
 import React from 'react';
-import DatePicker from 'components/Molecules/DatePicker';
+import DatePicker from 'components/Molecules/DateTimePicker';
 
 export default {
-  title: 'Design System/Molecules/DatePicker',
+  title: 'Design System/Molecules/DateTimePicker',
   component: DatePicker,
 };
 

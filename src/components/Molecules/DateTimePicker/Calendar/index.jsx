@@ -16,8 +16,10 @@ import CalendarNavigation from './NavigationHeader';
 import DecadeSelector from './DecadeSelector';
 import YearSelector from './YearSelector';
 import MonthSelector from './MonthSelector';
-import useCalendarNavigator from '../../../../hooks/useCalendarNavigator';
-import closeOpenModal from '../../../../hooks/closeOpenModal';
+// import closeOpenModal from '../../../../hooks/closeOpenModal';
+// import useCalendarNavigator from './hooks/useCalendarNavigator';
+import useCalendarKeyboard from '../../../../hooks/useCalendarKeyboard';
+import useCalendarHandler from '../hooks/useCalendarHandler';
 
 const Calendar = ({
   date,
@@ -59,10 +61,62 @@ const Calendar = ({
   (openDecade || openMonth || showYears) && isDoubleView ? 4 :
   (isDoubleView && isRangePicker) ? 9 : 7;
 
-  closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
+  // const { selectedDecade, currentMonth, currentDecadeStart, handleMouseEnter, handleMouseLeave, openSelectDecade,
+  //   openSelectMonth, handleDecadeSelect, goToNextDecade, goToPreviousDecade } = useCalendarNavigator({
+  //   openCalendar,
+  //   openCalendarEnd,
+  //   tabCount,
+  //   setTabCount,
+  //   maxCount,
+  //   modalFocus,
+  //   setModalFocus,
+  //   enableKeyboard,
+  //   disableKeyboard,
+  //   isRangePicker,
+  //   setOpenCalendar,
+  //   setOpenCalendarEnd,
+  //   inputRefEnd,
+  //   disableKeyboard,
+  //   startDate,
+  //   endDate,
+  //   setHoveredDate,
+  //   date,
+  //   showYears,
+  //   openDecade,
+  //   setDates,
+  //   setOpenDecade,
+  //   setShowYears,
+  //   setOpenMonth
+  // });
+  const {
+    currentMonth,
+    currentDecadeStart,
+    selectedDecade,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSelectDecade,
+    openSelectMonth,
+    handleDecadeSelect,
+    goToNextDecade,
+    goToPreviousDecade,
+  } = useCalendarHandler({
+    startDate,
+    endDate,
+    setHoveredDate,
+    date,
+    setDates,
+    isRangePicker,
+    setModalFocus,
+    enableKeyboard,
+    setShowYears,
+    setOpenDecade,
+    setOpenMonth,
+    modalFocus,
+    showYears,
+    openDecade,
+  });
 
-  const { selectedDecade, currentMonth, currentDecadeStart, handleMouseEnter, handleMouseLeave, openSelectDecade,
-    openSelectMonth, handleDecadeSelect, goToNextDecade, goToPreviousDecade } = useCalendarNavigator({
+  useCalendarKeyboard({
     openCalendar,
     openCalendarEnd,
     tabCount,
@@ -70,23 +124,12 @@ const Calendar = ({
     maxCount,
     modalFocus,
     setModalFocus,
-    enableKeyboard,
-    disableKeyboard,
     isRangePicker,
     setOpenCalendar,
     setOpenCalendarEnd,
     inputRefEnd,
     disableKeyboard,
-    startDate,
-    endDate,
-    setHoveredDate,
-    date,
-    showYears,
-    openDecade,
-    setDates,
-    setOpenDecade,
-    setShowYears,
-    setOpenMonth
+    enableKeyboard,
   });
 
   const displayYear = currentMonth.getFullYear();

@@ -31,7 +31,7 @@ function useDatePickerSelector({
   const [displayErrorFirst, setDisplayErrorFirst] = useState(false);
   const [displayErrorLast, setDisplayErrorLast] = useState(false);
   const [enableKeyboard, setEnableKeyboard] = useState(true);
-
+  
   const notCurrentMonthAndYear = currentDate.getMonth() !== currentMonth.getMonth() || currentDate.getFullYear() !== currentMonth.getFullYear();
 
   const datePickerRef = useRef(null);
@@ -378,5 +378,5 @@ function useDatePickerSelector({
     clearEndDate,
     clearStartDateWhenNoDateTime
   };
-}
+};
 export default useDatePickerSelector;

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { createDateFromTime, roundToNearestStep } from '../utils';
 import useClickOutside from './useClickOutside';
 import closeOpenModal from './closeOpenModal';
+import { columns } from '../constants';
 
 export const useTimePickerSelector = ({
   step,
@@ -51,7 +52,6 @@ export const useTimePickerSelector = ({
 
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
-  const columns = ['hour', 'minute', 'ampm'];
   
   const getNearestMinMinute = (current, step) => Math.min(roundToNearestStep(current, step));
 
@@ -508,7 +508,6 @@ export const useTimePickerSelector = ({
     activeColumn,
     roundMinuteSecond,
     timeError,
-    timeErrorLast,
     setTime,
     setEndTime,
     setTimeError,

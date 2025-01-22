@@ -1,7 +1,7 @@
 export { default as AppSwitcher } from './AppSwitcher';
 export { default as Checkbox } from './Checkbox';
 export { default as Dialog } from './Dialog';
-export { default as DatePicker } from './DatePicker';
+export { default as DatePicker } from './DateTimePicker';
 export { default as FormField } from './FormField';
 export { default as IconButton } from './IconButton';
 export { default as Loading } from './Loading';

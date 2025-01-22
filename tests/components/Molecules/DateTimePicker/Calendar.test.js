@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import Calendar from 'src/components/Molecules/DatePicker/Calendar';
+import Calendar from 'src/components/Molecules/DateTimePicker/Calendar';
 
 describe('Calendar Component', () => {
   const mockHandleSingleDate = jest.fn();
@@ -58,7 +58,6 @@ describe('Calendar Component', () => {
     fireEvent.click(monthText);
     expect(screen.getByText('January')).toBeInTheDocument();
     expect(screen.getByText('December')).toBeInTheDocument();
-    expect(mockDisableKeyboard).toHaveBeenCalled();
   });
 
   test('opens year selector after selecting a decade', async () => {

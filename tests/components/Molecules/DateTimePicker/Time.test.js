@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import TimePicker from 'src/components/Molecules/DatePicker/TimePicker';
+import TimePicker from 'src/components/Molecules/DateTimePicker/TimePicker';
 import React from 'react';
 
 describe('TimePicker Component', () => {

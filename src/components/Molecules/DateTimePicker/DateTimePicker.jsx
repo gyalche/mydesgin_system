@@ -139,7 +139,6 @@ DateTimePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
   is12Hour: PropTypes.bool,
-  isRangePicker: PropTypes.bool,
   locale: PropTypes.string,
   placeholder: PropTypes.shape({
     date: PropTypes.string,

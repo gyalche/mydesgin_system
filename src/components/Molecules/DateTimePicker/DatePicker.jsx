@@ -14,7 +14,9 @@ import {
  } from './styles';
 import Calendar from './Calendar';
 import InputField from './InputField';
-import useDatePickerSelector from '../../../hooks/useDatePickerSelector';
+// import useDatePickerSelector from '../../../hooks/useDatePickerSelector';
+import { useDatePickerHandler } from './hooks/useDatePickerHandler';
+import { useDatePickerKeyboard } from '../../../hooks/useDatePickerKeyboard';
 
 const DatePicker = ({
   isDoubleView,
@@ -34,53 +36,67 @@ const DatePicker = ({
   setDateTimeStart,
   setDateTimeEnd
 }) => {
-  const {
-    startDate,
+  const { startDate,
     endDate,
-    openCalendar,
-    openCalendarEnd,
-    currentMonth,
     hoveredDate,
-    weekdays,
-    currentDate,
     displayErrorFirst,
     displayErrorLast,
-    datePickerRef,
-    inputRefEnd,
-    inputRefStart,
     setHoveredDate,
-    setOpenCalendar,
-    setOpenCalendarEnd,
     handleDateRangeClick,
-    enabledKeyboardFunc,
-    disableKeyboardFunc,
-    handleInputKeyDown,
-    isInRange,
-    handlePrevYear,
-    handleNextYear,
     handleSingleDate,
+    isInRange,
     isInHoverRange,
-    onChangeCurrent,
-    handlePrevMonth,
-    handleNextMonth,
     clearStartDate,
     clearEndDate,
-    clearStartDateWhenNoDateTime
-  } = useDatePickerSelector({
+    clearStartDateWhenNoDateTime,
+    setStartDate,
+    setEndDate
+  } = useDatePickerHandler({
     isRangePicker,
     onlyFuture,
     input,
     onChange,
-    disabled,
-    dateTimeValue,
+    initialValue,
+    dateTimeValue, 
     dateTimeDefault,
     isDateTimeDouble,
-    initialValue,
-    locale,
     dateTimeStart,
     dateTimeEnd,
     setDateTimeStart,
     setDateTimeEnd
+  });
+  
+  const { openCalendar,
+    openCalendarEnd,
+    currentMonth,
+    currentDate,
+    weekdays,
+    datePickerRef,
+    inputRefEnd,
+    inputRefStart,
+    setOpenCalendar,
+    setOpenCalendarEnd,
+    handlePrevYear,
+    handleNextYear,
+    handlePrevMonth,
+    handleNextMonth,
+    handleInputKeyDown,
+    onChangeCurrent,
+    enabledKeyboardFunc,
+    disableKeyboardFunc
+  } = useDatePickerKeyboard({
+    locale,
+    disabled,
+    onlyFuture,
+    startDate,
+    endDate,
+    isRangePicker,
+    dateTimeValue,
+    input,
+    onChange,
+    handleSingleDate,
+    setStartDate,
+    setEndDate
   });
 
   return (

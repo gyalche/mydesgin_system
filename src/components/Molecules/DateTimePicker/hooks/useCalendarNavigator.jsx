@@ -102,7 +102,7 @@ const useCalendarNavigator = ({
   useEffect(() => {
     let timer;
     if(modalFocus){
-      timer= setTimeout(() => {
+      timer = setTimeout(() => {
         setModalFocus(false);
       }, 5000);
     }
