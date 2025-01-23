@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useCalendarKeyboard = ({
+const useCalendarNavigation = ({
   openCalendar,
   openCalendarEnd,
   tabCount,
@@ -102,4 +102,4 @@ const useCalendarKeyboard = ({
   ]);
 };
 
-export default useCalendarKeyboard;
+export default useCalendarNavigation;

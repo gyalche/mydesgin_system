@@ -16,7 +16,7 @@ import Calendar from './Calendar';
 import InputField from './InputField';
 // import useDatePickerSelector from '../../../hooks/useDatePickerSelector';
 import { useDatePickerHandler } from './hooks/useDatePickerHandler';
-import { useDatePickerKeyboard } from '../../../hooks/useDatePickerKeyboard';
+import { useDatePickerKeyboard } from '../../../hooks/useDatePickerNavigation';
 
 const DatePicker = ({
   isDoubleView,

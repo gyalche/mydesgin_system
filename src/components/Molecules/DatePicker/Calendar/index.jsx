@@ -16,8 +16,6 @@ import CalendarNavigation from './NavigationHeader';
 import DecadeSelector from './DecadeSelector';
 import YearSelector from './YearSelector';
 import MonthSelector from './MonthSelector';
-// import closeOpenModal from '../../../../hooks/closeOpenModal';
-// import useCalendarNavigator from './hooks/useCalendarNavigator';
 import useCalendarNavigation from '../../../../hooks/useCalendarNavigation';
 import useCalendarHandler from '../hooks/useCalendarHandler';
 

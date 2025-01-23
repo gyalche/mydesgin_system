@@ -16,8 +16,9 @@ import {
   TimePickerContainer,
 } from './styles';
 import InputField from './InputField';
-import { useTimePickerSelector } from '../../../hooks/useTimePickerSelector';
 import { AmPmValue } from '../../../constants';
+import { useTimePickerNavigation } from '../../../hooks/useTimePickerNavigation';
+import { useTimePickerLogic } from './hooks/useTimePickerHandler';
 
 const TimePicker = ({ is12Hour,
   step,
@@ -46,22 +47,11 @@ const TimePicker = ({ is12Hour,
     timeErrorFirst,
     timeErrorLast,
     endTime,
-    isDropdownOpen,
-    isEndTimeDropdownOpen,
     hours,
     minutes,
-    highlightedHourIndex,
-    highlightedMinuteIndex,
-    highlightedAmPmIndex,
-    highlightedHourEndIndex,
-    highlightedMinuteEndIndex,
-    highlightedAmPmEndIndex,
     roundUpMinute,
-    activeColumn,
     roundMinuteSecond,
     timeError,
-    toggleDropdown,
-    toggleEndDropdown,
     handleHourClick,
     handleMinuteClick,
     handleAmPm,
@@ -71,9 +61,7 @@ const TimePicker = ({ is12Hour,
     handleClearTime,
     handleClearFirstTimeRange,
     handleClearEndTime,
-    onKeyDownFirstInput,
-    onKeyDownSecondInput
-  } = useTimePickerSelector({
+  } = useTimePickerLogic({
     step,
     isRangePicker,
     onChange,
@@ -82,10 +70,36 @@ const TimePicker = ({ is12Hour,
     initialValue,
     isDateTimeDouble,
     dateTimeDefault,
+  });
+  
+  const {
+    isDropdownOpen,
+    isEndTimeDropdownOpen,
+    highlightedHourIndex,
+    highlightedMinuteIndex,
+    highlightedAmPmIndex,
+    highlightedHourEndIndex,
+    highlightedMinuteEndIndex,
+    highlightedAmPmEndIndex,
+    activeColumn,
+    toggleDropdown,
+    toggleEndDropdown,
+    onKeyDownFirstInput,
+    onKeyDownSecondInput,
+  } = useTimePickerNavigation({
+    is12Hour,
     AmPmValue,
     timeInputRef,
     timeInputRefEnd,
-    timePickerRef
+    timePickerRef,
+    hours,
+    minutes,
+    handleHourClick,
+    handleMinuteClick,
+    handleAmPm,
+    handleEndHourClick,
+    handleEndMinuteClick,
+    handleEndAmPm,
   });
   const timeValue = `${selectedHour ? selectedHour : 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
   const timeValueEnd = `${selectedHourEnd ? selectedHourEnd : 'hh'}:${selectedMinuteEnd !== '' ? 
