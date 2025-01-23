@@ -3,7 +3,7 @@ import useClickOutside from './useClickOutside';
 import closeOpenModal from './closeOpenModal';
 import { columns } from '../constants';
 
-export const useTimePickerNavigation = ({
+export const useTimePickerKeyboardNavigation = ({
   is12Hour,
   isDropdownOpen: initialIsDropdownOpen,
   isEndTimeDropdownOpen: initialIsEndTimeDropdownOpen,

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import closeOpenModal from '../../../../hooks/closeOpenModal';
+import closeOpenModal from '../../../../../hooks/closeOpenModal';
 
 const useCalendarHandler = ({
   startDate,
@@ -30,9 +30,7 @@ const useCalendarHandler = ({
     }
   }, [startDate, endDate, isRangePicker, setHoveredDate]);
 
-  const handleMouseLeave = () => {
-    setHoveredDate(null);
-  };
+  const handleMouseLeave = () => setHoveredDate(null);
 
   const openSelectDecade = () => {
     setOpenDecade(true);
@@ -66,20 +64,12 @@ const useCalendarHandler = ({
   };
 
   useEffect(() => {
-    if (currentMonth.getTime() !== date.getTime()) {
-      setCurrentMonth(date);
-    }
+    setCurrentMonth(date);
   }, [date]);
 
   useEffect(()=>{
     setSelectedDecade(currentDecadeStart);
   },[setSelectedDecade]);
-
-  useEffect(() => {
-    if (currentMonth.getTime() !== date.getTime()) {
-      setCurrentMonth(date);
-    }
-  }, [date]);
 
   useEffect(() => {
     if(!openDecade && !showYears){
@@ -93,15 +83,10 @@ const useCalendarHandler = ({
 
   useEffect(() => {
     let timer;
-    if(modalFocus){
-      timer = setTimeout(() => {
-        setModalFocus(false);
-      }, 5000);
+    if(modalFocus) {
+      timer = setTimeout(() => setModalFocus(false), 5000);
     }
-
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [modalFocus]);
 
   useEffect(() => {

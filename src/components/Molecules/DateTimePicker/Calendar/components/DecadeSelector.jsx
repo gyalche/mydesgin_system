@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
+import { DecadeGrid, DecadeButton, ButtonActive } from '../../styles';
 import useDecadeSelector from '../hooks/useDecadeSelector';
 
 const DecadeSelector = ({

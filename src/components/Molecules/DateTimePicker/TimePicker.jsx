@@ -17,8 +17,8 @@ import {
 } from './styles';
 import InputField from './InputField';
 import { AmPmValue } from '../../../constants';
-import { useTimePickerNavigation } from '../../../hooks/useTimePickerNavigation';
-import { useTimePickerLogic } from './hooks/useTimePickerHandler';
+import { useTimePickerKeyboardNavigation } from '../../../hooks/useTimePickerKeyboardNavigation';
+import { useTimePickerHandler } from '../../../hooks/useTimePickerHandler';
 
 const TimePicker = ({ is12Hour,
   step,
@@ -61,7 +61,7 @@ const TimePicker = ({ is12Hour,
     handleClearTime,
     handleClearFirstTimeRange,
     handleClearEndTime,
-  } = useTimePickerLogic({
+  } = useTimePickerHandler({
     step,
     isRangePicker,
     onChange,
@@ -86,7 +86,7 @@ const TimePicker = ({ is12Hour,
     toggleEndDropdown,
     onKeyDownFirstInput,
     onKeyDownSecondInput,
-  } = useTimePickerNavigation({
+  } = useTimePickerKeyboardNavigation({
     is12Hour,
     AmPmValue,
     timeInputRef,

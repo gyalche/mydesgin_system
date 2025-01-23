@@ -12,14 +12,12 @@ import {
 } from '../styles';
 
 import { getDaysInMonth, normalizeDate } from '../../../../utils';
-import CalendarNavigation from './NavigationHeader';
-import DecadeSelector from './DecadeSelector';
-import YearSelector from './YearSelector';
-import MonthSelector from './MonthSelector';
-// import closeOpenModal from '../../../../hooks/closeOpenModal';
-// import useCalendarNavigator from './hooks/useCalendarNavigator';
-import useCalendarNavigation from '../../../../hooks/useCalendarNavigation';
-import useCalendarHandler from '../hooks/useCalendarHandler';
+import CalendarNavigation from './components/NavigationHeader';
+import DecadeSelector from './components/DecadeSelector';
+import YearSelector from './components/YearSelector';
+import MonthSelector from './components/MonthSelector';
+import useCalendarNavigation from '../../../../hooks/useCalendarKeyboardNavigation';
+import useCalendarHandler from './hooks/useCalendarHandler';
 
 const Calendar = ({
   date,
@@ -48,7 +46,7 @@ const Calendar = ({
   onlyFuture,
   setOpenCalendar,
   inputRefEnd,
-  setOpenCalendarEnd
+  setOpenCalendarEnd,
 }) => {
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
@@ -61,33 +59,6 @@ const Calendar = ({
   (openDecade || openMonth || showYears) && isDoubleView ? 4 :
   (isDoubleView && isRangePicker) ? 9 : 7;
 
-  // const { selectedDecade, currentMonth, currentDecadeStart, handleMouseEnter, handleMouseLeave, openSelectDecade,
-  //   openSelectMonth, handleDecadeSelect, goToNextDecade, goToPreviousDecade } = useCalendarNavigator({
-  //   openCalendar,
-  //   openCalendarEnd,
-  //   tabCount,
-  //   setTabCount,
-  //   maxCount,
-  //   modalFocus,
-  //   setModalFocus,
-  //   enableKeyboard,
-  //   disableKeyboard,
-  //   isRangePicker,
-  //   setOpenCalendar,
-  //   setOpenCalendarEnd,
-  //   inputRefEnd,
-  //   disableKeyboard,
-  //   startDate,
-  //   endDate,
-  //   setHoveredDate,
-  //   date,
-  //   showYears,
-  //   openDecade,
-  //   setDates,
-  //   setOpenDecade,
-  //   setShowYears,
-  //   setOpenMonth
-  // });
   const {
     currentMonth,
     currentDecadeStart,
@@ -106,30 +77,30 @@ const Calendar = ({
     date,
     setDates,
     isRangePicker,
-    setModalFocus,
     enableKeyboard,
-    setShowYears,
-    setOpenDecade,
-    setOpenMonth,
     modalFocus,
     showYears,
     openDecade,
+    setShowYears,
+    setOpenDecade,
+    setOpenMonth,
+    setModalFocus,
   });
 
   useCalendarNavigation({
     openCalendar,
     openCalendarEnd,
     tabCount,
-    setTabCount,
     maxCount,
     modalFocus,
-    setModalFocus,
     isRangePicker,
     setOpenCalendar,
     setOpenCalendarEnd,
     inputRefEnd,
     disableKeyboard,
     enableKeyboard,
+    setTabCount,
+    setModalFocus,
   });
 
   const displayYear = currentMonth.getFullYear();
@@ -171,7 +142,7 @@ const Calendar = ({
           <ButtonActive data-calendar-btn onFocus={()=> {
             setModalFocus(true);
             enableKeyboard();
-          }}/>
+          }} />
           {!openDecade && !openMonth && (
             <DayContainerWrapper>
               <DaysContainer

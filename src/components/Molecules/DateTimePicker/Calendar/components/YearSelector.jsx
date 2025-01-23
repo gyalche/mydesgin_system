@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DecadeGrid, DecadeButton, ButtonActive } from '../styles';
+import { DecadeGrid, DecadeButton, ButtonActive } from '../../styles';
 import useYearSelector from '../hooks/useYearSelector';
 
 const YearSelector = ({

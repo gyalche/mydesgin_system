@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import useClickOutside from './useClickOutside';
 import closeOpenModal from './closeOpenModal';
 
-export const useDatePickerKeyboard = ({ 
+export const useDatePickerKeyboardNavigation = ({ 
   locale,
   disabled,
   onlyFuture,
@@ -39,13 +39,8 @@ export const useDatePickerKeyboard = ({
     setOpenCalendarEnd(false);
   });
 
-  const disableKeyboardFunc = () => {
-    setEnableKeyboard(false);
-  };
-
-  const enabledKeyboardFunc = () => {
-    setEnableKeyboard(true);
-  };
+  const disableKeyboardFunc = () => setEnableKeyboard(false);
+  const enabledKeyboardFunc = () => setEnableKeyboard(true);
 
   const selectPreviousDate = (monthAndYearNotSame) => {
     if(monthAndYearNotSame){
@@ -63,19 +58,19 @@ export const useDatePickerKeyboard = ({
 
   const handlePrevYear = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() - 1, prevMonth.getMonth(), 1));
-  }, []);
+  }, [setCurrentMonth]);
 
   const handleNextYear = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear() + 1, prevMonth.getMonth(), 1));
-  }, []);
+  }, [setCurrentMonth]);
 
   const handlePrevMonth = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
-  }, []);
+  }, [setCurrentMonth]);
 
   const handleNextMonth = useCallback(() => {
     setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
-  }, []);
+  }, [setCurrentMonth]);
 
   const handleInputKeyDown = (e, isStartInput) => {
     if (e.key === 'Enter') {
@@ -118,7 +113,7 @@ export const useDatePickerKeyboard = ({
         return onlyFuture ? newDate < todayNormalized ? todayNormalized : newDate : newDate;
       });
     };
-
+  
     const handleEnter = () => {
       e.preventDefault();
       e.stopPropagation();
@@ -183,10 +178,18 @@ export const useDatePickerKeyboard = ({
     }
   };
 
-  // Calendar open/close effects
+  useEffect(() => {
+    if ((openCalendar || openCalendarEnd) && enableKeyboard && !disabled) {
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [currentDate, currentMonth, openCalendar, openCalendarEnd, enableKeyboard, notCurrentMonthAndYear]);
+
   useEffect(() => {
     const fallbackDate = new Date();
-
     if (openCalendar) {
       const initialDate = startDate && !isNaN(new Date(startDate)) ? new Date(startDate) : fallbackDate;
       setCurrentDate(initialDate);
@@ -202,15 +205,13 @@ export const useDatePickerKeyboard = ({
     }
   }, [startDate, endDate, openCalendar, openCalendarEnd]);
 
-  // Keyboard navigation effect
   useEffect(() => {
     if ((openCalendar || openCalendarEnd) && enableKeyboard && !disabled) {
       window.addEventListener('keydown', handleKeyDown);
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [openCalendar, openCalendarEnd, enableKeyboard, disabled, currentDate, currentMonth]);
+  }, [openCalendar, openCalendarEnd, enableKeyboard, disabled, currentDate, currentMonth, notCurrentMonthAndYear]);
 
-  // Weekdays calculation effect
   useEffect(() => {
     const currentDate = new Date();
     const currentDay = currentDate.getDay();

@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ButtonActive, DecadeButton, DecadeGrid } from '../styles';
-import { getLocalizedMonthName } from '../../../../utils';
-// import useMonthSelector from '../hooks/useMonthSelector';
+import { ButtonActive, DecadeButton, DecadeGrid } from '../../styles';
+import { getLocalizedMonthName } from '../../../../../utils';
 import useKeyboardNavigation from '../hooks/useMonthSelector';
 
 const MonthSelector = ({ locale, 

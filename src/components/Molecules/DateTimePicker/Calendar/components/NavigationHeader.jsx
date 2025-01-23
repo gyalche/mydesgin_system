@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CalendarHeader, CalendarIconBtn, CalendarIcon, HeaderIcons, CalendarMonths, TextAreaYearMonth } from '../styles';
-import { getLocalizedMonthName } from '../../../../utils';
+import { CalendarHeader, CalendarIconBtn, CalendarIcon, HeaderIcons, CalendarMonths, TextAreaYearMonth } from '../../styles';
+import { getLocalizedMonthName } from '../../../../../utils';
 
 const CalendarNavigation = ({
   isDoubleView,

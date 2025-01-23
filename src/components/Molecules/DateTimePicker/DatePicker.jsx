@@ -14,9 +14,8 @@ import {
  } from './styles';
 import Calendar from './Calendar';
 import InputField from './InputField';
-// import useDatePickerSelector from '../../../hooks/useDatePickerSelector';
-import { useDatePickerHandler } from './hooks/useDatePickerHandler';
-import { useDatePickerKeyboard } from '../../../hooks/useDatePickerNavigation';
+import { useDatePickerHandler } from '../../../hooks/useDatePickerHandler';
+import { useDatePickerKeyboardNavigation } from '../../../hooks/useDatePickerKeyboardNavigation';
 
 const DatePicker = ({
   isDoubleView,
@@ -36,6 +35,7 @@ const DatePicker = ({
   setDateTimeStart,
   setDateTimeEnd
 }) => {
+  
   const { startDate,
     endDate,
     hoveredDate,
@@ -84,7 +84,7 @@ const DatePicker = ({
     onChangeCurrent,
     enabledKeyboardFunc,
     disableKeyboardFunc
-  } = useDatePickerKeyboard({
+  } = useDatePickerKeyboardNavigation({
     locale,
     disabled,
     onlyFuture,
@@ -96,7 +96,8 @@ const DatePicker = ({
     onChange,
     handleSingleDate,
     setStartDate,
-    setEndDate
+    setEndDate,
+    hoveredDate
   });
 
   return (

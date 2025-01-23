@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useCalendarNavigation = ({
+const useCalendarKeyboardNavigation = ({
   openCalendar,
   openCalendarEnd,
   tabCount,
@@ -19,41 +19,33 @@ const useCalendarNavigation = ({
       if ((e.key === 'Tab' && modalFocus) || e.key !== 'Tab') {
         setModalFocus(false);
       }
-
       if (openCalendar || openCalendarEnd) {
         if (e.key === 'Tab') {
           e.preventDefault();
 
+          const buttons = document.querySelectorAll('[data-calendar-btn]');
+          const focusedIndex = Array.from(buttons).findIndex(
+            (button) => button === document.activeElement
+          );
           if (e.shiftKey) {
-            const buttons = document.querySelectorAll('[data-calendar-btn]');
-            const focusedIndex = Array.from(buttons).findIndex(
-              (button) => button === document.activeElement
-            );
             if (focusedIndex === 0) {
-              setOpenCalendar(false);
-              setOpenCalendarEnd(false);
-              disableKeyboard();
-              setModalFocus(false);
-              setTabCount(0);
+              closeCalendars();
               return;
             }
             setTabCount((prevTabCount) =>
               prevTabCount === 1 ? maxCount : prevTabCount - 1
             );
-
             const prevIndex = (focusedIndex - 1 + buttons.length) % buttons.length;
             buttons[prevIndex]?.focus();
             return;
           }
-
-          if (tabCount === maxCount) {
-            setTabCount(0);
-          }
+          setTabCount((prevTabCount) =>
+            prevTabCount === maxCount ? 1 : prevTabCount + 1
+          );
 
           if (modalFocus) {
             if (openCalendar || openCalendarEnd) {
-              setOpenCalendar(false);
-              setOpenCalendarEnd(false);
+              closeCalendars();
             }
 
             if (isRangePicker && openCalendar) {
@@ -64,19 +56,19 @@ const useCalendarNavigation = ({
           }
 
           disableKeyboard();
-          setTabCount((prevTabCount) =>
-            prevTabCount === maxCount ? 1 : prevTabCount + 1
-          );
 
-          const buttons = document.querySelectorAll('[data-calendar-btn]');
-          const focusedIndex = Array.from(buttons).findIndex(
-            (button) => button === document.activeElement
-          );
-          
           const nextIndex = focusedIndex === -1 ? 0 : (focusedIndex + 1) % buttons.length;
           buttons[nextIndex]?.focus();
         }
       }
+    };
+
+    const closeCalendars = () => {
+      setOpenCalendar(false);
+      setOpenCalendarEnd(false);
+      disableKeyboard();
+      setModalFocus(false);
+      setTabCount(0);
     };
 
     if (openCalendar || openCalendarEnd) {
@@ -102,4 +94,4 @@ const useCalendarNavigation = ({
   ]);
 };
 
-export default useCalendarNavigation;
+export default useCalendarKeyboardNavigation;
