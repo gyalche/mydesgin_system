@@ -1,7 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { Icon, Typography } from '..';
+
+import Icon from '../Icon';
+import Typography from '../Typography';
 
 const TagContainer = styled.div`
   display: flex;
@@ -22,10 +24,10 @@ const TagContainer = styled.div`
   &:active {
     background-color: ${({ disabled }) => (disabled ? 'var(--rds-color-neutral-2)' : 'var(--rds-color-neutral-1)')};
     border: ${({ disabled }) => (disabled ? '1px solid var(--rds-color-neutral-3)' : '1px solid var(--rds-color-primary-1-normal)')};
-    color: ${({disabled}) => !disabled && 'var(--rds-color-neutral-10)'};
+    color: ${({ disabled }) => !disabled && 'var(--rds-color-neutral-10)'};
   }
 
-  ${({disabled}) => disabled && css`
+  ${({ disabled }) => disabled && css`
     background-color: var(--rds-color-neutral-2);
     border: 1px solid var(--rds-color-neutral-3);
     color: var(--rds-color-neutral-5);
@@ -39,7 +41,7 @@ const TagIcon = styled(Icon)`
   align-items: center;
 `;
 
-const CommonTagStyle = ({content, disabled, onCloseClick}) => {
+function CommonTagStyle({ content, disabled, onCloseClick }) {
   return (
     <TagContainer disabled={disabled}>
       <Typography level="p2">
@@ -50,7 +52,7 @@ const CommonTagStyle = ({content, disabled, onCloseClick}) => {
       )}
     </TagContainer>
   );
-};
+}
 
 CommonTagStyle.propTypes = {
   content: PropTypes.string,
@@ -60,6 +62,8 @@ CommonTagStyle.propTypes = {
 
 CommonTagStyle.defaultProps = {
   disabled: false,
+  content: '',
+  onCloseClick: () => {},
 };
 
 export default CommonTagStyle;

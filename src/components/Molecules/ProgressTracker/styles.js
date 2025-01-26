@@ -1,5 +1,6 @@
-import { Icon } from 'components/Atoms';
 import styled, { keyframes, css } from 'styled-components';
+
+import { Icon } from 'components/Atoms';
 
 // Animation for the line to grow
 const growLine = keyframes`
@@ -31,13 +32,13 @@ export const StepCircle = styled.div`
   width: 18px;
   height: 18px;
   border-radius: 18px;
-  background-color: ${({isActive, complete}) => {
-    if(complete) return 'var(--rds-color-primary-1-deep)';
-    if(isActive) return 'var(--rds-color-primary-1-dark)';
+  background-color: ${({ isActive, complete }) => {
+    if (complete) return 'var(--rds-color-primary-1-deep)';
+    if (isActive) return 'var(--rds-color-primary-1-dark)';
     return 'var(--rds-color-neutral-0)';
   }};
-  color: ${({isActive}) => isActive ? 'var(--rds-color-neutral-0)' : 'var( --rds-color-primary-1-dark)'};
-  border: ${({complete}) => complete ? '1px solid var(--rds-color-primary-1-deep)' : '1px solid var(--rds-color-primary-1-dark)'};
+  color: ${({ isActive }) => (isActive ? 'var(--rds-color-neutral-0)' : 'var( --rds-color-primary-1-dark)')};
+  border: ${({ complete }) => (complete ? '1px solid var(--rds-color-primary-1-deep)' : '1px solid var(--rds-color-primary-1-dark)')};
   font-size: 12px;
   transition: background-color 0.7s ease-in-out;
   z-index: 9999;
@@ -67,7 +68,7 @@ export const LabelContainer = styled.div`
 
 export const StepLabel = styled.div`
   font-size: 12px;
-  color: ${({hasCompleted, isInProgress}) => {
+  color: ${({ hasCompleted, isInProgress }) => {
     if (hasCompleted) return 'var(--rds-color-neutral-5)';
     if (isInProgress) return 'var(--rds-color-neutral-11)';
     return 'var(--rds-color-neutral-10)';
@@ -78,8 +79,8 @@ export const StepLabel = styled.div`
   text-align: center;
   text-wrap: wrap;
   height: 20px;
-  font-weight: ${({isInProgress}) => isInProgress ? 'bold' : 'normal'};
-  margin-top: ${({lastIndex}) => lastIndex ? '-10px' : '-5px'};
+  font-weight: ${({ isInProgress }) => (isInProgress ? 'bold' : 'normal')};
+  margin-top: ${({ lastIndex }) => (lastIndex ? '-10px' : '-5px')};
 `;
 
 export const StepLineBackground = styled.div`
@@ -98,8 +99,8 @@ export const StepLine = styled.div`
   flex-grow: 1;
   margin-left: 10px;
   z-index: -1;
-  ${({isActive}) => isActive &&
-    css`
+  ${({ isActive }) => isActive
+    && css`
       background-color: var(--rds-color-primary-1-normal);
       animation: ${growLine} 1s ease-in-out forwards;
     `};

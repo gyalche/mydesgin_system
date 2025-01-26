@@ -1,5 +1,5 @@
-import { default as TabsComponent } from './Tabs';
-import { default as Tab } from './Tab';
+import TabsComponent from './Tabs';
+import Tab from './Tab';
 
 const Tabs = TabsComponent;
 

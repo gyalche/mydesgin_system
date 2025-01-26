@@ -1,9 +1,9 @@
-import { Icon, Input } from 'components/Atoms';
 import styled, { css } from 'styled-components';
 
+import { Icon, Input } from 'components/Atoms';
+
 export const focusBorderStyle = css`
-  transition: ${({ focus }) =>
-    focus ? 'background-color 0.3s ease' : 'border 0.3s ease, background-color 0.3s ease'};
+  transition: ${({ focus }) => (focus ? 'background-color 0.3s ease' : 'border 0.3s ease, background-color 0.3s ease')};
   background-color: ${({ focus }) => (focus ? 'var(--rds-color-neutral-1)' : 'transparent')};
 `;
 export const DatePickerContainer = styled.div`
@@ -26,24 +26,24 @@ export const InputWrapper = styled.div`
   position: relative;
   color: var(--rds-color-neutral-5);
   border-radius: 5px;
-  margin-left: ${({isTimeRange, isRangePicker}) => (isTimeRange || isRangePicker) && '1px'};
+  margin-left: ${({ isTimeRange, isRangePicker }) => (isTimeRange || isRangePicker) && '1px'};
 `;
 
 export const InputFieldStyle = styled(Input)`
-  width: ${({width}) => `${width}px`};
-  height: ${({height}) => `${height}px`};
-  border: ${({activesecondinput}) => activesecondinput && '1px solid var(--rds-color-primary-1-normal)'};
-  outline: ${({error}) => error && 'none'};
+  width: ${({ width }) => `${width}px`};
+  height: ${({ height }) => `${height}px`};
+  border: ${({ activesecondinput }) => activesecondinput && '1px solid var(--rds-color-primary-1-normal)'};
+  outline: ${({ error }) => error && 'none'};
   line-height: 22.4px;
   padding-right: 1px;
   font-size: 14px;
 
   &:hover {
-    border: ${({error}) => error && '1px solid red'}
+    border: ${({ error }) => error && '1px solid red'}
   };
 
   &:focus {
-    border: ${({activesecondinput}) => activesecondinput && true};
+    border: ${({ activesecondinput }) => activesecondinput && true};
   };
   &::placeholder {
     color: var(--rds-color-neutral-6);
@@ -82,10 +82,16 @@ export const WeekdayHeader = styled.div`
   justify-content: center;
   font-size: 12px;
   font-weight: 700;
-  color: ${({isSaturday, isSunday}) => 
-    isSaturday ? 'var(--rds-color-teritary-2-dark)' : 
-    isSunday ? 'var(--rds-color-secondary-3-deep)' : 
-    'var(--rds-color-neutral-7)'};
+  color: ${({ isSaturday, isSunday }) => {
+    switch (true) {
+      case isSaturday:
+        return 'var(--rds-color-teritary-2-dark)';
+      case isSunday:
+        return 'var(--rds-color-secondary-3-deep)';
+      default:
+        return 'var(--rds-color-neutral-7)';
+    }
+  }};
   padding-bottom: 10px;
 `;
 
@@ -94,12 +100,12 @@ export const HeaderIcons = styled.div`
   z-index: 9999;
   display: flex;
   flex-wrap: nowrap;
-  margin-left: ${({m}) => m && m};
+  margin-left: ${({ m }) => m && m};
   margin-top: -20px;
 `;
 
 export const CalendarContainer = styled.div`
-  width: ${({isDoubleView}) => isDoubleView ? '680px' : '340px'};
+  width: ${({ isDoubleView }) => (isDoubleView ? '680px' : '340px')};
   height: 320px; 
   padding: 10px;
   background-color: var(--rds-color-neutral-0);
@@ -134,36 +140,45 @@ export const Day = styled.button`
   border: none;
   gap: 0px;
   font-size: 12px;
-  border: ${({currentDate}) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
-  cursor: ${({isDisabled}) => isDisabled ? 'not-allowed' : 'pointer'};
-  border-radius: ${({isSelected, isRangePicker, currentDate, isEndSelect, istoday, isKeyboardSelect}) => {
-    if(!isRangePicker || isSelected && istoday || (isKeyboardSelect && !isEndSelect)) return '4px';
-    if((currentDate && !isSelected)) return '4px';
-    if(isSelected && isRangePicker && !isEndSelect) return '4px 0px 0px 4px';
-    if(isSelected && !isRangePicker) return '4px';
-    if((isSelected && isEndSelect)) return '0px 4px 4px 0px';
+  border: ${({ currentDate }) => currentDate && '1px solid var(--rds-color-primary-1-normal)'};
+  cursor: ${({ isDisabled }) => (isDisabled ? 'not-allowed' : 'pointer')};
+  border-radius: ${({
+    isSelected, isRangePicker, currentDate, isEndSelect, istoday, isKeyboardSelect,
+  }) => {
+    if (!isRangePicker || (isSelected && istoday) || (isKeyboardSelect && !isEndSelect)) return '4px';
+    if ((currentDate && !isSelected)) return '4px';
+    if (isSelected && isRangePicker && !isEndSelect) return '4px 0px 0px 4px';
+    if (isSelected && !isRangePicker) return '4px';
+    if ((isSelected && isEndSelect)) return '0px 4px 4px 0px';
+    return null;
   }};
-  background: ${({ isSelected, isInRange, isInHoverRange, isKeyboardSelect, isDisabled, currentDate }) => {
-    if(isKeyboardSelect && isKeyboardSelect !== isSelected && !isDisabled && isKeyboardSelect!==currentDate) return 'var(--rds-color-chart-1)';
+  background: ${({
+    isSelected, isInRange, isInHoverRange, isKeyboardSelect, isDisabled, currentDate,
+  }) => {
+    if (isKeyboardSelect && isKeyboardSelect !== isSelected && !isDisabled && isKeyboardSelect !== currentDate) return 'var(--rds-color-chart-1)';
     if (isSelected) return 'var(--rds-color-primary-1-dark)';
     if (isInRange || isInHoverRange) return 'var(--rds-color-primary-1-subtle)';
     return 'transparent';
   }};
-  color: ${({ isSaturday, isSunday, isSelected, isDisabled, currentDate, isKeyboardSelect }) => {
+  color: ${({
+    isSaturday, isSunday, isSelected, isDisabled, currentDate, isKeyboardSelect,
+  }) => {
     if (isSelected) return 'var(--rds-color-neutral-0)';
     if (isDisabled) return 'var(--rds-color-neutral-4)';
     if (isSaturday && !isDisabled) return 'var(--rds-color-teritary-2-normal)';
     if (isSunday && !isDisabled) return 'var(--rds-color-secondary-3-normal)';
     if (currentDate && !isKeyboardSelect) return 'var(--rds-color-primary-1-normal)';
-    if(isKeyboardSelect && !isSaturday && !isSunday && isKeyboardSelect !== currentDate) return 'var(--rds-color-neutral-0)';
+    if (isKeyboardSelect && !isSaturday && !isSunday && isKeyboardSelect !== currentDate) return 'var(--rds-color-neutral-0)';
+    return null;
   }};
-  pointer-events: ${({isDisabled}) => isDisabled ? 'none' : 'auto'};
-  box-shadow: ${({isSelected}) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
+  pointer-events: ${({ isDisabled }) => (isDisabled ? 'none' : 'auto')};
+  box-shadow: ${({ isSelected }) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
   &:hover {
-    background-color: ${({isDisabled, isSelected, isKeyboardSelect}) => {
-      if(!isDisabled && !isSelected && !isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
-      if(isKeyboardSelect) return 'var(--rds-color-chart-1)';
-    }};
+  background-color: ${({ isDisabled, isSelected, isKeyboardSelect }) => {
+    if (!isDisabled && !isSelected && !isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
+    if (isKeyboardSelect) return 'var(--rds-color-chart-1)';
+    return null;
+  }};
 
     border-radius: 4px;
   };
@@ -180,14 +195,21 @@ export const CalendarWrapper = styled.div`
   position: absolute;
   z-index: 999;
   margin-top: 48px;
-  margin-left: ${({isRangePicker, isDoubleView}) => !isRangePicker ? '215px' : 
-    isRangePicker && isDoubleView ? '410px' : '65px'};
+  margin-left: ${({ isRangePicker, isDoubleView }) => {
+    if (!isRangePicker) {
+      return '215px';
+    }
+    if (isRangePicker && isDoubleView) {
+      return '410px';
+    }
+    return '65px';
+  }};
 `;
 export const DayContainerWrapper = styled.div`
   min-height: 270px;
 `;
 export const CalendarWrapperEnd = styled(CalendarWrapper)`
-  margin-left: ${({isDoubleView}) => isDoubleView ? '407px' : '377px'};
+  margin-left: ${({ isDoubleView }) => (isDoubleView ? '407px' : '377px')};
 `;
 
 export const Calendars = styled.div`
@@ -222,7 +244,7 @@ export const TimeInputWrapper = styled.div`
   align-items: center;
   border: 1px solid var(--rds-color-neutral-3);
   border-radius: 4px;
-  width: ${({is12Hour}) => is12Hour ? '120px' : '100px'};
+  width: ${({ is12Hour }) => (is12Hour ? '120px' : '100px')};
   height: 40px;
   gap: 2px;
 `;
@@ -230,7 +252,7 @@ export const TimeInputWrapper = styled.div`
 export const TimeInput = styled(Input)`
   background: none;
   font-size: 14px;
-  width: ${({is12Hour}) => is12Hour ? '80px' : '60px'};
+  width: ${({ is12Hour }) => (is12Hour ? '80px' : '60px')};
   text-align: center;
   outline: none;
   border: none;
@@ -255,12 +277,13 @@ export const Dropdown = styled.div`
   display: flex;
   flex-direction: column;
   top: 30px;
-  left: ${({ is12Hour }) => !is12Hour && '-10px' };
-  width: ${({ is12Hour }) => is12Hour ? '150px' : '100px'};
+  left: ${({ is12Hour }) => !is12Hour && '-10px'};
+  width: ${({ is12Hour }) => (is12Hour ? '150px' : '100px')};
   margin-left: ${({ is12Hour, isTimeRange }) => {
-    if(is12Hour && !isTimeRange) return '57px';
-    if(!is12Hour) return '12px';
-    if(is12Hour && isTimeRange) return '-70px';
+    if (is12Hour && !isTimeRange) return '57px';
+    if (!is12Hour) return '12px';
+    if (is12Hour && isTimeRange) return '-70px';
+    return null;
   }};
   border-radius: 4px;
   z-index: 9999;
@@ -273,8 +296,8 @@ export const Dropdown = styled.div`
 `;
 export const EndDropDown = styled(Dropdown)`
   margin-left: ${({ is12Hour }) => {
-    if(is12Hour) return '185px';
-    if(!is12Hour) return '130px';
+    if (is12Hour) return '185px';
+    if (!is12Hour) return '130px';
     return '50px';
   }};
 `;
@@ -316,12 +339,14 @@ export const TimeOption = styled.li`
   text-align: center;
   font-size: 12px;
   color: ${({ selected, highlighted }) => {
-    if(selected) return'var(--rds-color-primary-1-dark)';
-    if(highlighted) return 'var(--rds-color-neutral-1)';
+    if (selected) return 'var(--rds-color-primary-1-dark)';
+    if (highlighted) return 'var(--rds-color-neutral-1)';
+    return null;
   }};
-  background-color: ${({selected, highlighted}) => {
-    if(selected) return 'var(--rds-color-primary-1-subtle)';
-    if(highlighted) return 'var(--rds-color-chart-1)';
+  background-color: ${({ selected, highlighted }) => {
+    if (selected) return 'var(--rds-color-primary-1-subtle)';
+    if (highlighted) return 'var(--rds-color-chart-1)';
+    return null;
   }};
   &:hover {
     background-color: var(--rds-color-neutral-1);
@@ -374,13 +399,13 @@ export const TextAreaYearMonth = styled.button`
   font-weight: bold;
   z-index: 9999;
   &:hover {
-    background-color: ${({openDecade}) => !openDecade && 'var(--rds-color-neutral-1)'};
+    background-color: ${({ openDecade }) => !openDecade && 'var(--rds-color-neutral-1)'};
     color: black;
   };
   padding-left: 7px;
   padding-right: 7px;
   border-radius: 5px;
-  margin-left: ${({isDoubleView}) => isDoubleView && '120px'};
+  margin-left: ${({ isDoubleView }) => isDoubleView && '120px'};
   &:focus {
     background-color: var(--rds-color-neutral-1)};
   }
@@ -388,7 +413,7 @@ export const TextAreaYearMonth = styled.button`
 
 export const DecadeGrid = styled.div`
   display: grid;
-  grid-template-columns:${({isDoubleView}) => isDoubleView ? 'auto auto auto auto' : 'auto auto auto'};
+  grid-template-columns:${({ isDoubleView }) => (isDoubleView ? 'auto auto auto auto' : 'auto auto auto')};
   place-items: center;
   gap: 10px;
   padding: 0;
@@ -403,22 +428,24 @@ export const DecadeButton = styled.button`
   font-size: 12px;
   background-color: transparent;
   border-radius: 4px;
-  cursor: ${({disabled}) => !disabled && 'pointer'};
+  cursor: ${({ disabled }) => !disabled && 'pointer'};
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 96.33px;
   margin: 8px 0px;
   padding: 9px 15px;
-  border: ${({selected}) => selected ? '1px solid var(--rds-color-primary-1-normal)' : 'none'};
-  color: ${({selected, keyboardSelect}) => {
-    if(selected) return 'var(--rds-color-primary-1-normal)';
-    if(keyboardSelect) return 'var(--rds-color-neutral-1)';
+  border: ${({ selected }) => (selected ? '1px solid var(--rds-color-primary-1-normal)' : 'none')};
+  color: ${({ selected, keyboardSelect }) => {
+    if (selected) return 'var(--rds-color-primary-1-normal)';
+    if (keyboardSelect) return 'var(--rds-color-neutral-1)';
+    return null;
   }};
-  background-color: ${({keyboardSelect}) => keyboardSelect && 'var(--rds-color-chart-1)'};
+  background-color: ${({ keyboardSelect }) => keyboardSelect && 'var(--rds-color-chart-1)'};
   &:hover {
-   background-color: ${({keyboardSelect, disabled, isFocused}) => {
-    if(!keyboardSelect && !disabled && !isFocused) return 'var(--rds-color-neutral-1)';
-    if(isFocused) return 'var(--rds-color-neutral-2)';
-   }}; 
+  background-color: ${({ keyboardSelect, disabled, isFocused }) => {
+    if (!keyboardSelect && !disabled && !isFocused) return 'var(--rds-color-neutral-1)';
+    if (isFocused) return 'var(--rds-color-neutral-2)';
+    return null;
+  }}; 
   }
 
   &:focus {

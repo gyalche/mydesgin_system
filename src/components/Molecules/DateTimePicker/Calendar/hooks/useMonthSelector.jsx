@@ -7,9 +7,11 @@ const useKeyboardNavigation = ({
   onEnterKeyPress,
   tabCount,
   buttonRefs,
+  setModalFocus,
 }) => {
   const handleKeyDown = (event, index) => {
-    const navigateButton = (key) => {
+    setModalFocus(false);
+    const navigateButton = key => {
       switch (key) {
         case 'ArrowRight': return (index + 1) % buttonCount;
         case 'ArrowLeft': return (index - 1 + buttonCount) % buttonCount;
@@ -41,19 +43,15 @@ const useKeyboardNavigation = ({
       }
 
       default:
-        return;
     }
   };
 
   useEffect(() => {
     buttonRefs.current[focusedButton]?.focus();
-  }, [focusedButton]);
-  
-  useEffect(() => {
     if (tabCount === 4 || tabCount === 0) {
       buttonRefs.current[focusedButton]?.focus();
     }
-  }, [tabCount, focusedButton]);
+  }, [tabCount, focusedButton, buttonRefs]);
 
   return {
     buttonRefs,

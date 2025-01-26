@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import closeOpenModal from '../../../../../hooks/closeOpenModal';
+
+import useCloseOpenModal from '../../../../../hooks/closeOpenModal';
 
 const useCalendarHandler = ({
   startDate,
@@ -14,84 +15,72 @@ const useCalendarHandler = ({
   setOpenDecade,
   setOpenMonth,
   modalFocus,
-  showYears,
-  openDecade,
 }) => {
-  const currentYear = new Date(Date.now()).getFullYear();
+  const currentYear = new Date().getFullYear();
   const [currentMonth, setCurrentMonth] = useState(date);
-  const [currentDecadeStart, setCurrentDecadestart] = useState(Math.floor(currentYear / 10) * 10);
-  const [selectedDecade, setSelectedDecade] = useState(null);
+  const [currentDecadeStart, setCurrentDecadeStart] = useState(Math.floor(currentYear / 10) * 10);
+  const [selectedDecade, setSelectedDecade] = useState(currentDecadeStart);
 
-  closeOpenModal(() => (setOpenDecade(false), setShowYears(false)));
-  
-  const handleMouseEnter = useCallback((day) => {
-    if (isRangePicker && startDate && !endDate && (day instanceof Date)) {
+  useCloseOpenModal(() => {
+    setOpenDecade(false);
+    setShowYears(false);
+  });
+
+  const handleMouseEnter = useCallback(day => {
+    if (isRangePicker && startDate && !endDate && day instanceof Date) {
       setHoveredDate(day);
     }
-  }, [startDate, endDate, isRangePicker, setHoveredDate]);
+  }, [isRangePicker, startDate, endDate, setHoveredDate]);
 
-  const handleMouseLeave = () => setHoveredDate(null);
+  const handleMouseLeave = useCallback(() => setHoveredDate(null), [setHoveredDate]);
 
-  const openSelectDecade = () => {
+  const openSelectDecade = useCallback(() => {
     setOpenDecade(true);
     setShowYears(false);
     setOpenMonth(false);
     enableKeyboard();
-  };
+  }, [setOpenDecade, setShowYears, setOpenMonth, enableKeyboard]);
 
-  const openSelectMonth = () => {
+  const openSelectMonth = useCallback(() => {
     setOpenMonth(true);
     setOpenDecade(false);
     enableKeyboard();
-  };
+  }, [setOpenMonth, setOpenDecade, enableKeyboard]);
 
-  const handleDecadeSelect = (decadeStart) => {
-    if (typeof decadeStart !== 'number' || decadeStart < 1000 || decadeStart > 9999) return;
-    setSelectedDecade(decadeStart);
-    setShowYears(true);
-    setModalFocus(false);
-    enableKeyboard();
-  };
+  const handleDecadeSelect = useCallback(decadeStart => {
+    if (typeof decadeStart === 'number' && decadeStart >= 1000 && decadeStart <= 9999) {
+      setSelectedDecade(decadeStart);
+      setShowYears(true);
+      setModalFocus(false);
+      enableKeyboard();
+    }
+  }, [setSelectedDecade, setShowYears, setModalFocus, enableKeyboard]);
 
-  const goToNextDecade = () => {
-    setCurrentDecadestart((prev) => prev + 10);
-    setSelectedDecade((currentDecade) => currentDecade + 10);
-  };
+  const goToNextDecade = useCallback(() => {
+    setCurrentDecadeStart(prev => prev + 10);
+    setSelectedDecade(current => current + 10);
+  }, []);
 
-  const goToPreviousDecade = () => {
-    setCurrentDecadestart((prev) => prev - 10);
-    setSelectedDecade((currentDecade) => currentDecade - 10);
-  };
+  const goToPreviousDecade = useCallback(() => {
+    setCurrentDecadeStart(prev => prev - 10);
+    setSelectedDecade(current => current - 10);
+  }, []);
 
   useEffect(() => {
     setCurrentMonth(date);
   }, [date]);
 
-  useEffect(()=>{
-    setSelectedDecade(currentDecadeStart);
-  },[setSelectedDecade]);
-
-  useEffect(() => {
-    if(!openDecade && !showYears){
-      enableKeyboard();
-    }
-  },[showYears, openDecade]);
-
   useEffect(() => {
     setDates(currentMonth);
-  }, [setDates]);
+  }, [currentMonth, setDates]);
 
   useEffect(() => {
     let timer;
-    if(modalFocus) {
+    if (modalFocus) {
       timer = setTimeout(() => setModalFocus(false), 5000);
     }
     return () => clearTimeout(timer);
-  }, [modalFocus]);
-
-  useEffect(() => {
-    setDates(currentMonth);
-  }, [setDates, currentMonth]);
+  }, [modalFocus, setModalFocus]);
 
   return {
     currentMonth,

@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
 import Icon from '../../Atoms/Icon';
 import Typography from '../../Atoms/Typography';
-import PropTypes from 'prop-types';
 
 const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   position: absolute;
@@ -20,13 +21,10 @@ const CheckboxContainer = styled.div`
     if (disabled) return 'var(--rds-color-neutral-5)';
     if (isChecked) return 'var(--rds-color-primary-1-deep)';
     return 'var(--rds-color-neutral-6)';
-}};
+  }};
 
   &:hover {
-    color: ${({ disabled }) => {
-      if (disabled) return 'var(--rds-color-neutral-5)';
-      return 'var(--rds-color-primary-1-dark)';
-    }};
+    color: ${({ disabled }) => (disabled ? 'var(--rds-color-neutral-5)' : 'var(--rds-color-primary-1-dark)')};
   }
 
   input:focus + i {
@@ -44,16 +42,19 @@ const LabelContainer = styled(Typography)`
   margin-left: 8px;
 `;
 
-function Checkbox({ input, value, checkboxName, disabled, label }) {
+function Checkbox({
+  input, value, checkboxName, disabled, label,
+}) {
   const [isChecked, setIsChecked] = useState(false);
-
   useEffect(() => {
     if (input) {
       setIsChecked(input.checked);
     }
   }, [input]);
 
-  const toggleCheckbox = () => {
+  const toggleCheckbox = event => {
+    event.preventDefault();
+    if (disabled) return;
     const newChecked = !isChecked;
     setIsChecked(newChecked);
     if (input) {
@@ -67,7 +68,7 @@ function Checkbox({ input, value, checkboxName, disabled, label }) {
         type="checkbox"
         checked={isChecked}
         name={checkboxName}
-        value={ value }
+        value={value}
         {...input}
       />
       <Icon name={isChecked ? 'action-checkbox-selected' : 'action-checkbox-default'} />
@@ -81,10 +82,17 @@ Checkbox.defaultProps = {
   label: '',
   checkboxName: 'checkbox',
   disabled: false,
+  input: {
+    checked: false,
+    onChange: () => {},
+  },
 };
 
 Checkbox.propTypes = {
-  input: PropTypes.object,
+  input: PropTypes.shape({
+    checked: PropTypes.bool,
+    onChange: PropTypes.func,
+  }),
   value: PropTypes.string,
   label: PropTypes.string,
   checkboxName: PropTypes.string,

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import DatePicker from 'components/Molecules/DateTimePicker';
 
 export default {
@@ -33,12 +34,12 @@ export const DatePickers = {
     },
     disabled: {
       description: 'enable and disable the description',
-      control: { type: 'boolean' }
+      control: { type: 'boolean' },
     },
     locale: {
       description: 'Locale format of the calendar. Default is ja-JP',
       control: { type: 'select' },
-      options: ['ja-JP', 'en-US']
+      options: ['ja-JP', 'en-US'],
     },
     textCancel: {
       description: 'Text to be shown for the Cancel action',
@@ -52,7 +53,7 @@ export const DatePickers = {
     placeholder: {
       description: 'Placeholder value',
       control: { type: 'text' },
-    }
+    },
   },
   args: {
     isDoubleView: false,
@@ -64,10 +65,10 @@ export const DatePickers = {
     onlyFuture: true,
     isRangePicker: true,
   },
-  render: (args) => {
+  render: args => {
     const updatedArgs = {
       ...args,
-      initialValue: args?.isRangePicker ? [new Date, new Date('Dec 28 2025 1:45:00')] : new Date('Dec 14 2025 1:45:00'),
+      initialValue: args?.isRangePicker ? [new Date(), new Date('Dec 28 2025 1:45:00')] : new Date('Dec 14 2025 1:45:00'),
     };
     return <DatePicker {...updatedArgs} />;
   },
@@ -93,7 +94,7 @@ export const TimePickers = {
     },
     disabled: {
       description: 'enable and disable the description',
-      control: { type: 'boolean' }
+      control: { type: 'boolean' },
     },
     initialValue: {
       description:
@@ -107,7 +108,7 @@ export const TimePickers = {
     isTimeRange: {
       description: 'enable and disable the time range picker',
       control: { type: 'boolean' },
-    }
+    },
   },
   args: {
     is12Hour: true,
@@ -120,8 +121,8 @@ export const TimePickers = {
   render: args => {
     const updatedArgs = {
       ...args,
-      initialValue:  args.isRangePicker ? [new Date('Dec 14 2025 15:25:00'), new Date('Dec 14 2025 1:10:00')] 
-      : new Date('Dec 14 2025 1:45:00')
+      initialValue: args.isRangePicker ? [new Date('Dec 14 2025 15:25:00'), new Date('Dec 14 2025 13:56:00')]
+        : new Date('Dec 14 2025 1:45:00'),
     };
     return <Time {...updatedArgs} />;
   },
@@ -150,7 +151,7 @@ export const DateTimePickers = {
       description: 'Time interval in minutes',
       control: { type: 'number' },
     },
-    isDoubleView : {
+    isDoubleView: {
       description: 'double view calendar, with current and next month',
       control: { type: 'boolean' },
     },
@@ -161,7 +162,7 @@ export const DateTimePickers = {
     locale: {
       description: 'Locale format of the calendar. Default is ja-JP',
       control: { type: 'select' },
-      options: ['ja-JP', 'en-US']
+      options: ['ja-JP', 'en-US'],
     },
     placeholder: {
       description: 'Placeholder text for date and time fields',
@@ -170,7 +171,7 @@ export const DateTimePickers = {
     isTimeRange: {
       description: 'Time range picker enabe and disable',
       control: { type: 'boolean' },
-    }
+    },
   },
   args: {
     disabled: false,
@@ -184,7 +185,7 @@ export const DateTimePickers = {
     },
     step: 15,
   },
-  render: (args) => {
+  render: args => {
     const updatedArgs = {
       ...args,
       initialValue: args.isRangePicker ? [new Date('Dec 14 2025 15:40:00'), new Date('Dec 15 2025 1:45:00')] : new Date(),

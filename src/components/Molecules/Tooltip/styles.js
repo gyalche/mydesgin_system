@@ -97,8 +97,7 @@ export const DisplayText = styled.div`
 
   @media (max-width: 599px) {
     top: 22px;
-    left: ${({ $left, $windowWidth }) =>
-      $windowWidth <= 599 && $left ? `${-$left + 13}px` : 'inherit'};
+    left: ${({ $left, $windowWidth }) => ($windowWidth <= 599 && $left ? `${-$left + 13}px` : 'inherit')};
     max-width: calc(100vw - 55px);
     width: calc(100vw - 55px);
   }

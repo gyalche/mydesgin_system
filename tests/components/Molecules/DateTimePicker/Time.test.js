@@ -1,6 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import TimePicker from 'src/components/Molecules/DateTimePicker/TimePicker';
 import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+
+import TimePicker from '../../../../src/components/Molecules/DateTimePicker/DateAndTime/TimePicker';
 
 describe('TimePicker Component', () => {
   let onChangeMock;
@@ -10,7 +11,7 @@ describe('TimePicker Component', () => {
   });
 
   it('opens dropdown when clicked', () => {
-    render(<TimePicker onChange={onChangeMock} is12Hour={true}/>);
+    render(<TimePicker onChange={onChangeMock} is12Hour={true} />);
     const input = screen.getByPlaceholderText('hh:mm');
     fireEvent.click(input);
 
@@ -19,7 +20,7 @@ describe('TimePicker Component', () => {
   });
 
   it('selects hour, minute, and am/pm', () => {
-    render(<TimePicker onChange={onChangeMock} step={15} is12Hour={true}/>);
+    render(<TimePicker onChange={onChangeMock} step={15} is12Hour={true} />);
 
     const input = screen.getByPlaceholderText('hh:mm');
     fireEvent.click(input);
@@ -31,7 +32,7 @@ describe('TimePicker Component', () => {
   });
 
   it('correctly formats time with 12-hour clock', () => {
-    render(<TimePicker onChange={onChangeMock} is12Hour={true} isRangePicker={false}/>);
+    render(<TimePicker onChange={onChangeMock} is12Hour={true} isRangePicker={false} />);
     const input = screen.getByPlaceholderText('hh:mm');
     fireEvent.click(input);
 
@@ -48,4 +49,3 @@ describe('TimePicker Component', () => {
     expect(input).toBeDisabled();
   });
 });
-

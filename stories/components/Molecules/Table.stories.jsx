@@ -1,8 +1,38 @@
 import React, { useState } from 'react';
+
 import Table from 'components/Molecules/Table';
 import * as Layout from 'components/Atoms/Layout';
 
 const { Pagination } = Table;
+
+function TableStories(args) {
+  const arg = { ...args };
+  const [currentPage, setCurrentPage] = useState(1);
+  const { itemsPerPage } = arg;
+
+  const { data } = arg;
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+
+  const itemsToDisplay = data.slice(startIndex, endIndex);
+
+  return (
+    <Layout.Block>
+      <Layout.Item>
+        <Pagination
+          {...args}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
+        <Table data={itemsToDisplay} columns={arg.columns} />
+      </Layout.Item>
+    </Layout.Block>
+  );
+}
 
 export default {
   title: 'Design System/Molecules/Tables',
@@ -63,15 +93,13 @@ export const DefaultTable = {
       { label: '', field: 'expandButton', flex: '1' },
     ],
   },
-  render: args => {
-    return (
-      <Layout.Flex>
-        <Layout.Item>
-          <Table {...args}></Table>
-        </Layout.Item>
-      </Layout.Flex>
-    );
-  },
+  render: args => (
+    <Layout.Flex>
+      <Layout.Item>
+        <Table {...args} />
+      </Layout.Item>
+    </Layout.Flex>
+  ),
 };
 
 export const Paginations = {
@@ -214,31 +242,5 @@ export const Paginations = {
       { label: '', field: 'expandButton', flex: '1' },
     ],
   },
-  render: args => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = args.itemsPerPage;
-
-    const { data } = args;
-
-    const totalPages = Math.ceil(data.length / itemsPerPage);
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = Math.min(startIndex + itemsPerPage, data.length);
-
-    const itemsToDisplay = data.slice(startIndex, endIndex);
-
-    return (
-      <Layout.Block>
-        <Layout.Item>
-          <Pagination
-            {...args}
-            totalPages={totalPages}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
-          <Table data={itemsToDisplay} columns={args.columns}></Table>
-        </Layout.Item>
-      </Layout.Block>
-    );
-  },
+  render: TableStories,
 };

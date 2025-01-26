@@ -1,12 +1,12 @@
-import { default as Blue } from './Blue';
-import { default as CommonBadgeStyle } from './CommonBadgeStyle';
-import { default as Green } from './Green';
-import { default as Red } from './Red';
-import { default as Orange } from './Orange';
-import { default as Pink } from './Pink';
-import { default as Teal } from './Teal';
-import { default as Violet } from './Violet';
-import { default as Yellow } from './Yellow';
+import Blue from './Blue';
+import CommonBadgeStyle from './CommonBadgeStyle';
+import Green from './Green';
+import Red from './Red';
+import Orange from './Orange';
+import Pink from './Pink';
+import Teal from './Teal';
+import Violet from './Violet';
+import Yellow from './Yellow';
 
 const Badge = CommonBadgeStyle;
 

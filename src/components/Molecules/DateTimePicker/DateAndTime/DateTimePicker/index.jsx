@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import TimePicker from './TimePicker';
-import DatePicker from './DatePicker';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { DateTimeContainer, NextIcon } from './styles';
-import { Layout } from 'components/Atoms';
-import { combineDateAndTime } from '../../../utils/index';
 
-const DateTimePicker = ({ onChange, 
+import { Layout } from 'components/Atoms';
+
+import TimePicker from '../TimePicker';
+import DatePicker from '../DatePicker';
+import { DateTimeContainer, NextIcon } from '../../styles';
+import { combineDateAndTime } from '../../../../../utils/index';
+
+function DateTimePicker({
+  onChange,
   disabled,
   isRangePicker,
   isDoubleView,
@@ -16,22 +19,22 @@ const DateTimePicker = ({ onChange,
   input,
   initialValue,
   step,
-}) => {
-  const initialValues = input?.value ?? initialValue ?? new Date();
+}) {
+  const initialValues = useMemo(() => input?.value ?? initialValue ?? new Date(), [input, initialValue]);
   const [isRange, setIsRange] = useState(false);
 
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
 
   const [dateTimeStartvalue, setDateTimeStartValue] = useState(Array.isArray(initialValues) ? initialValues[0] : initialValues);
-  const [dateTimeEndvalue, setDateTimeEndValue] = useState(Array.isArray(initialValues) ? initialValues[1]: initialValues);
+  const [dateTimeEndvalue, setDateTimeEndValue] = useState(Array.isArray(initialValues) ? initialValues[1] : initialValues);
 
   const handleChange = (value, type) => {
-    setDateTimeStartValue((prevValue) => {
+    setDateTimeStartValue(prevValue => {
       if (type === 'date') {
         return combineDateAndTime(value, prevValue);
       }
-      
+
       if (type === 'time') {
         return combineDateAndTime(prevValue, value);
       }
@@ -41,11 +44,10 @@ const DateTimePicker = ({ onChange,
   };
 
   const handleChangeEnd = (value, type) => {
-    setDateTimeEndValue((prevValue) => {
-    
+    setDateTimeEndValue(prevValue => {
       if (type === 'date') {
         return combineDateAndTime(value, prevValue);
-      } 
+      }
       if (type === 'time') {
         return combineDateAndTime(prevValue, value);
       }
@@ -57,21 +59,25 @@ const DateTimePicker = ({ onChange,
     if (isRangePicker || Array.isArray(initialValues || input?.value)) {
       const updatedValue = [dateTimeStartvalue, dateTimeEndvalue];
       onChange(updatedValue);
-      input?.onChange(updatedValue);
+      if (input?.onChange) {
+        input?.onChange(updatedValue);
+      }
       setIsRange(true);
     } else {
       onChange(dateTimeStartvalue);
-      input?.onChange(dateTimeStartvalue);
+      if (input?.onChange) {
+        input?.onChange(dateTimeStartvalue);
+      }
       setIsRange(false);
     }
-  }, [dateTimeStartvalue, dateTimeEndvalue, isRangePicker, input]);
+  }, [dateTimeStartvalue, dateTimeEndvalue, isRangePicker, input, initialValues, onChange]);
 
   return (
     <DateTimeContainer>
       <Layout.Flex alignItems="center" gap="6px">
         <DatePicker
-          data-testid = 'first-input'
-          onChange={(value) => handleChange(value, 'date')}
+          data-testid="first-input"
+          onChange={value => handleChange(value, 'date')}
           disabled={disabled}
           isRangePicker={false}
           isDoubleView={isDoubleView}
@@ -86,7 +92,7 @@ const DateTimePicker = ({ onChange,
         />
         <TimePicker
           is12Hour={is12Hour}
-          onChange={(value) => handleChange(value, 'time')}
+          onChange={value => handleChange(value, 'time')}
           disabled={disabled}
           placeholder={placeholder.time}
           isRangePicker={false}
@@ -102,8 +108,8 @@ const DateTimePicker = ({ onChange,
 
           <Layout.Flex alignItems="center" gap="6px" ml="-1px">
             <DatePicker
-              data-testid = 'second-input'
-              onChange={(value) => handleChangeEnd(value,'date')}
+              data-testid="second-input"
+              onChange={value => handleChangeEnd(value, 'date')}
               disabled={disabled}
               locale={locale}
               placeholder={placeholder.date}
@@ -117,7 +123,7 @@ const DateTimePicker = ({ onChange,
             />
             <TimePicker
               is12Hour={is12Hour}
-              onChange={(value) => handleChangeEnd(value, 'time')}
+              onChange={value => handleChangeEnd(value, 'time')}
               disabled={disabled}
               placeholder={placeholder.time}
               isRangePicker={false}
@@ -131,7 +137,7 @@ const DateTimePicker = ({ onChange,
       )}
     </DateTimeContainer>
   );
-};
+}
 
 DateTimePicker.propTypes = {
   onChange: PropTypes.func,
@@ -144,9 +150,11 @@ DateTimePicker.propTypes = {
     date: PropTypes.string,
     time: PropTypes.string,
   }),
-  isTimeRange: PropTypes.bool,
   input: PropTypes.oneOfType([PropTypes.object]),
-  initialValue: PropTypes.any,
+  initialValue: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  ]),
   step: PropTypes.bool,
 };
 
@@ -161,9 +169,9 @@ DateTimePicker.defaultProps = {
     date: 'yyyy/mm/dd',
     time: 'hh:mm',
   },
-  isTimeRange: false,
   initialValue: null,
   step: 15,
+  input: {},
 };
 
 export default DateTimePicker;

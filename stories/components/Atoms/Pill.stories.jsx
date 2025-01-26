@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Pill from 'components/Atoms/Pill';
 import * as Layout from 'components/Atoms/Layout';
 
@@ -26,40 +27,38 @@ export const Pills = {
   args: {
     text: '420',
   },
-  render: args => {
-    return (
-      <Layout.Block>
-        <Layout.Item mt="20px">
-          <Pill.Danger>{args.text}</Pill.Danger>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill>{args.text}</Pill>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill.Blue>{args.text}</Pill.Blue>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill.Green>{args.text}</Pill.Green>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill.Yellow>{args.text}</Pill.Yellow>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill.Red>{args.text}</Pill.Red>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill.Violet>{args.text}</Pill.Violet>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill.Teal>{args.text}</Pill.Teal>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill.Pink>{args.text}</Pill.Pink>
-        </Layout.Item>
-        <Layout.Item mt="20px">
-          <Pill.Orange>{args.text}</Pill.Orange>
-        </Layout.Item>
-      </Layout.Block>
-    );
-  },
+  render: args => (
+    <Layout.Block>
+      <Layout.Item mt="20px">
+        <Pill.Danger>{args.text}</Pill.Danger>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill>{args.text}</Pill>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill.Blue>{args.text}</Pill.Blue>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill.Green>{args.text}</Pill.Green>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill.Yellow>{args.text}</Pill.Yellow>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill.Red>{args.text}</Pill.Red>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill.Violet>{args.text}</Pill.Violet>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill.Teal>{args.text}</Pill.Teal>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill.Pink>{args.text}</Pill.Pink>
+      </Layout.Item>
+      <Layout.Item mt="20px">
+        <Pill.Orange>{args.text}</Pill.Orange>
+      </Layout.Item>
+    </Layout.Block>
+  ),
 };

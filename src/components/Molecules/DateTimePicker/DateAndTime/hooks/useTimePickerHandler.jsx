@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { createDateFromTime, roundToNearestStep } from '../utils';
+
+import { createDateFromTime, roundToNearestStep } from '../../../../../utils';
 
 export const useTimePickerHandler = ({
   step,
@@ -14,47 +15,35 @@ export const useTimePickerHandler = ({
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [amPm, setAmPm] = useState('');
+  const [time, setTime] = useState('');
+  const [roundUpMinute, setRoundUpMinute] = useState(null);
 
   const [selectedHourEnd, setSelectedHourEnd] = useState('');
   const [selectedMinuteEnd, setSelectedMinuteEnd] = useState('');
   const [amPmEnd, setAmPmEnd] = useState('');
-
-  const [time, setTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [roundMinuteSecond, setRoundMinuteSecond] = useState(null);
 
   const [timeErrorFirst, setTimeErrorFirst] = useState(false);
   const [timeErrorLast, setTimeErrorLast] = useState(false);
   const [timeError, setTimeError] = useState(false);
 
-  const [roundMinuteSecond, setRoundMinuteSecond] = useState(null);
-  const [roundUpMinute, setRoundUpMinute] = useState(null);
-
-  const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => is12Hour ? (i + 1) : i).filter(hour => hour !== 0);
+  const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => (is12Hour ? (i + 1) : i)).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
-  
-  const getNearestMinMinute = (current, step) => Math.min(roundToNearestStep(current, step));
 
-  const handleHourClick = useCallback((hour) => {
-    const timeString = `${hour}:${selectedMinute}:00 ${amPm}`;
+  const getNearestMinMinute = (current, stepSize) => Math.min(roundToNearestStep(current, stepSize));
+
+  const handleFirstTimeSelection = useCallback(timeState => {
+    const { hour, minute, amPm: amPmValue } = timeState;
+
+    const timeString = `${hour}:${minute}:00 ${amPmValue}`;
     const updatedTime = createDateFromTime(timeString);
+
     setSelectedHour(String(hour));
-    setTime(updatedTime);
-
-    if (!isRangePicker) {
-      onChange(updatedTime);
-      input?.onChange?.(updatedTime);
-    } else {
-      onChange([updatedTime, endTime]);
-      input?.onChange?.([updatedTime, endTime]);
-    }
-  }, [selectedMinute, amPm, endTime, isRangePicker, onChange, input]);
-
-  const handleMinuteClick = useCallback((minute) => {
-    const timeString = `${selectedHour}:${minute}:00 ${amPm}`;
-    const updatedTime = createDateFromTime(timeString);
     setSelectedMinute(String(minute));
-    setRoundUpMinute(String(minute));
+    setAmPm(amPmValue);
     setTime(updatedTime);
+    setRoundUpMinute(getNearestMinMinute(Number(minute), step));
 
     if (!isRangePicker) {
       onChange(updatedTime);
@@ -63,25 +52,33 @@ export const useTimePickerHandler = ({
       onChange([updatedTime, endTime]);
       input?.onChange?.([updatedTime, endTime]);
     }
-  }, [selectedHour, amPm, endTime, isRangePicker, onChange, input]);
+  }, [step, isRangePicker, onChange, input, endTime]);
 
-  const handleAmPm = useCallback((value) => {
-    const timeString = `${selectedHour}:${selectedMinute}:00 ${value}`;
-    const updatedTime = createDateFromTime(timeString);
-    setAmPm(value);
+  const handleHourClick = useCallback(hour => {
+    handleFirstTimeSelection({
+      hour: String(hour),
+      minute: selectedMinute,
+      amPm,
+    });
+  }, [handleFirstTimeSelection, selectedMinute, amPm]);
 
-    if (!isRangePicker) {
-      setTime(updatedTime);
-      onChange(updatedTime);
-      input?.onChange?.(updatedTime);
-    } else {
-      setTime(updatedTime);
-      onChange([updatedTime, endTime]);
-      input?.onChange?.([updatedTime, endTime]);
-    }
-  }, [selectedHour, selectedMinute, endTime, isRangePicker, onChange, input]);
+  const handleMinuteClick = useCallback(minute => {
+    handleFirstTimeSelection({
+      hour: selectedHour,
+      minute: String(minute),
+      amPm,
+    });
+  }, [handleFirstTimeSelection, selectedHour, amPm]);
 
-  const handleEndHourClick = useCallback((hour) => {
+  const handleAmPm = useCallback(value => {
+    handleFirstTimeSelection({
+      hour: selectedHour,
+      minute: selectedMinute,
+      amPm: value,
+    });
+  }, [handleFirstTimeSelection, selectedHour, selectedMinute]);
+
+  const handleEndHourClick = useCallback(hour => {
     const timeString = `${hour}:${selectedMinuteEnd}:00 ${amPmEnd}`;
     const updatedEndTime = createDateFromTime(timeString);
     setSelectedHourEnd(String(hour));
@@ -90,7 +87,7 @@ export const useTimePickerHandler = ({
     input?.onChange?.([time, updatedEndTime]);
   }, [selectedMinuteEnd, amPmEnd, time, onChange, input]);
 
-  const handleEndMinuteClick = useCallback((minute) => {
+  const handleEndMinuteClick = useCallback(minute => {
     const timeString = `${selectedHourEnd}:${minute}:00 ${amPmEnd}`;
     const updatedTime = createDateFromTime(timeString);
     setRoundMinuteSecond(getNearestMinMinute(minute, step));
@@ -100,7 +97,7 @@ export const useTimePickerHandler = ({
     input?.onChange?.([time, updatedTime]);
   }, [selectedHourEnd, amPmEnd, time, step, onChange, input]);
 
-  const handleEndAmPm = useCallback((value) => {
+  const handleEndAmPm = useCallback(value => {
     const timeString = `${selectedHourEnd}:${selectedMinuteEnd}:00 ${value}`;
     const updatedTime = createDateFromTime(timeString);
     setAmPmEnd(value);
@@ -114,19 +111,19 @@ export const useTimePickerHandler = ({
     setTimeError(true);
     input.onChange(null);
   };
-  
+
   const handleClearFirstTimeRange = () => {
     setTime('');
     setTimeErrorFirst(true);
     if (isRangePicker) {
-      onChange(null, endTime);
+      onChange(null);
       input.onChange([null, endTime]);
     } else {
       onChange(null);
       input.onChange(null);
     }
   };
-  
+
   const handleClearEndTime = () => {
     setEndTime('');
     setTimeErrorLast(true);
@@ -139,98 +136,110 @@ export const useTimePickerHandler = ({
     }
   };
 
-  // Initial value and date handling effects
   useEffect(() => {
-    const handleDate = (date) => {
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
-      const isPM = hours >= 12;
-      const hour = is12Hour ? hours % 12 || 12 : hours;
-      const amPmValue = is12Hour ? (isPM ? 'PM' : 'AM') : '';
-  
+    const handleDate = date => {
+      const hoursValue = date.getHours();
+      const minutesValue = date.getMinutes();
+      const isPM = hoursValue >= 12;
+      const hour = is12Hour ? hoursValue % 12 || 12 : hoursValue;
+      let amPmValue = '';
+      if (is12Hour) {
+        if (isPM) {
+          amPmValue = 'PM';
+        } else {
+          amPmValue = 'AM';
+        }
+      }
       return {
         hour,
-        minute: minutes,
+        minute: minutesValue,
         amPm: amPmValue,
       };
     };
+    const value = input?.value || initialValue;
+    if (Array.isArray(value)) {
+      const [startDate, endDate] = value;
 
-    if (Array.isArray(input?.value || initialValue)) {
-      const startDate = input?.value[0] || initialValue[0];
-      const endDate = input?.value[1] || initialValue[1];
-  
       const startTime = handleDate(startDate);
-      const endTime = handleDate(endDate);
-  
-      setTime(createDateFromTime(`${startTime.hour}:${startTime.minute} ${startTime.amPm}`));
+      const endTimeValue = handleDate(endDate);
+
+      setRoundUpMinute(getNearestMinMinute(startDate.getMinutes(), step));
+      setRoundMinuteSecond(getNearestMinMinute(endDate.getMinutes(), step));
+
+      setTime(startDate);
       setSelectedHour(startTime.hour);
       setSelectedMinute(startTime.minute);
       setAmPm(startTime.amPm);
-      setRoundUpMinute(getNearestMinMinute(startTime?.minute, step));
-      setEndTime(`${endTime.hour}:${endTime.minute} ${endTime.amPm}`);
 
-      setSelectedHourEnd(endTime.hour);
-      setSelectedMinuteEnd(endTime.minute);
-      setRoundMinuteSecond(getNearestMinMinute(endTime.minute, step));
-      setAmPmEnd(endTime.amPm);
+      setEndTime(endDate);
+      setSelectedHourEnd(endTimeValue.hour);
+      setSelectedMinuteEnd(endTimeValue.minute);
+      setAmPmEnd(endTimeValue.amPm);
+    } else if (value) {
+      const startDate = value;
+      const startTime = handleDate(startDate);
+      setRoundUpMinute(getNearestMinMinute(startDate.getMinutes(), step));
+      setTime(startDate);
+      setSelectedHour(startTime.hour);
+      setSelectedMinute(startTime.minute);
+      setAmPm(startTime.amPm);
     }
-  }, [input?.value, is12Hour, step]);
+  }, [is12Hour, step, input?.value, initialValue]);
 
-  // Additional date handling effects
   useEffect(() => {
     if ((input?.value || dateTimeDefault) && !isDateTimeDouble) {
       let timeParts = [];
       let date = null;
       if (typeof input?.value === 'string') {
-        const timeParts = input?.value.split(':');
-        const hours = parseInt(timeParts[0]);
-        const minutes = parseInt(timeParts[1]);
+        const timePartsValue = input?.value.split(':');
+        const hoursValue = parseInt(timePartsValue[0], 10);
+        const minutesValue = parseInt(timePartsValue[1], 10);
         date = new Date();
-        date.setHours(hours, minutes);
-      } else if (input?.value instanceof Date && !isNaN(input?.value)) {
+        date.setHours(hoursValue, minutesValue);
+      } else if (input?.value instanceof Date && !Number.isNaN(input?.value)) {
         date = input?.value;
-      } else if (dateTimeDefault instanceof Date && !isNaN(dateTimeDefault)) {
+      } else if (dateTimeDefault instanceof Date && !Number.isNaN(dateTimeDefault)) {
         date = dateTimeDefault;
       } else if (Array.isArray(dateTimeDefault) && dateTimeDefault[0] instanceof Date) {
-        date = dateTimeDefault[0];
+        const [firstDate] = dateTimeDefault;
+        date = firstDate;
       }
-  
-      if (date) {
-        const hours = date.getHours();
-        const minutes = date.getMinutes();
-        const amPmValue = hours >= 12 ? 'PM' : 'AM';
-        setRoundUpMinute(getNearestMinMinute(minutes, step));
 
-        timeParts = [`${hours % 12 || 12}`, `${minutes} ${amPmValue}`];
-  
+      if (date) {
+        const hoursValue = date.getHours();
+        const minutesValue = date.getMinutes();
+        const amPmValue = hoursValue >= 12 ? 'PM' : 'AM';
+        setRoundUpMinute(getNearestMinMinute(minutesValue, step));
+
+        timeParts = [`${hoursValue % 12 || 12}`, `${minutesValue} ${amPmValue}`];
+
         const hour = timeParts[0];
-        const [minute, amPm = ''] = timeParts[1].split(' ');
-        setTime(`${hour}:${minute} ${amPm}`);
+        const [minute, meridian = ''] = timeParts[1].split(' ');
+        setTime(`${hour}:${minute} ${meridian}`);
         setSelectedHour(hour);
         setSelectedMinute(minute);
-        setAmPm(is12Hour ? amPm : '');
+        setAmPm(is12Hour ? meridian : '');
       }
     }
-  }, [input?.value, isDateTimeDouble, is12Hour]);
+  }, [input?.value, isDateTimeDouble, is12Hour, dateTimeDefault, step]);
 
-  // Additional end time handling for double datetime
   useEffect(() => {
     if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 1) {
       const endDate = dateTimeDefault[1];
-  
-      if (endDate instanceof Date && !isNaN(endDate)) {
-        const hours = endDate.getHours();
-        const minutes = endDate.getMinutes();
-        const amPmValue = hours >= 12 ? 'PM' : 'AM';
-        const timeParts = [`${hours % 12 || 12}`, `${minutes} ${amPmValue}`];
-        setRoundUpMinute(getNearestMinMinute(minutes, step));
+
+      if (endDate instanceof Date && !Number.isNaN(endDate)) {
+        const hoursValue = endDate.getHours();
+        const minutesValue = endDate.getMinutes();
+        const amPmValue = hoursValue >= 12 ? 'PM' : 'AM';
+        const timeParts = [`${hoursValue % 12 || 12}`, `${minutesValue} ${amPmValue}`];
+        setRoundUpMinute(getNearestMinMinute(minutesValue, step));
         setTime(`${timeParts[0]}:${timeParts[1].split(' ')[0]} ${amPmValue}`);
         setSelectedHour(timeParts[0]);
         setSelectedMinute(timeParts[1].split(' ')[0]);
         setAmPm(is12Hour ? amPmValue : '');
       }
     }
-  }, [isDateTimeDouble, is12Hour]);
+  }, [isDateTimeDouble, is12Hour, dateTimeDefault, step]);
 
   return {
     selectedHour,

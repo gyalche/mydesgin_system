@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledInput = styled.input.withConfig({
-  shouldForwardProp: prop =>
-    !['isInvalid', 'compact', 'w', 'mt', 'mr', 'mb', 'ml'].includes(prop),
+  shouldForwardProp: prop => !['isInvalid', 'compact', 'w', 'mt', 'mr', 'mb', 'ml'].includes(prop),
 })`
   background: var(--rds-color-neutral-0);
-  border: ${({ isInvalid }) =>
-    isInvalid
-      ? '1px solid var(--rds-color-secondary-3-normal)'
-      : '1px solid var(--rds-color-neutral-3)'};
+  border: ${({ isInvalid }) => (isInvalid
+    ? '1px solid var(--rds-color-secondary-3-normal)'
+    : '1px solid var(--rds-color-neutral-3)')};
   border-radius: 4px;
   color: var(--rds-color-neutral-10);
   height: ${({ compact }) => (compact ? '32px' : '40px')};
@@ -38,26 +36,26 @@ const StyledInput = styled.input.withConfig({
 
 const Input = forwardRef(
   (
-    { mt, mr, mb, ml, w, compact, isInvalid, name, value, onChange, input, ...props },
-    ref
-  ) => {
-    return (
-      <StyledInput
-        ref={ref}
-        name={name ?? input?.name}
-        value={value ?? input?.value}
-        onChange={onChange ?? input?.onChange}
-        mt={mt}
-        mr={mr}
-        mb={mb}
-        ml={ml}
-        w={w}
-        compact={compact}
-        isInvalid={isInvalid}
-        {...props}
-      />
-    );
-  }
+    {
+      mt, mr, mb, ml, w, compact, isInvalid, name, value, onChange, input, ...props
+    },
+    ref,
+  ) => (
+    <StyledInput
+      ref={ref}
+      name={name ?? input?.name}
+      value={value ?? input?.value}
+      onChange={onChange ?? input?.onChange}
+      mt={mt}
+      mr={mr}
+      mb={mb}
+      ml={ml}
+      w={w}
+      compact={compact}
+      isInvalid={isInvalid}
+      {...props}
+    />
+  ),
 );
 Input.displayName = 'Input';
 Input.propTypes = {
@@ -71,7 +69,11 @@ Input.propTypes = {
   name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
-  input: PropTypes.object,
+  input: PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func,
+  }),
 };
 
 Input.defaultProps = {
@@ -82,6 +84,14 @@ Input.defaultProps = {
   w: 'auto',
   compact: false,
   isInvalid: false,
+  name: '',
+  value: null,
+  onChange: () => {},
+  input: {
+    name: '',
+    value: null,
+    onChange: () => {},
+  },
 };
 
 export default Input;

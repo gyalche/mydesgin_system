@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Spinner from 'components/Molecules/Loading';
 import * as Layout from 'components/Atoms/Layout';
 
@@ -25,29 +26,29 @@ export const Loading = {
     invert: {
       description: 'Invert the color',
       control: { type: 'boolean' },
-    }
+    },
   },
   args: {
     size: 'xlarge',
     invert: false,
   },
-  render: (args) => {
+  render: args => {
     const colors = [
       'var(--rds-color-neutral-6)',
       'var(--rds-color-primary-1-intense)',
       'var(--rds-color-secondary-1-intense)',
       'var(--rds-color-secondary-3-intense)',
-      'var(--rds-color-tertiary-2-intense)'
+      'var(--rds-color-tertiary-2-intense)',
     ];
 
     return (
       <Layout.Flex h="100vh" alignItems="center" justifyContent="center">
-        {colors.map((color, index) => (
+        {colors.map(color => (
           <Layout.Item w="150px">
-            <Spinner key={index} {...args} color={color} />
+            <Spinner key={color} {...args} color={color} />
           </Layout.Item>
         ))}
-     </Layout.Flex>
+      </Layout.Flex>
     );
-  }
+  },
 };

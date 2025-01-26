@@ -1,6 +1,6 @@
-import { default as Date } from './DatePicker';
-import { default as Time } from './TimePicker';
-import { default as DateTime } from './DateTimePicker';
+import Date from './DateAndTime/DatePicker';
+import Time from './DateAndTime/TimePicker';
+import DateTime from './DateAndTime/DateTimePicker';
 
 const DatePicker = Date;
 DatePicker.Time = Time;

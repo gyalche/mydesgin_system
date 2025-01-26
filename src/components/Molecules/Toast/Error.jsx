@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Layout } from 'components/Atoms';
-import { Typography } from 'components/Atoms';
+
+import { Layout, Typography } from 'components/Atoms';
+
 import StyledToast, {
   BtnLabel,
   CloseIcon,
@@ -38,20 +39,20 @@ export default function Error({
       {...rest}
     >
       <ToastContainer $withDescription={description}>
-        <ToastIcon name="alert-circle-solid-cross" className='icon-size' />
+        <ToastIcon name="alert-circle-solid-cross" className="icon-size" />
         <TextContainer $withDescription={description}>
           <Layout.Block mt={description && '8px'}>
             <Typography level="h7">{title}</Typography>
           </Layout.Block>
           {description && <Description>{description}</Description>}
-          {action && btnLabel && title && btnLabel && description && ( 
-            <ToastButton data-testid="button-id" mt="8px" onClick={action} compact $withDescription={description}>
+          {action && btnLabel && title && btnLabel && description && (
+            <ToastButton data-testid="button-id" mt="8px" onClick={action} compact={true} $withDescription={description}>
               <BtnLabel>{btnLabel}</BtnLabel>
             </ToastButton>
           )}
         </TextContainer>
         {action && btnLabel && title && !description && (
-          <ToastButton data-testid="right-side-btn" onClick={action} compact $withDescription={description}>
+          <ToastButton data-testid="right-side-btn" onClick={action} compact={true} $withDescription={description}>
             <BtnLabel>{btnLabel}</BtnLabel>
           </ToastButton>
         )}
@@ -78,6 +79,7 @@ Error.propTypes = {
 Error.defaultProps = {
   title: '',
   description: null,
-  action: null,
+  action: () => {},
   btnLabel: 'action',
+  $fadeOut: false,
 };

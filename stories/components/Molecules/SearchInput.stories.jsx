@@ -1,4 +1,5 @@
 import React from 'react';
+
 import SearchInput from 'components/Molecules/SearchInput';
 
 export default {
@@ -46,7 +47,5 @@ export const SearchInputs = {
     compact: false,
     icon: 'action-loupe',
   },
-  render: args => {
-    return <SearchInput {...args} placeholder="Placeholder" />;
-  },
+  render: args => <SearchInput {...args} placeholder="Placeholder" />,
 };

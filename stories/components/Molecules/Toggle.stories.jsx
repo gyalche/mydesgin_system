@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Toggle from 'components/Molecules/Toggle';
 import * as Layout from 'components/Atoms/Layout';
 
@@ -46,7 +47,7 @@ export const Toggles = {
       control: {
         type: 'boolean',
       },
-    }
+    },
   },
   args: {
     w: 78,
@@ -54,14 +55,12 @@ export const Toggles = {
     labels: ['Online', 'Offline'],
     colors: ['var(--rds-color-primary-1-normal)', 'var(--rds-color-neutral-5)'],
   },
-  render: args => {
-    return (
-      <Layout.Block>
-        <Layout.Item>
-          <Toggle {...args} />
-        </Layout.Item>
-        <Layout.Item></Layout.Item>
-      </Layout.Block>
-    );
-  },
+  render: args => (
+    <Layout.Block>
+      <Layout.Item>
+        <Toggle {...args} />
+      </Layout.Item>
+      <Layout.Item />
+    </Layout.Block>
+  ),
 };

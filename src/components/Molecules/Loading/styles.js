@@ -1,5 +1,6 @@
-import { Icon } from 'components/Atoms';
 import styled from 'styled-components';
+
+import { Icon } from 'components/Atoms';
 
 const checkSize = {
   xlarge: '96px',
@@ -18,12 +19,12 @@ export const LoadingContainer = styled.div`
 `;
 
 export const LoadingIcon = styled(Icon)`
-  ${({size}) => `
+  ${({ size }) => `
     font-size: ${checkSize[size]};
     height: ${checkSize[size]};
     line-height: ${checkSize[size]};
     width: ${checkSize[size]};
   `};
-  color: ${({color}) => color && color};
+  color: ${({ color }) => color && color};
   filter: ${({ invert }) => invert && 'invert(1)'};
 `;

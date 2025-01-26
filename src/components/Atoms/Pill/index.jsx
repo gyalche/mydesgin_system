@@ -1,13 +1,13 @@
-import { default as Danger } from './Danger';
-import { default as Blue } from './Blue';
-import { default as CommonPillStyle } from './CommonPillStyle';
-import { default as Green } from './Green';
-import { default as Red } from './Red';
-import { default as Orange } from './Orange';
-import { default as Pink } from './Pink';
-import { default as Teal } from './Teal';
-import { default as Violet } from './Violet';
-import { default as Yellow } from './Yellow';
+import Danger from './Danger';
+import Blue from './Blue';
+import CommonPillStyle from './CommonPillStyle';
+import Green from './Green';
+import Red from './Red';
+import Orange from './Orange';
+import Pink from './Pink';
+import Teal from './Teal';
+import Violet from './Violet';
+import Yellow from './Yellow';
 
 const Pill = CommonPillStyle;
 

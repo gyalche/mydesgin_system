@@ -1,8 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import useClickOutside from './useClickOutside';
-import closeOpenModal from './closeOpenModal';
+import {
+  useState, useEffect, useCallback, useRef,
+} from 'react';
 
-export const useDatePickerKeyboardNavigation = ({ 
+import useClickOutside from '../../../../../hooks/useClickOutside';
+import useCloseOpenModal from '../../../../../hooks/closeOpenModal';
+
+export const useDatePickerKeyboardNavigation = ({
   locale,
   disabled,
   onlyFuture,
@@ -14,7 +17,7 @@ export const useDatePickerKeyboardNavigation = ({
   input,
   onChange,
   setStartDate,
-  setEndDate
+  setEndDate,
 }) => {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openCalendarEnd, setOpenCalendarEnd] = useState(false);
@@ -33,8 +36,8 @@ export const useDatePickerKeyboardNavigation = ({
     setOpenCalendar(false);
     setOpenCalendarEnd(false);
   });
-  
-  closeOpenModal(() => {
+
+  useCloseOpenModal(() => {
     setOpenCalendar(false);
     setOpenCalendarEnd(false);
   });
@@ -42,17 +45,16 @@ export const useDatePickerKeyboardNavigation = ({
   const disableKeyboardFunc = () => setEnableKeyboard(false);
   const enabledKeyboardFunc = () => setEnableKeyboard(true);
 
-  const selectPreviousDate = (monthAndYearNotSame) => {
-    if(monthAndYearNotSame){
+  const selectPreviousDate = useCallback(monthAndYearNotSame => {
+    if (monthAndYearNotSame) {
       const adjustDate = new Date(currentMonth);
-      adjustDate.setDate(currentDate.getDate());
+      adjustDate.setDate(currentDate.getDate() - 1);
       setCurrentDate(adjustDate);
-      updateDate(new Date(adjustDate));
-      return;
     }
-  };
-  const onChangeCurrent = useCallback((val) => {
-    if(!(val instanceof Date)) return;
+  }, [currentDate, currentMonth]);
+
+  const onChangeCurrent = useCallback(val => {
+    if (!(val instanceof Date)) return;
     setCurrentMonth(val);
   }, [setCurrentMonth]);
 
@@ -92,13 +94,13 @@ export const useDatePickerKeyboardNavigation = ({
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = useCallback(e => {
     e.preventDefault();
     const today = new Date();
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    
-    const updateDate = (changeFn) => {
-      setCurrentDate((prev) => {
+
+    const updateDate = changeFn => {
+      setCurrentDate(prev => {
         const newDate = changeFn(prev);
         const newYear = newDate.getFullYear();
         const currentYear = currentMonth.getFullYear();
@@ -110,14 +112,20 @@ export const useDatePickerKeyboardNavigation = ({
         if (newYear > currentYear) handleNextMonth();
         if (newYear < currentYear) handlePrevMonth();
 
-        return onlyFuture ? newDate < todayNormalized ? todayNormalized : newDate : newDate;
+        if (onlyFuture) {
+          if (newDate < todayNormalized) {
+            return todayNormalized;
+          }
+          return newDate;
+        }
+        return newDate;
       });
     };
-  
+
     const handleEnter = () => {
       e.preventDefault();
       e.stopPropagation();
-    
+
       if (openCalendar) {
         if (isRangePicker) {
           if (!startDate) {
@@ -126,7 +134,6 @@ export const useDatePickerKeyboardNavigation = ({
             setStartDate(currentDate);
           } else {
             setEndDate(currentDate);
-            setHoveredDate(currentDate);
             setOpenCalendarEnd(false);
             input.onChange([startDate, currentDate]);
             onChange([startDate, currentDate]);
@@ -144,8 +151,6 @@ export const useDatePickerKeyboardNavigation = ({
       } else if (openCalendarEnd) {
         if (currentDate >= startDate) {
           setEndDate(currentDate);
-          setHoveredDate(currentDate);
-          setOpenCalendarEnd(false);
           input.onChange([startDate, currentDate]);
           onChange([startDate, currentDate]);
         }
@@ -155,19 +160,19 @@ export const useDatePickerKeyboardNavigation = ({
     switch (e.key) {
       case 'ArrowLeft':
         selectPreviousDate(notCurrentMonthAndYear);
-        updateDate((prev) => new Date(prev.setDate(prev.getDate() - 1)));
+        updateDate(prev => new Date(prev.setDate(prev.getDate() - 1)));
         break;
       case 'ArrowRight':
         selectPreviousDate(notCurrentMonthAndYear);
-        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 1)));
+        updateDate(prev => new Date(prev.setDate(prev.getDate() + 1)));
         break;
       case 'ArrowUp':
         selectPreviousDate(notCurrentMonthAndYear);
-        updateDate((prev) => new Date(prev.setDate(prev.getDate() - 7)));
+        updateDate(prev => new Date(prev.setDate(prev.getDate() - 7)));
         break;
       case 'ArrowDown':
         selectPreviousDate(notCurrentMonthAndYear);
-        updateDate((prev) => new Date(prev.setDate(prev.getDate() + 7)));
+        updateDate(prev => new Date(prev.setDate(prev.getDate() + 7)));
         break;
       case 'Enter':
         if (!isRangePicker || dateTimeValue) handleSingleDate(currentDate);
@@ -176,49 +181,68 @@ export const useDatePickerKeyboardNavigation = ({
       default:
         break;
     }
-  };
-
+  }, [
+    currentDate,
+    currentMonth,
+    onlyFuture,
+    openCalendar,
+    startDate,
+    endDate,
+    isRangePicker,
+    dateTimeValue,
+    input,
+    inputRefEnd,
+    handleNextMonth,
+    handlePrevMonth,
+    selectPreviousDate,
+    notCurrentMonthAndYear,
+    handleSingleDate,
+    onChange,
+    openCalendarEnd,
+    setEndDate,
+    setStartDate,
+  ]);
   useEffect(() => {
     if ((openCalendar || openCalendarEnd) && enableKeyboard && !disabled) {
       window.addEventListener('keydown', handleKeyDown);
-
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-      };
     }
-  }, [currentDate, currentMonth, openCalendar, openCalendarEnd, enableKeyboard, notCurrentMonthAndYear]);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentDate, currentMonth, openCalendar, openCalendarEnd, enableKeyboard, notCurrentMonthAndYear, disabled, handleKeyDown]);
 
   useEffect(() => {
     const fallbackDate = new Date();
     if (openCalendar) {
-      const initialDate = startDate && !isNaN(new Date(startDate)) ? new Date(startDate) : fallbackDate;
+      const initialDate = startDate && !Number.isNaN(new Date(startDate)) ? new Date(startDate) : fallbackDate;
       setCurrentDate(initialDate);
       setCurrentMonth(initialDate);
     }
-    
+
     if (openCalendarEnd) {
-      const endDateValid = endDate && !isNaN(new Date(endDate));
-      const startDateValid = startDate && !isNaN(new Date(startDate));
-      const initialEndDate = endDateValid ? new Date(endDate) : startDateValid ? new Date(startDate) : fallbackDate;
+      const endDateValid = endDate && !Number.isNaN(new Date(endDate));
+      const startDateValid = startDate && !Number.isNaN(new Date(startDate));
+      let initialEndDate;
+      if (endDateValid) {
+        initialEndDate = new Date(endDate);
+      } else if (startDateValid) {
+        initialEndDate = new Date(startDate);
+      } else {
+        initialEndDate = fallbackDate;
+      }
       setCurrentDate(initialEndDate);
       setCurrentMonth(initialEndDate);
     }
   }, [startDate, endDate, openCalendar, openCalendarEnd]);
 
   useEffect(() => {
-    if ((openCalendar || openCalendarEnd) && enableKeyboard && !disabled) {
-      window.addEventListener('keydown', handleKeyDown);
-      return () => window.removeEventListener('keydown', handleKeyDown);
-    }
-  }, [openCalendar, openCalendarEnd, enableKeyboard, disabled, currentDate, currentMonth, notCurrentMonthAndYear]);
+    const currentDateValue = new Date();
+    const currentDay = currentDateValue.getDay();
+    const startOfWeek = new Date(currentDateValue);
+    startOfWeek.setDate(currentDateValue.getDate() - currentDay + 1);
 
-  useEffect(() => {
-    const currentDate = new Date();
-    const currentDay = currentDate.getDay();
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDay + 1);
-
-    const calculatedWeekdays = [...Array(7).keys()].map((index) => {
+    const calculatedWeekdays = [...Array(7).keys()].map(index => {
       const date = new Date(startOfWeek);
       date.setDate(startOfWeek.getDate() + index);
       return {
@@ -249,6 +273,6 @@ export const useDatePickerKeyboardNavigation = ({
     setEnableKeyboard,
     onChangeCurrent,
     enabledKeyboardFunc,
-    disableKeyboardFunc
+    disableKeyboardFunc,
   };
 };

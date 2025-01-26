@@ -43,7 +43,7 @@ const colorPairs = [
 ];
 
 // Get color pair based on the Unicode of the first character
-const getColorPair = (char) => {
+const getColorPair = char => {
   const unicode = char?.charCodeAt(0);
   const index = unicode % 9;
   return colorPairs[index];
@@ -58,11 +58,11 @@ const avatarSize = {
 // Styled component with dynamic styles based on the color pair
 export const CommonAvatarStyle = styled.div`
   display: flex;
-  width: ${({size}) => avatarSize[size]};
-  height: ${({size}) => avatarSize[size]};
+  width: ${({ size }) => avatarSize[size]};
+  height: ${({ size }) => avatarSize[size]};
   align-items: center;
   justify-content: center;
-  border-radius: ${({size}) => avatarSize[size]};
+  border-radius: ${({ size }) => avatarSize[size]};
   font-size: ${({ fontSize }) => fontSize};
   font-weight: 400;
   margin-right: ${({ mr }) => mr};
@@ -73,23 +73,19 @@ export const CommonAvatarStyle = styled.div`
   ${({ colorStyle }) => colorStyle}
 
   img {
-    width: ${({size}) => avatarSize[size]};
-    height: ${({size}) => avatarSize[size]};
-    border-radius: ${({size}) => avatarSize[size]};
+    width: ${({ size }) => avatarSize[size]};
+    height: ${({ size }) => avatarSize[size]};
+    border-radius: ${({ size }) => avatarSize[size]};
     object-fit: cover;
   }
 `;
 
-const Avatar = ({ name, src, ...props }) => {
+function Avatar({ name, src, ...props }) {
   const [isImageValid, setIsImageValid] = useState(true);
 
-  const usernameFirstChar = useMemo(() => {
-    return name?.trim()[0]?.toUpperCase();
-  }, [name]);
+  const usernameFirstChar = useMemo(() => name?.trim()[0]?.toUpperCase(), [name]);
 
-  const colorStyle = useMemo(() => {
-    return getColorPair(usernameFirstChar);
-  }, [usernameFirstChar]);
+  const colorStyle = useMemo(() => getColorPair(usernameFirstChar), [usernameFirstChar]);
 
   useEffect(() => {
     if (src) {
@@ -105,17 +101,16 @@ const Avatar = ({ name, src, ...props }) => {
   return (
     <CommonAvatarStyle colorStyle={colorStyle} {...props}>
       {isImageValid && src ? (
-        <img 
-          src={src} 
-          alt={name} 
-          onError={() => setImgError(true)} 
+        <img
+          src={src}
+          alt={name}
         />
       ) : (
         usernameFirstChar
       )}
     </CommonAvatarStyle>
   );
-};
+}
 
 Avatar.propTypes = {
   name: PropTypes.string.isRequired,

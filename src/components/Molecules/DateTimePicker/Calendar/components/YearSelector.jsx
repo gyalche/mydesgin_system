@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { DecadeGrid, DecadeButton, ButtonActive } from '../../styles';
 import useYearSelector from '../hooks/useYearSelector';
 
-const YearSelector = ({
+function YearSelector({
   selectedDecade,
   yearsInDecade,
   setCurrentMonth,
@@ -18,7 +19,7 @@ const YearSelector = ({
   enableFocus,
   setModalFocus,
   enableKeyboard,
-}) => {
+}) {
   const { selectedYearIndex, buttonRefs, handleYearSelection } = useYearSelector({
     yearsInDecade,
     currentMonth,
@@ -37,13 +38,17 @@ const YearSelector = ({
 
   return (
     <DecadeGrid focus={enableFocus}>
-      <ButtonActive data-calendar-btn />
-      <DecadeButton disabled>{selectedDecade - 1}</DecadeButton>
+      <ButtonActive data-calendar-btn={true} />
+      <DecadeButton disabled={true}>{selectedDecade - 1}</DecadeButton>
       {yearsInDecade.map((year, index) => (
         <DecadeButton
           key={year}
-          ref={(el) => (buttonRefs.current[index] = el)}
-          onClick={(event) => handleYearSelection(year, event)}
+          ref={el => {
+            if (el) {
+              buttonRefs.current[index] = el;
+            }
+          }}
+          onClick={event => handleYearSelection(year, event)}
           tabIndex={0}
           keyboardSelect={selectedYearIndex === index}
           isFocused={enableFocus}
@@ -51,10 +56,10 @@ const YearSelector = ({
           {year}
         </DecadeButton>
       ))}
-      <DecadeButton disabled>{selectedDecade + 10}</DecadeButton>
+      <DecadeButton disabled={true}>{selectedDecade + 10}</DecadeButton>
     </DecadeGrid>
   );
-};
+}
 
 YearSelector.propTypes = {
   selectedDecade: PropTypes.number.isRequired,
@@ -64,7 +69,6 @@ YearSelector.propTypes = {
   setShowYears: PropTypes.func.isRequired,
   currentMonth: PropTypes.instanceOf(Date).isRequired,
   showYears: PropTypes.bool,
-  enableKey: PropTypes.bool,
   setTabCount: PropTypes.number,
   goToPreviousDecade: PropTypes.func,
   goToNextDecade: PropTypes.func,
@@ -74,4 +78,14 @@ YearSelector.propTypes = {
   enableKeyboard: PropTypes.func,
 };
 
+YearSelector.defaultProps = {
+  showYears: false,
+  setTabCount: null,
+  goToPreviousDecade: null,
+  goToNextDecade: null,
+  tabCount: 0,
+  enableFocus: false,
+  setModalFocus: false,
+  enableKeyboard: null,
+};
 export default YearSelector;

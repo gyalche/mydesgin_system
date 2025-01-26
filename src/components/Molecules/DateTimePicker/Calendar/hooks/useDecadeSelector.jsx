@@ -10,7 +10,7 @@ const useDecadeSelector = ({
   focusedButton,
   setFocusedButton,
   currentDecadeStart,
-  selectedDecade
+  selectedDecade,
 }) => {
   const handleKeyDown = useCallback(
     (event, index) => {
@@ -22,7 +22,7 @@ const useDecadeSelector = ({
       const totalButtons = buttonRefs.current.length;
       const isDoubleIndexes = isDoubleView ? 4 : 3;
 
-      const navigateButton = (key) => {
+      const navigateButton = key => {
         setModalFocus(false);
         switch (key) {
           case 'ArrowRight':
@@ -38,6 +38,7 @@ const useDecadeSelector = ({
         }
       };
 
+      let newIndex;
       switch (event.key) {
         case 'Enter':
           event.preventDefault();
@@ -49,7 +50,7 @@ const useDecadeSelector = ({
         case 'ArrowLeft':
         case 'ArrowDown':
         case 'ArrowUp':
-          const newIndex = navigateButton(event.key);
+          newIndex = navigateButton(event.key);
           if (newIndex === 0) goToPreviousDecade();
           if (newIndex === totalButtons - 1) goToNextDecade();
 
@@ -62,7 +63,6 @@ const useDecadeSelector = ({
           break;
 
         default:
-          return;
       }
     },
     [
@@ -74,19 +74,22 @@ const useDecadeSelector = ({
       goToPreviousDecade,
       isDoubleView,
       setFocusedButton,
-    ]
+    ],
   );
 
   useEffect(() => {
-    const selectedIndex =
-      selectedDecade !== null && selectedDecade >= currentDecadeStart
-        ? Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1))
-        : focusedButton > 9
-        ? 10
-        : 1;
+    let selectedIndex;
+    if (selectedDecade !== null && selectedDecade >= currentDecadeStart) {
+      selectedIndex = Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1));
+    } else if (focusedButton > 9) {
+      selectedIndex = 10;
+    } else {
+      selectedIndex = 1;
+    }
 
     setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDecade, currentDecadeStart, enableFocus, buttonRefs, setFocusedButton]);
 
   return { handleKeyDown };

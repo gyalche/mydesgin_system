@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Selector from 'components/Molecules/Selector';
 
 export default {
@@ -80,9 +81,7 @@ export const Selectors = {
     onChange: () => {},
     name: 'selector',
   },
-  render: args => {
-    return <Selector {...args} />;
-  },
+  render: args => <Selector {...args} />,
 };
 
 export const OptionSelect = {
@@ -159,7 +158,5 @@ export const OptionSelect = {
     onChange: () => {},
     name: 'selector',
   },
-  render: args => {
-    return <Selector {...args} />;
-  },
+  render: args => <Selector {...args} />,
 };

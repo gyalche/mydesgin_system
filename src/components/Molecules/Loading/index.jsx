@@ -1,12 +1,13 @@
 import React from 'react';
-import { LoadingIcon } from './styles';
 import PropTypes from 'prop-types';
 
-const Spinner = ({ size, color, invert }) => {
+import { LoadingIcon } from './styles';
+
+function Spinner({ size, color, invert }) {
   return (
     <LoadingIcon className="spin" name="global-spinner" size={size} invert={invert} color={color} />
   );
-};
+}
 
 Spinner.propTypes = {
   size: PropTypes.oneOf(['xlarge', 'large', 'medium', 'small']),

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
 import * as Logo from 'components/Atoms/Logo';
 
 const ProductLogo = styled.div`
@@ -53,7 +54,6 @@ function AppLink({
   isActive,
   description,
 }) {
-
   const logoMap = {
     reception: <Logo.Receptionist />,
     meetingroom: <Logo.ReceptionistRooms />,

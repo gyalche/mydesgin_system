@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 const TabContainer = styled.div``;
 
-const Tab = ({ tabKey, label, children }) => {
+function Tab({ tabKey, label, children }) {
   return (
     <TabContainer tabKey={tabKey} label={label}>
       {children}
     </TabContainer>
   );
-};
+}
 
 Tab.defaultProps = {
   tabKey: null,
@@ -22,7 +22,7 @@ Tab.propTypes = {
   tabKey: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object
+    PropTypes.object,
   ]),
   children: PropTypes.node,
 };

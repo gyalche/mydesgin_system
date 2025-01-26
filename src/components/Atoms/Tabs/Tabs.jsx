@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
+
 import Tab from './Tab';
 
 const TabsContainer = styled.div`
@@ -13,9 +14,8 @@ const primaryStyles = css`
   padding: 4px 8px 12px 8px;
   cursor: pointer;
   background-color: transparent;
-  ${(props) =>
-    props.$active &&
-    `
+  ${props => props.$active
+    && `
     color: var(--rds-color-primary-1-dark);
     border-bottom: 1px solid var(--rds-color-primary-1-normal);
   `}
@@ -26,9 +26,8 @@ const secondaryStyles = css`
   cursor: pointer;
   border-radius: 4px;
   background-color: var(--rds-color-neutral-0);
-  ${(props) =>
-    props.$active &&
-    `
+  ${props => props.$active
+    && `
     color: var(--rds-color-primary-1-dark);
     background-color: var(--rds-color-primary-1-subtle);
   `}
@@ -42,20 +41,22 @@ const TabList = styled.div`
 `;
 
 const TabItem = styled.div`
-  ${(props) => props.appearance === 'primary' && primaryStyles};
-  ${(props) => props.appearance === 'secondary' && secondaryStyles};
+  ${props => props.appearance === 'primary' && primaryStyles};
+  ${props => props.appearance === 'secondary' && secondaryStyles};
 `;
 
 const TabContent = styled.div``;
 
-const Tabs = ({ defaultTab, appearance, gap, mt, mb, ml, mr, onClick, children }) => {
+function Tabs({
+  defaultTab, appearance, gap, mt, mb, ml, mr, onClick, children,
+}) {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   useEffect(() => {
     setActiveTab(defaultTab);
   }, [defaultTab, setActiveTab]);
 
-  const handleTabClick = (tabKey) => {
+  const handleTabClick = tabKey => {
     setActiveTab(tabKey);
     if (onClick) {
       onClick(tabKey);
@@ -64,7 +65,7 @@ const Tabs = ({ defaultTab, appearance, gap, mt, mb, ml, mr, onClick, children }
 
   const renderTabContent = () => {
     const activeChild = React.Children.toArray(children).find(
-      (child) => child.props.tabKey === activeTab
+      child => child.props.tabKey === activeTab,
     );
     return activeChild && activeChild.props.children;
   };
@@ -72,7 +73,7 @@ const Tabs = ({ defaultTab, appearance, gap, mt, mb, ml, mr, onClick, children }
   return (
     <TabsContainer mt={mt} ml={ml} mr={mr}>
       <TabList gap={gap} mb={mb}>
-        {React.Children.map(children, (child) => {
+        {React.Children.map(children, child => {
           if (React.isValidElement(child)) {
             return (
               <TabItem
@@ -85,12 +86,13 @@ const Tabs = ({ defaultTab, appearance, gap, mt, mb, ml, mr, onClick, children }
               </TabItem>
             );
           }
+          return null;
         })}
       </TabList>
       <TabContent>{renderTabContent()}</TabContent>
     </TabsContainer>
   );
-};
+}
 
 Tabs.defaultProps = {
   defaultTab: '1',
@@ -100,6 +102,8 @@ Tabs.defaultProps = {
   mb: '0px',
   ml: '0px',
   mr: '0px',
+  onClick: () => {},
+  children: null,
 };
 
 Tabs.propTypes = {
@@ -114,10 +118,10 @@ Tabs.propTypes = {
   children: (props, propName, componentName) => {
     const prop = props[propName];
     let error = null;
-    React.Children.forEach(prop, (child) => {
+    React.Children.forEach(prop, child => {
       if (child.type !== Tab) {
         error = new Error(
-          `\`${componentName}\` children should be of type \`Tab\` but received ${child.type}.`
+          `\`${componentName}\` children should be of type \`Tab\` but received ${child.type}.`,
         );
       }
     });

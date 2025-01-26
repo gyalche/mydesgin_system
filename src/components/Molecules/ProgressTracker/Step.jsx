@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StepCircle,
+
+import {
+  StepCircle,
   StepLine,
   CheckIcon,
   StepContainer,
@@ -9,23 +11,25 @@ import { StepCircle,
   StepIndex,
 } from './styles';
 
-export const Step = ({ index, isCurrentStep, isCompleted, hasNextStep, grow }) => {
+export function Step({
+  index, isCurrentStep, isCompleted, hasNextStep, grow,
+}) {
   return (
     <StepContainer>
-        <StepLineWrapper>
-          <StepCircle isActive={isCurrentStep} complete={isCompleted}>
-            {isCompleted ? <CheckIcon name="global-small-check" /> : <StepIndex>{index + 1}</StepIndex>}
-          </StepCircle>
-          {hasNextStep && (
-            <>
-              <StepLineBackground />
-              <StepLine isActive={isCurrentStep || isCompleted} grow={grow} />
-            </>
-          )}
-        </StepLineWrapper>
+      <StepLineWrapper>
+        <StepCircle isActive={isCurrentStep} complete={isCompleted}>
+          {isCompleted ? <CheckIcon name="global-small-check" /> : <StepIndex>{index + 1}</StepIndex>}
+        </StepCircle>
+        {hasNextStep && (
+          <>
+            <StepLineBackground />
+            <StepLine isActive={isCurrentStep || isCompleted} grow={grow} />
+          </>
+        )}
+      </StepLineWrapper>
     </StepContainer>
   );
-};
+}
 
 Step.propTypes = {
   index: PropTypes.number.isRequired,

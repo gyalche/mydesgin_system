@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { normalizeDate } from '../utils';
+
+import { normalizeDate } from '../../../../../utils';
 
 export const useDatePickerHandler = ({
   isRangePicker,
@@ -13,7 +14,7 @@ export const useDatePickerHandler = ({
   dateTimeStart,
   dateTimeEnd,
   setDateTimeStart,
-  setDateTimeEnd
+  setDateTimeEnd,
 }) => {
   const [startDate, setStartDate] = useState(Array.isArray(input?.value) ? input?.value[0] : input?.value);
   const [endDate, setEndDate] = useState(Array.isArray(input?.value) ? input?.value[1] : input?.value);
@@ -22,20 +23,20 @@ export const useDatePickerHandler = ({
   const [displayErrorFirst, setDisplayErrorFirst] = useState(false);
   const [displayErrorLast, setDisplayErrorLast] = useState(false);
 
-  const handleSingleDate = useCallback((date) => {
+  const handleSingleDate = useCallback(date => {
     setStartDate(date);
     setDisplayErrorFirst(true);
     onChange(date);
-    if(input?.onChange){
+    if (input?.onChange) {
       input.onChange(date);
     }
   }, [setStartDate, onChange, input]);
 
-  const handleDateRangeClick = useCallback((date) => {
+  const handleDateRangeClick = useCallback(date => {
     const normalizedDate = normalizeDate(date);
     const today = normalizeDate(new Date());
     if (onlyFuture && normalizedDate < today) return;
-    
+
     if (!startDate || (startDate && endDate)) {
       setStartDate(date);
       setEndDate('');
@@ -54,37 +55,37 @@ export const useDatePickerHandler = ({
     }
   }, [startDate, endDate, onlyFuture, onChange, input]);
 
-  const isInRange = useCallback((day) => {
+  const isInRange = useCallback(day => {
     const normalizedDay = normalizeDate(day);
     const normalizedStartDate = normalizeDate(startDate);
     const normalizedEndDate = normalizeDate(endDate);
-    return normalizedStartDate && normalizedEndDate && 
-           normalizedDay > normalizedStartDate && 
-           normalizedDay < normalizedEndDate;
+    return normalizedStartDate && normalizedEndDate
+           && normalizedDay > normalizedStartDate
+           && normalizedDay < normalizedEndDate;
   }, [startDate, endDate]);
 
-  const isInHoverRange = useCallback((day) => {
+  const isInHoverRange = useCallback(day => {
     if (!startDate || !hoveredDate) return false;
     const normalizedDay = normalizeDate(day);
     const normalizedStartDate = normalizeDate(startDate);
     const normalizedHoveredDate = normalizeDate(hoveredDate);
 
     return (
-      (normalizedDay >= normalizedStartDate && normalizedDay <= normalizedHoveredDate) ||
-      (normalizedDay <= normalizedStartDate && normalizedDay >= normalizedHoveredDate)
+      (normalizedDay >= normalizedStartDate && normalizedDay <= normalizedHoveredDate)
+      || (normalizedDay <= normalizedStartDate && normalizedDay >= normalizedHoveredDate)
     );
   }, [startDate, hoveredDate]);
 
   const clearStartDate = () => {
     setStartDate('');
-    if(dateTimeStart) setDateTimeStart(false);
-    if(dateTimeEnd) setDateTimeEnd(false);
+    if (dateTimeStart) setDateTimeStart(false);
+    if (dateTimeEnd) setDateTimeEnd(false);
   };
 
   const clearStartDateWhenNoDateTime = () => {
     setStartDate('');
     setDisplayErrorFirst(true);
-    if(isRangePicker){
+    if (isRangePicker) {
       input.onChange([null, endDate]);
       if (Array.isArray(dateRange) && dateRange.length > 0) {
         dateRange.shift();
@@ -97,19 +98,18 @@ export const useDatePickerHandler = ({
   const clearEndDate = () => {
     setEndDate('');
     setDisplayErrorLast(true);
-    input.onChange([startDate ? startDate : null, null]);
-    onChange([startDate ? startDate : null, null]);
+    input.onChange([startDate || null, null]);
+    onChange([startDate || null, null]);
     dateRange.pop();
     setHoveredDate(startDate);
   };
 
   useEffect(() => {
-    if(Array.isArray(initialValue) && isRangePicker){
+    if (Array.isArray(initialValue) && isRangePicker) {
       setStartDate(initialValue[0]);
       setEndDate(initialValue[1]);
       setDateRange(initialValue);
-    }
-    else if(!isRangePicker){
+    } else if (!isRangePicker) {
       setStartDate(initialValue || input?.value);
       setEndDate(null);
     }
@@ -119,11 +119,9 @@ export const useDatePickerHandler = ({
     if (dateTimeValue) {
       if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length >= 2) {
         setStartDate(dateTimeDefault[1]);
-      }
-      else if (!isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 0) {
+      } else if (!isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 0) {
         setStartDate(dateTimeDefault[0]);
-      }
-      else if (dateTimeDefault && !(Array.isArray(dateTimeDefault))) {
+      } else if (dateTimeDefault && !(Array.isArray(dateTimeDefault))) {
         setStartDate(dateTimeDefault);
       }
     }
@@ -144,6 +142,6 @@ export const useDatePickerHandler = ({
     clearEndDate,
     clearStartDateWhenNoDateTime,
     setStartDate,
-    setEndDate
+    setEndDate,
   };
 };

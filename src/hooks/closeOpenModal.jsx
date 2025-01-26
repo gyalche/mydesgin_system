@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
-const closeOpenModal = (callback) => {
-    useEffect(() => {
-      const closeTheOpenModel = (event) => {
-        if (event.key === 'Escape') {
-          if(typeof callback === 'function'){
-            try {
-              callback();
-            } catch (error) {
-              new Error(error);
-            }
+const useCloseOpenModal = callback => {
+  useEffect(() => {
+    const closeTheOpenModel = event => {
+      if (event.key === 'Escape') {
+        if (typeof callback === 'function') {
+          try {
+            callback();
+          } catch (error) {
+            throw new Error(error);
           }
         }
-      };
-      document.addEventListener('keydown', closeTheOpenModel);
-    
+      }
+    };
+    document.addEventListener('keydown', closeTheOpenModel);
+
     return () => {
       document.removeEventListener('keydown', closeTheOpenModel);
     };
-  },[callback]);
+  }, [callback]);
 };
 
-export default closeOpenModal;
+export default useCloseOpenModal;

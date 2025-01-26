@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import Checkbox from 'components/Molecules/Checkbox';
 import Button from 'components/Atoms/Button';
 import * as Layout from 'components/Atoms/Layout';
@@ -7,46 +8,46 @@ export default {
   title: 'Design System/Molecules',
 };
 
-export const Checkboxes =  {
+export const Checkboxes = {
   title: 'Checkboxes',
   component: Checkbox,
   parameters: {
     layout: 'centered',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=2806%3A4600&mode=dev'
-    }
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=2806%3A4600&mode=dev',
+    },
   },
   argTypes: {
     disabled: {
       description: 'disabled or not state',
-      control: { type: 'boolean' }
+      control: { type: 'boolean' },
     },
     hasIndeterminateState: {
       description: 'Button has the indeterminate state or not',
-      control: { type: 'boolean' }
+      control: { type: 'boolean' },
     },
-    name:{
+    name: {
       description: 'Label next to the checkbox',
-      control: { type: 'text'}
+      control: { type: 'text' },
     },
-    label:{
+    label: {
       description: 'Name of the checkbox that will be assigned a value on form submit',
-      control: { type: 'text'}
+      control: { type: 'text' },
     },
   },
-  args:{
+  args: {
     disabled: false,
     label: 'Label',
   },
-  render: (args) => {
-    const [checkboxes, setCheckboxes] = useState({
+  render: args => {
+    const checkboxes = {
       checkbox1: false,
       checkbox2: false,
       checkbox3: false,
-    });
+    };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = event => {
       alert(event.currentTarget[0].checked);
     };
 
@@ -80,5 +81,5 @@ export const Checkboxes =  {
         </Layout.Block>
       </form>
     );
-  }
+  },
 };

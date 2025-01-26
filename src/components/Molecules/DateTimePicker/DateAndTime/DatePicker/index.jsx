@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Icon } from 'components/Atoms';
+
 import {
   CalendarWrapper,
   Calendars,
@@ -11,13 +13,14 @@ import {
   InputWrapper,
   NextIcon,
   CalendarWrapperEnd,
- } from './styles';
-import Calendar from './Calendar';
-import InputField from './InputField';
-import { useDatePickerHandler } from '../../../hooks/useDatePickerHandler';
-import { useDatePickerKeyboardNavigation } from '../../../hooks/useDatePickerKeyboardNavigation';
+} from '../../styles';
+import Calendar from '../../Calendar';
+import InputField from '../Components/InputField';
+import { useDatePickerHandler } from '../hooks/useDatePickerHandler';
+import { useDatePickerKeyboardNavigation } from '../hooks/useDatePickerKeyboardNavigation';
+import IconWithCalendar from '../Components/IconWithCalendar';
 
-const DatePicker = ({
+function DatePicker({
   isDoubleView,
   isRangePicker,
   initialValue,
@@ -33,10 +36,10 @@ const DatePicker = ({
   isDateTimeDouble,
   dateTimeDefault,
   setDateTimeStart,
-  setDateTimeEnd
-}) => {
-  
-  const { startDate,
+  setDateTimeEnd,
+}) {
+  const {
+    startDate,
     endDate,
     hoveredDate,
     displayErrorFirst,
@@ -50,23 +53,24 @@ const DatePicker = ({
     clearEndDate,
     clearStartDateWhenNoDateTime,
     setStartDate,
-    setEndDate
+    setEndDate,
   } = useDatePickerHandler({
     isRangePicker,
     onlyFuture,
     input,
     onChange,
     initialValue,
-    dateTimeValue, 
+    dateTimeValue,
     dateTimeDefault,
     isDateTimeDouble,
     dateTimeStart,
     dateTimeEnd,
     setDateTimeStart,
-    setDateTimeEnd
+    setDateTimeEnd,
   });
-  
-  const { openCalendar,
+
+  const {
+    openCalendar,
     openCalendarEnd,
     currentMonth,
     currentDate,
@@ -83,7 +87,7 @@ const DatePicker = ({
     handleInputKeyDown,
     onChangeCurrent,
     enabledKeyboardFunc,
-    disableKeyboardFunc
+    disableKeyboardFunc,
   } = useDatePickerKeyboardNavigation({
     locale,
     disabled,
@@ -97,7 +101,7 @@ const DatePicker = ({
     handleSingleDate,
     setStartDate,
     setEndDate,
-    hoveredDate
+    hoveredDate,
   });
 
   return (
@@ -106,44 +110,36 @@ const DatePicker = ({
         <InputWrapper>
           <InputField
             data-testid="first-input"
-            readOnly
+            readOnly={true}
             value={startDate && startDate.toLocaleDateString(locale)}
-            onClick={() => (setOpenCalendarEnd(false), setOpenCalendar(!openCalendar))}
+            onClick={() => {
+              setOpenCalendarEnd(false);
+              setOpenCalendar(!openCalendar);
+            }}
             disabled={disabled}
             width={124}
             height={40}
             isInvalid={displayErrorFirst && startDate === ''}
             placeholder={placeholder}
             ref={inputRefStart}
-            onKeyDown={(e) => {
+            onKeyDown={e => {
               if (!openCalendar && !openCalendarEnd) {
                 handleInputKeyDown(e, true);
               }
             }}
           />
           <IconWrapper>
-            {startDate || dateTimeStart || dateTimeEnd ? (
-              <>
-                {dateTimeValue ? (
-                  <InputIcon 
-                   onClick={disabled ? ()=>{} : clearStartDate}
-                   data-testid='icon-click'
-                 >
-                   <Icon name="alert-circle-solid-cross" />
-                 </InputIcon>
-                ) : (
-                  <InputIcon onClick={disabled ? () => {} : clearStartDateWhenNoDateTime}
-                    data-testid='icon-click'
-                  >
-                    <Icon name="alert-circle-solid-cross" />
-                  </InputIcon>
-                )}
-              </>
-            ) : (
-              <InputIcon onClick={() => setOpenCalendar(!openCalendar)}>
-                <Icon name="Interface-calendar-dot" />
-              </InputIcon>
-            )}
+            <IconWithCalendar
+              startDate={startDate}
+              dateTimeStart={dateTimeStart}
+              dateTimeEnd={dateTimeEnd}
+              dateTimeValue={dateTimeValue}
+              disabled={disabled}
+              clearStartDate={clearStartDate}
+              clearStartDateWhenNoDateTime={clearStartDateWhenNoDateTime}
+              setOpenCalendar={setOpenCalendar}
+              openCalendar={openCalendar}
+            />
           </IconWrapper>
         </InputWrapper>
         {isRangePicker && (
@@ -152,18 +148,21 @@ const DatePicker = ({
             <InputWrapper isRangePicker={isRangePicker}>
               <InputField
                 data-testid="second-input"
-                className='secondInput'
-                readOnly
+                className="secondInput"
+                readOnly={true}
                 value={endDate && endDate.toLocaleDateString(locale)}
-                onClick={() => (setOpenCalendar(false), setOpenCalendarEnd(!openCalendarEnd))}
+                onClick={() => {
+                  setOpenCalendar(false);
+                  setOpenCalendarEnd(!openCalendarEnd);
+                }}
                 disabled={disabled}
                 width={124}
                 height={40}
                 placeholder={placeholder}
-                activesecondinput={startDate && !endDate || openCalendarEnd}
+                activesecondinput={(startDate && !endDate) || openCalendarEnd}
                 isInvalid={displayErrorLast && endDate === ''}
                 ref={inputRefEnd}
-                onKeyDown={(e) => {
+                onKeyDown={e => {
                   if (!openCalendar && !openCalendarEnd) {
                     handleInputKeyDown(e, false);
                   }
@@ -171,8 +170,9 @@ const DatePicker = ({
               />
               <IconWrapper>
                 {endDate ? (
-                  <InputIcon onClick={disabled ? () => {} : clearEndDate}
-                  data-testid='icon-button'
+                  <InputIcon
+                    onClick={disabled ? () => {} : clearEndDate}
+                    data-testid="icon-button"
                   >
                     <Icon name="alert-circle-solid-cross" />
                   </InputIcon>
@@ -186,9 +186,9 @@ const DatePicker = ({
           </>
         )}
       </InputContainer>
-      {openCalendar && !disabled &&  (
-        <CalendarWrapper ref={datePickerRef} data-testid='calendar-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
-          <Calendars data-testid='container-id'>
+      {openCalendar && !disabled && (
+        <CalendarWrapper ref={datePickerRef} data-testid="calendar-id" isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
+          <Calendars data-testid="container-id">
             <Calendar
               date={currentMonth}
               locale={locale}
@@ -222,8 +222,8 @@ const DatePicker = ({
         </CalendarWrapper>
       )}
       {openCalendarEnd && !disabled && (
-        <CalendarWrapperEnd ref={datePickerRef} data-testid='calendar-id' isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
-          <Calendars data-testid='container-id'>
+        <CalendarWrapperEnd ref={datePickerRef} data-testid="calendar-id" isRangePicker={isRangePicker} isDoubleView={isDoubleView}>
+          <Calendars data-testid="container-id">
             <Calendar
               date={currentMonth}
               locale={locale}
@@ -257,19 +257,18 @@ const DatePicker = ({
       )}
     </DatePickerContainer>
   );
-};
+}
 
 DatePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
   initialValue: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.instanceOf(Date)), 
+    PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     PropTypes.instanceOf(Date),
   ]),
   locale: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
-  error: PropTypes.bool,
   placeholder: PropTypes.string,
   dateTimeStart: PropTypes.bool,
   dateTimeEnd: PropTypes.bool,
@@ -281,7 +280,10 @@ DatePicker.propTypes = {
   onlyFuture: PropTypes.bool,
   dateTimeValue: PropTypes.bool,
   isDateTimeDouble: PropTypes.bool,
-  dateTimeDefault: PropTypes.any,
+  dateTimeDefault: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  ]),
 };
 
 DatePicker.defaultProps = {
@@ -291,7 +293,6 @@ DatePicker.defaultProps = {
   locale: 'ja-JP',
   onChange: () => {},
   disabled: false,
-  error: false,
   placeholder: 'yyyy/mm/dd',
   dateTimeStart: false,
   dateTimeEnd: false,
@@ -300,6 +301,8 @@ DatePicker.defaultProps = {
   onlyFuture: true,
   dateTimeValue: false,
   isDateTimeDouble: false,
+  input: {},
+  dateTimeDefault: null,
 };
 
 export default DatePicker;

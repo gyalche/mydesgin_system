@@ -1,11 +1,13 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, {
+  createContext, useCallback, useContext, useMemo, useState,
+} from 'react';
 
-import SuccessToast from './Success';
+import { ToastsWrapper } from './CommonToastStyle';
 import ErrorToast from './Error';
 import InfoToast from './Info';
+import SuccessToast from './Success';
 import WarningToast from './Warning';
-import { ToastsWrapper } from './CommonToastStyle';
 
 const DEFAULT_TOAST_DURATION = 5000;
 const FADE_OUT_DURATION_MS = 1000;
@@ -14,20 +16,28 @@ const ToastContext = createContext();
 
 const useToast = () => {
   const context = useContext(ToastContext);
-  const memoizedToast = useMemo(() => context, []);
+  const memoizedToast = useMemo(() => context, [context]);
   return memoizedToast;
 };
 
-const handleActionClick = () => {
-  alert('Action button clicked!');
-};
-
-const ToastProvider = ({ children }) => {
+function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
   const [currentPlacement, setCurrentPlacement] = useState('bottomCenter');
   const [duration, setDuration] = useState(DEFAULT_TOAST_DURATION);
 
-  const openToast = (title, description, placement, type, receivedDuration, action, btnLabel) => {
+  const closeToast = useCallback(id => {
+    setToasts(prevToasts => prevToasts.filter(toast => toast.id !== id));
+  }, []);
+
+  const triggerFadeOut = useCallback(id => {
+    setToasts(prevToasts => prevToasts.map(toast => (toast.id === id ? { ...toast, fadeOut: true } : toast)));
+
+    setTimeout(() => {
+      closeToast(id);
+    }, FADE_OUT_DURATION_MS);
+  }, [closeToast]);
+
+  const openToast = useCallback((title, description, placement, type, toastDuration, action, btnLabel) => {
     const newToast = {
       id: Date.now(),
       title,
@@ -41,7 +51,7 @@ const ToastProvider = ({ children }) => {
     const receivedPlacement = placement || 'bottomCenter';
 
     setCurrentPlacement(receivedPlacement);
-    setDuration(receivedDuration || DEFAULT_TOAST_DURATION);
+    setDuration(toastDuration || DEFAULT_TOAST_DURATION);
 
     if (currentPlacement === receivedPlacement) {
       setToasts(prevToasts => [...prevToasts, newToast]);
@@ -52,46 +62,30 @@ const ToastProvider = ({ children }) => {
     setTimeout(() => {
       triggerFadeOut(newToast.id);
     }, duration);
-  };
+  }, [currentPlacement, duration, triggerFadeOut]);
 
-  const triggerFadeOut = id => {
-    setToasts(prevToasts =>
-      prevToasts.map(toast =>
-        toast.id === id ? { ...toast, fadeOut: true } : toast
-      )
-    );
+  const success = useCallback((title, description, placement, toastDuration, action, btnLabel) => {
+    openToast(title, description, placement, 'success', toastDuration, action, btnLabel);
+  }, [openToast]);
 
-    setTimeout(() => {
-      closeToast(id);
-    }, FADE_OUT_DURATION_MS);
-  };
+  const info = useCallback((title, description, placement, toastDuration, action, btnLabel) => {
+    openToast(title, description, placement, 'info', toastDuration, action, btnLabel);
+  }, [openToast]);
 
-  const closeToast = id => {
-    setToasts(prevToasts => prevToasts.filter(toast => toast.id !== id));
-  };
+  const warning = useCallback((title, description, placement, toastDuration, action, btnLabel) => {
+    openToast(title, description, placement, 'warning', toastDuration, action, btnLabel);
+  }, [openToast]);
 
-  const success = (title, description, placement, duration, action, btnLabel) => {
-    openToast(title, description, placement, 'success', duration, action, btnLabel);
-  };
-
-  const info = (title, description, placement, duration, action, btnLabel) => {
-    openToast(title, description, placement, 'info', duration, action, btnLabel);
-  };
-
-  const warning = (title, description, placement, duration, action, btnLabel) => {
-    openToast(title, description, placement, 'warning', duration, action, btnLabel);
-  };
-
-  const error = (title, description, placement, duration, action, btnLabel) => {
-    openToast(title, description, placement, 'error', duration, action, btnLabel);
-  };
+  const error = useCallback((title, description, placement, toastDuration, action, btnLabel) => {
+    openToast(title, description, placement, 'error', toastDuration, action, btnLabel);
+  }, [openToast]);
 
   const contextValue = useMemo(() => ({
     success,
     info,
     error,
     warning,
-  }));
+  }), [success, info, error, warning]);
 
   return (
     <ToastContext.Provider value={contextValue}>
@@ -102,7 +96,9 @@ const ToastProvider = ({ children }) => {
           data-testid="toasts-wrapper"
         >
           {toasts.map(toast => {
-            const { id, title, description, placement, type, fadeOut, action, btnLabel } = toast;
+            const {
+              id, title, description, placement, type, fadeOut, btnLabel, action,
+            } = toast;
             return (
               <Toast
                 key={id}
@@ -112,7 +108,7 @@ const ToastProvider = ({ children }) => {
                 type={type}
                 fadeOut={fadeOut}
                 close={() => closeToast(id)}
-                action={handleActionClick}
+                action={action}
                 btnLabel={btnLabel}
               />
             );
@@ -121,13 +117,17 @@ const ToastProvider = ({ children }) => {
       )}
     </ToastContext.Provider>
   );
+}
+
+ToastProvider.defaultProps = {
+  children: null,
 };
 
 ToastProvider.propTypes = {
   children: PropTypes.node,
 };
 
-const Toast = ({
+function Toast({
   title,
   description,
   type,
@@ -137,7 +137,7 @@ const Toast = ({
   action,
   btnLabel,
   ...rest
-}) => {
+}) {
   const toastComponents = {
     success: SuccessToast,
     error: ErrorToast,
@@ -159,7 +159,7 @@ const Toast = ({
       {...rest}
     />
   );
-};
+}
 
 Toast.propTypes = {
   title: PropTypes.string.isRequired,
@@ -169,13 +169,15 @@ Toast.propTypes = {
   close: PropTypes.func.isRequired,
   fadeOut: PropTypes.bool,
   action: PropTypes.func,
-  btnLabel: PropTypes.string
+  btnLabel: PropTypes.string,
 };
 
 Toast.defaultProps = {
   placement: 'bottomCenter',
-  action: null,
-  btnLabel: 'action'
+  action: () => {},
+  btnLabel: 'action',
+  description: '',
+  fadeOut: false,
 };
 
 export { Toast, ToastProvider, useToast };

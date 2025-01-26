@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import icons from 'shared/css/icons.module.css';
 
-const Icon = ({ name, className, ...props }) => {
+function Icon({ name, className, ...props }) {
   return (
     <i className={`rds ${icons[`rds-${name}`]} ${className}`} {...props} />
   );
-};
+}
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,

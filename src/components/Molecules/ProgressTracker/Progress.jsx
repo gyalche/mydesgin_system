@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Step } from './Step';
-import { LabelContainer, StepLabel, StepLabelContainer, TrackerContainer } from './styles';
 
-const ProgressTracker = ({ steps, currentStep }) => {
+import { Step } from './Step';
+import {
+  LabelContainer, StepLabel, StepLabelContainer, TrackerContainer,
+} from './styles';
+
+function ProgressTracker({ steps, currentStep }) {
   const stepCount = steps.length;
 
   const currentStepIndex = typeof currentStep === 'string'
-  ? steps.findIndex(step => step.id === currentStep)
-  : currentStep;
+    ? steps.findIndex(step => step.id === currentStep)
+    : currentStep;
 
   return (
     <TrackerContainer>
@@ -42,10 +45,17 @@ const ProgressTracker = ({ steps, currentStep }) => {
       })}
     </TrackerContainer>
   );
-};
+}
 
 ProgressTracker.propTypes = {
-  steps: PropTypes.arrayOf(PropTypes.object).isRequired,
+  steps: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      completedLabel: PropTypes.string,
+      inProgressLabel: PropTypes.string,
+    }),
+  ).isRequired,
   currentStep: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
@@ -53,7 +63,6 @@ ProgressTracker.propTypes = {
 };
 
 ProgressTracker.defaultProps = {
-  steps: [],
   currentStep: 0,
 };
 

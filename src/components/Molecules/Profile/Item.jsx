@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Icon } from 'components/Atoms';
 
 import { IconWrapper, ItemWrapper, MainText } from './styles';
 
-const Item = ({ as, text, icon, ...props }) => {
+function Item({
+  as, text, icon, ...props
+}) {
   return (
     <ItemWrapper
       alignItems="center"
@@ -20,17 +23,16 @@ const Item = ({ as, text, icon, ...props }) => {
     >
       {icon && (
         <IconWrapper>
-          <Icon name={icon} data-testid={`icon-${icon}`}></Icon>
+          <Icon name={icon} data-testid={`icon-${icon}`} />
         </IconWrapper>
       )}
       <MainText>{text}</MainText>
     </ItemWrapper>
   );
-};
+}
 
 Item.defaultProps = {
   as: 'a',
-  text: '',
   icon: null,
 };
 

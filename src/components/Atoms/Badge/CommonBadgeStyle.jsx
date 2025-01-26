@@ -1,28 +1,5 @@
-import styled , { css } from 'styled-components';
-import PropTypes from 'prop-types'; 
-
-export const CommonBadgeStyle = styled.div`
-  align-items: center;
-  background-color: var(--rds-color-neutral-2);
-  border-radius: 4px;
-  color: var(--rds-color-neutral-10);
-  font-size: ${({fontSize}) => fontSize };
-  font-weight: 700;
-  justify-content: center;
-  margin-right:${({mr}) => mr};
-  margin-left:${({ml}) => ml};
-  margin-top:${({mt}) => mt};
-  margin-bottom:${({mb}) => mb};
-  padding:${({padding}) => padding};
-  ${props => props.appearance === 'blue' && Blue}
-  ${props => props.appearance === 'green' && Green}
-  ${props => props.appearance === 'yellow' && Yellow}
-  ${props => props.appearance === 'red' && Red}
-  ${props => props.appearance === 'violet' && Violet}
-  ${props => props.appearance === 'teal' && Teal}
-  ${props => props.appearance === 'pink' && Pink}
-  ${props => props.appearance === 'orange' && Orange}
-`;
+import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 export const Blue = css`
   background-color: var(--rds-color-teritary-2-subtle);
@@ -62,6 +39,29 @@ export const Pink = css`
 export const Orange = css`
   background-color: var(--rds-color-teritary-4-subtle);
   color: var(--rds-color-teritary-4-deep);
+`;
+
+export const CommonBadgeStyle = styled.div`
+  align-items: center;
+  background-color: var(--rds-color-neutral-2);
+  border-radius: 4px;
+  color: var(--rds-color-neutral-10);
+  font-size: ${({ fontSize }) => fontSize};
+  font-weight: 700;
+  justify-content: center;
+  margin-right:${({ mr }) => mr};
+  margin-left:${({ ml }) => ml};
+  margin-top:${({ mt }) => mt};
+  margin-bottom:${({ mb }) => mb};
+  padding:${({ padding }) => padding};
+  ${props => props.appearance === 'blue' && Blue}
+  ${props => props.appearance === 'green' && Green}
+  ${props => props.appearance === 'yellow' && Yellow}
+  ${props => props.appearance === 'red' && Red}
+  ${props => props.appearance === 'violet' && Violet}
+  ${props => props.appearance === 'teal' && Teal}
+  ${props => props.appearance === 'pink' && Pink}
+  ${props => props.appearance === 'orange' && Orange}
 `;
 
 CommonBadgeStyle.propTypes = {

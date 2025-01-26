@@ -1,4 +1,4 @@
-import  CommonTagStyle from './CommonTagStyle';
+import CommonTagStyle from './CommonTagStyle';
 
 const Tag = CommonTagStyle;
 

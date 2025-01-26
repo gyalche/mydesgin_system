@@ -15,33 +15,36 @@ const useCalendarKeyboardNavigation = ({
   disableKeyboard,
 }) => {
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const closeCalendars = () => {
+      setOpenCalendar(false);
+      setOpenCalendarEnd(false);
+      disableKeyboard();
+      setModalFocus(false);
+      setTabCount(0);
+    };
+
+    const handleKeyDown = e => {
       if ((e.key === 'Tab' && modalFocus) || e.key !== 'Tab') {
         setModalFocus(false);
       }
       if (openCalendar || openCalendarEnd) {
         if (e.key === 'Tab') {
           e.preventDefault();
-
           const buttons = document.querySelectorAll('[data-calendar-btn]');
           const focusedIndex = Array.from(buttons).findIndex(
-            (button) => button === document.activeElement
+            button => button === document.activeElement,
           );
           if (e.shiftKey) {
             if (focusedIndex === 0) {
               closeCalendars();
               return;
             }
-            setTabCount((prevTabCount) =>
-              prevTabCount === 1 ? maxCount : prevTabCount - 1
-            );
+            setTabCount(prevTabCount => (prevTabCount === 1 ? maxCount : prevTabCount - 1));
             const prevIndex = (focusedIndex - 1 + buttons.length) % buttons.length;
             buttons[prevIndex]?.focus();
             return;
           }
-          setTabCount((prevTabCount) =>
-            prevTabCount === maxCount ? 1 : prevTabCount + 1
-          );
+          setTabCount(prevTabCount => (prevTabCount === maxCount ? 1 : prevTabCount + 1));
 
           if (modalFocus) {
             if (openCalendar || openCalendarEnd) {
@@ -54,27 +57,16 @@ const useCalendarKeyboardNavigation = ({
               inputRefEnd?.current?.click();
             }
           }
-
           disableKeyboard();
-
           const nextIndex = focusedIndex === -1 ? 0 : (focusedIndex + 1) % buttons.length;
           buttons[nextIndex]?.focus();
         }
       }
     };
 
-    const closeCalendars = () => {
-      setOpenCalendar(false);
-      setOpenCalendarEnd(false);
-      disableKeyboard();
-      setModalFocus(false);
-      setTabCount(0);
-    };
-
     if (openCalendar || openCalendarEnd) {
       window.addEventListener('keydown', handleKeyDown);
     }
-
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
