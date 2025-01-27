@@ -146,7 +146,7 @@ export const useDatePickerKeyboardNavigation = ({
           setStartDate(currentDate);
           input.onChange(currentDate);
           onChange(currentDate);
-          setOpenCalendar(false);
+          setOpenCalendar(true);
         }
       } else if (openCalendarEnd) {
         if (currentDate >= startDate) {
