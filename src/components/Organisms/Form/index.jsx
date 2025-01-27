@@ -17,6 +17,7 @@ const Form = () => {
   };
 
   const onSubmit = values => {
+    // eslint-disable-next-line no-console
     console.log('Submission values:', values);
   };
 
