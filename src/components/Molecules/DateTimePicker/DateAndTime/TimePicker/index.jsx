@@ -204,6 +204,7 @@ function TimePicker({
             highlightedMinuteIndex={highlightedIndex?.minuteEnd}
             highlightedAmPmIndex={highlightedIndex?.ampmEnd}
             activeColumn={activeColumn}
+            isEndTime={true}
           />
         </EndDropDown>
       )}

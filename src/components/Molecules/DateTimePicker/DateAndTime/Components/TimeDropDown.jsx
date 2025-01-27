@@ -23,6 +23,7 @@ function TimeDropdown({
   highlightedMinuteIndex,
   highlightedAmPmIndex,
   activeColumn,
+  isEndTime,
 }) {
   return (
     <HourMinuteWrapper>
@@ -30,7 +31,7 @@ function TimeDropdown({
         {hours?.map((hour, index) => (
           <TimeOption
             key={hour}
-            id={`hour-${index}`}
+            id={`hour${isEndTime ? 'End' : ''}-${index}`}
             onClick={() => handleHourClick(hour)}
             selected={String(hour) === String(selectedHour)}
             highlighted={highlightedHourIndex === index && activeColumn === 'hour'}
@@ -43,7 +44,7 @@ function TimeDropdown({
         {minutes.map((minute, index) => (
           <TimeOption
             key={minute}
-            id={`minute-${index}`}
+            id={`minute${isEndTime ? 'End' : ''}-${index}`}
             onClick={() => handleMinuteClick(minute)}
             selected={String(minute) === String(roundUpMinute)}
             highlighted={highlightedMinuteIndex === index && activeColumn === 'minute'}
@@ -57,7 +58,7 @@ function TimeDropdown({
           {AmPmValue.map(({ name, value }, index) => (
             <TimeOption
               key={value}
-              id={`amPm-${index}`}
+              id={`amPm${isEndTime ? 'End' : ''}-${index}`}
               onClick={() => handleAmPm(name)}
               selected={name === amPm}
               highlighted={highlightedAmPmIndex === index && activeColumn === 'ampm'}
@@ -86,9 +87,11 @@ TimeDropdown.propTypes = {
   highlightedMinuteIndex: PropTypes.number.isRequired,
   highlightedAmPmIndex: PropTypes.number.isRequired,
   activeColumn: PropTypes.string.isRequired,
+  isEndTime: PropTypes.bool,
 };
 
 TimeDropdown.defaultProps = {
   is12Hour: false,
+  isEndTime: false,
 };
 export default TimeDropdown;
