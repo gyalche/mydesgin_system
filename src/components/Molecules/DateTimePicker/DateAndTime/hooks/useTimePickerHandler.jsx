@@ -116,7 +116,7 @@ export const useTimePickerHandler = ({
     setTime('');
     setTimeErrorFirst(true);
     if (isRangePicker) {
-      onChange(null);
+      onChange([null, endTime]);
       input.onChange([null, endTime]);
     } else {
       onChange(null);
@@ -138,8 +138,8 @@ export const useTimePickerHandler = ({
 
   useEffect(() => {
     const handleDate = date => {
-      const hoursValue = date.getHours();
-      const minutesValue = date.getMinutes();
+      const hoursValue = date?.getHours();
+      const minutesValue = date?.getMinutes();
       const isPM = hoursValue >= 12;
       const hour = is12Hour ? hoursValue % 12 || 12 : hoursValue;
       let amPmValue = '';
@@ -163,8 +163,8 @@ export const useTimePickerHandler = ({
       const startTime = handleDate(startDate);
       const endTimeValue = handleDate(endDate);
 
-      setRoundUpMinute(getNearestMinMinute(startDate.getMinutes(), step));
-      setRoundMinuteSecond(getNearestMinMinute(endDate.getMinutes(), step));
+      setRoundUpMinute(getNearestMinMinute(startDate?.getMinutes(), step));
+      setRoundMinuteSecond(getNearestMinMinute(endDate?.getMinutes(), step));
 
       setTime(startDate);
       setSelectedHour(startTime.hour);
@@ -178,7 +178,7 @@ export const useTimePickerHandler = ({
     } else if (value) {
       const startDate = value;
       const startTime = handleDate(startDate);
-      setRoundUpMinute(getNearestMinMinute(startDate.getMinutes(), step));
+      setRoundUpMinute(getNearestMinMinute(startDate?.getMinutes(), step));
       setTime(startDate);
       setSelectedHour(startTime.hour);
       setSelectedMinute(startTime.minute);
@@ -206,8 +206,8 @@ export const useTimePickerHandler = ({
       }
 
       if (date) {
-        const hoursValue = date.getHours();
-        const minutesValue = date.getMinutes();
+        const hoursValue = date?.getHours();
+        const minutesValue = date?.getMinutes();
         const amPmValue = hoursValue >= 12 ? 'PM' : 'AM';
         setRoundUpMinute(getNearestMinMinute(minutesValue, step));
 
@@ -228,8 +228,8 @@ export const useTimePickerHandler = ({
       const endDate = dateTimeDefault[1];
 
       if (endDate instanceof Date && !Number.isNaN(endDate)) {
-        const hoursValue = endDate.getHours();
-        const minutesValue = endDate.getMinutes();
+        const hoursValue = endDate?.getHours();
+        const minutesValue = endDate?.getMinutes();
         const amPmValue = hoursValue >= 12 ? 'PM' : 'AM';
         const timeParts = [`${hoursValue % 12 || 12}`, `${minutesValue} ${amPmValue}`];
         setRoundUpMinute(getNearestMinMinute(minutesValue, step));

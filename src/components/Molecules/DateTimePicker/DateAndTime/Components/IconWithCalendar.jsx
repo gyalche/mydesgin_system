@@ -23,7 +23,6 @@ const IconWithCalendar = ({
   let icon;
 
   if (isTimePicker) {
-    // Time Picker Logic: Render time-related icons
     if (time) {
       if (dateTimeValue) {
         icon = (
