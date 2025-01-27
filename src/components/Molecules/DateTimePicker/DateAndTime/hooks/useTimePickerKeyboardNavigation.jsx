@@ -41,6 +41,10 @@ export const useTimePickerKeyboardNavigation = ({
     setIsEndTimeDropdownOpen(prev => !prev);
   };
 
+  useEffect(() => {
+    if (isEndTimeDropdownOpen || isDropdownOpen) setActiveColumn('hour');
+  }, [isDropdownOpen, isEndTimeDropdownOpen]);
+
   const handleInputKeyDown = (e, isEndInput) => {
     const ref = isEndInput ? timeInputRefEnd : timeInputRef;
     const isDropdown = isEndInput ? isEndTimeDropdownOpen : isDropdownOpen;
