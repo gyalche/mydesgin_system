@@ -13,8 +13,10 @@ const useCalendarKeyboardNavigation = ({
   setOpenCalendarEnd,
   inputRefEnd,
   disableKeyboard,
+  enableKeyboard,
 }) => {
   useEffect(() => {
+    if (openCalendarEnd && tabCount === 0) enableKeyboard();
     const closeCalendars = () => {
       setOpenCalendar(false);
       setOpenCalendarEnd(false);
@@ -50,11 +52,11 @@ const useCalendarKeyboardNavigation = ({
             if (openCalendar || openCalendarEnd) {
               closeCalendars();
             }
-
             if (isRangePicker && openCalendar) {
               setOpenCalendar(false);
               inputRefEnd?.current?.focus();
               inputRefEnd?.current?.click();
+              enableKeyboard();
             }
           }
           disableKeyboard();
@@ -83,6 +85,7 @@ const useCalendarKeyboardNavigation = ({
     setOpenCalendarEnd,
     inputRefEnd,
     disableKeyboard,
+    enableKeyboard,
   ]);
 };
 

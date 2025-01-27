@@ -46,6 +46,7 @@ function Calendar({
   setOpenCalendar,
   inputRefEnd,
   setOpenCalendarEnd,
+
 }) {
   const [openDecade, setOpenDecade] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
