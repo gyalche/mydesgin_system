@@ -30,13 +30,14 @@ export const useTimePickerHandler = ({
 
   const hours = Array.from({ length: is12Hour ? 12 : 24 }, (_, i) => (is12Hour ? (i + 1) : i)).filter(hour => hour !== 0);
   const minutes = Array.from({ length: 60 / step }, (_, i) => i * step);
+  const currentMinute = new Date().getMinutes();
 
   const getNearestMinMinute = (current, stepSize) => Math.min(roundToNearestStep(current, stepSize));
 
   const handleFirstTimeSelection = useCallback(timeState => {
     const { hour, minute, amPm: amPmValue } = timeState;
 
-    const timeString = `${hour}:${minute}:00 ${amPmValue}`;
+    const timeString = `${hour}:${minute || currentMinute}:00 ${amPmValue}`;
     const updatedTime = createDateFromTime(timeString);
 
     setSelectedHour(String(hour));
@@ -52,7 +53,7 @@ export const useTimePickerHandler = ({
       onChange([updatedTime, endTime]);
       input?.onChange?.([updatedTime, endTime]);
     }
-  }, [step, isRangePicker, onChange, input, endTime]);
+  }, [currentMinute, step, isRangePicker, onChange, input, endTime]);
 
   const handleHourClick = useCallback(hour => {
     handleFirstTimeSelection({
@@ -79,13 +80,13 @@ export const useTimePickerHandler = ({
   }, [handleFirstTimeSelection, selectedHour, selectedMinute]);
 
   const handleEndHourClick = useCallback(hour => {
-    const timeString = `${hour}:${selectedMinuteEnd}:00 ${amPmEnd}`;
+    const timeString = `${hour}:${selectedMinuteEnd || currentMinute}:00 ${amPmEnd}`;
     const updatedEndTime = createDateFromTime(timeString);
     setSelectedHourEnd(String(hour));
     setEndTime(updatedEndTime);
     onChange([time, updatedEndTime]);
     input?.onChange?.([time, updatedEndTime]);
-  }, [selectedMinuteEnd, amPmEnd, time, onChange, input]);
+  }, [selectedMinuteEnd, currentMinute, amPmEnd, onChange, time, input]);
 
   const handleEndMinuteClick = useCallback(minute => {
     const timeString = `${selectedHourEnd}:${minute}:00 ${amPmEnd}`;
@@ -98,13 +99,13 @@ export const useTimePickerHandler = ({
   }, [selectedHourEnd, amPmEnd, time, step, onChange, input]);
 
   const handleEndAmPm = useCallback(value => {
-    const timeString = `${selectedHourEnd}:${selectedMinuteEnd}:00 ${value}`;
+    const timeString = `${selectedHourEnd}:${selectedMinuteEnd || currentMinute}:00 ${value}`;
     const updatedTime = createDateFromTime(timeString);
     setAmPmEnd(value);
     setEndTime(updatedTime);
     onChange([time, updatedTime]);
     input?.onChange?.([time, updatedTime]);
-  }, [selectedHourEnd, selectedMinuteEnd, time, onChange, input]);
+  }, [selectedHourEnd, selectedMinuteEnd, currentMinute, onChange, time, input]);
 
   const handleClearTime = () => {
     setTime('');
@@ -135,7 +136,6 @@ export const useTimePickerHandler = ({
       input.onChange(null);
     }
   };
-
   useEffect(() => {
     const handleDate = date => {
       const hoursValue = date?.getHours();
