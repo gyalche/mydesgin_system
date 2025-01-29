@@ -136,27 +136,30 @@ export const useTimePickerHandler = ({
       input.onChange(null);
     }
   };
-  useEffect(() => {
-    const handleDate = date => {
-      const hoursValue = date?.getHours();
-      const minutesValue = date?.getMinutes();
-      const isPM = hoursValue >= 12;
-      const hour = is12Hour ? hoursValue % 12 || 12 : hoursValue;
-      let amPmValue = '';
-      if (is12Hour) {
-        if (isPM) {
-          amPmValue = 'PM';
-        } else {
-          amPmValue = 'AM';
-        }
+
+  const handleDate = useCallback(date => {
+    const hoursValue = date?.getHours();
+    const minutesValue = date?.getMinutes();
+    const isPM = hoursValue >= 12;
+    const hour = is12Hour ? hoursValue % 12 || 12 : hoursValue;
+    let amPmValue = '';
+
+    if (is12Hour) {
+      if (isPM) {
+        amPmValue = 'PM';
+      } else {
+        amPmValue = 'AM';
       }
-      return {
-        hour,
-        minute: minutesValue,
-        amPm: amPmValue,
-      };
+    }
+
+    return {
+      hour,
+      minute: minutesValue,
+      amPm: amPmValue,
     };
-    const value = input?.value || initialValue;
+  }, [is12Hour]);
+
+  const updateTimeValues = useCallback(value => {
     if (Array.isArray(value)) {
       const [startDate, endDate] = value;
 
@@ -184,7 +187,12 @@ export const useTimePickerHandler = ({
       setSelectedMinute(startTime.minute);
       setAmPm(startTime.amPm);
     }
-  }, [is12Hour, step, input?.value, initialValue]);
+  }, [handleDate, step]);
+
+  useEffect(() => {
+    updateTimeValues(input?.value || initialValue);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [is12Hour, step, updateTimeValues]);
 
   useEffect(() => {
     if ((input?.value || dateTimeDefault) && !isDateTimeDouble) {
