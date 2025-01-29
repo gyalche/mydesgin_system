@@ -36,7 +36,6 @@ export const useTimePickerHandler = ({
 
   const handleFirstTimeSelection = useCallback(timeState => {
     const { hour, minute, amPm: amPmValue } = timeState;
-
     const timeString = `${hour}:${minute || currentMinute}:00 ${amPmValue}`;
     const updatedTime = createDateFromTime(timeString);
 
@@ -188,8 +187,8 @@ export const useTimePickerHandler = ({
 
   useEffect(() => {
     if ((input?.value || dateTimeDefault) && !isDateTimeDouble) {
-      let timeParts = [];
       let date = null;
+
       if (typeof input?.value === 'string') {
         const timePartsValue = input?.value.split(':');
         const hoursValue = parseInt(timePartsValue[0], 10);
@@ -206,19 +205,22 @@ export const useTimePickerHandler = ({
       }
 
       if (date) {
-        const hoursValue = date?.getHours();
-        const minutesValue = date?.getMinutes();
-        const amPmValue = hoursValue >= 12 ? 'PM' : 'AM';
+        const hoursValue = date.getHours();
+        const minutesValue = date.getMinutes();
         setRoundUpMinute(getNearestMinMinute(minutesValue, step));
 
-        timeParts = [`${hoursValue % 12 || 12}`, `${minutesValue} ${amPmValue}`];
+        let formattedHour = hoursValue;
+        let amPmValue = '';
 
-        const hour = timeParts[0];
-        const [minute, meridian = ''] = timeParts[1].split(' ');
-        setTime(`${hour}:${minute} ${meridian}`);
-        setSelectedHour(hour);
-        setSelectedMinute(minute);
-        setAmPm(is12Hour ? meridian : '');
+        if (is12Hour) {
+          amPmValue = hoursValue >= 12 ? 'PM' : 'AM';
+          formattedHour = hoursValue % 12 || 12;
+        }
+
+        setTime(`${formattedHour}:${minutesValue < 10 ? `0${minutesValue}` : minutesValue} ${amPmValue}`.trim());
+        setSelectedHour(String(formattedHour));
+        setSelectedMinute(String(minutesValue));
+        setAmPm(is12Hour ? amPmValue : '');
       }
     }
   }, [input?.value, isDateTimeDouble, is12Hour, dateTimeDefault, step]);
