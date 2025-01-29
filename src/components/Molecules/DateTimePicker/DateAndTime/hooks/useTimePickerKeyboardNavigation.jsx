@@ -31,6 +31,16 @@ export const useTimePickerKeyboardNavigation = ({
   });
   const [activeColumn, setActiveColumn] = useState('hour');
 
+  useClickOutside(timePickerRef, () => {
+    setIsDropdownOpen(false);
+    setIsEndTimeDropdownOpen(false);
+  });
+
+  closeOpenModal(() => {
+    setIsDropdownOpen(false);
+    setIsEndTimeDropdownOpen(false);
+  });
+
   const toggleDropdown = () => {
     setIsEndTimeDropdownOpen(false);
     setIsDropdownOpen(prev => !prev);
@@ -173,16 +183,6 @@ export const useTimePickerKeyboardNavigation = ({
     handleEndHourClick,
     handleEndMinuteClick,
     handleEndAmPm]);
-
-  useClickOutside(timePickerRef, () => {
-    setIsDropdownOpen(false);
-    setIsEndTimeDropdownOpen(false);
-  });
-
-  closeOpenModal(() => {
-    setIsDropdownOpen(false);
-    setIsEndTimeDropdownOpen(false);
-  });
 
   return {
     isDropdownOpen,

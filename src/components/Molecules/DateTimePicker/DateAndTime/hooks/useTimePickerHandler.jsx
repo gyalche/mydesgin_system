@@ -110,6 +110,7 @@ export const useTimePickerHandler = ({
     setTime('');
     setTimeError(true);
     input.onChange(null);
+    onChange(null);
   };
 
   const handleClearFirstTimeRange = () => {
