@@ -4,7 +4,7 @@ import { act } from 'react-dom/test-utils';
 
 import Form from '../../../src/components/Organisms/Form';
 
-jest.mock('components/Molecules/DateTimePicker/DateAndTime/DatePicker', () => (props) => {
+jest.mock('components/Molecules/DateTimePicker/Components/DatePicker', () => (props) => {
   const { input, isRangePicker } = props;
   const name = input?.name || 'singleDate';
   return (
@@ -17,7 +17,7 @@ jest.mock('components/Molecules/DateTimePicker/DateAndTime/DatePicker', () => (p
   );
 });
 
-jest.mock('components/Molecules/DateTimePicker/DateAndTime/TimePicker', () => (props) => {
+jest.mock('components/Molecules/DateTimePicker/Components/TimePicker', () => (props) => {
   const { input, isRangePicker } = props;
   const name = input?.name || 'singleTime';
   return (
@@ -30,7 +30,7 @@ jest.mock('components/Molecules/DateTimePicker/DateAndTime/TimePicker', () => (p
   );
 });
 
-jest.mock('components/Molecules/DateTimePicker/DateAndTime/DateTimePicker', () => (props) => {
+jest.mock('components/Molecules/DateTimePicker/Components/DateTimePicker', () => (props) => {
   const { input } = props;
   return (
     <input

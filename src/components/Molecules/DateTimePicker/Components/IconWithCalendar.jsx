@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Icon } from 'components/Atoms';
 
-import { InputIcon } from '../../styles';
+import { InputIcon } from '../styles';
 
 const IconWithCalendar = ({
   startDate,

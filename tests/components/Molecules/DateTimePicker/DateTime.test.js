@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 
-import DateTimePicker from '../../../../src/components/Molecules/DateTimePicker/DateAndTime/DateTimePicker';
+import DateTimePicker from '../../../../src/components/Molecules/DateTimePicker/Components/DateTimePicker';
 
 describe('DateTime picker component testing', () => {
   it('renders DateTimePicker correctly', async () => {

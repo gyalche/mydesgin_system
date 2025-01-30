@@ -3,9 +3,9 @@
 import React from 'react';
 import { Field, Form as FinalForm } from 'react-final-form';
 
-import DatePicker from 'components/Molecules/DateTimePicker/DateAndTime/DatePicker';
-import DateTimePicker from 'components/Molecules/DateTimePicker/DateAndTime/DateTimePicker';
-import TimePicker from 'components/Molecules/DateTimePicker/DateAndTime/TimePicker';
+import DatePicker from 'components/Molecules/DateTimePicker/Components/DatePicker';
+import DateTimePicker from 'components/Molecules/DateTimePicker/Components/DateTimePicker';
+import TimePicker from 'components/Molecules/DateTimePicker/Components/TimePicker';
 
 const Form = () => {
   const initialValues = {

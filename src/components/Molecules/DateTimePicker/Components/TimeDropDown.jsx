@@ -6,7 +6,7 @@ import {
   ScrollColumn,
   StaticColumn,
   HourMinuteWrapper,
-} from '../../styles';
+} from '../styles';
 
 function TimeDropdown({
   is12Hour,

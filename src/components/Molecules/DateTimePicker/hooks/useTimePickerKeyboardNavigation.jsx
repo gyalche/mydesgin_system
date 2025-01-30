@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import useClickOutside from '../../../../../hooks/useClickOutside';
-import closeOpenModal from '../../../../../hooks/closeOpenModal';
-import { columns } from '../../../../../constants';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import closeOpenModal from '../../../../hooks/closeOpenModal';
+import { columns } from '../../../../constants';
 
 export const useTimePickerKeyboardNavigation = ({
   is12Hour,
@@ -56,37 +56,19 @@ export const useTimePickerKeyboardNavigation = ({
   }, [isDropdownOpen, isEndTimeDropdownOpen]);
 
   const handleInputKeyDown = (e, isEndInput) => {
-    const ref = isEndInput ? timeInputRefEnd : timeInputRef;
-    const isDropdown = isEndInput ? isEndTimeDropdownOpen : isDropdownOpen;
+    const currentRef = isEndInput ? timeInputRefEnd : timeInputRef;
+    const isOpen = isEndInput ? isEndTimeDropdownOpen : isDropdownOpen;
+    const setDropdownOpen = isEndInput ? setIsEndTimeDropdownOpen : setIsDropdownOpen;
 
     if (e.key === 'Enter') {
-      if (ref.current) {
-        ref.current.click();
-      }
-      if (isDropdown) {
-        if (isEndInput) {
-          setIsEndTimeDropdownOpen(true);
-        } else {
-          setIsDropdownOpen(true);
-        }
+      currentRef?.current?.click();
+      if (isOpen) {
+        setDropdownOpen(true);
       }
     }
-
     if (e.key === 'Tab') {
-      if (isDropdown) {
-        if (isEndInput) {
-          setIsEndTimeDropdownOpen(false);
-        } else {
-          setIsDropdownOpen(false);
-        }
-      }
-
-      if (!isEndInput && !e.shiftKey) {
-        e.preventDefault();
-        timeInputRefEnd.current.focus();
-      } else if (isEndInput && e.shiftKey) {
-        e.preventDefault();
-        timeInputRef.current.focus();
+      if (isOpen) {
+        setDropdownOpen(false);
       }
     }
   };

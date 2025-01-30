@@ -12,13 +12,13 @@ import {
   InputWrapper,
   NextIcon,
   TimePickerContainer,
-} from '../../styles';
-import InputField from '../Components/InputField';
-import { AmPmValue } from '../../../../../constants';
+} from '../styles';
+import InputField from './InputField';
+import { AmPmValue } from '../../../../constants';
 import { useTimePickerKeyboardNavigation } from '../hooks/useTimePickerKeyboardNavigation';
 import { useTimePickerHandler } from '../hooks/useTimePickerHandler';
-import IconWithCalendar from '../Components/IconWithCalendar';
-import TimeDropdown from '../Components/TimeDropDown';
+import IconWithCalendar from './IconWithCalendar';
+import TimeDropdown from './TimeDropDown';
 
 function TimePicker({
   is12Hour,

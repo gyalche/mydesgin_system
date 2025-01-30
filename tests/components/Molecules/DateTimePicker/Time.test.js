@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, getByText } from '@testing-library/react';
 
-import TimePicker from '../../../../src/components/Molecules/DateTimePicker/DateAndTime/TimePicker';
+import TimePicker from '../../../../src/components/Molecules/DateTimePicker/Components/TimePicker';
+import expect from 'expect';
 
 describe('TimePicker Component', () => {
   let onChangeMock;
@@ -41,6 +42,20 @@ describe('TimePicker Component', () => {
     fireEvent.click(screen.getByText('PM'));
 
     expect(input.value).toBe('12:30 PM');
+  });
+
+  it('correctly formats time when 24-hour clock', () => {
+    render(<TimePicker onChange={onChangeMock} is12Hour={false} isRangePicker={false} />);
+    const input = screen.getByPlaceholderText('hh:mm');
+    fireEvent.click(input);
+
+    fireEvent.click(screen.getByText('17'));
+    fireEvent.click(screen.getByText('30'));
+
+    expect(screen.queryByText('AM')).not.toBeInTheDocument();
+    expect(screen.queryByText('PM')).not.toBeInTheDocument();
+
+    expect(input.value).toBe('17:30 ');
   });
 
   it('handles disabled state correctly', () => {

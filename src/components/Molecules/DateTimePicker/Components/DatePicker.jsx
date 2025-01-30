@@ -13,12 +13,12 @@ import {
   InputWrapper,
   NextIcon,
   CalendarWrapperEnd,
-} from '../../styles';
-import Calendar from '../../Calendar';
-import InputField from '../Components/InputField';
+} from '../styles';
+import Calendar from '../Calendar';
+import InputField from './InputField';
 import { useDatePickerHandler } from '../hooks/useDatePickerHandler';
 import { useDatePickerKeyboardNavigation } from '../hooks/useDatePickerKeyboardNavigation';
-import IconWithCalendar from '../Components/IconWithCalendar';
+import IconWithCalendar from './IconWithCalendar';
 
 function DatePicker({
   isDoubleView,

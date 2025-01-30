@@ -8,10 +8,10 @@ import PropTypes from 'prop-types';
 
 import { Layout } from 'components/Atoms';
 
-import TimePicker from '../TimePicker';
-import DatePicker from '../DatePicker';
-import { DateTimeContainer, NextIcon } from '../../styles';
-import { combineDateAndTime } from '../../../../../utils/index';
+import TimePicker from './TimePicker';
+import DatePicker from './DatePicker';
+import { DateTimeContainer, NextIcon } from '../styles';
+import { combineDateAndTime } from '../../../../utils/index';
 
 function DateTimePicker({
   onChange,

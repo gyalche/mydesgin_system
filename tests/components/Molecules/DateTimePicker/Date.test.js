@@ -7,7 +7,7 @@ import {
 } from '@testing-library/react';
 import expect from 'expect';
 
-import DatePicker from '../../../../src/components/Molecules/DateTimePicker/DateAndTime/DatePicker';
+import DatePicker from '../../../../src/components/Molecules/DateTimePicker/Components/DatePicker';
 
 describe('DateRangePicker Component', () => {
   const mockOnChange = jest.fn();

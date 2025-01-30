@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { normalizeDate } from '../../../../../utils';
+import { normalizeDate } from '../../../../utils';
 
 export const useDatePickerHandler = ({
   isRangePicker,

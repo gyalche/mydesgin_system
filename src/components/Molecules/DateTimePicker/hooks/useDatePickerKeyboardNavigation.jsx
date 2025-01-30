@@ -2,8 +2,8 @@ import {
   useState, useEffect, useCallback, useRef,
 } from 'react';
 
-import useClickOutside from '../../../../../hooks/useClickOutside';
-import useCloseOpenModal from '../../../../../hooks/closeOpenModal';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import useCloseOpenModal from '../../../../hooks/closeOpenModal';
 
 export const useDatePickerKeyboardNavigation = ({
   locale,

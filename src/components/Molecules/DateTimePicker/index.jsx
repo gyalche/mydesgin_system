@@ -1,6 +1,6 @@
-import Date from './DateAndTime/DatePicker';
-import Time from './DateAndTime/TimePicker';
-import DateTime from './DateAndTime/DateTimePicker';
+import Date from './Components/DatePicker';
+import Time from './Components/TimePicker';
+import DateTime from './Components/DateTimePicker';
 
 const DatePicker = Date;
 DatePicker.Time = Time;

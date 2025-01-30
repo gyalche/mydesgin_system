@@ -67,7 +67,7 @@ describe('Calendar Component', () => {
     fireEvent.click(yearText);
     const decadeText = screen.getByText('2020 - 2029');
     fireEvent.click(decadeText);
-    
+
     expect(screen.getByText('2020')).toBeInTheDocument();
     expect(screen.getByText('2029')).toBeInTheDocument();
     expect(mockDisableKeyboard).toHaveBeenCalled();

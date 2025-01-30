@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { createDateFromTime, roundToNearestStep } from '../../../../../utils';
+import { createDateFromTime, roundToNearestStep } from '../../../../utils';
 
 export const useTimePickerHandler = ({
   step,
