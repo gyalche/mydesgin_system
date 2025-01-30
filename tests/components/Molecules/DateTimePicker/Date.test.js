@@ -64,9 +64,23 @@ describe('DateRangePicker Component', () => {
       expect(mockOnChange).not.toHaveBeenCalled();
     });
   });
+  it('select past date only if onlyFutre is false', async () => {
+    render(<DatePicker onChange={mockOnChange} onlyFuture={false} dateTimeFormat="en-US" isDoubleView={false} />);
+    const input = screen.getByTestId('first-input');
+    fireEvent.click(input);
 
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const pastDayButton = screen.findByTestId(`day-${yesterday.getDate()}`);
+
+    waitFor(() => {
+      fireEvent.click(pastDayButton);
+      expect(mockOnChange).toHaveBeenCalled();
+    });
+  });
   test('allows selecting a range in range picker mode', () => {
-    render(<DatePicker isRangePicker onChange={mockOnChange} />);
+    render(<DatePicker isRangePicker={true} onChange={mockOnChange} />);
     const startDate = screen.getByTestId('first-input');
     const endDate = screen.getByTestId('second-input');
     expect(startDate).toBeInTheDocument();
@@ -74,7 +88,7 @@ describe('DateRangePicker Component', () => {
   });
 
   it('renders two calendars when isDoubleView is true', () => {
-    render(<DatePicker isDoubleView onChange={mockOnChange} dateTimeFormat="en-US" />);
+    render(<DatePicker isDoubleView={false} onChange={mockOnChange} dateTimeFormat="en-US" />);
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
     const calendars = screen.getAllByTestId('calendar-container');
@@ -84,7 +98,7 @@ describe('DateRangePicker Component', () => {
   });
 
   it('displays hover range correctly in range picker mode', async () => {
-    render(<DatePicker isRangePicker onChange={mockOnChange} />);
+    render(<DatePicker isRangePicker={true} onChange={mockOnChange} />);
 
     await waitFor(() => {
       const startInput = screen.getByTestId('first-input');
