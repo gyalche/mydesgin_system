@@ -54,7 +54,6 @@ describe('DateRangePicker Component', () => {
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
 
-    const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
     const pastDayButton = screen.findByTestId(`day-${yesterday.getDate()}`);
@@ -69,7 +68,6 @@ describe('DateRangePicker Component', () => {
     const input = screen.getByTestId('first-input');
     fireEvent.click(input);
 
-    const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
     const pastDayButton = screen.findByTestId(`day-${yesterday.getDate()}`);
