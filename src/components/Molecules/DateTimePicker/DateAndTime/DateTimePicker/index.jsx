@@ -34,6 +34,8 @@ function DateTimePicker({
   const [dateTimeStartvalue, setDateTimeStartValue] = useState(Array.isArray(initialValues) ? initialValues[0] : initialValues);
   const [dateTimeEndvalue, setDateTimeEndValue] = useState(Array.isArray(initialValues) ? initialValues[1] : initialValues);
 
+  const prevValuesRef = useRef(null);
+
   const handleChange = (value, type) => {
     setDateTimeStartValue(prevValue => {
       if (type === 'date') {
@@ -59,8 +61,6 @@ function DateTimePicker({
       return prevValue;
     });
   };
-
-  const prevValuesRef = useRef(null);
 
   useEffect(() => {
     setIsRange(isRangePicker || (Array.isArray(initialValues || input?.value) && (initialValues?.length > 1 || input?.value?.length > 1)));
