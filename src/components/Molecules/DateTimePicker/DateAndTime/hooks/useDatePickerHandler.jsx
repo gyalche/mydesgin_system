@@ -106,24 +106,29 @@ export const useDatePickerHandler = ({
 
   useEffect(() => {
     if (Array.isArray(initialValue) && isRangePicker) {
-      setStartDate(initialValue[0]);
-      setEndDate(initialValue[1]);
-      setDateRange(initialValue);
+      setStartDate(prev => (prev !== initialValue[0] ? initialValue[0] : prev));
+      setEndDate(prev => (prev !== initialValue[1] ? initialValue[1] : prev));
+      setDateRange(prev => (prev !== initialValue ? initialValue : prev));
     } else if (!isRangePicker) {
-      setStartDate(initialValue || input?.value);
+      setStartDate(prev => (prev !== initialValue ? initialValue || input?.value : prev));
       setEndDate(null);
     }
-  }, [initialValue, isRangePicker, input?.value]);
+  }, [initialValue, input?.value, isRangePicker]);
 
   useEffect(() => {
     if (dateTimeValue) {
-      if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length >= 2) {
-        setStartDate(dateTimeDefault[1]);
-      } else if (!isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 0) {
-        setStartDate(dateTimeDefault[0]);
-      } else if (dateTimeDefault && !(Array.isArray(dateTimeDefault))) {
-        setStartDate(dateTimeDefault);
-      }
+      setStartDate(prev => {
+        if (isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length >= 2) {
+          return prev !== dateTimeDefault[1] ? dateTimeDefault[1] : prev;
+        }
+        if (!isDateTimeDouble && Array.isArray(dateTimeDefault) && dateTimeDefault.length > 0) {
+          return prev !== dateTimeDefault[0] ? dateTimeDefault[0] : prev;
+        }
+        if (dateTimeDefault && !(Array.isArray(dateTimeDefault))) {
+          return prev !== dateTimeDefault ? dateTimeDefault : prev;
+        }
+        return prev;
+      });
     }
   }, [dateTimeDefault, isDateTimeDouble, dateTimeValue]);
 

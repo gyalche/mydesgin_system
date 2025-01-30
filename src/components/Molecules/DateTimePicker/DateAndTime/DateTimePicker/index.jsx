@@ -1,4 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import { Layout } from 'components/Atoms';
@@ -55,20 +60,18 @@ function DateTimePicker({
     });
   };
 
+  const prevValuesRef = useRef(null);
+
   useEffect(() => {
-    if (isRangePicker || Array.isArray(initialValues || input?.value)) {
-      const updatedValue = [dateTimeStartvalue, dateTimeEndvalue];
-      onChange(updatedValue);
-      if (input?.onChange) {
-        input?.onChange(updatedValue);
-      }
-      setIsRange(true);
-    } else {
-      onChange(dateTimeStartvalue);
-      if (input?.onChange) {
-        input?.onChange(dateTimeStartvalue);
-      }
-      setIsRange(false);
+    setIsRange(isRangePicker || (Array.isArray(initialValues || input?.value) && (initialValues?.length > 1 || input?.value?.length > 1)));
+    const newValue = isRangePicker || Array.isArray(initialValues || input?.value)
+      ? [dateTimeStartvalue, dateTimeEndvalue]
+      : dateTimeStartvalue;
+
+    if (JSON.stringify(prevValuesRef.current) !== JSON.stringify(newValue)) {
+      prevValuesRef.current = newValue;
+      onChange(newValue);
+      input?.onChange?.(newValue);
     }
   }, [dateTimeStartvalue, dateTimeEndvalue, isRangePicker, input, initialValues, onChange]);
 
