@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  CalendarHeader, CalendarIconBtn, CalendarIcon, HeaderIcons, CalendarMonths, TextAreaYearMonth,
-} from '../../styles';
-import { getLocalizedMonthName } from '../../../../../utils';
+import { CalendarHeader, HeaderIcons, CalendarMonths } from '../../styles';
+import NavigationButton from './NavigationButton';
+import MonthYearDisplay from './MonthYearDisplay';
 
 function CalendarNavigation({
   isDoubleView,
@@ -27,93 +26,96 @@ function CalendarNavigation({
   showYears,
   setModalFocus,
 }) {
+  const stopPropagatingOnEnter = e => {
+    if (e.key === 'Enter') e.stopPropagation();
+  };
+
+  const handleYearClick = () => {
+    if (!showYears) {
+      openSelectDecade();
+      setTabCount(0);
+      setModalFocus(false);
+    }
+  };
+
+  const handleMonthClick = () => {
+    openSelectMonth();
+    setTabCount(0);
+    setModalFocus(false);
+  };
+
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
   return (
     <CalendarHeader>
       <HeaderIcons>
-        <CalendarIconBtn
-          data-calendar-btn={true}
-          tabIndex={0}
+        <NavigationButton
+          icon="Interface-chevron-double-left"
           onClick={e => {
             e.preventDefault();
             e.stopPropagation();
             if (!openDecade) handlePrevYear();
             goToPreviousDecade();
           }}
-        >
-          <CalendarIcon name="Interface-chevron-double-left" />
-        </CalendarIconBtn>
-        {!openDecade && !openMonth && (
-          <CalendarIconBtn data-calendar-btn={true} onClick={handlePrevMonth}>
-            <CalendarIcon name="Interface-chevron-left" />
-          </CalendarIconBtn>
-        )}
+          onKeyDown={stopPropagatingOnEnter}
+        />
+        <NavigationButton
+          icon="Interface-chevron-left"
+          onClick={handlePrevMonth}
+          onKeyDown={stopPropagatingOnEnter}
+          showButton={!openDecade && !openMonth}
+        />
       </HeaderIcons>
 
       <CalendarMonths>
-        <TextAreaYearMonth
-          data-calendar-btn={true}
-          onClick={() => !showYears && (openSelectDecade(), setTabCount(0), setModalFocus(false))}
+        <MonthYearDisplay
+          isDoubleView={isDoubleView}
           openDecade={openDecade}
-          isDoubleView={isDoubleView && (openMonth || openDecade)}
-        >
-          {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : displayYear}
-        </TextAreaYearMonth>
-        {(!openDecade && !openMonth)
-              && (
-                <TextAreaYearMonth
-                  data-calendar-btn={true}
-                  onClick={() => {
-                    openSelectMonth();
-                    setTabCount(0);
-                    setModalFocus(false);
-                  }}
-                >
-                  {getLocalizedMonthName(currentMonth, locale)}
-                </TextAreaYearMonth>
-              )}
+          openMonth={openMonth}
+          selectedDecade={selectedDecade}
+          displayYear={displayYear}
+          currentMonth={currentMonth}
+          locale={locale}
+          onYearClick={handleYearClick}
+          onMonthClick={handleMonthClick}
+          onKeyDown={stopPropagatingOnEnter}
+          showYears={showYears}
+        />
       </CalendarMonths>
 
       {isDoubleView && isRangePicker && (
         <CalendarMonths>
           {!openDecade && !openMonth && (
-            <>
-              <TextAreaYearMonth
-                data-calendar-btn={true}
-                onClick={() => !showYears && (openSelectDecade(), setTabCount(0))}
-                openDecade={openDecade}
-              >
-                {selectedDecade && openDecade ? `${selectedDecade} - ${selectedDecade + 9}` : nextMonth.getFullYear()}
-              </TextAreaYearMonth>
-              <TextAreaYearMonth
-                data-calendar-btn={true}
-                onClick={() => {
-                  openSelectMonth();
-                  setTabCount(0);
-                }}
-              >
-                {getLocalizedMonthName(nextMonth, locale)}
-              </TextAreaYearMonth>
-            </>
+            <MonthYearDisplay
+              isDoubleView={isDoubleView}
+              openDecade={openDecade}
+              openMonth={openMonth}
+              selectedDecade={selectedDecade}
+              displayYear={nextMonth.getFullYear()}
+              currentMonth={nextMonth}
+              locale={locale}
+              onYearClick={handleYearClick}
+              onMonthClick={handleMonthClick}
+              onKeyDown={stopPropagatingOnEnter}
+              showYears={showYears}
+            />
           )}
         </CalendarMonths>
       )}
+
       <HeaderIcons>
-        {!openDecade && !openMonth && (
-          <CalendarIconBtn data-calendar-btn={true} onClick={handleNextMonth}>
-            <CalendarIcon name="Interface-chevron-right" />
-          </CalendarIconBtn>
-        )}
-        <CalendarIconBtn
-          data-calendar-btn={true}
+        <NavigationButton
+          icon="Interface-chevron-right"
+          onClick={handleNextMonth}
+          onKeyDown={stopPropagatingOnEnter}
+          showButton={!openDecade && !openMonth}
+        />
+        <NavigationButton
+          icon="Interface-chevron-double-right"
           onClick={() => (!openDecade ? handleNextYear() : goToNextDecade())}
-        >
-
-          <CalendarIcon name="Interface-chevron-double-right" />
-        </CalendarIconBtn>
+          onKeyDown={stopPropagatingOnEnter}
+        />
       </HeaderIcons>
-
     </CalendarHeader>
   );
 }
@@ -123,19 +125,19 @@ CalendarNavigation.defaultProps = {
   openDecade: false,
   openMonth: false,
   isRangePicker: false,
-  handlePrevMonth: null,
-  handleNextMonth: null,
-  goToPreviousDecade: null,
-  goToNextDecade: null,
+  handlePrevMonth: () => {},
+  handleNextMonth: () => {},
+  goToPreviousDecade: () => {},
+  goToNextDecade: () => {},
   selectedDecade: null,
-  setTabCount: 0,
-  openSelectDecade: null,
+  setTabCount: () => {},
+  openSelectDecade: () => {},
   displayYear: null,
-  currentMonth: '',
+  currentMonth: new Date(),
   locale: 'ja-JP',
-  openSelectMonth: null,
+  openSelectMonth: () => {},
   showYears: false,
-  setModalFocus: false,
+  setModalFocus: () => {},
 };
 
 CalendarNavigation.propTypes = {
@@ -150,14 +152,14 @@ CalendarNavigation.propTypes = {
   goToPreviousDecade: PropTypes.func,
   goToNextDecade: PropTypes.func,
   selectedDecade: PropTypes.number,
-  setTabCount: PropTypes.number,
+  setTabCount: PropTypes.func,
   openSelectDecade: PropTypes.func,
-  displayYear: PropTypes.func,
-  currentMonth: PropTypes.string,
+  displayYear: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  currentMonth: PropTypes.instanceOf(Date),
   locale: PropTypes.string,
   openSelectMonth: PropTypes.func,
   showYears: PropTypes.bool,
-  setModalFocus: PropTypes.bool,
+  setModalFocus: PropTypes.func,
 };
 
 export default CalendarNavigation;

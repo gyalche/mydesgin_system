@@ -13,11 +13,14 @@ function DecadeSelector({
   enableFocus,
   setModalFocus,
   isDoubleView,
+  openDecade,
+  tabCount,
+  setTabCount,
 }) {
   const [focusedButton, setFocusedButton] = useState(null);
   const buttonRefs = useRef([]);
 
-  const { handleKeyDown } = useDecadeSelector({
+  useDecadeSelector({
     buttonRefs,
     enableFocus,
     setModalFocus,
@@ -29,6 +32,9 @@ function DecadeSelector({
     setFocusedButton,
     currentDecadeStart,
     selectedDecade,
+    openDecade,
+    tabCount,
+    setTabCount,
   });
 
   return (
@@ -59,7 +65,6 @@ function DecadeSelector({
               }
             }}
             onClick={() => handleDecadeSelect(decadeStart)}
-            onKeyDown={event => handleKeyDown(event, index + 1)}
             tabIndex={0}
             keyboardSelect={(focusedButton === index + 1) && (selectedDecade !== decadeStart)}
             isFocused={enableFocus}
@@ -95,6 +100,9 @@ DecadeSelector.defaultProps = {
   enableFocus: true,
   setModalFocus: false,
   isDoubleView: false,
+  openDecade: false,
+  tabCount: 0,
+  setTabCount: () => {},
 };
 
 DecadeSelector.propTypes = {
@@ -106,6 +114,9 @@ DecadeSelector.propTypes = {
   enableFocus: PropTypes.bool,
   setModalFocus: PropTypes.bool,
   isDoubleView: PropTypes.bool,
+  openDecade: PropTypes.bool,
+  tabCount: PropTypes.number,
+  setTabCount: PropTypes.func,
 };
 
 export default DecadeSelector;

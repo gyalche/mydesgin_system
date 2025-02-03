@@ -2,7 +2,6 @@ import { useEffect, useCallback } from 'react';
 
 const useDecadeSelector = ({
   buttonRefs,
-  enableFocus,
   setModalFocus,
   goToNextDecade,
   goToPreviousDecade,
@@ -11,46 +10,56 @@ const useDecadeSelector = ({
   setFocusedButton,
   currentDecadeStart,
   selectedDecade,
+  openDecade,
+  tabCount,
+  setTabCount,
 }) => {
+  const navigateButton = useCallback(
+    (key, index, totalButtons) => {
+      setModalFocus(false);
+      const isDoubleIndexes = isDoubleView ? 4 : 3;
+
+      switch (key) {
+        case 'ArrowRight':
+          return (index + 1) % totalButtons;
+        case 'ArrowLeft':
+          return (index - 1 + totalButtons) % totalButtons;
+        case 'ArrowDown':
+          return index + isDoubleIndexes < totalButtons ? index + isDoubleIndexes : index;
+        case 'ArrowUp':
+          return index - isDoubleIndexes >= 0 ? index - isDoubleIndexes : index;
+        default:
+          return index;
+      }
+    },
+    [setModalFocus, isDoubleView],
+  );
+
   const handleKeyDown = useCallback(
-    (event, index) => {
+    event => {
       if (focusedButton === null) {
         setFocusedButton(1);
         buttonRefs.current[1]?.focus();
         return;
       }
+
       const totalButtons = buttonRefs.current.length;
-      const isDoubleIndexes = isDoubleView ? 4 : 3;
-
-      const navigateButton = key => {
-        setModalFocus(false);
-        switch (key) {
-          case 'ArrowRight':
-            return (index + 1) % totalButtons;
-          case 'ArrowLeft':
-            return (index - 1 + totalButtons) % totalButtons;
-          case 'ArrowDown':
-            return index + isDoubleIndexes < totalButtons ? index + isDoubleIndexes : index;
-          case 'ArrowUp':
-            return index - isDoubleIndexes >= 0 ? index - isDoubleIndexes : index;
-          default:
-            return index;
-        }
-      };
-
       let newIndex;
+
       switch (event.key) {
         case 'Enter':
           event.preventDefault();
           event.stopPropagation();
-          buttonRefs.current[enableFocus ? index : index]?.click();
+          buttonRefs.current[focusedButton]?.click();
+          setTabCount(0);
           return;
 
         case 'ArrowRight':
         case 'ArrowLeft':
         case 'ArrowDown':
         case 'ArrowUp':
-          newIndex = navigateButton(event.key);
+          newIndex = navigateButton(event.key, focusedButton, totalButtons);
+
           if (newIndex === 0) goToPreviousDecade();
           if (newIndex === totalButtons - 1) goToNextDecade();
 
@@ -65,17 +74,17 @@ const useDecadeSelector = ({
         default:
       }
     },
-    [
-      focusedButton,
-      buttonRefs,
-      enableFocus,
-      setModalFocus,
-      goToNextDecade,
-      goToPreviousDecade,
-      isDoubleView,
-      setFocusedButton,
-    ],
+    [focusedButton, buttonRefs, setFocusedButton, setTabCount, navigateButton, goToPreviousDecade, goToNextDecade],
   );
+
+  useEffect(() => {
+    if (openDecade && (tabCount === 0 || tabCount === 4)) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown, openDecade, tabCount]);
 
   useEffect(() => {
     let selectedIndex;
@@ -90,8 +99,7 @@ const useDecadeSelector = ({
     setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDecade, currentDecadeStart, enableFocus, buttonRefs, setFocusedButton]);
-
-  return { handleKeyDown };
+  }, [selectedDecade, currentDecadeStart, setFocusedButton, buttonRefs]);
 };
+
 export default useDecadeSelector;

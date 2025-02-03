@@ -282,6 +282,9 @@ function Calendar({
             enableFocus={modalFocus || false}
             setModalFocus={setModalFocus}
             isDoubleView={isDoubleView && isRangePicker}
+            openDecade={openDecade}
+            tabCount={tabCount}
+            setTabCount={setTabCount}
           />
         ) : (
           <YearSelector

@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { ButtonActive, DecadeButton, DecadeGrid } from '../../styles';
 import { getLocalizedMonthName } from '../../../../../utils';
-import useKeyboardNavigation from '../hooks/useMonthSelector';
+import useMonthSelector from '../hooks/useMonthSelector';
 
 function MonthSelector({
   locale,
@@ -15,31 +15,20 @@ function MonthSelector({
   tabCount,
   setModalFocus,
 }) {
-  const [focusedButton, setFocusedButton] = useState(currentMonth || 0);
-  const buttonRefs = useRef([]);
-
-  const handleMonthSelect = monthIndex => {
-    if (!(date instanceof Date) || Number.isNaN(date)) {
-      return;
-    }
-    setCurrentMonth(new Date(date.getFullYear(), monthIndex, 1));
-    setOpenMonth(false);
-    setModalFocus(false);
-  };
-
-  const { handleKeyDown } = useKeyboardNavigation({
-    focusedButton,
-    setFocusedButton,
-    buttonCount: 12,
-    onEnterKeyPress: index => handleMonthSelect(index),
+  const {
+    focusedButton, buttonRefs, handleMonthSelect, handleKeyDown,
+  } = useMonthSelector({
+    currentMonth,
     tabCount,
-    buttonRefs,
     setModalFocus,
+    setCurrentMonth,
+    setOpenMonth,
+    date,
   });
 
   useEffect(() => {
     buttonRefs.current[focusedButton]?.focus();
-  }, [focusedButton]);
+  }, [buttonRefs, focusedButton]);
 
   return (
     <DecadeGrid focus={enableFocus}>
