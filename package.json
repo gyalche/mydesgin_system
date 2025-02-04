@@ -99,6 +99,8 @@
   },
   "homepage": "https://github.com/d-lighted/receptionist-design-system#readme",
   "dependencies": {
-    "downshift": "8.1.0"
+    "downshift": "8.1.0",
+    "final-form": "^4.20.10",
+    "react-final-form": "^6.5.9"
   }
 }
