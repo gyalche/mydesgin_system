@@ -1,5 +1,7 @@
 import { useEffect, useCallback } from 'react';
 
+import { KEY_CODES } from '../../../../../constants';
+
 const useDecadeSelector = ({
   buttonRefs,
   setModalFocus,
@@ -20,13 +22,13 @@ const useDecadeSelector = ({
       const isDoubleIndexes = isDoubleView ? 4 : 3;
 
       switch (key) {
-        case 'ArrowRight':
+        case KEY_CODES.ARROW_RIGHT:
           return (index + 1) % totalButtons;
-        case 'ArrowLeft':
+        case KEY_CODES.ARROW_LEFT:
           return (index - 1 + totalButtons) % totalButtons;
-        case 'ArrowDown':
+        case KEY_CODES.ARROW_DOWN:
           return index + isDoubleIndexes < totalButtons ? index + isDoubleIndexes : index;
-        case 'ArrowUp':
+        case KEY_CODES.ARROW_UP:
           return index - isDoubleIndexes >= 0 ? index - isDoubleIndexes : index;
         default:
           return index;
@@ -47,17 +49,17 @@ const useDecadeSelector = ({
       let newIndex;
 
       switch (event.key) {
-        case 'Enter':
+        case KEY_CODES.ENTER:
           event.preventDefault();
           event.stopPropagation();
           buttonRefs.current[focusedButton]?.click();
           setTabCount(0);
           return;
 
-        case 'ArrowRight':
-        case 'ArrowLeft':
-        case 'ArrowDown':
-        case 'ArrowUp':
+        case KEY_CODES.ARROW_RIGHT:
+        case KEY_CODES.ARROW_LEFT:
+        case KEY_CODES.ARROW_DOWN:
+        case KEY_CODES.ARROW_UP:
           newIndex = navigateButton(event.key, focusedButton, totalButtons);
 
           if (newIndex === 0) goToPreviousDecade();

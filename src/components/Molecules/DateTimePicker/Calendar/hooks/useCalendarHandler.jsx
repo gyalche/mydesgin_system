@@ -56,15 +56,15 @@ const useCalendarHandler = ({
     }
   }, [setSelectedDecade, setShowYears, setModalFocus, enableKeyboard]);
 
-  const goToNextDecade = useCallback(() => {
+  const goToNextDecade = () => {
     setCurrentDecadeStart(prev => prev + 10);
     setSelectedDecade(current => current + 10);
-  }, []);
+  };
 
-  const goToPreviousDecade = useCallback(() => {
+  const goToPreviousDecade = () => {
     setCurrentDecadeStart(prev => prev - 10);
     setSelectedDecade(current => current - 10);
-  }, []);
+  };
 
   useEffect(() => {
     setCurrentMonth(date);

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import useClickOutside from '../../../../hooks/useClickOutside';
 import closeOpenModal from '../../../../hooks/closeOpenModal';
-import { columns } from '../../../../constants';
+import { columns, KEY_CODES } from '../../../../constants';
 
 export const useTimePickerKeyboardNavigation = ({
   is12Hour,
@@ -60,13 +60,13 @@ export const useTimePickerKeyboardNavigation = ({
     const isOpen = isEndInput ? isEndTimeDropdownOpen : isDropdownOpen;
     const setDropdownOpen = isEndInput ? setIsEndTimeDropdownOpen : setIsDropdownOpen;
 
-    if (e.key === 'Enter') {
+    if (e.key === KEY_CODES.ENTER) {
       currentRef?.current?.click();
       if (isOpen) {
         setDropdownOpen(true);
       }
     }
-    if (e.key === 'Tab') {
+    if (e.key === KEY_CODES.TAB) {
       if (isOpen) {
         setDropdownOpen(false);
       }
@@ -95,12 +95,12 @@ export const useTimePickerKeyboardNavigation = ({
     };
 
     const handleArrowNavigation = (key, isEndTime) => {
-      if (key === 'ArrowDown') updateHighlightedIndex(activeColumn, isEndTime, 1);
-      if (key === 'ArrowUp') updateHighlightedIndex(activeColumn, isEndTime, -1);
-      if (key === 'ArrowRight') {
+      if (key === KEY_CODES.ARROW_DOWN) updateHighlightedIndex(activeColumn, isEndTime, 1);
+      if (key === KEY_CODES.ARROW_UP) updateHighlightedIndex(activeColumn, isEndTime, -1);
+      if (key === KEY_CODES.ARROW_RIGHT) {
         setActiveColumn(prev => columns[(columns.indexOf(prev) + 1) % (is12Hour ? columns.length : columns.length - 1)]);
       }
-      if (key === 'ArrowLeft') {
+      if (key === KEY_CODES.ARROW_LEFT) {
         setActiveColumn(prev => columns[(columns.indexOf(prev) - 1 + columns.length) % columns.length]);
       }
     };
@@ -142,10 +142,18 @@ export const useTimePickerKeyboardNavigation = ({
 
       if (!isStartTime && !isEndTime) return;
 
-      if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        handleArrowNavigation(e.key, isEndTime);
-      } else if (e.key === 'Enter') {
-        handleEnterSelection(isEndTime);
+      switch (e.key) {
+        case KEY_CODES.ARROW_DOWN:
+        case KEY_CODES.ARROW_UP:
+        case KEY_CODES.ARROW_LEFT:
+        case KEY_CODES.ARROW_RIGHT:
+          handleArrowNavigation(e.key, isEndTime);
+          break;
+        case KEY_CODES.ENTER:
+          handleEnterSelection(isEndTime);
+          break;
+        default:
+          break;
       }
     };
 

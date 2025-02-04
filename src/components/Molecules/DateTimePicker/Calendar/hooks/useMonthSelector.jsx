@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
+import { KEY_CODES } from '../../../../../constants';
+
 const useMonthSelector = ({
   currentMonth,
   tabCount,
@@ -31,10 +33,10 @@ const useMonthSelector = ({
     const navigateButton = key => {
       setModalFocus(false);
       switch (key) {
-        case 'ArrowRight': return (index + 1) % totalButtons;
-        case 'ArrowLeft': return (index - 1 + totalButtons) % totalButtons;
-        case 'ArrowDown': return index + 3 < totalButtons ? index + 3 : index;
-        case 'ArrowUp': return index - 3 >= 0 ? index - 3 : index;
+        case KEY_CODES.ARROW_RIGHT: return (index + 1) % totalButtons;
+        case KEY_CODES.ARROW_LEFT: return (index - 1 + totalButtons) % totalButtons;
+        case KEY_CODES.ARROW_DOWN: return index + 3 < totalButtons ? index + 3 : index;
+        case KEY_CODES.ARROW_UP: return index - 3 >= 0 ? index - 3 : index;
         default: return index;
       }
     };
@@ -46,10 +48,10 @@ const useMonthSelector = ({
         buttonRefs.current[index].click();
         return;
 
-      case 'ArrowRight':
-      case 'ArrowLeft':
-      case 'ArrowDown':
-      case 'ArrowUp':
+      case KEY_CODES.ARROW_RIGHT:
+      case KEY_CODES.ARROW_LEFT:
+      case KEY_CODES.ARROW_DOWN:
+      case KEY_CODES.ARROW_UP:
         newIndex = navigateButton(event.key);
         break;
 

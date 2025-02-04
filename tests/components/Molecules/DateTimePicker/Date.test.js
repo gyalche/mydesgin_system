@@ -38,15 +38,32 @@ describe('DateRangePicker Component', () => {
   });
 
   it('closes calendar when clicked outside', async () => {
-    render(<DatePicker onChange={mockOnChange} dateTimeFormat="ja-JP" />);
+    render(<DatePicker onChange={mockOnChange} disabled={false} dateTimeFormat="ja-JP" />);
     const input = screen.getByTestId('first-input');
+
     fireEvent.click(input);
-    const calendar = screen.getByTestId('calendar-id');
+    const calendar = await screen.findByTestId('calendar-id');
     expect(calendar).toBeInTheDocument();
 
-    //ther is an error so i have commented, needs to check date components
-    // fireEvent.click(document.body);
-    // expect(calendar).not.toBeInTheDocument();
+    fireEvent.click(input);
+    await waitFor(() => {
+      expect(calendar).not.toBeInTheDocument();
+    });
+  });
+
+  it('closes calendar when pressed ESC', async () => {
+    render(<DatePicker onChange={mockOnChange} disabled={false} dateTimeFormat="ja-JP" />);
+    const input = screen.getByTestId('first-input');
+
+    fireEvent.click(input);
+    const calendar = await screen.findByTestId('calendar-id');
+    expect(calendar).toBeInTheDocument();
+
+    fireEvent.keyDown(document, { key: 'Escape' });
+
+    await waitFor(() => {
+      expect(calendar).not.toBeInTheDocument();
+    });
   });
 
   it('prevents selecting past dates', async () => {
@@ -63,6 +80,7 @@ describe('DateRangePicker Component', () => {
       expect(mockOnChange).not.toHaveBeenCalled();
     });
   });
+
   it('select past date only if onlyFutre is false', async () => {
     render(<DatePicker onChange={mockOnChange} onlyFuture={false} dateTimeFormat="en-US" isDoubleView={false} />);
     const input = screen.getByTestId('first-input');

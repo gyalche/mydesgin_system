@@ -4,6 +4,7 @@ import {
 
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useCloseOpenModal from '../../../../hooks/closeOpenModal';
+import { KEY_CODES } from '../../../../constants';
 
 export const useDatePickerKeyboardNavigation = ({
   locale,
@@ -75,7 +76,7 @@ export const useDatePickerKeyboardNavigation = ({
   }, [setCurrentMonth]);
 
   const handleInputKeyDown = (e, isStartInput) => {
-    if (e.key === 'Enter') {
+    if (e.key === KEY_CODES.ENTER) {
       e.preventDefault();
       e.stopPropagation();
       if (isStartInput) {
@@ -158,23 +159,23 @@ export const useDatePickerKeyboardNavigation = ({
     };
 
     switch (e.key) {
-      case 'ArrowLeft':
+      case KEY_CODES.ARROW_LEFT:
         selectPreviousDate(notCurrentMonthAndYear);
         updateDate(prev => new Date(prev.setDate(prev.getDate() - 1)));
         break;
-      case 'ArrowRight':
+      case KEY_CODES.ARROW_RIGHT:
         selectPreviousDate(notCurrentMonthAndYear);
         updateDate(prev => new Date(prev.setDate(prev.getDate() + 1)));
         break;
-      case 'ArrowUp':
+      case KEY_CODES.ARROW_UP:
         selectPreviousDate(notCurrentMonthAndYear);
         updateDate(prev => new Date(prev.setDate(prev.getDate() - 7)));
         break;
-      case 'ArrowDown':
+      case KEY_CODES.ARROW_DOWN:
         selectPreviousDate(notCurrentMonthAndYear);
         updateDate(prev => new Date(prev.setDate(prev.getDate() + 7)));
         break;
-      case 'Enter':
+      case KEY_CODES.ENTER:
         if (!isRangePicker || dateTimeValue) handleSingleDate(currentDate);
         handleEnter(e);
         break;

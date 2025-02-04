@@ -6,6 +6,7 @@ export const focusBorderStyle = css`
   transition: ${({ focus }) => (focus ? 'background-color 0.3s ease' : 'border 0.3s ease, background-color 0.3s ease')};
   background-color: ${({ focus }) => (focus ? 'var(--rds-color-neutral-1)' : 'transparent')};
 `;
+
 export const DatePickerContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,6 +46,7 @@ export const InputFieldStyle = styled(Input)`
   &:focus {
     border: ${({ activesecondinput }) => activesecondinput && true};
   };
+
   &::placeholder {
     color: var(--rds-color-neutral-6);
     padding: 0;
@@ -173,6 +175,7 @@ export const Day = styled.button`
   }};
   pointer-events: ${({ isDisabled }) => (isDisabled ? 'none' : 'auto')};
   box-shadow: ${({ isSelected }) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
+
   &:hover {
   background-color: ${({ isDisabled, isSelected, isKeyboardSelect }) => {
     if (!isDisabled && !isSelected && !isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
@@ -180,7 +183,7 @@ export const Day = styled.button`
     return null;
   }};
 
-    border-radius: 4px;
+  border-radius: 4px;
   };
 `;
 
@@ -256,6 +259,7 @@ export const TimeInput = styled(Input)`
   text-align: center;
   outline: none;
   border: none;
+
   &:hover {
     border: none;
   };
@@ -348,6 +352,7 @@ export const TimeOption = styled.li`
     if (highlighted) return 'var(--rds-color-chart-1)';
     return null;
   }};
+
   &:hover {
     background-color: var(--rds-color-neutral-1);
     color: var(--rds-color-neutral-11);
@@ -370,10 +375,12 @@ export const CalendarIconBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+
   &:hover {
     background-color: var(--rds-color-neutral-1);
     color: black;
   };
+
   &:focus {
     background-color: var(--rds-color-neutral-1);
     color: black;
@@ -398,17 +405,19 @@ export const TextAreaYearMonth = styled.button`
   font-size: 15px;
   font-weight: bold;
   z-index: 9999;
-  &:hover {
-    background-color: ${({ openDecade }) => !openDecade && 'var(--rds-color-neutral-1)'};
-    color: black;
-  };
   padding-left: 7px;
   padding-right: 7px;
   border-radius: 5px;
   margin-left: ${({ isDoubleView }) => isDoubleView && '120px'};
+
   &:focus {
     background-color: var(--rds-color-neutral-1)};
   }
+
+  &:hover {
+    background-color: ${({ openDecade }) => !openDecade && 'var(--rds-color-neutral-1)'};
+    color: black;
+  };
 `;
 
 export const DecadeGrid = styled.div`
@@ -440,6 +449,7 @@ export const DecadeButton = styled.button`
     return null;
   }};
   background-color: ${({ keyboardSelect }) => keyboardSelect && 'var(--rds-color-chart-1)'};
+
   &:hover {
   background-color: ${({ keyboardSelect, disabled, isFocused }) => {
     if (!keyboardSelect && !disabled && !isFocused) return 'var(--rds-color-neutral-1)';
@@ -451,7 +461,7 @@ export const DecadeButton = styled.button`
   &:focus {
     outline: none;
   }
-
+  
   &:active {
     color: var(--rds-color-primary-1-normal);
     border: 1px solid var(--rds-color-primary-1-normal);
