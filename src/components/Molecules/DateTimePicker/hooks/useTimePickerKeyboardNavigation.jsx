@@ -5,8 +5,8 @@ import closeOpenModal from '../../../../hooks/closeOpenModal';
 import {
   TIME_COLUMNS,
   END_TIME,
-  KEYBOARD_KEYS,
   START_TIME,
+  KEYBOARD_KEYS,
 } from '../../../../constant';
 
 export const useTimePickerKeyboardNavigation = ({
