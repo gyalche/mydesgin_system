@@ -129,8 +129,8 @@ export const DoubleViewContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${focusBorderStyle};
   margin-top: -4px;
+  ${focusBorderStyle};
 `;
 
 export const Day = styled.button`
@@ -182,10 +182,8 @@ export const Day = styled.button`
     if (!isDisabled && !isSelected && !isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
     if (isKeyboardSelect) return 'var(--rds-color-chart-1)';
     return null;
-  }};
-
-  border-radius: 4px;
-  };
+  }}
+  }
 `;
 
 export const CalendarWrapper = styled.div`
@@ -265,7 +263,7 @@ export const TimeInput = styled(Input)`
 
   &:hover {
     border: none;
-  };
+  }
 `;
 
 export const InputIcon = styled.div`
@@ -420,7 +418,7 @@ export const TextAreaYearMonth = styled.button`
   &:hover {
     background-color: ${({ openDecade }) => !openDecade && 'var(--rds-color-neutral-1)'};
     color: black;
-  };
+  }
 `;
 
 export const DecadeGrid = styled.div`
