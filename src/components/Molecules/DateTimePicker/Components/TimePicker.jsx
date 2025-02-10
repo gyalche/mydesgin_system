@@ -14,7 +14,7 @@ import {
   TimePickerContainer,
 } from '../styles';
 import InputField from './InputField';
-import { AmPmValue } from '../../../../constants';
+import { AM_PM_VALUES } from '../../../../constant';
 import { useTimePickerKeyboardNavigation } from '../hooks/useTimePickerKeyboardNavigation';
 import { useTimePickerHandler } from '../hooks/useTimePickerHandler';
 import IconWithCalendar from './IconWithCalendar';
@@ -83,7 +83,7 @@ function TimePicker({
     onKeyDownSecondInput,
   } = useTimePickerKeyboardNavigation({
     is12Hour,
-    AmPmValue,
+    AmPmValue: AM_PM_VALUES,
     timeInputRef,
     timeInputRefEnd,
     timePickerRef,
@@ -169,7 +169,7 @@ function TimePicker({
             isRangePicker={isRangePicker}
             hours={hours}
             minutes={minutes}
-            AmPmValue={AmPmValue}
+            AmPmValue={AM_PM_VALUES}
             handleHourClick={handleHourClick}
             handleMinuteClick={handleMinuteClick}
             handleAmPm={handleAmPm}
@@ -192,7 +192,7 @@ function TimePicker({
             isRangePicker={isRangePicker}
             hours={hours}
             minutes={minutes}
-            AmPmValue={AmPmValue}
+            AmPmValue={AM_PM_VALUES}
             handleHourClick={handleEndHourClick}
             handleMinuteClick={handleEndMinuteClick}
             handleAmPm={handleEndAmPm}

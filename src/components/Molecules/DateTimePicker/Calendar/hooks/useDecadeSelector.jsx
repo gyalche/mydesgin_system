@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 
-import { KEY_CODES } from '../../../../../constants';
+import { KEYBOARD_KEYS } from '../../../../../constant';
 
 const useDecadeSelector = ({
   buttonRefs,
@@ -22,13 +22,13 @@ const useDecadeSelector = ({
       const isDoubleIndexes = isDoubleView ? 4 : 3;
 
       switch (key) {
-        case KEY_CODES.ARROW_RIGHT:
+        case KEYBOARD_KEYS.arrowRight:
           return (index + 1) % totalButtons;
-        case KEY_CODES.ARROW_LEFT:
+        case KEYBOARD_KEYS.arrowLeft:
           return (index - 1 + totalButtons) % totalButtons;
-        case KEY_CODES.ARROW_DOWN:
+        case KEYBOARD_KEYS.arrowDown:
           return index + isDoubleIndexes < totalButtons ? index + isDoubleIndexes : index;
-        case KEY_CODES.ARROW_UP:
+        case KEYBOARD_KEYS.arrowUp:
           return index - isDoubleIndexes >= 0 ? index - isDoubleIndexes : index;
         default:
           return index;
@@ -49,17 +49,17 @@ const useDecadeSelector = ({
       let newIndex;
 
       switch (event.key) {
-        case KEY_CODES.ENTER:
+        case KEYBOARD_KEYS.enter:
           event.preventDefault();
           event.stopPropagation();
           buttonRefs.current[focusedButton]?.click();
           setTabCount(0);
           return;
 
-        case KEY_CODES.ARROW_RIGHT:
-        case KEY_CODES.ARROW_LEFT:
-        case KEY_CODES.ARROW_DOWN:
-        case KEY_CODES.ARROW_UP:
+        case KEYBOARD_KEYS.arrowRight:
+        case KEYBOARD_KEYS.arrowLeft:
+        case KEYBOARD_KEYS.arrowDown:
+        case KEYBOARD_KEYS.arrowUp:
           newIndex = navigateButton(event.key, focusedButton, totalButtons);
 
           if (newIndex === 0) goToPreviousDecade();
@@ -92,15 +92,12 @@ const useDecadeSelector = ({
     let selectedIndex;
     if (selectedDecade !== null && selectedDecade >= currentDecadeStart) {
       selectedIndex = Math.max(0, Math.min((selectedDecade - currentDecadeStart) / 10 + 1, buttonRefs.current.length - 1));
-    } else if (focusedButton > 9) {
-      selectedIndex = 10;
     } else {
-      selectedIndex = 1;
+      selectedIndex = buttonRefs.current.length > 10 ? 10 : 1;
     }
 
     setFocusedButton(selectedIndex);
     buttonRefs.current[selectedIndex]?.focus();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDecade, currentDecadeStart, setFocusedButton, buttonRefs]);
 };
 

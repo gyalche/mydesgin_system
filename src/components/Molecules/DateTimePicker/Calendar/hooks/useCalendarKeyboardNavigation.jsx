@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { KEY_CODES } from '../../../../../constants';
+import { KEYBOARD_KEYS } from '../../../../../constant';
 
 const useCalendarKeyboardNavigation = ({
   openCalendar,
@@ -28,11 +28,11 @@ const useCalendarKeyboardNavigation = ({
     };
 
     const handleKeyDown = e => {
-      if ((e.key === KEY_CODES.TAB && modalFocus) || e.key !== KEY_CODES.TAB) {
+      if ((e.key === KEYBOARD_KEYS.tab && modalFocus) || e.key !== KEYBOARD_KEYS.tab) {
         setModalFocus(false);
       }
       if (openCalendar || openCalendarEnd) {
-        if (e.key === KEY_CODES.TAB) {
+        if (e.key === KEYBOARD_KEYS.tab) {
           e.preventDefault();
           const buttons = document.querySelectorAll('[data-calendar-btn]');
           const focusedIndex = Array.from(buttons).findIndex(

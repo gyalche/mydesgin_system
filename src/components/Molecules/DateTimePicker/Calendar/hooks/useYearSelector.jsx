@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { KEY_CODES } from '../../../../../constants';
+import { KEYBOARD_KEYS } from '../../../../../constant';
 
 const useYearSelector = ({
   yearsInDecade,
@@ -32,7 +32,7 @@ const useYearSelector = ({
       const totalButtons = buttonRefs.current.length;
       setModalFocus(false);
       switch (event.key) {
-        case KEY_CODES.ARROW_RIGHT:
+        case KEYBOARD_KEYS.arrowRight:
           if (selectedYearIndex === totalButtons - 1) {
             goToNextDecade();
             setSelectedYearIndex(0);
@@ -40,7 +40,7 @@ const useYearSelector = ({
           }
           newIndex = (selectedYearIndex + 1) % totalButtons;
           break;
-        case KEY_CODES.ARROW_LEFT:
+        case KEYBOARD_KEYS.arrowLeft:
           if (selectedYearIndex < 0) {
             setSelectedYearIndex(0);
             return;
@@ -52,21 +52,21 @@ const useYearSelector = ({
           }
           newIndex = (selectedYearIndex - 1 + totalButtons) % totalButtons;
           break;
-        case KEY_CODES.ARROW_DOWN:
+        case KEYBOARD_KEYS.arrowDown:
           if (selectedYearIndex < 0) {
             setSelectedYearIndex(0);
             return;
           }
           newIndex = selectedYearIndex + 3 < totalButtons ? selectedYearIndex + 3 : selectedYearIndex;
           break;
-        case KEY_CODES.ARROW_UP:
+        case KEYBOARD_KEYS.arrowUp:
           if (selectedYearIndex < 0) {
             setSelectedYearIndex(0);
             return;
           }
           newIndex = selectedYearIndex - 3 >= 0 ? selectedYearIndex - 3 : selectedYearIndex;
           break;
-        case KEY_CODES.ENTER:
+        case KEYBOARD_KEYS.enter:
           event.preventDefault();
           event.stopPropagation();
           enableKeyboard();

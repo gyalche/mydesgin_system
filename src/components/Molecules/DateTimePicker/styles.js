@@ -41,16 +41,16 @@ export const InputFieldStyle = styled(Input)`
 
   &:hover {
     border: ${({ error }) => error && '1px solid red'}
-  };
+  }
 
   &:focus {
     border: ${({ activesecondinput }) => activesecondinput && true};
-  };
+  }
 
   &::placeholder {
     color: var(--rds-color-neutral-6);
     padding: 0;
-  };
+  }
 `;
 
 export const IconWrapper = styled.div`
@@ -132,6 +132,7 @@ export const DoubleViewContainer = styled.div`
   ${focusBorderStyle};
   margin-top: -4px;
 `;
+
 export const Day = styled.button`
   display: flex;
   align-items: center;
@@ -208,9 +209,11 @@ export const CalendarWrapper = styled.div`
     return '65px';
   }};
 `;
+
 export const DayContainerWrapper = styled.div`
   min-height: 270px;
 `;
+
 export const CalendarWrapperEnd = styled(CalendarWrapper)`
   margin-left: ${({ isDoubleView }) => (isDoubleView ? '407px' : '377px')};
 `;
@@ -467,6 +470,7 @@ export const DecadeButton = styled.button`
     border: 1px solid var(--rds-color-primary-1-normal);
   }
 `;
+
 export const ButtonActive = styled.button`
   z-index: -99999;
   position: absolute;
