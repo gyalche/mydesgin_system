@@ -14,7 +14,7 @@ import {
   TimePickerContainer,
 } from '../styles';
 import InputField from './InputField';
-import { AM_PM_VALUES } from '../../../../constant';
+import { AM_PM_VALUES } from '../../../../constant/timePerios';
 import { useTimePickerKeyboardNavigation } from '../hooks/useTimePickerKeyboardNavigation';
 import { useTimePickerHandler } from '../hooks/useTimePickerHandler';
 import IconWithCalendar from './IconWithCalendar';

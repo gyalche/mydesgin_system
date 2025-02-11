@@ -1,6 +1,12 @@
 import { useEffect, useCallback } from 'react';
 
-import { KEYBOARD_KEYS } from '../../../../../constant';
+import {
+  ARROW_DOWN,
+  ARROW_LEFT,
+  ARROW_RIGHT,
+  ARROW_UP,
+  ENTER,
+} from '../../../../../constant/keyCodes';
 
 const useDecadeSelector = ({
   buttonRefs,
@@ -22,13 +28,13 @@ const useDecadeSelector = ({
       const isDoubleIndexes = isDoubleView ? 4 : 3;
 
       switch (key) {
-        case KEYBOARD_KEYS.arrowRight:
+        case ARROW_RIGHT:
           return (index + 1) % totalButtons;
-        case KEYBOARD_KEYS.arrowLeft:
+        case ARROW_LEFT:
           return (index - 1 + totalButtons) % totalButtons;
-        case KEYBOARD_KEYS.arrowDown:
+        case ARROW_DOWN:
           return index + isDoubleIndexes < totalButtons ? index + isDoubleIndexes : index;
-        case KEYBOARD_KEYS.arrowUp:
+        case ARROW_UP:
           return index - isDoubleIndexes >= 0 ? index - isDoubleIndexes : index;
         default:
           return index;
@@ -49,17 +55,17 @@ const useDecadeSelector = ({
       let newIndex;
 
       switch (event.key) {
-        case KEYBOARD_KEYS.enter:
+        case ENTER:
           event.preventDefault();
           event.stopPropagation();
           buttonRefs.current[focusedButton]?.click();
           setTabCount(0);
           return;
 
-        case KEYBOARD_KEYS.arrowRight:
-        case KEYBOARD_KEYS.arrowLeft:
-        case KEYBOARD_KEYS.arrowDown:
-        case KEYBOARD_KEYS.arrowUp:
+        case ARROW_RIGHT:
+        case ARROW_LEFT:
+        case ARROW_DOWN:
+        case ARROW_UP:
           newIndex = navigateButton(event.key, focusedButton, totalButtons);
 
           if (newIndex === 0) goToPreviousDecade();

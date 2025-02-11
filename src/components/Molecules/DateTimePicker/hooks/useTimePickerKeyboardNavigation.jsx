@@ -3,11 +3,21 @@ import { useEffect, useState } from 'react';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import closeOpenModal from '../../../../hooks/closeOpenModal';
 import {
-  TIME_COLUMNS,
-  END_TIME,
-  START_TIME,
-  KEYBOARD_KEYS,
-} from '../../../../constant';
+  ENTER,
+  ARROW_DOWN,
+  ARROW_UP,
+  ARROW_RIGHT,
+  ARROW_LEFT,
+  TAB,
+} from '../../../../constant/keyCodes';
+import {
+  AMPM,
+  AMPMEND,
+  HOUR,
+  HOUREND,
+  MINUTE,
+  MINUTEEND,
+} from '../../../../constant/timeUnits';
 
 export const useTimePickerKeyboardNavigation = ({
   is12Hour,
@@ -65,13 +75,13 @@ export const useTimePickerKeyboardNavigation = ({
     const isOpen = isEndInput ? isEndTimeDropdownOpen : isDropdownOpen;
     const setDropdownOpen = isEndInput ? setIsEndTimeDropdownOpen : setIsDropdownOpen;
 
-    if (e.key === KEYBOARD_KEYS.enter) {
+    if (e.key === ENTER) {
       currentRef?.current?.click();
       if (isOpen) {
         setDropdownOpen(true);
       }
     }
-    if (e.key === KEYBOARD_KEYS.tab) {
+    if (e.key === TAB) {
       if (isOpen) {
         setDropdownOpen(false);
       }
@@ -79,12 +89,14 @@ export const useTimePickerKeyboardNavigation = ({
   };
 
   useEffect(() => {
+    const timeColumns = [HOUR, MINUTE, AMPM];
+
     const updateHighlightedIndex = (column, isEndTime, direction) => {
       const key = isEndTime ? `${column}End` : column;
       let maxLength;
-      if (column === START_TIME.hour) {
+      if (column === HOUR) {
         maxLength = hours.length;
-      } else if (column === START_TIME.minute) {
+      } else if (column === MINUTE) {
         maxLength = minutes.length;
       } else {
         maxLength = AmPmValue.length;
@@ -100,39 +112,39 @@ export const useTimePickerKeyboardNavigation = ({
     };
 
     const handleArrowNavigation = (key, isEndTime) => {
-      if (key === KEYBOARD_KEYS.arrowDown) updateHighlightedIndex(activeColumn, isEndTime, 1);
-      if (key === KEYBOARD_KEYS.arrowUp) updateHighlightedIndex(activeColumn, isEndTime, -1);
-      if (key === KEYBOARD_KEYS.arrowRight) {
-        setActiveColumn(prev => TIME_COLUMNS[(TIME_COLUMNS.indexOf(prev) + 1) % (is12Hour ? TIME_COLUMNS.length : TIME_COLUMNS.length - 1)]);
+      if (key === ARROW_DOWN) updateHighlightedIndex(activeColumn, isEndTime, 1);
+      if (key === ARROW_UP) updateHighlightedIndex(activeColumn, isEndTime, -1);
+      if (key === ARROW_RIGHT) {
+        setActiveColumn(prev => timeColumns[(timeColumns.indexOf(prev) + 1) % (is12Hour ? timeColumns.length : timeColumns.length - 1)]);
       }
-      if (key === KEYBOARD_KEYS.arrowLeft) {
-        setActiveColumn(prev => TIME_COLUMNS[(TIME_COLUMNS.indexOf(prev) - 1 + TIME_COLUMNS.length) % TIME_COLUMNS.length]);
+      if (key === ARROW_LEFT) {
+        setActiveColumn(prev => timeColumns[(timeColumns.indexOf(prev) - 1 + timeColumns.length) % timeColumns.length]);
       }
     };
 
     const handleEnterSelection = isEndTime => {
       const columnKeyMap = {
-        hour: isEndTime ? END_TIME.hour : START_TIME.hour,
-        minute: isEndTime ? END_TIME.minute : START_TIME.minute,
-        ampm: isEndTime ? END_TIME.ampm : START_TIME.ampm,
+        hour: isEndTime ? HOUREND : HOUR,
+        minute: isEndTime ? MINUTEEND : MINUTE,
+        ampm: isEndTime ? AMPMEND : AMPM,
       };
 
       const selectedIndex = highlightedIndex[columnKeyMap[activeColumn]];
       if (selectedIndex < 0) return;
 
-      if (activeColumn === START_TIME.hour) {
+      if (activeColumn === HOUR) {
         if (isEndTime) {
           handleEndHourClick(hours[selectedIndex]);
         } else {
           handleHourClick(hours[selectedIndex]);
         }
-      } else if (activeColumn === START_TIME.minute) {
+      } else if (activeColumn === MINUTE) {
         if (isEndTime) {
           handleEndMinuteClick(minutes[selectedIndex]);
         } else {
           handleMinuteClick(minutes[selectedIndex]);
         }
-      } else if (activeColumn === START_TIME.ampm && is12Hour) {
+      } else if (activeColumn === AMPM && is12Hour) {
         if (isEndTime) {
           handleEndAmPm(AmPmValue[selectedIndex].name);
         } else {
@@ -148,13 +160,13 @@ export const useTimePickerKeyboardNavigation = ({
       if (!isStartTime && !isEndTime) return;
 
       switch (e.key) {
-        case KEYBOARD_KEYS.arrowDown:
-        case KEYBOARD_KEYS.arrowUp:
-        case KEYBOARD_KEYS.arrowLeft:
-        case KEYBOARD_KEYS.arrowRight:
+        case ARROW_DOWN:
+        case ARROW_UP:
+        case ARROW_LEFT:
+        case ARROW_RIGHT:
           handleArrowNavigation(e.key, isEndTime);
           break;
-        case KEYBOARD_KEYS.enter:
+        case ENTER:
           handleEnterSelection(isEndTime);
           break;
         default:

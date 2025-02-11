@@ -1,6 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { KEYBOARD_KEYS } from '../../../../../constant';
+import {
+  ARROW_DOWN,
+  ARROW_LEFT,
+  ARROW_RIGHT,
+  ARROW_UP,
+  ENTER,
+} from '../../../../../constant/keyCodes';
 
 const useMonthSelector = ({
   currentMonth,
@@ -33,25 +39,25 @@ const useMonthSelector = ({
     const navigateButton = key => {
       setModalFocus(false);
       switch (key) {
-        case KEYBOARD_KEYS.arrowRight: return (index + 1) % totalButtons;
-        case KEYBOARD_KEYS.arrowLeft: return (index - 1 + totalButtons) % totalButtons;
-        case KEYBOARD_KEYS.arrowDown: return index + 3 < totalButtons ? index + 3 : index;
-        case KEYBOARD_KEYS.arrowUp: return index - 3 >= 0 ? index - 3 : index;
+        case ARROW_RIGHT: return (index + 1) % totalButtons;
+        case ARROW_LEFT: return (index - 1 + totalButtons) % totalButtons;
+        case ARROW_DOWN: return index + 3 < totalButtons ? index + 3 : index;
+        case ARROW_UP: return index - 3 >= 0 ? index - 3 : index;
         default: return index;
       }
     };
 
     switch (event.key) {
-      case KEYBOARD_KEYS.enter:
+      case ENTER:
         event.preventDefault();
         event.stopPropagation();
         buttonRefs.current[index].click();
         return;
 
-      case KEYBOARD_KEYS.arrowRight:
-      case KEYBOARD_KEYS.arrowLeft:
-      case KEYBOARD_KEYS.arrowDown:
-      case KEYBOARD_KEYS.arrowUp:
+      case ARROW_RIGHT:
+      case ARROW_LEFT:
+      case ARROW_DOWN:
+      case ARROW_UP:
         newIndex = navigateButton(event.key);
         break;
 
