@@ -22,13 +22,13 @@ function TableStories(args) {
   return (
     <Layout.Block>
       <Layout.Item>
+        <Table data={itemsToDisplay} columns={arg.columns} />
         <Pagination
           {...args}
           totalPages={totalPages}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
         />
-        <Table data={itemsToDisplay} columns={arg.columns} />
       </Layout.Item>
     </Layout.Block>
   );
