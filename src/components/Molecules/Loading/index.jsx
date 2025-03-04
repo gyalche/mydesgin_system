@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import animations from 'shared/css/animations.module.css';
+
 import { LoadingIcon } from './styles';
 
 function Spinner({ size, color, invert }) {
   return (
-    <LoadingIcon className="spin" name="global-spinner" size={size} invert={invert} color={color} />
+    <LoadingIcon className={animations.spin} name="global-spinner" size={size} invert={invert} color={color} />
   );
 }
 
