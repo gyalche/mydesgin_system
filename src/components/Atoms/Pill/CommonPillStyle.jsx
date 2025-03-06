@@ -6,7 +6,7 @@ export const Danger = css`
 `;
 
 export const Blue = css`
-  background-color: var(--rds-color-teritary-2-subtle);
+  background-color: var(--rds-color-tertiary-2-subtle);
   color: var(--rds-color-tertiary-2-deep);
 `;
 
@@ -36,13 +36,13 @@ export const Teal = css`
 `;
 
 export const Pink = css`
-  background-color: var(--rds-color-teritary-3-subtle);
-  color: var(--rds-color-teritary-3-deep);
+  background-color: var(--rds-color-tertiary-3-subtle);
+  color: var(--rds-color-tertiary-3-deep);
 `;
 
 export const Orange = css`
-  background-color: var(--rds-color-teritary-4-subtle);
-  color: var(--rds-color-teritary-4-deep);
+  background-color: var(--rds-color-tertiary-4-subtle);
+  color: var(--rds-color-tertiary-4-deep);
 `;
 
 export const CommonPillStyle = styled.div`

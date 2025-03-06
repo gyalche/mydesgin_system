@@ -35,21 +35,21 @@ it('should change color on hover, active and focus states', () => {
 
   expect(itemElement).toHaveStyleRule(
     'background',
-    'var(--rds-color-neutral-alpha-1)',
+    'var(--rds-color-neutral-1)',
     {
       modifier: ':hover',
     }
   );
   expect(itemElement).toHaveStyleRule(
     'background',
-    'var(--rds-color-neutral-alpha-2)',
+    'var(--rds-color-neutral-2)',
     {
       modifier: ':active',
     }
   );
   expect(itemElement).toHaveStyleRule(
     'background',
-    'var(--rds-color-neutral-alpha-2)',
+    'var(--rds-color-neutral-2)',
     {
       modifier: ':focus',
     }

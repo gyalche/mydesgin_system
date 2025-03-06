@@ -11,14 +11,9 @@ const TabsContainer = styled.div`
 `;
 
 const primaryStyles = css`
-  padding: 4px 8px 12px 8px;
+  padding: 4px 8px 4px 8px;
   cursor: pointer;
   background-color: transparent;
-  ${props => props.$active
-    && `
-    color: var(--rds-color-primary-1-dark);
-    border-bottom: 1px solid var(--rds-color-primary-1-normal);
-  `}
 `;
 
 const secondaryStyles = css`
@@ -26,11 +21,6 @@ const secondaryStyles = css`
   cursor: pointer;
   border-radius: 4px;
   background-color: var(--rds-color-neutral-0);
-  ${props => props.$active
-    && `
-    color: var(--rds-color-primary-1-dark);
-    background-color: var(--rds-color-primary-1-subtle);
-  `}
 `;
 
 const TabList = styled.div`
@@ -40,7 +30,32 @@ const TabList = styled.div`
   margin-bottom: ${({ mb }) => mb};
 `;
 
+const TabItemContainer = styled.div`
+  ${props => (
+    props.$active ? `
+      border-bottom: 2px solid var(--rds-color-primary-1-normal);
+      
+      &:hover {
+        background-color: transparent;
+      }
+    ` : `
+      border-radius: 40px;
+
+      &:hover {
+        background-color: var(--rds-color-neutral-1);
+      }
+      &:active {
+        background-color: var(--rds-color-neutral-2);
+      }
+    `
+  )}
+`;
+
 const TabItem = styled.div`
+  ${props => props.$active
+    && `
+    color: var(--rds-color-primary-1-dark);
+  `}
   ${props => props.appearance === 'primary' && primaryStyles};
   ${props => props.appearance === 'secondary' && secondaryStyles};
 `;
@@ -76,14 +91,16 @@ function Tabs({
         {React.Children.map(children, child => {
           if (React.isValidElement(child)) {
             return (
-              <TabItem
-                key={child.props.tabKey}
-                $active={activeTab === child.props.tabKey}
-                appearance={appearance}
-                onClick={() => handleTabClick(child.props.tabKey)}
-              >
-                {child.props.label}
-              </TabItem>
+              <TabItemContainer $active={activeTab === child.props.tabKey}>
+                <TabItem
+                  key={child.props.tabKey}
+                  appearance={appearance}
+                  onClick={() => handleTabClick(child.props.tabKey)}
+                >
+                  {child.props.label}
+                </TabItem>
+              </TabItemContainer>
+
             );
           }
           return null;

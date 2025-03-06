@@ -64,7 +64,7 @@ const DialogAlert = forwardRef((
             data-testid="icon-container"
           >
             {LogoList.includes(titleIcon) ? (
-              <Logo style={{ width: '16px' }} />
+              <Logo style={{ width: '24px' }} />
             ) : (
               <StyledIcon name={titleIcon} color={titleIconColor} />
             )}

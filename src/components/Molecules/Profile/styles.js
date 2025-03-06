@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Icon, Layout } from 'components/Atoms';
+import { Icon, Layout, Typography } from 'components/Atoms';
 
 const { Flex } = Layout;
 
@@ -16,10 +16,7 @@ export const UserCardImg = styled.img`
   border-radius: 32px;
 `;
 
-/* TODO: Use Typography component later */
-export const UserCardEmail = styled.div`
-  font-size: 11px;
-  font-weight: 400;
+export const UserCardEmail = styled(Typography)`
   line-height: 17.6px;
   text-align: left;
   color: var(--rds-color-neutral-7);
@@ -40,36 +37,30 @@ export const Container = styled.div`
 
 export const ItemWrapper = styled(Flex)`
   &:hover {
-    background: var(--rds-color-neutral-alpha-1);
+    background: var(--rds-color-neutral-1);
   }
 
   &:active,
   &:focus {
     outline: none;
-    background: var(--rds-color-neutral-alpha-2);
+    background: var(--rds-color-neutral-2);
   }
 `;
 
-/* TODO: Use Typography component later */
-export const MainText = styled.div`
-  font-size: 14px;
-  font-weight: 400;
+export const MainText = styled(Typography)`
   line-height: 22.4px;
   text-align: left;
   color: var(--rds-color-neutral-10);
 `;
 
-/* TODO: Use Typography component later */
-export const HeaderWrapper = styled.div`
+export const HeaderWrapper = styled(Typography)`
   color: var(--rds-color-neutral-7);
   display: flex;
   padding: 12px 20px 8px 20px;
-  font-size: 12px;
   font-style: normal;
-  font-weight: 700;
   line-height: 120%;
 `;
 
 export const DefaultIcon = styled(Icon)`
-  color: var(--rds-color-neutral-4);
+  color: var(--rds-color-neutral-8);
 `;

@@ -46,7 +46,7 @@ function Profile({ width, account, children }) {
         scroll={false}
         isOpen={isProfileOpen}
         border="1px solid var(--rds-color-neutral-3)"
-        boxShadow="0 4px 8px 0 var(--rds-color-neutral-alpha-3)"
+        boxShadow="0 4px 8px 0 var(--rds-color-neutral-3)"
         w={width}
         right="-2px"
         p="8px 0"

@@ -13,6 +13,7 @@ function Item({
       alignItems="center"
       cursor="pointer"
       gap="12px"
+      h="40px"
       pt="8px"
       pr="16px"
       pb="8px"
@@ -26,7 +27,7 @@ function Item({
           <Icon name={icon} data-testid={`icon-${icon}`} />
         </IconWrapper>
       )}
-      <MainText>{text}</MainText>
+      <MainText level="p2">{text}</MainText>
     </ItemWrapper>
   );
 }

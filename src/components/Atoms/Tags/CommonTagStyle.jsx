@@ -11,9 +11,9 @@ const TagContainer = styled.div`
   justify-content: center;
   gap: 4px;
   padding: 4px 8px 4px 8px;
-  border-radius: 4px;
+  border-radius: 4px 4px 2px 2px;
   background-color: var(--rds-color-neutral-0);
-  border: 1px solid var(--rds-color-neutral-3);
+  border: 2px solid var(--rds-color-neutral-3);
   color: var(--rds-color-neutral-10);
   user-select: none;
   &:hover {
@@ -44,7 +44,7 @@ const TagIcon = styled(Icon)`
 function CommonTagStyle({ content, disabled, onCloseClick }) {
   return (
     <TagContainer disabled={disabled}>
-      <Typography level="p2">
+      <Typography level="h3">
         {content}
       </Typography>
       {onCloseClick && (

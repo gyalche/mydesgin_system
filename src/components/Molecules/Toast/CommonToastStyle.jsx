@@ -121,7 +121,7 @@ export const CommonToastStyle = styled.div`
     ? 'fadeOut 1s forwards'
     : `${handlePlacement($placement)} 0.2s ease forwards`)};
   border-radius: 4px;
-  box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-alpha-3);
+  box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-3);
   display: flex;
   font-weight: 700;
   width: 488px;

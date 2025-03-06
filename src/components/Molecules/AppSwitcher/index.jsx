@@ -16,7 +16,15 @@ const IconContainer = styled.div`
   flex-wrap: wrap;
   background-color: ${props => (props.$open ? 'var(--rds-color-neutral-3)' : 'transparent')};
   box-shadow: ${props => (props.$open ? '0px 4px 4px 0px var(--rds-color-neutral-3)' : 'none')};
-  border-radius: ${props => (props.$open ? '4px' : 'none')};
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--rds-color-neutral-2);
+  }
+
+  &:active {
+    background-color: ${props => (props.$open ? 'var(--rds-color-neutral-3)' : 'var(--rds-color-neutral-4)')}
+  }
 `;
 
 const Divider = styled.div`

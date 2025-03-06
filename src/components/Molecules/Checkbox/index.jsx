@@ -19,12 +19,20 @@ const CheckboxContainer = styled.div`
   cursor: pointer;
   color: ${({ isChecked, disabled }) => {
     if (disabled) return 'var(--rds-color-neutral-5)';
-    if (isChecked) return 'var(--rds-color-primary-1-deep)';
+    if (isChecked) return 'var(--rds-color-primary-1-normal)';
     return 'var(--rds-color-neutral-6)';
   }};
 
   &:hover {
-    color: ${({ disabled }) => (disabled ? 'var(--rds-color-neutral-5)' : 'var(--rds-color-primary-1-dark)')};
+  color: ${({ isChecked, disabled }) => {
+    if (disabled) return 'var(--rds-color-neutral-5)';
+    if (isChecked) return 'var(--rds-color-primary-1-dark)';
+    return 'var(--rds-color-primary-1-normal)';
+  }};
+  }
+
+  &:active {
+    color: var(--rds-color-primary-1-deep);
   }
 
   input:focus + i {

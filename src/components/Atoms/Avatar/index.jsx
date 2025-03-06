@@ -5,40 +5,40 @@ import PropTypes from 'prop-types';
 // Define all color pairs
 const colorPairs = [
   css`
-    background-color: var(--rds-color-teritary-2-subtle);
-    color: var(--rds-color-tertiary-2-deep);
+    background-color: var(--rds-color-tertiary-2-subtle);
+    color: var(--rds-color-tertiary-2-intense);
   `,
   css`
-    background-color: var(--rds-color-secondary-2-subtle);
-    color: var(--rds-color-secondary-2-deep);
+    background-color: var(--rds-color-secondary-2-pale);
+    color: var(--rds-color-secondary-2-intense);
   `,
   css`
     background-color: var(--rds-color-tertiary-1-subtle);
-    color: var(--rds-color-tertiary-1-deep);
+    color: var(--rds-color-tertiary-1-intense);
   `,
   css`
-    background-color: var(--rds-red-200);
-    color: var(--rds-color-secondary-3-deep);
+    background-color: var(--rds-color-secondary-3-subtle);
+    color: var(--rds-color-secondary-3-intense);
   `,
   css`
     background-color: var(--rds-color-secondary-1-subtle);
     color: var(--rds-color-secondary-1-deep);
   `,
   css`
-    background-color: var(--rds-teal-200);
-    color: var(--rds-color-primary-1-deep);
+    background-color: var(--rds-color-primary-1-subtle);
+    color: var(--rds-color-primary-1-intense);
   `,
   css`
-    background-color: var(--rds-pink-200);
-    color: var(--rds-color-teritary-3-deep);
+    background-color: var(--rds-color-tertiary-3-subtle);
+    color: var(--rds-color-tertiary-3-intense);
   `,
   css`
-    background-color: var(--rds-color-teritary-4-pale);
-    color: var(--rds-color-teritary-4-deep);
+    background-color: var(--rds-color-tertiary-4-subtle);
+    color: var(--rds-color-tertiary-4-intense);
   `,
   css`
     background-color: var(--rds-color-neutral-2);
-    color: var(--rds-color-neutral-10);
+    color: var(--rds-color-neutral-8);
   `,
 ];
 

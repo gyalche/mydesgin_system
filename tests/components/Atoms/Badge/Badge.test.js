@@ -22,7 +22,7 @@ describe('Badge Component', () => {
     const { container } = render(<Badge appearance='blue' />);
     expect(container.firstChild).toHaveStyleRule(
       'background-color',
-      'var(--rds-color-teritary-2-subtle)'
+      'var(--rds-color-tertiary-2-subtle)'
     );
     expect(container.firstChild).toHaveStyleRule(
       'color',
@@ -82,13 +82,13 @@ describe('Badge Component', () => {
       },
       {
         appearance: 'pink',
-        bgColor: 'var(--rds-color-teritary-3-subtle)',
-        color: 'var(--rds-color-teritary-3-deep)',
+        bgColor: 'var(--rds-color-tertiary-3-subtle)',
+        color: 'var(--rds-color-tertiary-3-deep)',
       },
       {
         appearance: 'orange',
-        bgColor: 'var(--rds-color-teritary-4-subtle)',
-        color: 'var(--rds-color-teritary-4-deep)',
+        bgColor: 'var(--rds-color-tertiary-4-subtle)',
+        color: 'var(--rds-color-tertiary-4-deep)',
       },
     ];
 
