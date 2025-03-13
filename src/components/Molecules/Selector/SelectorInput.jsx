@@ -66,6 +66,10 @@ function SelectorInput({
     value || input?.value || options[0],
   );
 
+  useEffect(() => {
+    setControlledSelectedItem(value || input?.value || options[0]);
+  }, [value, input?.value, options, setControlledSelectedItem]);
+
   const {
     isOpen,
     selectedItem,
@@ -79,6 +83,14 @@ function SelectorInput({
     onSelectedItemChange: ({ selectedItem: selectedItemValue }) => setControlledSelectedItem(selectedItemValue),
     initialSelectedItem: controlledSelectedItem,
   });
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(selectedItem);
+      return;
+    }
+    input?.onChange(selectedItem);
+  }, [controlledSelectedItem, onChange, input?.onChange, selectedItem, input]);
 
   useEffect(() => {
     setControlledSelectedItem(value || input?.value || options[0]);
