@@ -8,7 +8,7 @@ it('applies default styles', () => {
   render(<Typography>test</Typography>);
   const TypographyElement = screen.getByText('test');
 
-  expect(TypographyElement).toHaveStyleRule('font-size', '15px');
+  expect(TypographyElement).toHaveStyleRule('font-size', '17px');
 });
 
 it('Typography changes style when level has predetermined-value', () => {
@@ -16,5 +16,5 @@ it('Typography changes style when level has predetermined-value', () => {
   render(<Typography level={level}>test</Typography>);
     const TypographyElement = screen.getByText('test');
 
-  expect(TypographyElement).toHaveStyleRule('font-size', '34px');
+  expect(TypographyElement).toHaveStyleRule('font-size', '42px');
 });
