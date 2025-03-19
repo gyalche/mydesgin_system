@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+
 import DefaultRow from './DefaultRow';
 import DefaultHeader from './DefaultHeader';
 
@@ -12,18 +13,20 @@ const TableContainer = styled.table`
   width: ${props => props.width};
 `;
 
-const Table = ({ data, columns, onRowClick, RowComponent, HeaderComponent, ...style }) => {
+function Table({
+  data, columns, onRowClick, RowComponent, HeaderComponent, ...style
+}) {
   return (
     <TableContainer {...style}>
-      {HeaderComponent && <HeaderComponent columns={columns}/>}
+      {HeaderComponent && <HeaderComponent columns={columns} />}
       <TableBodyContainer>
-        {data.map((rowData, index) => (
-          <RowComponent key={index} data={rowData} columns={columns} onRowClick={onRowClick} />
+        {data.map(rowData => (
+          <RowComponent key={rowData?.effectiveDate} data={rowData} columns={columns} onRowClick={onRowClick} />
         ))}
       </TableBodyContainer>
     </TableContainer>
   );
-};
+}
 
 Table.defaultProps = {
   height: '100%',
@@ -31,6 +34,7 @@ Table.defaultProps = {
   width: '100%',
   RowComponent: DefaultRow,
   HeaderComponent: DefaultHeader,
+  onRowClick: () => {},
 };
 
 Table.propTypes = {

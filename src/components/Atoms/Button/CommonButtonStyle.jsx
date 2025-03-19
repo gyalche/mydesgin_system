@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
 
 export const primaryStyles = css`
   background-color: var(--rds-color-primary-1-dark);
@@ -21,7 +21,7 @@ export const secondaryStyles = css`
   background-color: var(--rds-color-neutral-0);
   border: 1px solid var(--rds-color-primary-1-dark);
   color: var(--rds-color-primary-1-dark);
-  height: ${({ compact }) => compact ? '32px' : '40px'};
+  height: ${({ compact }) => (compact ? '32px' : '40px')};
   
   &:hover {
     background-color: var(--rds-color-neutral-1);
@@ -38,7 +38,7 @@ export const warningStyles = css`
   background-color: var(--rds-color-tertiary-1-dark);
   border: 1px solid var(--rds-color-tertiary-1-dark);
   color: var(--rds-color-neutral-0);
-  height: ${({ compact }) => compact ? '32px' : '40px'};
+  height: ${({ compact }) => (compact ? '32px' : '40px')};
   
   &:hover {
     background-color: var(--rds-color-tertiary-1-deep);
@@ -55,7 +55,7 @@ export const dangerStyles = css`
   background-color: var(--rds-color-secondary-3-dark);
   border: 1px solid var(--rds-color-secondary-3-dark);
   color: var(--rds-color-neutral-0);
-  height: ${({ compact }) => compact ? '32px' : '40px'};
+  height: ${({ compact }) => (compact ? '32px' : '40px')};
   
   &:hover {
     background-color: var(--rds-color-secondary-3-deep);
@@ -72,7 +72,7 @@ export const subtleStyles = css`
   background-color: transparent;
   border: none;
   color: var(--rds-color-neutral-9);
-  height: ${({ compact }) => compact ? '32px' : '40px'};
+  height: ${({ compact }) => (compact ? '32px' : '40px')};
   
   &:hover {
     background-color: var(--rds-color-neutral-2);
@@ -89,7 +89,8 @@ export const linkStyles = css`
   background-color: transparent;
   border: none;
   color: var(--rds-color-primary-1-dark);
-  height: ${({ compact }) => compact ? '24px' : '32px'};
+  font-weight: 300;
+  height: ${({ compact }) => (compact ? '24px' : '32px')};
   padding: 0;
 
   &:hover {
@@ -109,8 +110,9 @@ export const subtleLinkStyles = css`
   background-color: transparent;
   border: none;
   color: var(--rds-color-neutral-9);
+  font-weight: 300;
   padding: 0;
-  height: ${({ compact }) => compact ? '24px' : '32px'};
+  height: ${({ compact }) => (compact ? '24px' : '32px')};
   
   &:hover {
     background-color: transparent;
@@ -126,22 +128,21 @@ export const subtleLinkStyles = css`
 `;
 
 export const CommonButtonStyle = styled.button.withConfig({
-  shouldForwardProp: prop =>
-    !['compact', 'w', 'mt', 'mr', 'mb', 'ml'].includes(prop),
+  shouldForwardProp: prop => !['compact', 'w', 'mt', 'mr', 'mb', 'ml'].includes(prop),
 })`
   align-items: center;
   border-radius: 4px;
   cursor: pointer;
   display: flex;
   font-weight: 700;
-  height: ${({ compact }) => compact ? '32px' : '40px'};
+  height: ${({ compact }) => (compact ? '32px' : '40px')};
   justify-content: center;
   margin-top: ${({ mt }) => mt};
   margin-right: ${({ mr }) => mr};
   margin-bottom: ${({ mb }) => mb};
   margin-left: ${({ ml }) => ml};
-  padding: ${({ compact }) => compact ? '0 8px' : '0 16px'};
-  width: ${({ w }) => w };
+  padding: ${({ compact }) => (compact ? '0 8px' : '0 16px')};
+  width: ${({ w }) => w};
 
   &:disabled {
     background-color: var(--rds-color-neutral-2);
@@ -161,7 +162,7 @@ export const CommonButtonStyle = styled.button.withConfig({
 CommonButtonStyle.propTypes = {
   appearance: PropTypes.oneOf(['primary', 'secondary', 'warning', 'danger', 'subtle', 'link', 'subtleLink']),
   compact: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  w: PropTypes.string, 
+  w: PropTypes.string,
   mt: PropTypes.string,
   mr: PropTypes.string,
   mb: PropTypes.string,

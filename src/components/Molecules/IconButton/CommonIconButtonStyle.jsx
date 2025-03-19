@@ -1,9 +1,10 @@
 import React from 'react';
-import Icon from 'components/Atoms/Icon';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+import Icon from 'components/Atoms/Icon';
 import Button from 'components/Atoms/Button';
 import { Typography } from 'components/Atoms';
-import styled from 'styled-components';
 
 // TODO- FIX ME the handling of the underline is messy, it needs to be reworked.
 
@@ -30,24 +31,25 @@ export const BaseStyle = styled(Button)`
 `;
 
 const TextContainer = styled(Typography)`
-  ${({ appearance }) => (appearance === 'subtleLink' || appearance === 'link') &&
-    `
+  ${({ appearance }) => (appearance === 'subtleLink' || appearance === 'link')
+    && `
     margin-right: 4px;
     margin-left: 4px;
     &:hover {
       text-decoration: underline;
-    }`
-  }
+    }`}
 `;
 
-export function StyledIconButton({ iconName, text, appearance, as, ...props }) {
+export function StyledIconButton({
+  iconName, text, appearance, as, ...props
+}) {
   return (
     <BaseStyle appearance={appearance} hastext={text} forwardedAs={as} {...props}>
       <Icon name={iconName} />
       {text && <TextContainer appearance={appearance}>{text}</TextContainer>}
     </BaseStyle>
   );
-};
+}
 
 StyledIconButton.defaultProps = {
   appearance: 'primary',

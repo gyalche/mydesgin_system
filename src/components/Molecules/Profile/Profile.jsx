@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown } from 'components/Atoms';
+
+import { Avatar, Dropdown } from 'components/Atoms';
 
 import UserCard from './UserCard';
-import { Container, DefaultIcon, IconWrapper, UserCardImg } from './styles';
+import { Container, IconWrapper } from './styles';
 
-const Profile = ({ width, account, children }) => {
+function Profile({ width, account, children }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const iconRef = useRef(null);
   const profileRef = useRef(null);
@@ -13,8 +14,8 @@ const Profile = ({ width, account, children }) => {
   useEffect(() => {
     const handleClickOutside = event => {
       if (
-        !profileRef?.current?.contains(event.target) &&
-        !iconRef?.current?.contains(event.target)
+        !profileRef?.current?.contains(event.target)
+        && !iconRef?.current?.contains(event.target)
       ) {
         setIsProfileOpen(false);
       }
@@ -33,28 +34,19 @@ const Profile = ({ width, account, children }) => {
 
   return (
     <Container>
-      {account?.image ? (
-        <UserCardImg
-          src={account.image}
-          onClick={() => handleIsProfileOpen()}
-          ref={iconRef}
-          data-testid="profile-image"
-        />
-      ) : (
-        <IconWrapper
-          onClick={() => handleIsProfileOpen()}
-          ref={iconRef}
-          $cursor="pointer"
-          data-testid="profile-icon-wrapper"
-        >
-          <DefaultIcon name="Interface-avatar" />
-        </IconWrapper>
-      )}
+      <IconWrapper
+        onClick={() => handleIsProfileOpen()}
+        ref={iconRef}
+        $cursor="pointer"
+        data-testid="profile-image"
+      >
+        <Avatar name={account?.name} src={account?.image} />
+      </IconWrapper>
       <Dropdown
         scroll={false}
         isOpen={isProfileOpen}
         border="1px solid var(--rds-color-neutral-3)"
-        boxShadow="0 4px 8px 0 var(--rds-color-neutral-alpha-3)"
+        boxShadow="0 4px 8px 0 var(--rds-color-neutral-3)"
         w={width}
         right="-2px"
         p="8px 0"
@@ -65,15 +57,14 @@ const Profile = ({ width, account, children }) => {
       </Dropdown>
     </Container>
   );
-};
-
-Profile.defaultProps = {
-  width: '208px',
-};
+}
 
 Profile.propTypes = {
   width: PropTypes.string.isRequired,
-  account: PropTypes.object.isRequired,
+  account: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string,
+  }).isRequired,
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.node]).isRequired,
 };
 

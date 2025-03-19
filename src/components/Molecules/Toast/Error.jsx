@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'components/Atoms';
-import { Typography } from 'components/Atoms';
+
+import { Layout, Typography } from 'components/Atoms';
 
 import StyledToast, {
+  BtnLabel,
   CloseIcon,
   Description,
   TextContainer,
+  ToastButton,
   ToastContainer,
+  ToastIcon,
 } from './CommonToastStyle';
 
 export default function Error({
@@ -15,6 +18,8 @@ export default function Error({
   description,
   close,
   $fadeOut,
+  action,
+  btnLabel,
   ...rest
 }) {
   const [isFadingOut, setIsFadingOut] = useState(false);
@@ -34,15 +39,28 @@ export default function Error({
       {...rest}
     >
       <ToastContainer $withDescription={description}>
-        <Icon name="alert-circle-solid-cross" />
-        <TextContainer>
-          <Typography level="h7">{title}</Typography>
+        <ToastIcon name="alert-circle-solid-cross" className="icon-size" />
+        <TextContainer $withDescription={description}>
+          <Layout.Block mt={description && '8px'}>
+            <Typography level="h7">{title}</Typography>
+          </Layout.Block>
           {description && <Description>{description}</Description>}
+          {action && btnLabel && title && btnLabel && description && (
+            <ToastButton data-testid="button-id" mt="8px" onClick={action} compact={true} $withDescription={description}>
+              <BtnLabel>{btnLabel}</BtnLabel>
+            </ToastButton>
+          )}
         </TextContainer>
+        {action && btnLabel && title && !description && (
+          <ToastButton data-testid="right-side-btn" onClick={action} compact={true} $withDescription={description}>
+            <BtnLabel>{btnLabel}</BtnLabel>
+          </ToastButton>
+        )}
         <CloseIcon
           name="action-cross"
           onClick={closeToast}
           data-testid="close-icon"
+          $withDescription={description}
         />
       </ToastContainer>
     </StyledToast>
@@ -54,9 +72,14 @@ Error.propTypes = {
   description: PropTypes.string,
   close: PropTypes.func.isRequired,
   $fadeOut: PropTypes.bool,
+  action: PropTypes.func,
+  btnLabel: PropTypes.string,
 };
 
 Error.defaultProps = {
   title: '',
   description: null,
+  action: () => {},
+  btnLabel: 'action',
+  $fadeOut: false,
 };

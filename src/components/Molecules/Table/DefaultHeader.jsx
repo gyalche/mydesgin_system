@@ -19,11 +19,11 @@ const TextColumn = styled.td`
   weight: 700;
 `;
 
-const DefaultHeader = ({ columns, color }) => {
+function DefaultHeader({ columns, color }) {
   return (
     <Header color={color}>
       <Row>
-        {columns.map((column) => (
+        {columns.map(column => (
           <TextColumn key={column.label} {...column}>
             {column.label}
           </TextColumn>
@@ -31,7 +31,7 @@ const DefaultHeader = ({ columns, color }) => {
       </Row>
     </Header>
   );
-};
+}
 
 DefaultHeader.defaultProps = {
   color: 'var(--rds-color-neutral-10)',
@@ -39,7 +39,13 @@ DefaultHeader.defaultProps = {
 
 DefaultHeader.propTypes = {
   color: PropTypes.string,
-  columns: PropTypes.array.isRequired,
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      flex: PropTypes.string,
+      field: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default DefaultHeader;

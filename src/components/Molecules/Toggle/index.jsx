@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
@@ -39,53 +39,33 @@ const SwitchInner = styled.span`
     content: attr(data-yes);
     text-transform: uppercase;
     padding-left: 10px;
-    background-color: ${({ $disabled, $selectedColor }) =>
-      $disabled ? 'var(--rds-color-neutral-alpha-1)' : $selectedColor};
-    color: ${({ $disabled }) =>
-      $disabled
-        ? 'var(--rds-color-neutral-alpha-4)'
-        : 'var(--rds-color-neutral-0)'};
+    background-color: ${({ $disabled, $selectedColor }) => ($disabled ? 'var(--rds-color-neutral-1)' : $selectedColor)};
+    color: ${({ $disabled }) => ($disabled ? 'var(--rds-color-neutral-4)' : 'var(--rds-color-neutral-0)')};
   }
 
   &:hover:before {
-    background-color: ${({ $disabled }) =>
-      $disabled
-        ? 'var(--rds-color-neutral-alpha-1)'
-        : 'var(--rds-color-primary-1-dark)'};
+    background-color: ${({ $disabled }) => ($disabled ? 'var(--rds-color-neutral-1)' : 'var(--rds-color-primary-1-dark)')};
   }
 
   &:active:before {
-    background-color: ${({ $disabled }) =>
-      $disabled
-        ? 'var(--rds-color-neutral-alpha-1)'
-        : 'var(--rds-color-neutral-7)'};
+    background-color: ${({ $disabled }) => ($disabled ? 'var(--rds-color-neutral-1)' : 'var(--rds-color-neutral-7)')};
   }
 
   &:after {
     content: attr(data-no);
     text-transform: uppercase;
     padding-right: 10px;
-    background-color: ${({ $disabled, $unselectedColor }) =>
-      $disabled ? 'var(--rds-color-neutral-alpha-1)' : $unselectedColor};
-    color: ${({ $disabled }) =>
-      $disabled
-        ? 'var(--rds-color-neutral-alpha-4)'
-        : 'var(--rds-color-neutral-0)'};
+    background-color: ${({ $disabled, $unselectedColor }) => ($disabled ? 'var(--rds-color-neutral-1)' : $unselectedColor)};
+    color: ${({ $disabled }) => ($disabled ? 'var(--rds-color-neutral-4)' : 'var(--rds-color-neutral-0)')};
     text-align: right;
   }
 
   &:hover:after {
-    background-color: ${({ $disabled }) =>
-      $disabled
-        ? 'var(--rds-color-neutral-alpha-1)'
-        : 'var(--rds-color-neutral-6)'};
+    background-color: ${({ $disabled }) => ($disabled ? 'var(--rds-color-neutral-1)' : 'var(--rds-color-neutral-6)')};
   }
 
   &:active:after {
-    background-color: ${({ $disabled }) =>
-      $disabled
-        ? 'var(--rds-color-neutral-alpha-1)'
-        : 'var(--rds-color-primary-1-deep)'};
+    background-color: ${({ $disabled }) => ($disabled ? 'var(--rds-color-neutral-1)' : 'var(--rds-color-primary-1-deep)')};
   }
 `;
 
@@ -93,10 +73,7 @@ const SwitchSwitch = styled.span`
   display: block;
   width: ${({ height }) => height - 10}px;
   margin: 5px;
-  background: ${({ $disabled }) =>
-    $disabled
-      ? 'var(--rds-color-neutral-alpha-4)'
-      : 'var(--rds-color-neutral-0)'};
+  background: ${({ $disabled }) => ($disabled ? 'var(--rds-color-neutral-4)' : 'var(--rds-color-neutral-0)')};
   position: absolute;
   top: 0;
   bottom: 0;
@@ -106,10 +83,9 @@ const SwitchSwitch = styled.span`
 `;
 
 const commonIconWrapperStyles = css`
-  color: ${({ $disabled }) =>
-    $disabled
-      ? 'var(--rds-color-neutral-alpha-4)'
-      : 'var(--rds-color-neutral-0)'};
+  color: ${({ $disabled }) => ($disabled
+    ? 'var(--rds-color-neutral-4)'
+    : 'var(--rds-color-neutral-0)')};
   font-size: 24px;
   position: absolute;
   top: -4px;
@@ -155,7 +131,7 @@ const SwitchWrapper = styled.div`
   }
 `;
 
-const Toggle = ({
+function Toggle({
   id,
   w,
   name,
@@ -166,7 +142,7 @@ const Toggle = ({
   input,
   tabIndex,
   ...props
-}) => {
+}) {
   const [checked, setChecked] = useState(input.checked || false);
 
   const handleKeyPress = event => {
@@ -176,7 +152,7 @@ const Toggle = ({
     }
   };
 
-  const handleOnChange = e => {
+  const handleOnChange = () => {
     input?.onChange?.(!checked);
     setChecked(!checked);
   };
@@ -194,7 +170,7 @@ const Toggle = ({
         role="checkbox"
         disabled={disabled}
         checked={checked}
-        onChange={e => handleOnChange(e)}
+        onChange={handleOnChange}
         {...input}
         {...props}
       />
@@ -227,7 +203,7 @@ const Toggle = ({
       </SwitchLabel>
     </SwitchWrapper>
   );
-};
+}
 
 Toggle.defaultProps = {
   w: 78,
@@ -249,11 +225,15 @@ Toggle.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   labels: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.element])
+    PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.element]),
   ),
   colors: PropTypes.arrayOf(PropTypes.string),
   disabled: PropTypes.bool,
-  input: PropTypes.object,
+  input: PropTypes.shape({
+    value: PropTypes.bool,
+    checked: PropTypes.bool,
+    onChange: PropTypes.func,
+  }),
   tabIndex: PropTypes.string,
 };
 

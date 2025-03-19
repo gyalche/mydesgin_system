@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
 import * as Logo from 'components/Atoms/Logo';
 
 const ProductLogo = styled.div`
@@ -43,6 +44,10 @@ const DropDownItem = styled.a`
     background-color: var(--rds-color-neutral-1);
     cursor: pointer;
   }
+  &:hover {
+    background-color: var(--rds-color-neutral-1);
+    cursor: pointer;
+  }
 `;
 
 function AppLink({
@@ -53,7 +58,6 @@ function AppLink({
   isActive,
   description,
 }) {
-
   const logoMap = {
     reception: <Logo.Receptionist />,
     meetingroom: <Logo.ReceptionistRooms />,

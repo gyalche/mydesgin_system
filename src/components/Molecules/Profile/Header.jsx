@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 
 import { HeaderWrapper } from './styles';
 
-const Header = ({ text }) => {
-  return <HeaderWrapper>{text}</HeaderWrapper>;
-};
-
-Header.defaultProps = {
-  text: '',
-};
+function Header({ text }) {
+  return <HeaderWrapper level="h9">{text}</HeaderWrapper>;
+}
 
 Header.propTypes = {
   text: PropTypes.string.isRequired,

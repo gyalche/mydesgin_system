@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import Status from 'components/Molecules/Status';
 import Label from 'components/Atoms/Label';
 
 const MainContainer = styled.div`
   width: ${({ w }) => w};
   display: flex;
-  flex-direction: ${({ $isLeftSideLabel }) =>
-    $isLeftSideLabel ? 'row' : 'column'};
+  flex-direction: ${({ $isLeftSideLabel }) => ($isLeftSideLabel ? 'row' : 'column')};
 `;
 
 const TopContainer = styled.div`
@@ -26,7 +26,7 @@ const InputLabel = styled(Label)`
   margin-bottom: 4px;
 `;
 
-const CommonFormField = ({
+function CommonFormField({
   customField: CustomField,
   tooltip: Tooltip,
   input,
@@ -38,15 +38,13 @@ const CommonFormField = ({
   helperText,
   validText,
   ...inputProps
-}) => {
+}) {
   const { touched, error } = meta || {};
 
   const getStatusComponent = () => {
-    if (error && touched)
-      return <Status appearance="error">{error}</Status>;
+    if (error && touched) return <Status appearance="error">{error}</Status>;
 
-    if (validText && touched)
-      return <Status appearance="success">{validText}</Status>;
+    if (validText && touched) return <Status appearance="success">{validText}</Status>;
 
     return <Status>{helperText}</Status>;
   };
@@ -71,12 +69,18 @@ const CommonFormField = ({
       </BottomContainer>
     </MainContainer>
   );
-};
+}
 
 CommonFormField.propTypes = {
   customField: PropTypes.elementType.isRequired,
   tooltip: PropTypes.elementType,
-  input: PropTypes.object,
+  input: PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
+  }),
   meta: PropTypes.shape({
     touched: PropTypes.bool,
     error: PropTypes.string,
@@ -87,7 +91,7 @@ CommonFormField.propTypes = {
   validText: PropTypes.string,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
-  //Input and TextArea props
+  // Input and TextArea props
   w: PropTypes.string,
   h: PropTypes.string,
   mt: PropTypes.string,
@@ -99,11 +103,21 @@ CommonFormField.propTypes = {
 
 CommonFormField.defaultProps = {
   isLeftSideLabel: false,
-  Tooltip: null,
+  tooltip: null,
   disabled: false,
   w: '416px',
   compact: false,
   meta: {},
+  input: {},
+  labelText: '',
+  helperText: '',
+  validText: '',
+  placeholder: '',
+  h: 'auto',
+  mt: '0px',
+  mr: '0px',
+  mb: '0px',
+  ml: '0px',
 };
 
 export default CommonFormField;

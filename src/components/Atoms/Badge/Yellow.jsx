@@ -1,4 +1,5 @@
 import React from 'react';
+
 import StyledBadge from './CommonBadgeStyle';
 
 export default function Yellow(props) {

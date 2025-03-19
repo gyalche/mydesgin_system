@@ -1,4 +1,5 @@
 import React from 'react';
+
 import AppSwitcher from 'components/Molecules/AppSwitcher';
 
 export default {
@@ -13,8 +14,8 @@ export const ApplicationSwitcher = {
     layout: 'centered',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=6044-14890&mode=design&t=g6nxjdQUCysTShhd-0'
-    }
+      url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?type=design&node-id=6044-14890&mode=design&t=g6nxjdQUCysTShhd-0',
+    },
   },
   argTypes: {
     owned: {
@@ -29,14 +30,14 @@ export const ApplicationSwitcher = {
     ownedLabel: {
       description: 'The label text of the other product section',
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     otherLabel: {
       description: 'The label text of the other product section',
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     currentApp: {
       description: 'Current Application',
@@ -48,29 +49,35 @@ export const ApplicationSwitcher = {
     width: {
       description: 'Width of the drop-down menu',
       control: {
-        type: 'text'
-      }
+        type: 'text',
+      },
     },
     onClick: {
-      description: 'set an onClick event on a link.'
+      description: 'set an onClick event on a link.',
     },
   },
   args: {
     owned: [
-      { name: 'Reception', product_type: 'reception', description: 'This is the Reception app', isActive: true, link: 'https://receptionist.jp' },
-      { name: 'scheduling', product_type: 'scheduling', isActive: true, link: 'https://scheduling.receptionist.jp' }
+      {
+        name: 'Reception', productType: 'reception', description: 'This is the Reception app', isActive: true, link: 'https://receptionist.jp',
+      },
+      {
+        name: 'scheduling', productType: 'scheduling', isActive: true, link: 'https://scheduling.receptionist.jp',
+      },
     ],
     other: [
-      { name: 'Rooms', description: 'This is the Rooms App', product_type: 'meetingroom', link: 'https://rooms.receptionist.jp' },
-      { name: 'Other', description: 'Other Reception Products', product_type: 'other', link: '/product' }
+      {
+        name: 'Rooms', description: 'This is the Rooms App', productType: 'meetingroom', link: 'https://rooms.receptionist.jp',
+      },
+      {
+        name: 'Other', description: 'Other Reception Products', productType: 'other', link: '/product',
+      },
     ],
     ownedLabel: 'Owned Products',
     otherLabel: 'Other Products',
     currentApp: 'scheduling',
   },
-  render: args => {
-    return (
-      <AppSwitcher { ...args } />
-    );
-  }
+  render: args => (
+    <AppSwitcher {...args} />
+  ),
 };

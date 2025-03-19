@@ -60,7 +60,7 @@ const Dropdown = forwardRef(
       right,
       ...rest
     },
-    ref
+    ref,
   ) => (
     <DropdownContainer
       $scroll={scroll}
@@ -82,7 +82,7 @@ const Dropdown = forwardRef(
     >
       {isOpen && children}
     </DropdownContainer>
-  )
+  ),
 );
 
 Dropdown.displayName = 'Dropdown';
@@ -100,6 +100,7 @@ Dropdown.defaultProps = {
   boxShadow: '0 4px 8px 0 rgba(156, 168, 184, 0.48)',
   scroll: true,
   overflowX: 'visible',
+  right: '',
 };
 
 Dropdown.propTypes = {

@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Typography } from 'components/Atoms';
+
+import { Layout, Typography } from 'components/Atoms';
 
 import StyledToast, {
-  CloseIcon,
+  BtnLabel,
   Description,
+  StyledIcon,
   TextContainer,
+  ToastButton,
   ToastContainer,
 } from './CommonToastStyle';
-
-const StyledIcon = styled(CloseIcon)`
-  color: var(--rds-color-neutral-8);
-`;
 
 export default function Warning({
   title,
   description,
   close,
   $fadeOut,
+  action,
+  btnLabel,
   ...rest
 }) {
   const [isFadingOut, setIsFadingOut] = useState(false);
@@ -38,14 +38,27 @@ export default function Warning({
     >
       <ToastContainer $withDescription={description}>
         <StyledIcon name="alert-polygon-solid-exclamation" />
-        <TextContainer>
-          <Typography level="h7">{title}</Typography>
-          {description && <Description $isWarning>{description}</Description>}
+        <TextContainer $withDescription={description}>
+          <Layout.Block mt={description && '4px'}>
+            <Typography level="h7">{title}</Typography>
+          </Layout.Block>
+          {description && <Description $isWarning={true}>{description}</Description>}
+          {action && title && btnLabel && description && (
+            <ToastButton data-testid="button-id" mt="8px" onClick={action} compact={true} $withDescription={description}>
+              <BtnLabel>{btnLabel}</BtnLabel>
+            </ToastButton>
+          )}
         </TextContainer>
+        {action && btnLabel && title && !description && (
+          <ToastButton compact={true} data-testid="right-side-btn" onClick={action} $withDescription={description}>
+            <BtnLabel>{btnLabel}</BtnLabel>
+          </ToastButton>
+        )}
         <StyledIcon
           name="action-cross"
           onClick={closeToast}
           data-testid="close-icon"
+          $withDescription={description}
         />
       </ToastContainer>
     </StyledToast>
@@ -57,9 +70,14 @@ Warning.propTypes = {
   description: PropTypes.string,
   close: PropTypes.func.isRequired,
   $fadeOut: PropTypes.bool,
+  action: PropTypes.func,
+  btnLabel: PropTypes.string,
 };
 
 Warning.defaultProps = {
   title: '',
   description: null,
+  action: () => {},
+  btnLabel: 'action',
+  $fadeOut: false,
 };

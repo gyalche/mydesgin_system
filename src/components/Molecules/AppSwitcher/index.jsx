@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
 import Icon from 'components/Atoms/Icon';
-import AppLink from './AppLink.jsx';
+
+import AppLink from './AppLink';
 
 const IconContainer = styled.div`
   height: 32px;
@@ -12,15 +14,23 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  background-color: ${props => props.$open ? 'var(--rds-color-neutral-3)' : 'transparent'};
-  box-shadow: ${props => props.$open ? '0px 4px 4px 0px var(--rds-color-neutral-3)' : 'none'};
-  border-radius: ${props => props.$open ? '4px' : 'none'};
+  background-color: ${props => (props.$open ? 'var(--rds-color-neutral-3)' : 'transparent')};
+  box-shadow: ${props => (props.$open ? '0px 4px 4px 0px var(--rds-color-neutral-3)' : 'none')};
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--rds-color-neutral-2);
+  }
+
+  &:active {
+    background-color: ${props => (props.$open ? 'var(--rds-color-neutral-3)' : 'var(--rds-color-neutral-4)')}
+  }
 `;
 
 const Divider = styled.div`
   margin: 12px 0 12px -20px;
   width: ${props => props.width};
-  border-bottom: ${props => props.$displayLine ? '2px solid var(--rds-color-neutral-3)' : ''};
+  border-bottom: ${props => (props.$displayLine ? '2px solid var(--rds-color-neutral-3)' : '')};
 `;
 
 const OwnedProduct = styled.div``;
@@ -59,8 +69,8 @@ function AppSwitcher({
 
   const handleClickOutside = event => {
     if (
-      appSwitcherRef.current &&
-      !appSwitcherRef.current.contains(event.target)
+      appSwitcherRef.current
+      && !appSwitcherRef.current.contains(event.target)
     ) {
       setToggled(false);
     }
@@ -74,61 +84,67 @@ function AppSwitcher({
   }, []);
 
   return (
-    <div ref={ appSwitcherRef }>
+    <div ref={appSwitcherRef}>
       <IconContainer
         onClick={() => setToggled(!toggled)}
         data-testid="grid-icon-button"
         $open={toggled}
       >
         <Icon
-          name='global-menu-grid'
+          name="global-menu-grid"
         />
       </IconContainer>
       {toggled && (
         <AppSwitcherContent width={width} data-testid="dropdown-container">
-        {owned.length > 0 && (
-          <>
-          <DropDownSectionTitle>
-            {ownedLabel}
-          </DropDownSectionTitle>
-          <OwnedProduct>
-            {owned.map(({ product_type, name, onClick, description }) => {
-              if (product_type !== currentApp) {
-                return (
-                  <AppLink
-                    key={'appLink-' + product_type}
-                    product={product_type}
-                    productName={name}
-                    onClick={() => onClick()}
-                    isActive
-                    currentApp={currentApp}
-                    description={description}
-                  />
-                );
-              }
-              return null;
-            })}
+          {owned.length > 0 && (
+            <>
+              <DropDownSectionTitle>
+                {ownedLabel}
+              </DropDownSectionTitle>
+              <OwnedProduct>
+                {owned.map(({
+                  productType, name, onClick, description,
+                }) => {
+                  if (productType !== currentApp) {
+                    return (
+                      <AppLink
+                        key={`appLink-${productType}`}
+                        product={productType}
+                        productName={name}
+                        onClick={() => onClick()}
+                        isActive={true}
+                        currentApp={currentApp}
+                        description={description}
+                      />
+                    );
+                  }
+                  return null;
+                })}
               </OwnedProduct>
-              <Divider $displayLine={owned.length > 0 && other.length > 0} width={width}/>
-          </>)}
+              <Divider $displayLine={owned.length > 0 && other.length > 0} width={width} />
+            </>
+          )}
           {other.length > 0 && (
             <>
-          <DropDownSectionTitle>
-            {otherLabel}
-          </DropDownSectionTitle>
-          <OtherProduct>
-            {other.map(({ product_type, link, name, description }) => (
-              <AppLink
-                key={'appLink-' + product_type}
-                link={link}
-                product={product_type}
-                productName={name}
-                isActive={false}
-                description={description}
-              />
-            ))}
-          </OtherProduct>
-          </> )}
+              <DropDownSectionTitle>
+                {otherLabel}
+              </DropDownSectionTitle>
+              <OtherProduct>
+                {other.map(({
+                  productType, link, name, description,
+                }) => (
+                  <AppLink
+                    key={`appLink-${productType}`}
+                    link={link}
+                    product={productType}
+                    productName={name}
+                    isActive={false}
+                    description={description}
+                  />
+                ))}
+              </OtherProduct>
+            </>
+          )}
         </AppSwitcherContent>
       )}
     </div>
@@ -145,8 +161,18 @@ AppSwitcher.defaultProps = {
 };
 
 AppSwitcher.propTypes = {
-  owned: PropTypes.array,
-  other: PropTypes.array,
+  owned: PropTypes.arrayOf(PropTypes.shape({
+    productType: PropTypes.string,
+    name: PropTypes.string,
+    onClick: PropTypes.func,
+    description: PropTypes.string,
+  })),
+  other: PropTypes.arrayOf(PropTypes.shape({
+    productType: PropTypes.string,
+    link: PropTypes.string,
+    name: PropTypes.string,
+    description: PropTypes.string,
+  })),
   ownedLabel: PropTypes.string,
   otherLabel: PropTypes.string,
   currentApp: PropTypes.string,

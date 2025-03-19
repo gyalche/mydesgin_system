@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import { Icon, Input } from 'components/Atoms';
 import * as logos from 'components/Atoms/Logo';
 
@@ -21,7 +22,7 @@ const IconWrapper = styled.div`
   color: var(--rds-color-neutral-5);
 `;
 
-const SearchInput = ({
+function SearchInput({
   compact,
   placeholder,
   icon,
@@ -30,7 +31,7 @@ const SearchInput = ({
   onChange,
   input,
   ...props
-}) => {
+}) {
   const LogoList = [
     'Chatwork',
     'Garoon',
@@ -88,7 +89,7 @@ const SearchInput = ({
       </IconWrapper>
     </InputWrapper>
   );
-};
+}
 
 SearchInput.defaultProps = {
   w: 'auto',
@@ -100,6 +101,10 @@ SearchInput.defaultProps = {
   compact: false,
   isInvalid: false,
   icon: 'action-loupe',
+  name: '',
+  input: {},
+  value: undefined,
+  onChange: () => {},
 };
 
 SearchInput.propTypes = {
@@ -115,7 +120,11 @@ SearchInput.propTypes = {
   name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
-  input: PropTypes.object,
+  input: PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func,
+  }),
 };
 
 export default SearchInput;

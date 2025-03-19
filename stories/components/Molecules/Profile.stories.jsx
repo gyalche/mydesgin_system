@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Profile from 'components/Molecules/Profile';
 import * as Layout from 'components/Atoms/Layout';
 

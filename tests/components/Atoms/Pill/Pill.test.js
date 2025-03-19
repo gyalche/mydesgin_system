@@ -19,7 +19,7 @@ it('should render the correct styles', () => {
   expect(pill).toBeInTheDocument();
   expect(pill).toHaveStyleRule(
     'background-color',
-    'var(--rds-color-teritary-2-subtle)'
+    'var(--rds-color-tertiary-2-subtle)'
   );
   expect(pill).toHaveStyleRule('color', 'var(--rds-color-tertiary-2-deep)');
 });

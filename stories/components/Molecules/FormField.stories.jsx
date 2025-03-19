@@ -1,4 +1,5 @@
 import React from 'react';
+
 import FormField from 'components/Molecules/FormField';
 import * as Layout from 'components/Atoms/Layout';
 
@@ -18,37 +19,37 @@ export const Field = {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/7GhAI7t2dM3tVWpWMAVFXJ/Design-System?node-id=6087%3A12412&mode=dev',
-    }
+    },
   },
   argTypes: {
     labelText: {
       description: 'In put Label displaying at the over of the input',
-      control: { type: 'text' }
+      control: { type: 'text' },
     },
     helperText: {
       description: 'Helper text displaying at the under of the input',
-      control: { type: 'text' }
+      control: { type: 'text' },
     },
     validText: {
       description: 'Validation text displaying at the under of the input',
-      control: { type: 'text' }
+      control: { type: 'text' },
     },
     meta: {
       description: 'Mock meta data used by React Final Form that handles the status of the validation',
-      control: { type: 'object' }
+      control: { type: 'object' },
     },
     placeholder: {
       description: 'Place holder for initial state of the input',
-      control: { type: 'text' }
+      control: { type: 'text' },
     },
     isLeftSideLabel: {
       description: 'True => Label is on the left, false => Label is on top',
-      control: { type: 'boolean' }
+      control: { type: 'boolean' },
     },
     w: {
       name: 'Width',
       description: 'Width of the Field',
-      control: { type: 'text' }
+      control: { type: 'text' },
     },
   },
   args: {
@@ -60,16 +61,14 @@ export const Field = {
     isLeftSideLabel: false,
     w: '416px',
   },
-  render: (args) => {
-    return (
-      <Layout.Block>
-        <Layout.Item>
-          <FormField.Input {...args} />
-        </Layout.Item>
-        <Layout.Item>
-          <FormField.TextArea {...args} />
-        </Layout.Item>
-      </Layout.Block>
-    );
-  }
+  render: args => (
+    <Layout.Block>
+      <Layout.Item>
+        <FormField.Input {...args} />
+      </Layout.Item>
+      <Layout.Item>
+        <FormField.TextArea {...args} />
+      </Layout.Item>
+    </Layout.Block>
+  ),
 };

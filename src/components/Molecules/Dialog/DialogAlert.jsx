@@ -1,16 +1,19 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
+
 import { Button } from 'components/Atoms';
 import { Flex } from 'components/Atoms/Layout';
-import Dialog from './Dialog';
 import * as logos from 'components/Atoms/Logo';
 
+import Dialog from './Dialog';
 import { ContentText, StyledIcon, TitleText } from './styles';
 
-const DialogAlert = forwardRef(function DialogAlert(
-  { title, titleIcon, titleIconColor, content, w, maxW, onOK, ...rest },
-  ref
-) {
+const DialogAlert = forwardRef((
+  {
+    title, titleIcon, titleIconColor, content, w, maxW, onOK, ...rest
+  },
+  ref,
+) => {
   const LogoList = [
     'Chatwork',
     'Garoon',
@@ -61,7 +64,7 @@ const DialogAlert = forwardRef(function DialogAlert(
             data-testid="icon-container"
           >
             {LogoList.includes(titleIcon) ? (
-              <Logo style={{ width: '16px' }} />
+              <Logo style={{ width: '24px' }} />
             ) : (
               <StyledIcon name={titleIcon} color={titleIconColor} />
             )}
@@ -76,11 +79,10 @@ const DialogAlert = forwardRef(function DialogAlert(
   );
 });
 
+DialogAlert.displayName = 'DialogAlert';
+
 DialogAlert.defaultProps = {
-  title: '',
-  titleIcon: 'alert-circle-solid-check',
   titleIconColor: 'var(--rds-color-secondary-2-deep)',
-  content: '',
   w: '400px',
   maxW: null,
   onOK: 'close',

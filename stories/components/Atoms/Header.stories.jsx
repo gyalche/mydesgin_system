@@ -1,17 +1,30 @@
 import React from 'react';
+
 import Header from 'components/Atoms/Header';
 
 export default {
   title: 'Design System/Atoms/Headers',
-  component: Header
+  component: Header,
 };
 
-const LeftComponent1 = () => <div>Left 1</div>;
-const LeftComponent2 = () => <div>Left 2</div>;
-const CenterComponent1 = () => <div>Center 1</div>;
-const CenterComponent2 = () => <div>Center 2</div>;
-const RightComponent1 = () => <div>Right 1</div>;
-const RightComponent2 = () => <div>Right 2</div>;
+function LeftComponent1() {
+  return <div>Left 1</div>;
+}
+function LeftComponent2() {
+  return <div>Left 2</div>;
+}
+function CenterComponent1() {
+  return <div>Center 1</div>;
+}
+function CenterComponent2() {
+  return <div>Center 2</div>;
+}
+function RightComponent1() {
+  return <div>Right 1</div>;
+}
+function RightComponent2() {
+  return <div>Right 2</div>;
+}
 
 export const Headers = {
   title: 'Header',
@@ -41,12 +54,10 @@ export const Headers = {
     centerContent: [<CenterComponent1 />, <CenterComponent2 />],
     rightContent: [<RightComponent1 />, <RightComponent2 />],
   },
-  render: (args) => {
-    return (
-      <div>
-        <Header {...args}></Header>
-        <div style={{ height: '3000px' }}></div>
-      </div>
-    );
-  },
+  render: args => (
+    <div>
+      <Header {...args} />
+      <div style={{ height: '3000px' }} />
+    </div>
+  ),
 };

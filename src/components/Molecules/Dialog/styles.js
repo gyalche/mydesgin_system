@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { Icon, Typography } from 'components/Atoms';
 
 export const DialogContainer = styled.dialog`

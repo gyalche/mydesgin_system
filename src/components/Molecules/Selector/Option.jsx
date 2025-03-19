@@ -7,24 +7,23 @@ const ListItem = styled.li`
   list-style: none;
   margin: 8px 0;
   padding: 8px 20px;
-  color: ${({ $isHighlighted }) =>
-    $isHighlighted
-      ? 'var(--rds-color-primary-1-dark)'
-      : 'var(--rds-color-neutral-10)'};
+  color: ${({ $isHighlighted }) => ($isHighlighted
+    ? 'var(--rds-color-primary-1-dark)'
+    : 'var(--rds-color-neutral-10)')};
 
   &:hover {
-    background: rgba(226, 231, 239, 0.32);
+    background: var(--rds-color-neutral-1);
+    color: var(--rds-color-neutral-10);
   }
 `;
 
-export const Option = ({
+export function Option({
   item,
   index,
   highlightedIndex,
   getItemProps,
   children,
-  ...rest
-}) => {
+}) {
   return (
     <ListItem
       $isHighlighted={highlightedIndex === index}
@@ -33,10 +32,13 @@ export const Option = ({
       {children}
     </ListItem>
   );
-};
+}
 
 Option.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  }).isRequired,
   index: PropTypes.number.isRequired,
   highlightedIndex: PropTypes.number.isRequired,
   children: PropTypes.string.isRequired,

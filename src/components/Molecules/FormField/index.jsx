@@ -1,6 +1,6 @@
 import CommonFormField from './CommonFormField';
-import { default as FormFieldInput } from './FormFieldInput';
-import { default as FormFieldTextArea } from './FormFieldTextArea';
+import FormFieldInput from './FormFieldInput';
+import FormFieldTextArea from './FormFieldTextArea';
 
 const FormField = CommonFormField;
 

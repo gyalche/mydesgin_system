@@ -21,21 +21,43 @@ const Row = styled.tr`
   letter-spacing: 0px;
   text-align: left;
   width: 100%;
+  border-bottom: 1px solid var(--rds-color-neutral-3);
+
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
-const DefaultRow = ({ data, columns }) => {
+function DefaultRow({ data, columns }) {
   return (
     <Row>
-      {columns.map((column, index) => {
-        return <Column key={index} {...column}>{data[column.field]}</Column>;
-      })}
+      {columns.map(column => <Column key={column?.field} {...column}>{data[column.field]}</Column>)}
     </Row>
   );
-};
+}
 
 DefaultRow.propTypes = {
-  columns: PropTypes.array.isRequired,
-  data: PropTypes.object.isRequired,
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      field: PropTypes.string.isRequired,
+      flex: PropTypes.string,
+    }),
+  ),
+  data: PropTypes.shape({
+    effectiveDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    meetingRoom: PropTypes.string,
+    memo: PropTypes.string,
+    personInCharge: PropTypes.string,
+    receptionCode: PropTypes.string,
+    title: PropTypes.string,
+    visitor: PropTypes.string,
+  }),
+};
+
+DefaultRow.defaultProps = {
+  columns: null,
+  data: null,
 };
 
 export default DefaultRow;

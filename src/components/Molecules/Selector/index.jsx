@@ -1,7 +1,7 @@
-import { default as DefaultDisplay } from './DefaultDisplay';
-import { default as Option } from './Option';
-import { default as OptionSelectDisplay } from './OptionSelectDisplay';
-import { default as SelectorInput } from './SelectorInput';
+import DefaultDisplay from './DefaultDisplay';
+import Option from './Option';
+import OptionSelectDisplay from './OptionSelectDisplay';
+import SelectorInput from './SelectorInput';
 
 const Selector = SelectorInput;
 
