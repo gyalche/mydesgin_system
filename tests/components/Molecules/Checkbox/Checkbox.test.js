@@ -72,7 +72,7 @@ it('changes style on hover', () => {
   fireEvent.mouseOver(checkboxContainer);
   expect(checkboxContainer).toHaveStyleRule(
     'color',
-    'var(--rds-color-primary-1-dark)',
+    'var(--rds-color-primary-1-normal)',
     {
       modifier: ':hover',
     }

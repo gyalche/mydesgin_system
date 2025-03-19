@@ -50,7 +50,7 @@ const Flex = styled.div.withConfig({
     && `
     pointer-events: none;
     user-select: none;
-    
+
     & * {
       opacity: 0.4;
     }

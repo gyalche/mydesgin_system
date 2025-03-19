@@ -203,7 +203,7 @@ it('should render ToastButton below description if props(title, action) is passe
     // Check that ToastButton is rendered below description
     const toastButton = screen.getByTestId('right-side-btn');
     expect(toastButton).toBeInTheDocument();
-   
+
     // Check that the CloseIcon is also rendered
     const closeIcon = screen.queryByTestId('close-icon');
     expect(closeIcon).toBeInTheDocument();
