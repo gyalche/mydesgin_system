@@ -9,6 +9,6 @@ it('Divider default styles', () => {
   expect(divider).toHaveStyleRule('width', '100%');
   expect(divider).toHaveStyleRule('height', '2px');
   expect(divider).toHaveStyleRule('border-radius', '21px');
-  expect(divider).toHaveStyleRule('margin', '12px 0px 12px 0px');
+  expect(divider).toHaveStyleRule('margin', '12px 0 12px 0');
   expect(divider).toHaveStyleRule('background-color', 'var(--rds-color-neutral-3)');
 });

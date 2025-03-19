@@ -1,0 +1,42 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as FormComponentTesterStories from './FormComponentTester.stories.jsx';
+
+<Meta of={FormComponentTesterStories} />
+
+# Form Component Tester
+
+This interactive tool allows you to test different form components within a react-final-form + FormField environment. You can select any component that is usable inside a form, configure its properties, and see how it behaves in real-time.
+
+## How to Use
+
+1. **Select a Component**: Choose a component type from the "selectedComponent" dropdown
+2. **Configure Properties**: Adjust the component's properties using the controls
+3. **Test Validation**: Set the validation state to "Invalid" to see how the component handles errors
+4. **Interact with the Component**: Fill in values, toggle options, etc.
+5. **View Form State**: See the current value and form state in real-time
+6. **Submit the Form**: Click the Submit button to see the submitted values
+
+## Available Components
+
+The following components can be tested:
+
+- **Input**: Text input field with various types (text, email, password, number)
+- **TextArea**: Multi-line text input
+- **Checkbox**: Boolean checkbox with label
+- **RadioButton**: Group of radio buttons with options
+- **Toggle**: Toggle switch with custom labels
+- **Selector**: Dropdown selector with options
+
+Each component is pre-configured with sensible defaults and initial values to demonstrate its functionality.
+
+## Tester
+
+<Canvas
+  of={FormComponentTesterStories.FormComponentTester}
+  layout="padded"
+  className="contrast-background"
+  sourceState="none"
+/>
+
+<Controls of={FormComponentTesterStories.FormComponentTester} />

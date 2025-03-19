@@ -23,12 +23,10 @@ export const DialogContainer = styled.dialog`
 
 export const TitleText = styled(Typography).attrs(() => ({ level: 'h6' }))`
   color: var(--rds-color-neutral-11);
-  line-height: 120%;
 `;
 
 export const ContentText = styled(Typography).attrs(() => ({ level: 'p2' }))`
   color: var(--rds-color-neutral-9);
-  line-height: 160%;
 `;
 
 export const CloseIconPlacement = styled.span`

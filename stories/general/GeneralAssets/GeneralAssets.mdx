@@ -1,0 +1,31 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as GeneralAssets from './GeneralAssets.stories';
+
+<Meta of={GeneralAssets} />
+
+# General Assets
+
+This page provides a collection of commonly used assets, including icons, logos, and other visual elements. These assets help maintain visual consistency across our platform and should be used according to our design guidelines.
+
+# Icons
+
+This is the list of all icons available in the design system.
+
+<Canvas
+  of={GeneralAssets.IconList}
+  layout="fullscreen"
+  sourceState="none"
+/>
+
+# Logos
+
+This is the list of all logos available in the design system.
+
+<Canvas
+  of={GeneralAssets.LogoList}
+  layout="fullscreen"
+  sourceState="none"
+/>
+
+

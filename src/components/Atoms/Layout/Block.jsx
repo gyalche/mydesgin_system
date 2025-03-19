@@ -24,11 +24,13 @@ const Block = styled.div`
     && `
     pointer-events: none;
     user-select: none;
-    
+
     & * {
       opacity: 0.4;
     }
   `}
 `;
+
+Block.displayName = 'Block';
 
 export default Block;

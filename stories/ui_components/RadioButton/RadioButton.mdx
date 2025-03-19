@@ -1,0 +1,93 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as RadioButtonStories from './RadioButton.stories';
+
+<Meta of={RadioButtonStories} />
+
+# RadioButton
+
+The `RadioButton` component allows users to select a single option from a list of choices. Radio buttons are used when only one selection is permitted, unlike checkboxes which allow multiple selections. They are commonly used in forms, surveys, and settings where users need to choose one option from a set of mutually exclusive alternatives.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { RadioButton, Layout } from '@d-lighted/receptionist-design-system';
+
+const MyExample = () => {
+  const [selectedValue, setSelectedValue] = React.useState('option1');
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  return (
+    <Layout.Flex direction="column" gap="8px">
+      <RadioButton
+        label="Option 1"
+        value="option1"
+        checked={selectedValue === 'option1'}
+        onChange={handleChange}
+      />
+      <RadioButton
+        label="Option 2"
+        value="option2"
+        checked={selectedValue === 'option2'}
+        onChange={handleChange}
+      />
+    </Layout.Flex>
+  );
+};
+
+export default MyExample;
+`}/>
+
+## Basic Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={RadioButtonStories.RadioButton}
+  language="jsx"
+/>
+<Controls of={RadioButtonStories.RadioButton} />
+
+## Radio Button Group
+
+Radio buttons are most commonly used in groups where only one option can be selected at a time. When one radio button in a group is selected, any previously selected radio button becomes deselected.
+
+<Canvas
+  of={RadioButtonStories.RadioButtonGroup}
+  language="jsx"
+  source={{code: `
+<Layout.Flex direction="column" gap="8px">
+  <RadioButtonComponent
+    label="Option 1"
+    value="option1"
+    checked={selectedValue === 'option1'}
+    onChange={handleChange}
+  />
+  <RadioButtonComponent
+    label="Option 2"
+    value="option2"
+    checked={selectedValue === 'option2'}
+    onChange={handleChange}
+  />
+  <RadioButtonComponent
+    label="Option 3 (Disabled)"
+    value="option3"
+    checked={selectedValue === 'option3'}
+    onChange={handleChange}
+    disabled={true}
+  />
+  <RadioButtonComponent
+    label="Option 4 (Right positioned)"
+    value="option4"
+    checked={selectedValue === 'option4'}
+    onChange={handleChange}
+    position="right"
+  />
+</Layout.Flex>
+  `}}
+/>

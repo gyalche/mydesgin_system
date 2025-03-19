@@ -59,6 +59,8 @@ function Profile({ width, account, children }) {
   );
 }
 
+Profile.displayName = 'Profile';
+
 Profile.propTypes = {
   width: PropTypes.string.isRequired,
   account: PropTypes.shape({

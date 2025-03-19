@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const typographyStyles = {
+export const typographyStyles = {
   h1: { fontSize: '42px', fontWeight: 700 },
   h2: { fontSize: '35px', fontWeight: 700 },
   h3: { fontSize: '29px', fontWeight: 700 },
@@ -22,6 +22,8 @@ const Typography = styled(({ as, ...rest }) => React.createElement(as || 'div', 
   font-size: ${({ level }) => typographyStyles[level]?.fontSize || typographyStyles.p1.fontSize};
   font-weight: ${({ level }) => typographyStyles[level]?.fontWeight || typographyStyles.p1.fontWeight};
 `;
+
+Typography.displayName = 'Typography';
 
 Typography.propTypes = {
   level: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'p1', 'p2', 'p3', 'p4']),

@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as LogoStories from './Logo.stories';
+
+<Meta of={LogoStories} />
+
+# Logo
+
+The `Logo` component provides a standardized way to display product icons and third-party logos within the design system. It ensures consistency across the application by using SVG-based React components that are scalable, theme-aware, and accessible. You can check the [reference here](?path=/docs/general-assets--docs#logos) to check all the available logos.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Logo } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({}) => {
+  return <Logo.Slack />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={LogoStories.Logo}
+  language="jsx"
+/>
+<Controls of={LogoStories.Logo} />

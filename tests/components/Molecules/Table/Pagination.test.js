@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import expect from 'expect';
 import { render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@storybook/testing-library';
+import { userEvent } from '@storybook/test';
 
 import Table from 'src/components/Molecules/Table';
 

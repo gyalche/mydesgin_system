@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} />
+
+# Input
+
+The `Input` component is a fundamental form element that allows users to enter and edit text-based data. It is widely used across forms, search fields, and interactive UI elements.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Input } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({onClick}) => {
+  return <Input name="input" />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options. In addition base html attributes like `placeholder` should work without causing any problem.
+
+<Canvas
+  of={InputStories.Input}
+  language="jsx"
+/>
+<Controls of={InputStories.Input} />

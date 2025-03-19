@@ -59,7 +59,7 @@ export const CloseIcon = styled(Icon)`
 `;
 
 export const ToastButton = styled(Button.Subtle)`
-  background-color: var(--rds-neutral-0);
+  background-color: var(--rds-color-neutral-0);
   margin-top: ${({ $withDescription }) => !$withDescription && '4px'};
   max-width: calc(100% / 3);
   white-space: nowrap;

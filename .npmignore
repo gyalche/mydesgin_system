@@ -21,3 +21,5 @@ src
 stories
 storybook-static
 tests
+jsconfig.json
+tsconfig.json

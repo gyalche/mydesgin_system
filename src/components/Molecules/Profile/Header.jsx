@@ -7,6 +7,8 @@ function Header({ text }) {
   return <HeaderWrapper level="h9">{text}</HeaderWrapper>;
 }
 
+Header.displayName = 'Header';
+
 Header.propTypes = {
   text: PropTypes.string.isRequired,
 };

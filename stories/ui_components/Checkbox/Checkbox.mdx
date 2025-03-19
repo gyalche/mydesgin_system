@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+The `Checkbox` component allows users to select one or multiple options from a list. It is commonly used in forms, filters, and preference settings where users need to enable or disable specific options.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Checkbox } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Checkbox />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={CheckboxStories.Checkbox}
+  language="jsx"
+/>
+<Controls of={CheckboxStories.Checkbox} />

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@storybook/testing-library';
+import { userEvent } from '@storybook/test';
 import expect from 'expect';
 import Button from 'src/components/Atoms/Button';
 import Dialog from 'src/components/Molecules/Dialog';

@@ -100,7 +100,8 @@ Dropdown.defaultProps = {
   boxShadow: '0 4px 8px 0 rgba(156, 168, 184, 0.48)',
   scroll: true,
   overflowX: 'visible',
-  right: '',
+  right: 'auto',
+  children: undefined,
 };
 
 Dropdown.propTypes = {
@@ -121,7 +122,7 @@ Dropdown.propTypes = {
     PropTypes.bool,
     PropTypes.array,
     PropTypes.node,
-  ]).isRequired,
+  ]),
 };
 
 export default Dropdown;

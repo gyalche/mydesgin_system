@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as TextAreaStories from './TextArea.stories';
+
+<Meta of={TextAreaStories} />
+
+# TextArea
+
+The `TextArea` component is a multi-line input field designed for longer text input. It is commonly used for comments, descriptions, messages, and feedback forms where users need more space to enter content.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { TextArea } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({onClick}) => {
+  return <TextArea name="input" />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options. In addition base html attributes like `placeholder` should work without causing any problem.
+
+<Canvas
+  of={TextAreaStories.TextArea}
+  language="jsx"
+/>
+<Controls of={TextAreaStories.TextArea} />

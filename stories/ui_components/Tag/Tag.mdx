@@ -1,0 +1,61 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as TagStories from './Tag.stories';
+
+<Meta of={TagStories} />
+
+# Tag
+
+The `Tag` component is used to display categorical labels, metadata, or filters in a compact and visually distinct format. It helps organize content and provide contextual information at a glance.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Tag } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Tag content="Tag" />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={TagStories.Tag}
+  language="jsx"
+/>
+<Controls of={TagStories.Tag} />
+
+## Example
+
+Inside the content we can add text and other components like icons.
+
+<Canvas
+  of={TagStories.Palette}
+  language="jsx"
+  source={{
+    code: `
+<Layout.Flex direction="column">
+  <Layout.Item mt="20px">
+    <TagComponent content="Content 1" onCloseClick={() => {}} />
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <TagComponent
+      content={(
+        <Layout.Flex>
+          <Avatar name="D" size="small" />
+          <span style={{ marginLeft: '8px' }}>Effect</span>
+        </Layout.Flex>
+      )}
+      onCloseClick={() => {}}
+    />
+  </Layout.Item>
+</Layout.Flex>`
+  }}
+/>

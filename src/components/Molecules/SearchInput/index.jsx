@@ -22,6 +22,8 @@ const IconWrapper = styled.div`
   color: var(--rds-color-neutral-5);
 `;
 
+const LogoList = Object.getOwnPropertyNames(logos);
+
 function SearchInput({
   compact,
   placeholder,
@@ -32,29 +34,6 @@ function SearchInput({
   input,
   ...props
 }) {
-  const LogoList = [
-    'Chatwork',
-    'Garoon',
-    'GoogleCalendar',
-    'GoogleChat',
-    'GoogleMeet',
-    'Google',
-    'Lineworks',
-    'MicrosoftAzureActiveDirectory',
-    'MicrosoftOutlook',
-    'MicrosoftTeams',
-    'Microsoft365',
-    'ReceptionistDiscovery',
-    'ReceptionistScheduling',
-    'Receptionist',
-    'ReceptionistRooms',
-    'Salesforce',
-    'Slack',
-    'Webex',
-    'Workplace',
-    'Zoom',
-  ];
-
   const Logo = logos[icon];
 
   const handleOnChange = event => {

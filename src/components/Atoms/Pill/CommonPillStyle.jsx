@@ -66,4 +66,6 @@ export const CommonPillStyle = styled.div`
   ${props => props.appearance === 'orange' && Orange}
 `;
 
+CommonPillStyle.displayName = 'Pill';
+
 export default CommonPillStyle;

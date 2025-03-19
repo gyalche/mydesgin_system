@@ -1,0 +1,500 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as FormsStories from './Forms.stories.jsx';
+
+<Meta of={FormsStories} />
+
+# Forms with React Final Form
+
+This guideline demonstrates how to use [React Final Form](https://final-form.org/react) with the Receptionist Design System components to create forms with validation, error handling, and submission.
+
+> ⚠️ **Note:** The expressions and examples in these guidelines have not been thoroughly tested and are subject to change.
+
+## Introduction
+
+React Final Form is a lightweight form library that provides form state management, validation, and submission handling. It works well with the Receptionist Design System components because many of them already have an `input` prop that accepts the field props from React Final Form.
+
+## Basic Setup
+
+To use React Final Form with the design system, first install the required packages:
+
+<Source
+  dark
+  language="bash"
+  code={`
+npm i -s react-final-form final-form
+`}/>
+
+Then import the necessary components:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import { Form, Field } from 'react-final-form';
+import { Input, TextArea, Checkbox, RadioButton, Toggle, Selector, FormField } from '@d-lighted/receptionist-design-system';
+`}/>
+
+## Form Structure
+
+A basic form with React Final Form consists of:
+
+1. A `Form` component that manages form state and handles submission
+2. `Field` components for each form field
+3. Design system components rendered within the Field render prop
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Form
+  onSubmit={onSubmit}
+  initialValues={initialValues}
+  validate={validate}
+  render={({ handleSubmit, form, submitting, pristine, values }) => (
+    <form onSubmit={handleSubmit}>
+      {/* Fields go here */}
+      <Button type="submit" disabled={submitting}>Submit</Button>
+    </form>
+  )}
+/>
+`}/>
+
+## Using Input Components
+
+There are two main ways to use React Final Form with the Receptionist Design System components:
+
+1. Using the Field render prop pattern (passing a render function as children)
+2. Using the Field component prop (creating a custom component that receives field props)
+
+### Text Input
+
+#### Using render prop pattern:
+
+The `Input` component can be used with React Final Form by passing the field props to the `input` prop:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Field name="fullName" validate={required}>
+  {({ input, meta }) => (
+    <FormField
+      customField={Input}
+      labelText="Full Name"
+      input={input}
+      meta={meta}
+      helperText="Enter your full name"
+      w="100%"
+    />
+  )}
+</Field>
+`}/>
+
+#### Using component prop pattern:
+
+You can directly use FormField as the component and pass the customField prop:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Field
+  name="fullName"
+  validate={required}
+  component={FormField}
+  customField={Input}
+  labelText="Full Name"
+  helperText="Enter your full name"
+  w="100%"
+/>
+`}/>
+
+### TextArea
+
+#### Using render prop pattern:
+
+The `TextArea` component works similarly to the `Input` component:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Field name="bio" validate={minLength(10)}>
+  {({ input, meta }) => (
+    <FormField
+      customField={TextArea}
+      labelText="Bio"
+      input={input}
+      meta={meta}
+      helperText="Tell us about yourself"
+      w="100%"
+    />
+  )}
+</Field>
+`}/>
+
+#### Using component prop pattern:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Field
+  name="bio"
+  validate={minLength(10)}
+  component={FormField}
+  customField={TextArea}
+  labelText="Bio"
+  helperText="Tell us about yourself"
+  w="100%"
+/>
+`}/>
+
+### Checkbox
+
+> ⚠️ **Important:** Always specify `type="checkbox"` when using the Checkbox component with react-final-form. This is critical because react-final-form treats checkbox fields differently from other input types. Without this attribute, the form will not work correctly as the Checkbox component expects an `input.checked` property instead of `input.value`.
+
+#### Using render prop pattern:
+
+The `Checkbox` component requires mapping the field props to the expected format:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Field name="agreeToTerms" type="checkbox" validate={required}>
+  {({ input, meta }) => (
+    <FormField
+      customField={props => (
+        <Checkbox
+          label="I agree to the terms and conditions"
+          input={{
+            checked: input.checked,
+            onChange: input.onChange,
+          }}
+          {...props}
+        />
+      )}
+      labelText=""
+      input={input}
+      meta={meta}
+      helperText=""
+    />
+  )}
+</Field>
+`}/>
+
+#### Using component prop pattern:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Field
+  name="agreeToTerms"
+  type="checkbox"
+  validate={required}
+  component={FormField}
+  customField={Checkbox}
+  label="I agree to the terms and conditions"
+/>
+`}/>
+
+### RadioButton
+
+> ⚠️ **Important:** RadioButton components require special handling in forms. Unlike other form components, radio buttons in a group must share the same field name but have different values. This means you need to create a separate `<Field>` component for each radio button option in a group. This is different from other form components where a single `<Field>` is used for each form control.
+
+#### Using render prop pattern:
+
+For radio buttons, you'll typically have multiple fields with the same name but different values:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<FormField
+  customField={() => (
+    <>
+      <Field name="contactPreference" type="radio" value="email">
+        {({ input }) => (
+          <RadioButton
+            label="Email"
+            checked={input.checked}
+            onChange={input.onChange}
+            value={input.value}
+          />
+        )}
+      </Field>
+
+      <Field name="contactPreference" type="radio" value="phone">
+        {({ input }) => (
+          <RadioButton
+            label="Phone"
+            checked={input.checked}
+            onChange={input.onChange}
+            value={input.value}
+          />
+        )}
+      </Field>
+    </>
+  )}
+  labelText="Contact Preference"
+  helperText="How would you like to be contacted?"
+/>
+`}/>
+
+#### Using component prop pattern:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+// For RadioButtons, we need a wrapper component
+<FormField
+  labelText="Contact Preference"
+  helperText="How would you like to be contacted?"
+  customField={() => (
+    <>
+      <Field
+        name="contactPreference"
+        type="radio"
+        value="email"
+        label="Email"
+        component={RadioButton}
+      />
+
+      <Field
+        name="contactPreference"
+        type="radio"
+        value="phone"
+        label="Phone"
+        component={RadioButton}
+      />
+    </>
+  )}
+/>
+`}/>
+
+#### Why RadioButtons Need Special Handling
+
+Radio buttons are unique because:
+
+1. They operate as a group where only one option can be selected at a time
+2. Each radio button in a group needs its own `<Field>` component with the same field name
+3. Each radio button needs a different value to identify which option is selected
+4. The FormField component can't directly wrap a RadioButton like other form components
+
+This is why tools like the FormComponentTester need special handling for RadioButton components, and why you'll need to structure your forms differently when using RadioButton groups.
+
+### Toggle
+
+> ⚠️ **Important:** Like the Checkbox component, always specify `type="checkbox"` when using the Toggle component with react-final-form. This ensures that react-final-form provides the `input.checked` property that the Toggle component expects.
+
+#### Using render prop pattern:
+
+The `Toggle` component works similarly to the `Checkbox` component:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Field name="notifications" type="checkbox">
+  {({ input, meta }) => (
+    <FormField
+      customField={props => (
+        <Toggle
+          input={{
+            checked: input.checked,
+            onChange: input.onChange,
+          }}
+          labels={['Notifications On', 'Notifications Off']}
+          {...props}
+        />
+      )}
+      labelText="Notifications"
+      input={input}
+      meta={meta}
+      helperText="Enable or disable notifications"
+    />
+  )}
+</Field>
+`}/>
+
+#### Using component prop pattern:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Field
+  name="notifications"
+  type="checkbox"
+  component={FormField}
+  customField={Toggle}
+  labels={['Notifications On', 'Notifications Off']}
+  labelText="Notifications"
+  helperText="Enable or disable notifications"
+/>
+`}/>
+
+### Selector
+
+#### Using render prop pattern:
+
+The `Selector` component requires passing options and mapping the field props:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+const options = [
+  { value: 'engineering', label: 'Engineering' },
+  { value: 'design', label: 'Design' },
+  { value: 'product', label: 'Product Management' },
+];
+
+<Field name="department" validate={required}>
+  {({ input, meta }) => (
+    <FormField
+      customField={Selector}
+      options={options}
+      labelText="Department"
+      input={input}
+      meta={meta}
+      helperText="Select your department"
+    />
+  )}
+</Field>
+`}/>
+
+#### Using component prop pattern:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+const options = [
+  { value: 'engineering', label: 'Engineering' },
+  { value: 'design', label: 'Design' },
+  { value: 'product', label: 'Product Management' },
+];
+
+<Field
+  name="department"
+  validate={required}
+  component={FormField}
+  customField={Selector}
+  options={options}
+  labelText="Department"
+  input={input}
+  meta={meta}
+  helperText="Select your department"
+/>
+`}/>
+
+## Validation
+
+React Final Form supports both field-level and form-level validation:
+
+### Field-Level Validation
+
+<Source
+  dark
+  language="jsx"
+  code={`
+// Validation functions
+const required = value => (value ? undefined : 'Required');
+const minLength = min => value =>
+  value && value.length < min ? \`Must be at least \${min} characters\` : undefined;
+const isEmail = value =>
+  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$/i.test(value)
+    ? 'Invalid email address'
+    : undefined;
+const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined);
+
+// Usage
+<Field
+  name="email"
+  validate={composeValidators(required, isEmail)}
+>
+  {/* ... */}
+</Field>
+`}/>
+
+### Form-Level Validation
+
+<Source
+  dark
+  language="jsx"
+  code={`
+<Form
+  onSubmit={onSubmit}
+  validate={values => {
+    const errors = {};
+    if (!values.agreeToTerms) {
+      errors.agreeToTerms = 'You must agree to the terms and conditions';
+    }
+    return errors;
+  }}
+  render={/* ... */}
+/>
+`}/>
+
+## Handling Form Submission
+
+React Final Form provides a simple way to handle form submission:
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import { FORM_ERROR } from 'final-form';
+
+const onSubmit = async values => {
+  try {
+    // Submit form data to your API
+    const response = await api.submitForm(values);
+
+    // Handle success
+    return undefined; // No errors
+  } catch (error) {
+    // Handle error
+    return { [FORM_ERROR]: 'Submission failed! Server error' };
+  }
+};
+
+<Form onSubmit={onSubmit} /* ... */ />
+`}/>
+
+## Complete Example
+
+Below is a complete example of a form using React Final Form with the Receptionist Design System components:
+
+<Canvas
+  of={FormsStories.ReactFinalFormExample}
+  layout="padded"
+  className="contrast-background"
+  sourceState="none"
+/>
+
+<Controls of={FormsStories.ReactFinalFormExample} />
+
+## Best Practices
+
+1. **Use FormField for consistent styling**: Wrap input components with `FormField` to ensure consistent styling, labels, and error messages.
+
+2. **Specify the correct field type**: Always use `type="checkbox"` for Checkbox and Toggle components, and `type="radio"` for RadioButton components. This ensures that react-final-form provides the correct props to the components.
+
+3. **Compose validators**: Use the `composeValidators` function to combine multiple validation rules for a single field.
+
+4. **Provide helpful error messages**: Make error messages clear and specific to help users understand what went wrong.
+
+5. **Use initialValues for prefilled forms**: Set initial values for edit forms or forms with default values.
+
+6. **Handle loading and error states**: Show loading indicators during submission and clear error messages when validation fails.
+
+7. **Disable the submit button when appropriate**: Disable the submit button when the form is submitting or when there are validation errors.
+
+8. **Use form-level validation for cross-field validation**: Use form-level validation for validations that depend on multiple fields.

@@ -1,0 +1,68 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+The `Button` component is a key interactive element used for triggering actions, submitting forms, and navigating users within the application. It comes in multiple styles and sizes to fit different use cases.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Button } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({onClick}) => {
+  return <Button onClick={onClick}>Button</Button>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={ButtonStories.Button}
+  language="jsx"
+/>
+<Controls of={ButtonStories.Button} />
+
+## Appearances
+
+Appearances (add link when appearances page is defined) play a important role in our design system. You can see a comparation below.
+
+<Canvas
+  of={ButtonStories.Palette}
+  language="jsx"
+  source={{
+    code: `
+<Layout.Block>
+  <Layout.Item mt="20px">
+    <Button>Primary</Button>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Button.Secondary>Secondary</Button.Secondary>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Button.Danger>Danger</Button.Danger>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Button.Warning>Warning</Button.Warning>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Button.Subtle>Subtle</Button.Subtle>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Button.Link>Link</Button.Link>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Button.SubtleLink>SubtleLink</Button.SubtleLink>
+  </Layout.Item>
+</Layout.Block>`
+  }}
+/>

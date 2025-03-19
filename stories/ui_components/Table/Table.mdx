@@ -1,0 +1,65 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as TableStories from './Table.stories';
+
+<Meta of={TableStories} />
+
+# Table
+
+The `Table` component provides a way to display tabular data with customizable columns, flexible layouts, and pagination support. It's designed for displaying structured data in a clear and organized format.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Table } from '@d-lighted/receptionist-design-system';
+
+const MyExample = () => {
+  const data = [
+    {
+      id: '1',
+      name: 'John Doe',
+      email: 'john@example.com',
+      role: 'Administrator',
+    },
+    {
+      id: '2',
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+      role: 'Editor',
+    },
+  ];
+
+  const columns = [
+    { label: 'ID', field: 'id', flex: '1' },
+    { label: 'Name', field: 'name', flex: '2' },
+    { label: 'Email', field: 'email', flex: '3' },
+    { label: 'Role', field: 'role', flex: '2' },
+  ];
+
+  return <Table data={data} columns={columns} />;
+};
+
+export default MyExample;
+`}/>
+
+## Basic Table
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={TableStories.Table}
+  language="jsx"
+/>
+<Controls of={TableStories.Table} />
+
+## Table with Pagination
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={TableStories.TableWithPagination}
+  language="jsx"
+/>
+<Controls of={TableStories.TableWithPagination} />

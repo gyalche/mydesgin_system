@@ -8,4 +8,6 @@ export const Separator = styled.div`
   width: 100%;
 `;
 
+Separator.displayName = 'Separator';
+
 export default Separator;

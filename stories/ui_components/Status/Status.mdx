@@ -1,0 +1,76 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as StatusStories from './Status.stories';
+
+<Meta of={StatusStories} />
+
+# Status
+
+The `Status` component is used to visually represent the state of an item, process, or user. It provides a quick and intuitive way to convey information like availability, progress, or alerts.
+
+### Usage Examples
+  - User Status: Display if a user is "Online", "Offline", or "Busy".
+  - Validation State: Indicate stages like "Error", or "Success".
+  - Alerts & Warnings: Show critical states like "No data" or "Warning".
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Status } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Status>Status</Status>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={StatusStories.Status}
+  language="jsx"
+/>
+<Controls of={StatusStories.Status} />
+
+## Appearances
+
+Appearances (add link when appearances page is defined) play a important role in our design system. You can see a comparation below.
+
+<Canvas
+  of={StatusStories.Palette}
+  language="jsx"
+  source={{
+    code: `
+<Layout.Block>
+  <Layout.Item mt="20px">
+    <Status appearance="disabled">Disabled</Status>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Status appearance="enabled">Enabled</Status>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Status appearance="info">Info</Status>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Status appearance="warning">Warning</Status>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Status appearance="nodata">No Data</Status>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Status appearance="error">Error</Status>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Status appearance="success">Success</Status>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Status>Default</Status>
+  </Layout.Item>
+</Layout.Block>`
+  }}
+/>

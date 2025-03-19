@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as ToggleStories from './Toggle.stories';
+
+<Meta of={ToggleStories} />
+
+# Toggle
+
+The `Toggle` component is a UI switch that allows users to enable or disable a setting with a single action. It is commonly used for preferences, feature toggles, and on/off controls in settings and interactive UIs.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Toggle } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Toggle />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={ToggleStories.Toggle}
+  language="jsx"
+/>
+<Controls of={ToggleStories.Toggle} />

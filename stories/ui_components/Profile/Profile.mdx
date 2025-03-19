@@ -1,0 +1,51 @@
+import { Canvas, Meta, Controls, Source, ArgTypes } from '@storybook/blocks';
+
+import * as ProfileStories from './Profile.stories';
+import * as ItemStories from './Item.stories';
+import * as HeaderStories from './Header.stories';
+
+<Meta of={ProfileStories} />
+
+# Profile
+
+The `Profile` component displays user information such as name, avatar, and additional details. It is commonly used in navigation menus, account settings, and user dashboards to provide quick access to personal information and actions.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Profile } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({ account }) => {
+  return <Profile account={account} />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={ProfileStories.Profile}
+  language="jsx"
+/>
+<Controls of={ProfileStories.Profile} />
+
+# Item
+
+The `Item` component is used to add new elements within the `Profile` menu creating different options to serve use cases in each of our products.
+
+<ArgTypes of={ItemStories.Item} />
+
+# Header
+
+The `Header` component is used to visually label content within the `Profile` menu making content separation more explicit and easy to understand.
+
+<ArgTypes of={HeaderStories.Header} />
+
+# Separator
+
+The `Separator` component is used to visually separate content within the `Profile` menu making organization to be easier and clearer to the user.
