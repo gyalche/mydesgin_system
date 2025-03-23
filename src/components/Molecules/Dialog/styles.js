@@ -6,7 +6,7 @@ export const DialogContainer = styled.dialog`
   border: none;
   border-radius: 4px;
   bottom: 0;
-  box-shadow: 0px 12px 40px 0px rgba(156, 168, 184, 0.48);
+  box-shadow: var(--rds-box-shadow-4);
   left: 0;
   max-width: ${({ $maxW }) => $maxW};
   outline: none;

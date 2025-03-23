@@ -21,7 +21,7 @@ export const Anchor = styled.div`
   content: '';
   transition: 0.2s;
   position: initial;
-  z-index: 2;
+  z-index: var(--rds-z-index-1);
 
   &:hover {
     transition: 0s;
@@ -86,13 +86,13 @@ const handlePlacement = placement => {
 export const DisplayText = styled.div`
   background-color: ${({ $bgColor }) => $bgColor};
   border-radius: 4px;
-  box-shadow: 0px 2px 4px 0px rgba(156, 168, 184, 0.48);
+  box-shadow: var(--rds-box-shadow-2);
   color: ${({ $fontColor }) => $fontColor};
   max-width: ${({ $width }) => $width};
   padding: 12px;
   position: absolute;
   width: ${({ $width }) => $width};
-  z-index: 2;
+  z-index: var(--rds-z-index-1);
   ${({ $placement }) => handlePlacement($placement)};
 
   @media (max-width: 599px) {

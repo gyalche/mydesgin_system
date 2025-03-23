@@ -1,6 +1,7 @@
 /** @type { import('@storybook/react').Preview } */
 import 'shared/css/fonts.css';
 import 'shared/css/globalStyle.css';
+import 'shared/css/styleVariables.css';
 import 'shared/css/variables.css';
 import 'stories/customColors.css';
 

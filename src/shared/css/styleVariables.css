@@ -1,0 +1,10 @@
+:root {
+  --rds-box-shadow-1: 0px 1px 3px 0px var(--rds-color-neutral-3);
+  --rds-box-shadow-2: 0px 2px 4px 0px var(--rds-color-neutral-4);
+  --rds-box-shadow-3: 0px 4px 8px 0px var(--rds-color-neutral-5);
+  --rds-box-shadow-4: 0px 12px 40px 0px var(--rds-color-neutral-5);
+  --rds-z-index-1: 1;    /* Default */
+  --rds-z-index-2: 10;   /* Above base */
+  --rds-z-index-3: 100;  /* Higher priority (dropdowns, sticky headers) */
+  --rds-z-index-4: 1000; /* Modals, toasts, overlays */
+}

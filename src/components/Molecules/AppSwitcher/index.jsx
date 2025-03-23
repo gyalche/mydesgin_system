@@ -15,7 +15,7 @@ const IconContainer = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   background-color: ${props => (props.$open ? 'var(--rds-color-neutral-3)' : 'transparent')};
-  box-shadow: ${props => (props.$open ? '0px 4px 4px 0px var(--rds-color-neutral-3)' : 'none')};
+  box-shadow: ${props => (props.$open ? 'var(--rds-box-shadow-2)' : 'none')};
   border-radius: 4px;
 
   &:hover {
@@ -47,13 +47,13 @@ const DropDownSectionTitle = styled.div`
 
 const AppSwitcherContent = styled.div`
   position: absolute;
-  z-index: 10;
+  z-index: var(--rds-z-index-3);
   border-radius: 4px;
   border: 1px solid var(--rds-color-neutral-3);
   padding: 8px 20px 8px 20px;
   width: ${props => props.width};
   background-color: var(--rds-color-neutral-0);
-  box-shadow: 0 4px 8px 0 var(--rds-color-neutral-4);
+  box-shadow: var(--rds-box-shadow-2);
 `;
 
 function AppSwitcher({
