@@ -1,0 +1,46 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as InlineAlert from './InlineAlert.stories';
+
+<Meta of={InlineAlert} />
+
+# InlineAlert
+
+The `InlineAlert` component provides a way to display brief, non-intrusive alerts within a page or section. It is useful for conveying important messages, warnings, or status updates without disrupting the user's workflow. Inline alerts are typically used for contextual feedback, such as form validation messages, system status updates, or informational notices.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+
+const ExampleComponent = () => {
+  const args = {
+    appearance: 'success',
+    title: 'Alert message.',
+    description: 'In offices, share offices, buildings, factories, stores, etc.Please leave RECEPTIONIST to support and manage customers',
+    action: () => alert('Action button clicked'),
+    btnLabel: 'Button',
+  }
+  return (<Alert {...args} />);
+};
+
+export default ExampleComponent;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={InlineAlert.Alerts}
+  language="jsx"
+/>
+<Controls of={InlineAlert.Alerts} />
+
+## InlineAlert Types
+
+- **Success**: Used to indicate a successful operation
+- **Info**: Used to provide general information
+- **Warning**: Used to warn users about potential issues
+- **Error**: Used to indicate errors or failures
