@@ -1,0 +1,37 @@
+import { Canvas, Meta, ArgTypes, Source } from '@storybook/blocks';
+
+import * as HeaderStories from './Header.stories';
+
+<Meta of={HeaderStories} />
+
+# Header
+
+The `Header` layout component provides a structured and customizable top navigation bar for applications. It serves as the primary area for branding, navigation, user actions, and quick access to key features.
+
+### Usage Examples
+  - Global Navigation: Displays the profile menu, links, and product switchers.
+  - Branding & Identity: Includes the product logo.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Header } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Header {...props} />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={HeaderStories.Header}
+  language="jsx"
+/>
+<ArgTypes of={HeaderStories.Header} />

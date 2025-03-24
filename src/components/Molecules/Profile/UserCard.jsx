@@ -20,12 +20,14 @@ function UserCard({ account }) {
       </IconWrapper>
 
       <Flex direction="column" minW="0px">
-        <MainText>{name}</MainText>
-        <UserCardEmail>{email}</UserCardEmail>
+        <MainText level="p2">{name}</MainText>
+        <UserCardEmail level="p4">{email}</UserCardEmail>
       </Flex>
     </UserCardWrapper>
   );
 }
+
+UserCard.displayName = 'UserCard';
 
 UserCard.propTypes = {
   account: PropTypes.shape({

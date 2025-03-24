@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { HeaderWrapper } from './styles';
 
 function Header({ text }) {
-  return <HeaderWrapper>{text}</HeaderWrapper>;
+  return <HeaderWrapper level="h9">{text}</HeaderWrapper>;
 }
+
+Header.displayName = 'Header';
 
 Header.propTypes = {
   text: PropTypes.string.isRequired,

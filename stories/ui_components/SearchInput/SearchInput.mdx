@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as SearchInputStories from './SearchInput.stories';
+
+<Meta of={SearchInputStories} />
+
+# Search Input
+
+The `SearchInput` component enhances standard input fields by incorporating icons for better usability and visual clarity. It is commonly used in search fields, form inputs, and interactive UI elements where icons provide additional context.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { SearchInput } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({onClick}) => {
+  return <SearchInput icon="Slack" name="input" />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options. In addition base html attributes like `placeholder` should work without causing any problem.
+
+<Canvas
+  of={SearchInputStories.SearchInput}
+  language="jsx"
+/>
+<Controls of={SearchInputStories.SearchInput} />

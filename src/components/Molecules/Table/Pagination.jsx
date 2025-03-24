@@ -1,70 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { Icon } from 'components/Atoms';
+import * as Layout from 'components/Atoms/Layout';
 
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
+const PaginationContainer = styled(Layout.Flex).attrs(() => ({ justifyContent: 'left', mt: '20px' }))``;
 
-const PaginationList = styled.ul`
-  align-items: center;
-  display: flex;
+const PaginationList = styled(Layout.Flex).attrs(() => ({
+  as: 'ul', alignItems: 'center', pt: '0', pr: '0', pb: '0', pl: '0',
+}))`
   list-style: none;
-  padding: 0;
 `;
 
-const PaginationControl = styled.div`
-  color: var(--rds-color-neutral-8);
+const PaginationControl = styled(Layout.Flex).attrs(() => ({
+  alignItems: 'center', justifyContent: 'center', pt: '4px', pr: '4px', pb: '4px', pl: '4px', w: '40px', h: '40px',
+}))`
+  color: ${({ disabled }) => (disabled ? 'var(--rds-color-neutral-4)' : 'var(--rds-color-neutral-8)')};
   cursor: pointer;
   font-size: 24px;
-  height: 32px;
   margin: ${({ $isPrevious }) => ($isPrevious ? '0 4px 0 0' : '0 0 0 4px')};
-  padding: 4px;
-  width: 32px;
+  border-radius: 100%;
 
   i {
     position: relative;
-    top: -4px;
+    margin-top: 4px;
   }
 
-  &:focus {
-    outline: 1px solid var(--rds-color-primary-1-dark);
+  &:hover {
+    background-color: ${({ disabled }) => !disabled && 'var(--rds-color-neutral-2)'};
   }
 `;
 
-const PaginationItem = styled.li`
-  align-items: center;
-  background-color: ${({ $active }) => ($active
-    ? 'var(--rds-color-primary-1-subtle)'
-    : 'var(--rds-color-neutral-0)')};
-  border-radius: 5px;
-  color: ${({ $active }) => ($active ? 'var(--rds-color-primary-1-dark)' : 'var(--rds-color-neutral-8)')};
-  cursor: pointer;
-  display: flex;
+const PaginationEllipsis = styled(Layout.Flex).attrs(() => ({
+  as: 'li', alignItems: 'center', justifyContent: 'center', pt: '4px', pr: '12px', pb: '4px', pl: '12px', w: '40px', h: '40px', mr: '4px', ml: '4px',
+}))`
+  border-radius: 100%;
+  color: var(--rds-color-neutral-8);
   font-size: 14px;
-  font-style: normal;
   font-weight: 400;
-  height: 32px;
-  justify-content: center;
   line-height: 160%;
-  margin: 0 4px;
-  padding: 4px 12px;
-  width: 32px;
+  cursor: default;
+`;
 
-  &:focus {
-    outline: 1px solid var(--rds-color-primary-1-dark);
+const PaginationItem = styled(PaginationEllipsis)`
+  background-color: ${({ $pressed, $active }) => {
+    if ($pressed) {
+      return 'var(--rds-color-neutral-2)';
+    }
+    if ($active) {
+      return 'var(--rds-color-primary-1-subtle)';
+    }
+    return 'var(--rds-color-neutral-0)';
+  }};
+  color: ${({ $active }) => ($active ? 'var(--rds-color-primary-1-intense)' : 'var(--rds-color-neutral-8)')};
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ $active }) => !$active && 'var(--rds-color-neutral-1)'};
   }
 `;
 
 function Pagination({ totalPages, currentPage, onPageChange }) {
+  const [pressedPage, setPressedPage] = useState(null);
+  let pressed = false;
+
   const handlePageChange = page => {
     if (page !== currentPage && page >= 1 && page <= totalPages) {
       onPageChange(page);
     }
+    setPressedPage(page);
   };
 
   const handlePreviousChange = () => {
@@ -95,11 +100,16 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
     }
   };
 
+  const onMouseDownChange = e => {
+    e.preventDefault();
+    pressed = true;
+  };
+
   const renderPaginationItems = () => {
     const paginationItems = [];
 
     // Number of pages to show before ellipses excluding first and last page
-    const visiblePages = 4;
+    const visiblePages = 5;
 
     // First page
     paginationItems.push(
@@ -107,6 +117,7 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
         key={1}
         $active={currentPage === 1}
         onClick={() => handlePageChange(1)}
+        onMouseDown={onMouseDownChange}
         onKeyDown={event => handleKeyDown(event, 1)}
         tabIndex={0}
       >
@@ -125,9 +136,9 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
 
     if (start > 2) {
       paginationItems.push(
-        <PaginationItem key="ellipsis-start" data-testid="ellipsis-start">
+        <PaginationEllipsis key="ellipsis-start" data-testid="ellipsis-start">
           ...
-        </PaginationItem>,
+        </PaginationEllipsis>,
       );
     }
 
@@ -136,8 +147,10 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
         <PaginationItem
           key={i}
           $active={i === currentPage}
+          $pressed={pressedPage === i && pressed}
           onClick={() => handlePageChange(i)}
           onKeyDown={event => handleKeyDown(event, i)}
+          onMouseDown={onMouseDownChange}
           tabIndex={0}
         >
           {i}
@@ -147,9 +160,9 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
 
     if (end < totalPages - 1) {
       paginationItems.push(
-        <PaginationItem key="ellipsis-end" data-testid="ellipsis-end">
+        <PaginationEllipsis key="ellipsis-end" data-testid="ellipsis-end">
           ...
-        </PaginationItem>,
+        </PaginationEllipsis>,
       );
     }
 
@@ -161,6 +174,7 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
           $active={totalPages === currentPage}
           onClick={() => handlePageChange(Number(totalPages))}
           onKeyDown={event => handleKeyDown(event, Number(totalPages))}
+          onMouseDown={onMouseDownChange}
           tabIndex={0}
         >
           {totalPages}
@@ -178,8 +192,10 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
           $isPrevious={true}
           onClick={() => handlePreviousChange()}
           onKeyDown={event => handleKeyDown(event, null, 'isPrevious')}
+          onMouseDown={onMouseDownChange}
           tabIndex={0}
           data-testid="prev-button"
+          disabled={currentPage === 1}
         >
           <Icon name="Interface-chevron-left" />
         </PaginationControl>
@@ -187,8 +203,10 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
         <PaginationControl
           onClick={() => handleNextChange()}
           onKeyDown={event => handleKeyDown(event, null, 'isNext')}
+          onMouseDown={onMouseDownChange}
           tabIndex={0}
           data-testid="next-button"
+          disabled={totalPages === currentPage}
         >
           <Icon name="Interface-chevron-right" />
         </PaginationControl>

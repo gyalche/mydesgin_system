@@ -46,7 +46,6 @@ DefaultHeader.propTypes = {
       field: PropTypes.string,
     }),
   ).isRequired,
-
 };
 
 export default DefaultHeader;

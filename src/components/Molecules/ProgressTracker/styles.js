@@ -41,7 +41,7 @@ export const StepCircle = styled.div`
   border: ${({ complete }) => (complete ? '1px solid var(--rds-color-primary-1-deep)' : '1px solid var(--rds-color-primary-1-dark)')};
   font-size: 12px;
   transition: background-color 0.7s ease-in-out;
-  z-index: 9999;
+  z-index: var(--rds-z-index-4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,7 +89,7 @@ export const StepLineBackground = styled.div`
   height: 4px;
   background-color: var(--rds-color-neutral-2);
   margin-top: -10px;
-  z-index: -2;
+  z-index: var(--rds-z-index-1);
 `;
 
 // Connector line between steps
@@ -98,7 +98,7 @@ export const StepLine = styled.div`
   width: 68px;
   flex-grow: 1;
   margin-left: 10px;
-  z-index: -1;
+  z-index: var(--rds-z-index-2);
   ${({ isActive }) => isActive
     && css`
       background-color: var(--rds-color-primary-1-normal);

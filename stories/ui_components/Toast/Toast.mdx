@@ -1,0 +1,88 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as ToastStories from './Toast.stories';
+
+<Meta of={ToastStories} />
+
+# Toast
+
+The `Toast` component provides a way to display brief, non-blocking notifications to users. Toasts are useful for providing feedback about operations without interrupting the user's workflow.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { ToastProvider, useToast } from '@d-lighted/receptionist-design-system';
+
+const App = () => {
+  return (
+    <ToastProvider>
+      <MyComponent />
+    </ToastProvider>
+  );
+};
+
+const MyComponent = () => {
+  const toast = useToast();
+
+  const showSuccessToast = () => {
+    toast.success(
+      'Success!',
+      'Your action was completed successfully.',
+      'bottomCenter',
+      5000,
+      () => console.log('Action clicked'),
+      'Undo'
+    );
+  };
+
+  const showInfoToast = () => {
+    toast.info('Information', 'This is an informational message.');
+  };
+
+  const showWarningToast = () => {
+    toast.warning('Warning', 'Please be careful with this action.');
+  };
+
+  const showErrorToast = () => {
+    toast.error('Error', 'Something went wrong. Please try again.');
+  };
+
+  return (
+    <>
+      <button onClick={showSuccessToast}>Show Success Toast</button>
+      <button onClick={showInfoToast}>Show Info Toast</button>
+      <button onClick={showWarningToast}>Show Warning Toast</button>
+      <button onClick={showErrorToast}>Show Error Toast</button>
+    </>
+  );
+};
+
+export default App;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={ToastStories.ToastExamples}
+  language="jsx"
+/>
+<Controls of={ToastStories.ToastExamples} />
+
+## Configuration
+
+To use the Toast component, you need to:
+
+1. Wrap your application or component with the `ToastProvider`
+2. Use the `useToast` hook to access the toast functions
+3. Call the appropriate function (`success`, `info`, `warning`, `error`) to display a toast
+
+## Toast Types
+
+- **Success**: Used to indicate a successful operation
+- **Info**: Used to provide general information
+- **Warning**: Used to warn users about potential issues
+- **Error**: Used to indicate errors or failures

@@ -19,12 +19,20 @@ const CheckboxContainer = styled.div`
   cursor: pointer;
   color: ${({ isChecked, disabled }) => {
     if (disabled) return 'var(--rds-color-neutral-5)';
-    if (isChecked) return 'var(--rds-color-primary-1-deep)';
+    if (isChecked) return 'var(--rds-color-primary-1-normal)';
     return 'var(--rds-color-neutral-6)';
   }};
 
   &:hover {
-    color: ${({ disabled }) => (disabled ? 'var(--rds-color-neutral-5)' : 'var(--rds-color-primary-1-dark)')};
+  color: ${({ isChecked, disabled }) => {
+    if (disabled) return 'var(--rds-color-neutral-5)';
+    if (isChecked) return 'var(--rds-color-primary-1-dark)';
+    return 'var(--rds-color-primary-1-normal)';
+  }};
+  }
+
+  &:active {
+    color: var(--rds-color-primary-1-deep);
   }
 
   input:focus + i {
@@ -43,21 +51,37 @@ const LabelContainer = styled(Typography)`
 `;
 
 function Checkbox({
-  input, value, checkboxName, disabled, label,
+  input, value, name, disabled, label, checked, onChange,
 }) {
-  const [isChecked, setIsChecked] = useState(false);
+  // For react-final-form, we need to check if input.checked is defined
+  const isControlled = input && (input.checked !== undefined);
+  const [isChecked, setIsChecked] = useState(isControlled ? input?.checked : checked || false);
+
+  // Update local state when input.checked or checked changes
   useEffect(() => {
-    if (input) {
+    if (isControlled) {
       setIsChecked(input.checked);
+    } else if (checked !== undefined) {
+      setIsChecked(checked);
     }
-  }, [input]);
+  }, [input, isControlled, checked]);
 
   const toggleCheckbox = event => {
     event.preventDefault();
     if (disabled) return;
+
     const newChecked = !isChecked;
-    setIsChecked(newChecked);
-    if (input) {
+
+    // Only update local state if not controlled
+    if (!isControlled) {
+      setIsChecked(newChecked);
+      if (onChange) {
+        onChange(newChecked);
+      }
+    }
+
+    // Call onChange handler if provided
+    if (input && input.onChange) {
       input.onChange(newChecked);
     }
   };
@@ -66,10 +90,10 @@ function Checkbox({
     <CheckboxContainer isChecked={isChecked} onClick={toggleCheckbox} disabled={disabled}>
       <HiddenCheckbox
         type="checkbox"
-        checked={isChecked}
-        name={checkboxName}
+        name={input?.name || name}
         value={value}
-        {...input}
+        checked={isChecked}
+        readOnly={true}
       />
       <Icon name={isChecked ? 'action-checkbox-selected' : 'action-checkbox-default'} />
       <LabelContainer level="p2">{label}</LabelContainer>
@@ -80,23 +104,25 @@ function Checkbox({
 Checkbox.defaultProps = {
   value: 'option1',
   label: '',
-  checkboxName: 'checkbox',
+  name: 'checkbox',
   disabled: false,
-  input: {
-    checked: false,
-    onChange: () => {},
-  },
+  input: null,
+  checked: false,
+  onChange: null,
 };
 
 Checkbox.propTypes = {
   input: PropTypes.shape({
     checked: PropTypes.bool,
     onChange: PropTypes.func,
+    name: PropTypes.string,
   }),
   value: PropTypes.string,
   label: PropTypes.string,
-  checkboxName: PropTypes.string,
+  name: PropTypes.string,
   disabled: PropTypes.bool,
+  checked: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default Checkbox;

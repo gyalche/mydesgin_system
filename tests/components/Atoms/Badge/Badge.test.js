@@ -8,43 +8,43 @@ describe('Badge Component', () => {
     const { container } = render(<Badge />);
     expect(container.firstChild).toHaveStyleRule(
       'background-color',
-      'var(--rds-color-neutral-2)'
+      'var(--rds-color-tertiary-2-subtle)',
     );
     expect(container.firstChild).toHaveStyleRule(
       'color',
-      'var(--rds-color-neutral-10)'
+      'var(--rds-color-tertiary-2-deep)',
     );
     expect(container.firstChild).toHaveStyleRule('font-size', '12px');
     expect(container.firstChild).toHaveStyleRule('padding', '0 4px');
   });
 
   it('should render with Blue appearance', () => {
-    const { container } = render(<Badge appearance='blue' />);
+    const { container } = render(<Badge appearance="blue" />);
     expect(container.firstChild).toHaveStyleRule(
       'background-color',
-      'var(--rds-color-teritary-2-subtle)'
+      'var(--rds-color-tertiary-2-subtle)',
     );
     expect(container.firstChild).toHaveStyleRule(
       'color',
-      'var(--rds-color-tertiary-2-deep)'
+      'var(--rds-color-tertiary-2-deep)',
     );
   });
 
   it('should render with Green appearance', () => {
-    const { container } = render(<Badge appearance='green' />);
+    const { container } = render(<Badge appearance="green" />);
     expect(container.firstChild).toHaveStyleRule(
       'background-color',
-      'var(--rds-color-secondary-2-subtle)'
+      'var(--rds-color-secondary-2-subtle)',
     );
     expect(container.firstChild).toHaveStyleRule(
       'color',
-      'var(--rds-color-secondary-2-deep)'
+      'var(--rds-color-secondary-2-deep)',
     );
   });
 
   it('should apply margin and padding props', () => {
     const { container } = render(
-      <Badge mt='10px' mr='15px' mb='5px' ml='20px' padding='10px 20px' />
+      <Badge mt="10px" mr="15px" mb="5px" ml="20px" padding="10px 20px" />,
     );
     expect(container.firstChild).toHaveStyleRule('margin-top', '10px');
     expect(container.firstChild).toHaveStyleRule('margin-right', '15px');
@@ -54,7 +54,7 @@ describe('Badge Component', () => {
   });
 
   it('should apply fontSize prop', () => {
-    const { container } = render(<Badge fontSize='16px' />);
+    const { container } = render(<Badge fontSize="16px" />);
     expect(container.firstChild).toHaveStyleRule('font-size', '16px');
   });
 
@@ -82,13 +82,13 @@ describe('Badge Component', () => {
       },
       {
         appearance: 'pink',
-        bgColor: 'var(--rds-color-teritary-3-subtle)',
-        color: 'var(--rds-color-teritary-3-deep)',
+        bgColor: 'var(--rds-color-tertiary-3-subtle)',
+        color: 'var(--rds-color-tertiary-3-deep)',
       },
       {
         appearance: 'orange',
-        bgColor: 'var(--rds-color-teritary-4-subtle)',
-        color: 'var(--rds-color-teritary-4-deep)',
+        bgColor: 'var(--rds-color-tertiary-4-subtle)',
+        color: 'var(--rds-color-tertiary-4-deep)',
       },
     ];
 

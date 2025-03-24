@@ -44,6 +44,10 @@ const DropDownItem = styled.a`
     background-color: var(--rds-color-neutral-1);
     cursor: pointer;
   }
+  &:hover {
+    background-color: var(--rds-color-neutral-1);
+    cursor: pointer;
+  }
 `;
 
 function AppLink({

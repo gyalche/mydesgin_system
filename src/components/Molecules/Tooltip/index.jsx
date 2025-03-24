@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import IconButton from 'components/Molecules/IconButton';
@@ -14,49 +20,6 @@ import {
   TextSubMessage,
   Wrapper,
 } from './styles';
-
-let startTime;
-let endTime;
-let anchorDisplayed = false;
-
-function hoverDuration() {
-  endTime = new Date();
-  let timeDiff = endTime - startTime;
-  // strip the ms
-  timeDiff /= 1000;
-  return Math.round(timeDiff % 60);
-}
-
-function handleMouseEnter() {
-  startTime = new Date();
-}
-
-function handleAnchorMouseLeave(onHover) {
-  if (onHover) {
-    anchorDisplayed = false;
-    // duration in seconds
-    const duration = hoverDuration();
-    if (duration > 1) {
-      onHover(duration);
-    }
-  }
-}
-
-function handleIconMouseLeave(onHover) {
-  if (onHover) {
-    setTimeout(() => {
-      if (!anchorDisplayed) {
-        const duration = hoverDuration();
-        if (duration > 1) {
-          return onHover(duration);
-        }
-      } else {
-        anchorDisplayed = false;
-      }
-      return null;
-    }, 250);
-  }
-}
 
 function Tooltip({
   message,
@@ -74,91 +37,150 @@ function Tooltip({
   placement,
   ...rest
 }) {
-  const [offsetLeft, setOffsetLeft] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [visible, setVisible] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const contentRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const tooltipRef = useRef(null);
 
-  const [contentWidth, setContentWidth] = useState(0);
+  const hideTimeoutRef = useRef(null);
 
-  const updateContentWidth = () => {
-    if (contentRef.current) {
-      const widthOffSet = contentRef.current.offsetWidth;
-      setContentWidth(widthOffSet);
+  function handleMouseEnter() {
+    hideTimeoutRef.current = setTimeout(() => {
+      setVisible(true);
+    }, 251);
+  }
+
+  function handleMouseLeave() {
+    hideTimeoutRef.current = setTimeout(() => {
+      setVisible(false);
+    }, 250);
+  }
+
+  function handleTooltipMouseEnter() {
+    clearTimeout(hideTimeoutRef.current);
+    setVisible(true);
+  }
+
+  function handleTooltipMouseLeave() {
+    hideTimeoutRef.current = setTimeout(() => {
+      setVisible(false);
+    }, 250);
+  }
+
+  const updatePosition = useCallback(() => {
+    if (!wrapperRef.current || !tooltipRef.current) {
+      return;
     }
-  };
+
+    const anchorRect = wrapperRef.current.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+
+    let x = anchorRect.left + window.scrollX;
+    let y = anchorRect.top + window.scrollY;
+
+    switch (placement) {
+      case 'topRight':
+        x = anchorRect.right + window.scrollX;
+        y = anchorRect.top - tooltipRect.height + window.scrollY + 2;
+        break;
+      case 'top':
+        x = anchorRect.left + (anchorRect.width - tooltipRect.width) / 2 + window.scrollX;
+        y = anchorRect.top - tooltipRect.height + window.scrollY + 2;
+        break;
+      case 'topLeft':
+        x = anchorRect.left - tooltipRect.width + window.scrollX;
+        y = anchorRect.top - tooltipRect.height + window.scrollY - 2;
+        break;
+      case 'bottomRight':
+        x = anchorRect.right + window.scrollX;
+        y = anchorRect.bottom + window.scrollY + 2;
+        break;
+      case 'bottom':
+        x = anchorRect.left + (anchorRect.width - tooltipRect.width) / 2 + window.scrollX;
+        y = anchorRect.bottom + window.scrollY + 2;
+        break;
+      case 'bottomLeft':
+        x = anchorRect.left - tooltipRect.width + window.scrollX;
+        y = anchorRect.bottom + window.scrollY - 2;
+        break;
+      case 'left':
+        x = anchorRect.left - tooltipRect.width + window.scrollX - 2;
+        y = anchorRect.top + (anchorRect.height - tooltipRect.height) / 2 + window.scrollY;
+        break;
+      case 'right':
+        x = anchorRect.right + window.scrollX + 2;
+        y = anchorRect.top + (anchorRect.height - tooltipRect.height) / 2 + window.scrollY;
+        break;
+      default:
+        x = anchorRect.right;
+        y = anchorRect.top;
+    }
+
+    setPosition({ x, y });
+  }, [placement]);
 
   useEffect(() => {
-    updateContentWidth();
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('resize', updateContentWidth);
+    window.addEventListener('resize', updatePosition);
     return () => {
-      window.removeEventListener('resize', updateContentWidth);
+      window.removeEventListener('resize', updatePosition);
     };
-  }, []);
-
-  const updateWindowSize = () => {
-    setWindowWidth(window.innerWidth);
-  };
+  }, [placement, updatePosition]);
 
   useEffect(() => {
-    window.addEventListener('resize', updateWindowSize);
-    return () => {
-      window.removeEventListener('resize', updateWindowSize);
-    };
-  }, []);
+    if (visible) {
+      updatePosition();
+    }
+  }, [visible, updatePosition]);
 
   return (
-    <Wrapper ref={elem => setOffsetLeft(elem?.offsetLeft)} {...rest}>
+    <Wrapper>
       <ContentWrapper
-        ref={contentRef}
-        onMouseEnter={() => {
-          handleMouseEnter();
-        }}
-        onMouseLeave={() => {
-          handleIconMouseLeave(onHover);
-        }}
+        ref={wrapperRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...rest}
       >
         {children}
       </ContentWrapper>
-      <Anchor className="display-text">
-        <DisplayText
-          $bgColor={bgColor}
-          $fontColor={fontColor}
-          $width={width}
-          $left={windowWidth <= 599 ? offsetLeft : contentWidth}
-          $windowWidth={windowWidth}
-          $placement={placement}
-          data-testid="tooltip-display-text"
-          onMouseEnter={() => {
-            anchorDisplayed = true;
-          }}
-          onMouseLeave={() => {
-            handleAnchorMouseLeave(onHover);
-          }}
+
+      {visible
+      && createPortal(
+        <Anchor
+          style={{ left: `${position.x}px`, top: `${position.y}px` }}
+          onMouseEnter={handleTooltipMouseEnter}
+          onMouseLeave={handleTooltipMouseLeave}
         >
-          {header && <TextHeader>{header}</TextHeader>}
-          <TextBody>
-            <TextMessage>{message}</TextMessage>
-            {subMessage && <TextSubMessage>{subMessage}</TextSubMessage>}
-          </TextBody>
-          {linkURL && (
-            <HelpLink>
-              <IconButton.Link
-                as="a"
-                target="_blank"
-                rel="noopener noreferrer"
-                iconName={iconName}
-                href={linkURL}
-                onClick={() => onHelpLinkClick()}
-                text={btnText}
-              />
-            </HelpLink>
-          )}
-        </DisplayText>
-      </Anchor>
+          <DisplayText
+            ref={tooltipRef}
+            $bgColor={bgColor}
+            $fontColor={fontColor}
+            $width={width}
+            $placement={placement}
+            data-testid="tooltip-display-text"
+          >
+            {header && <TextHeader>{header}</TextHeader>}
+            <TextBody>
+              <TextMessage>{message}</TextMessage>
+              {subMessage && <TextSubMessage>{subMessage}</TextSubMessage>}
+            </TextBody>
+            {linkURL && (
+              <HelpLink>
+                <IconButton.Link
+                  as="a"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  iconName={iconName}
+                  href={linkURL}
+                  onClick={() => onHelpLinkClick()}
+                  text={btnText}
+                />
+              </HelpLink>
+            )}
+          </DisplayText>
+        </Anchor>,
+        document.body,
+      )}
     </Wrapper>
   );
 }
@@ -191,11 +213,8 @@ Tooltip.propTypes = {
   fontColor: PropTypes.string,
   iconName: PropTypes.string,
   placement: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.array,
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.node])
+    .isRequired,
 };
 
 export default Tooltip;

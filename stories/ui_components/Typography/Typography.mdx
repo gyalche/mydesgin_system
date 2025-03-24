@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as TypographyStories from './Typography.stories';
+
+<Meta of={TypographyStories} />
+
+# Typography
+
+The `Typography` component ensures consistent text styling across the application by formatting text based on predefined typographic levels. It simplifies maintaining a cohesive design while improving readability and accessibility.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Typography } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Typography>My text</Typography>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={TypographyStories.Typography}
+  language="jsx"
+/>
+<Controls of={TypographyStories.Typography} />

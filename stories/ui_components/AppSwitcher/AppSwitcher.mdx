@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as AppSwitcherStories from './AppSwitcher.stories';
+
+<Meta of={AppSwitcherStories} />
+
+# App Switcher
+
+The `AppSwitcher` component allows users to seamlessly navigate between different company products based on their subscriptions. It provides a centralized way to switch between applications without leaving the current interface, improving workflow efficiency.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { AppSwitcher } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({ owned, other, ownedLabel, otherLabel, currentApp }) => {
+  return <AppSwitcher owned={owned} other={other} ownedLabel={ownedLabel} otherLabel={otherLabel} currentApp={currentApp} />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={AppSwitcherStories.AppSwitcher}
+  language="jsx"
+/>
+<Controls of={AppSwitcherStories.AppSwitcher} />

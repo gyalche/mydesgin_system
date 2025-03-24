@@ -1,0 +1,118 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as FormFieldStories from './FormField.stories';
+
+<Meta of={FormFieldStories} />
+
+# FormField
+
+The `FormField` component provides a standardized way to create form inputs with labels, helper text, and validation messages. It supports different types of inputs including text fields and text areas.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { FormField } from '@d-lighted/receptionist-design-system';
+
+const MyExample = () => {
+  return (
+    <>
+      <FormField.Input
+        labelText="Username"
+        helperText="Enter your username"
+        placeholder="johndoe"
+        meta={{ touched: false, error: '' }}
+      />
+
+      <FormField.TextArea
+        labelText="Description"
+        helperText="Tell us about yourself"
+        placeholder="I am a..."
+        meta={{ touched: false, error: '' }}
+      />
+
+      {/* With validation error */}
+      <FormField.Input
+        labelText="Email"
+        helperText="Enter your email address"
+        placeholder="example@email.com"
+        meta={{ touched: true, error: 'Invalid email format' }}
+      />
+
+      {/* With left-side label */}
+      <FormField.Input
+        labelText="Phone"
+        helperText="Enter your phone number"
+        placeholder="+1 (123) 456-7890"
+        isLeftSideLabel={true}
+        w="416px"
+      />
+    </>
+  );
+};
+
+export default MyExample;
+`}/>
+
+## Basic Usage
+
+The FormField component provides Input and TextArea variants with consistent styling and behavior.
+
+<Canvas
+  of={FormFieldStories.FormField}
+  language="jsx"
+/>
+<Controls of={FormFieldStories.FormField} />
+
+## Using Custom Components
+
+FormField can be used with any input component by creating a custom wrapper that uses the CommonFormField component. This allows you to create form fields with components like Toggle, Selector, Checkbox, and more.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { CommonFormField, Toggle, Selector } from '@d-lighted/receptionist-design-system';
+
+// Create custom FormField components for Toggle and Selector
+function FormFieldToggle(props) {
+  return <CommonFormField customField={Toggle} {...props} />;
+}
+
+function FormFieldSelector(props) {
+  return <CommonFormField customField={Selector} {...props} />;
+}
+
+const MyExample = () => {
+  const selectorOptions = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+
+  return (
+    <>
+      <FormFieldSelector
+        labelText="Select an option"
+        helperText="Choose from the dropdown"
+        options={selectorOptions}
+      />
+
+      <FormFieldToggle
+        labelText="Toggle Status"
+        helperText="Toggle to change status"
+      />
+    </>
+  );
+};
+
+export default MyExample;
+`}/>
+
+<Canvas
+  of={FormFieldStories.FormFieldWithCustomComponents}
+  language="jsx"
+/>
+<Controls of={FormFieldStories.FormFieldWithCustomComponents} />

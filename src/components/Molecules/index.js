@@ -4,6 +4,7 @@ export { default as Dialog } from './Dialog';
 export { default as DatePicker } from './DateTimePicker';
 export { default as FormField } from './FormField';
 export { default as IconButton } from './IconButton';
+export { default as InlineAlert } from './InlineAlert';
 export { default as Loading } from './Loading';
 export { default as Profile } from './Profile';
 export { default as ProgressTracker } from './ProgressTracker';

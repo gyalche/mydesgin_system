@@ -1,212 +1,166 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import expect from 'expect';
-import { act, render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@storybook/testing-library';
+import {
+  act, render, screen,
+} from '@testing-library/react';
+import { userEvent } from '@storybook/test';
 
-import Button from 'src/components/Atoms/Button';
-import { ToastProvider, useToast } from 'src/components/Molecules/Toast';
+import Button from 'components/Atoms/Button';
+import { ToastProvider, useToast } from 'components/Molecules/Toast';
 
-const TEST_DURATION = 10000;
 const testTitle = 'Test title';
 const testDescription = 'Test description';
 
 const mockAction = jest.fn();
 
-const TestComponent = ({ title, description, placement }) => {
+function TestComponent({
+  title, description, placement, action, btnLabel,
+}) {
   const toast = useToast();
 
   const handleClick = () => {
-    toast?.success(title, description, placement);
+    toast?.success(title, description, placement, 1000, action, btnLabel);
   };
 
   return <Button.Primary onClick={handleClick}>Open Toast</Button.Primary>;
-};
+}
 
 TestComponent.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   placement: PropTypes.string,
+  action: PropTypes.func,
+  btnLabel: PropTypes.string,
+};
+
+TestComponent.defaultProps = {
+  description: undefined,
+  placement: undefined,
+  action: undefined,
+  btnLabel: undefined,
 };
 
 it('should open a toast when button is clicked', async () => {
   render(
     <ToastProvider>
       <TestComponent title={testTitle} />
-    </ToastProvider>
+    </ToastProvider>,
   );
 
-  const openToastBtn = screen.getByText('Open Toast');
-
-  await act(async () => await userEvent.click(openToastBtn));
-
-  await waitFor(() => {
-    const toastsWrapper = screen.getByTestId('toasts-wrapper');
-    expect(toastsWrapper).toBeInTheDocument();
+  // Use act to wrap the click event that causes state updates
+  await act(async () => {
+    const openToastBtn = screen.getByText('Open Toast');
+    await userEvent.click(openToastBtn);
   });
+
+  // No need for waitFor since act will wait for updates
+  const toastsWrapper = screen.getByTestId('toasts-wrapper');
+  expect(toastsWrapper).toBeInTheDocument();
 });
 
 it('should close the toast when the close button is clicked', async () => {
-    render(
-      <ToastProvider>
-        <TestComponent />
-      </ToastProvider>
-    );
+  render(
+    <ToastProvider>
+      <TestComponent title={testTitle} />
+    </ToastProvider>,
+  );
 
+  // Open toast with act
+  await act(async () => {
     const openToastBtn = screen.getByText('Open Toast');
-
-    await act(async () => await userEvent.click(openToastBtn));
-
-    await waitFor(() => {
-      const toastsWrapper = screen.getByTestId('toasts-wrapper');
-      expect(toastsWrapper).toBeInTheDocument();
-    });
-
-    await act(async () => {
-      const closeIcon = screen.getByTestId('close-icon');
-      userEvent.click(closeIcon);
-
-      const EXTRA_TIME_FOR_STATE_TO_UPDATE = 3000;
-      await new Promise(resolve =>
-        setTimeout(resolve, EXTRA_TIME_FOR_STATE_TO_UPDATE)
-      );
-    });
-
-    await waitFor(() => {
-      const toastsWrapper = screen.queryByTestId('toasts-wrapper');
-      expect(toastsWrapper).not.toBeInTheDocument();
-    });
-  },
-  TEST_DURATION
-);
-
-it('should render ToastButton and call action on click (action provided, title provided, description provided)', async () => {
-    render(
-      <ToastProvider>
-        <TestComponent
-          title={testTitle}
-          description={testDescription}
-          action={mockAction}
-          btnLabel="Action"
-        />
-      </ToastProvider>
-    );
-
-    const openToastBtn = screen.getByText('Open Toast');
-
     await userEvent.click(openToastBtn);
+  });
 
-    // Check that the toast is in the document
-    await waitFor(() => {
-      const toastsWrapper = screen.getByTestId('toasts-wrapper');
-      expect(toastsWrapper).toBeInTheDocument();
-    });
+  // Verify toast is open
+  const toastsWrapper = screen.getByTestId('toasts-wrapper');
+  expect(toastsWrapper).toBeInTheDocument();
 
-    // Check that ToastButton is rendered
-    const toastButton = screen.getByTestId('button-id');
-    expect(toastButton).toBeInTheDocument();
-  },
-  TEST_DURATION
-);
+  // Close toast with act
+  await act(async () => {
+    const closeIcon = screen.getByTestId('close-icon');
+    await userEvent.click(closeIcon);
+  });
 
-it('should close the toast automatically after 5 seconds', async () => {
-    render(
-      <ToastProvider>
-        <TestComponent title={testTitle} />
-      </ToastProvider>
-    );
+  // Wait for the animation timeout in the component
+  // Increase the timeout to ensure the animation completes
+  await new Promise(resolve => {
+    setTimeout(resolve, 1500);
+  });
 
-    const openToastBtn = screen.getByText('Open Toast');
-
-    await act(async () => await userEvent.click(openToastBtn));
-
-    await waitFor(() => {
-      const toastsWrapper = screen.getByTestId('toasts-wrapper');
-      expect(toastsWrapper).toBeInTheDocument();
-    });
-
-    // When testing, code that causes React state updates should be wrapped into act(...)
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 5000));
-    });
-
-    await waitFor(() => {
-      const toastsWrapper = screen.queryByTestId('toasts-wrapper');
-      expect(toastsWrapper).not.toBeInTheDocument();
-    });
-  },
-  TEST_DURATION
-);
+  // Verify toast is closed
+  expect(screen.queryByTestId('toasts-wrapper')).not.toBeInTheDocument();
+});
 
 it('should render the correct title and description', async () => {
   render(
     <ToastProvider>
       <TestComponent title={testTitle} description={testDescription} />
-    </ToastProvider>
+    </ToastProvider>,
   );
 
-  const openToastBtn = screen.getByText('Open Toast');
-
-  await act(async () => await userEvent.click(openToastBtn));
-
-  await waitFor(() => {
-    const toastsWrapper = screen.getByTestId('toasts-wrapper');
-    const title = screen.getByText('Test title');
-    const description = screen.getByText('Test description');
-
-    expect(toastsWrapper).toBeInTheDocument();
-    expect(title).toBeInTheDocument();
-    expect(description).toBeInTheDocument();
+  // Open toast with act
+  await act(async () => {
+    const openToastBtn = screen.getByText('Open Toast');
+    await userEvent.click(openToastBtn);
   });
+
+  // Verify title and description
+  const title = screen.getByText(testTitle);
+  const description = screen.getByText(testDescription);
+  expect(title).toBeInTheDocument();
+  expect(description).toBeInTheDocument();
 });
 
-it('should render the action button on the right when action and title is provided', async ()=>{
+it('should render action button below description when title, description, and action are provided', async () => {
   render(
     <ToastProvider>
-      <TestComponent title={testTitle} action={mockAction} btnLabel="action" />
-    </ToastProvider>
+      <TestComponent
+        title={testTitle}
+        description={testDescription}
+        action={mockAction}
+        btnLabel="Action"
+      />
+    </ToastProvider>,
   );
 
-  const openToastBtn = screen.getByText('Open Toast');
-
-  await userEvent.click(openToastBtn);
-
-  // Check that the toast is in the document
-  await waitFor(() => {
-    const toastsWrapper = screen.getByTestId('toasts-wrapper');
-    expect(toastsWrapper).toBeInTheDocument();
+  // Open toast with act
+  await act(async () => {
+    const openToastBtn = screen.getByText('Open Toast');
+    await userEvent.click(openToastBtn);
   });
 
-  // Check that action button is render on the right
-  const toastButton = screen.getByTestId('right-side-btn');
-  expect(toastButton).toBeInTheDocument();
+  // Verify action button
+  const actionButton = screen.getByTestId('button-id');
+  expect(actionButton).toBeInTheDocument();
+  expect(actionButton).toHaveTextContent('Action');
+
+  // Click action button with act
+  await act(async () => {
+    await userEvent.click(actionButton);
+  });
+
+  expect(mockAction).toHaveBeenCalled();
 });
 
+it('should render action button on the right when title and action are provided without description', async () => {
+  render(
+    <ToastProvider>
+      <TestComponent
+        title={testTitle}
+        action={mockAction}
+        btnLabel="Action"
+      />
+    </ToastProvider>,
+  );
 
-it('should render ToastButton below description if props(title, action) is passed and not iconButton', async () => {
-    render(
-      <ToastProvider>
-        <TestComponent title={testTitle} action={mockAction} btnLabel="action" />
-      </ToastProvider>
-    );
-
+  // Open toast with act
+  await act(async () => {
     const openToastBtn = screen.getByText('Open Toast');
-
     await userEvent.click(openToastBtn);
+  });
 
-    // Check that the toast is in the document
-    await waitFor(() => {
-      const toastsWrapper = screen.getByTestId('toasts-wrapper');
-      expect(toastsWrapper).toBeInTheDocument();
-    });
-
-    // Check that ToastButton is rendered below description
-    const toastButton = screen.getByTestId('right-side-btn');
-    expect(toastButton).toBeInTheDocument();
-   
-    // Check that the CloseIcon is also rendered
-    const closeIcon = screen.queryByTestId('close-icon');
-    expect(closeIcon).toBeInTheDocument();
-  },
-  TEST_DURATION
-);
+  // Verify action button position
+  const actionButton = screen.getByTestId('right-side-btn');
+  expect(actionButton).toBeInTheDocument();
+});

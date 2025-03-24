@@ -16,7 +16,7 @@ const appearanceColors = {
     textColor: 'var(--rds-color-secondary-3-deep)',
   },
   disabled: {
-    bulletColor: 'var(--rds-color-neutral-alpha-3)',
+    bulletColor: 'var(--rds-color-neutral-3)',
   },
   enabled: {
     bulletColor: 'var(--rds-color-secondary-2-normal)',

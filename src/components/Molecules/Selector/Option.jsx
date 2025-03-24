@@ -12,7 +12,8 @@ const ListItem = styled.li`
     : 'var(--rds-color-neutral-10)')};
 
   &:hover {
-    background: rgba(226, 231, 239, 0.32);
+    background: var(--rds-color-neutral-1);
+    color: var(--rds-color-neutral-10);
   }
 `;
 

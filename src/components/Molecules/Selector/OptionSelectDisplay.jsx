@@ -10,7 +10,7 @@ const ValueWrapper = styled.div`
   align-items: center;
 
   background: ${({ $isOpen }) => ($isOpen
-    ? 'var(--rds-color-neutral-alpha-1)'
+    ? 'var(--rds-color-neutral-1)'
     : 'var(--rds-color-neutral-0)')};
   border: none;
   border-radius: 4px;
@@ -26,7 +26,7 @@ const ValueWrapper = styled.div`
 
   &:hover {
     border-radius: 4px;
-    background: var(--rds-color-neutral-alpha-1);
+    background: var(--rds-color-neutral-1);
   }
 `;
 

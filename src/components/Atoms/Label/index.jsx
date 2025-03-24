@@ -7,6 +7,9 @@ const Label = styled(Typography).attrs(() => ({ level: 'p2' }))`
   color: ${({ disabled }) => (disabled ? 'var(--rds-color-neutral-5)' : 'var(--rds-color-neutral-9)')};
 `;
 
+// Added this for storybook
+Label.displayName = 'Label';
+
 Label.propTypes = {
   disabled: PropTypes.bool,
 };

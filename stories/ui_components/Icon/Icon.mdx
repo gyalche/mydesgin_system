@@ -1,0 +1,43 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as IconStories from './Icon.stories';
+
+<Meta of={IconStories} />
+
+# Icon
+
+The `Icon` component is used to display visual symbols that enhance usability and clarity in the UI. Icons help communicate meaning quickly and improve navigation without relying solely on text.
+
+### Usage Examples
+  - Navigation: Used in menus, buttons, or sidebars for quick recognition.
+  - Status Indicators: Represent different states like success, warning, or error.
+  - Actions: Enhance buttons (e.g., search , close , or edit ).
+
+### Customization Options
+  - Size: Supports multiple sizes (small, medium, large), or custom values.
+  - Color: Inherits text color by default but can be customized.
+  - Variability: You can check the [reference here](?path=/docs/general-assets--docs#icons) to check all the available icons.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Icon } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({}) => {
+  return <Icon name="global-cog" />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={IconStories.Icon}
+  language="jsx"
+/>
+<Controls of={IconStories.Icon} />

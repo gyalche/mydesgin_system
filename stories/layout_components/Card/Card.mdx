@@ -1,0 +1,34 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as CardStories from './Card.stories';
+
+<Meta of={CardStories} />
+
+# Card
+
+The layout `Card` component provides a structured container for displaying grouped content in a visually distinct way. It is designed to maintain consistent spacing, alignment, and styling while being flexible enough for various use cases, such as dashboards, user profiles, or data displays.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Card } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Card>My card content</Card>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={CardStories.Card}
+  language="jsx"
+  className="contrast-background"
+/>
+<Controls of={CardStories.Card} />

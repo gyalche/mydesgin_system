@@ -22,6 +22,8 @@ const RadioButtonLabel = styled.label`
 
 const RadioButtonIcon = styled.span`
   ${({ position }) => position}: 0;
+  color: var(--rds-color-neutral-6);
+
   cursor: pointer;
   font-size: 20px;
   position: absolute;

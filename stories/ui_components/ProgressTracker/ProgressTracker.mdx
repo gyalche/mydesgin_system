@@ -1,0 +1,44 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as ProgressStories from './ProgressTracker.stories';
+
+<Meta of={ProgressStories} />
+
+# Progress Tracker
+
+The `ProgressTracker` component visually represents the completion stages of a process, helping users understand their current position and what steps remain. It is ideal for multi-step workflows, onboarding flows, checkout processes, and progress-based tasks.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { ProgressTracker } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({ steps, currentStep }) => {
+  return <ProgressTracker steps={steps} currentStep={currentStep} />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={ProgressStories.Progress}
+  language="jsx"
+/>
+<Controls of={ProgressStories.Progress} />
+
+## Step format
+
+The `stepFormat` prop should be an `array` of objects with the following properties:
+
+| Name              | Type     | Required | Description |
+|-------------------|----------|----------|-------------|
+| `id`             | `string`  | ✅       | A unique identifier. |
+| `label`          | `string`  | ✅       | The main label. |
+| `completedLabel` | `string`  | ❌       | Optional label when completed. |
+| `inProgressLabel` | `string` | ❌       | Optional label when in progress. |

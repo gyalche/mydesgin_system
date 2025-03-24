@@ -37,7 +37,7 @@ function ToastProvider({ children }) {
     }, FADE_OUT_DURATION_MS);
   }, [closeToast]);
 
-  const openToast = useCallback((title, description, placement, type, toastDuration, action, btnLabel) => {
+  function openToastNotMemoized(title, description, placement, type = 'success', toastDuration = 1000, action = null, btnLabel = null) {
     const newToast = {
       id: Date.now(),
       title,
@@ -62,7 +62,9 @@ function ToastProvider({ children }) {
     setTimeout(() => {
       triggerFadeOut(newToast.id);
     }, duration);
-  }, [currentPlacement, duration, triggerFadeOut]);
+  }
+
+  const openToast = useCallback(openToastNotMemoized, [currentPlacement, duration, triggerFadeOut]);
 
   const success = useCallback((title, description, placement, toastDuration, action, btnLabel) => {
     openToast(title, description, placement, 'success', toastDuration, action, btnLabel);

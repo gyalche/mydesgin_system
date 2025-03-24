@@ -1,0 +1,34 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as TooltipStories from './Tooltip.stories';
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+The `Tooltip` component provides contextual information when users hover over or focus on an element. It helps enhance usability by offering additional details without cluttering the UI.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Tooltip } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return (<Tooltip><Icon name="global-circle-exclamation" /></Tooltip>);
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={TooltipStories.Tooltip}
+  language="jsx"
+/>
+<Controls of={TooltipStories.Tooltip} />
+

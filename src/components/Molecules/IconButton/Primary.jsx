@@ -7,3 +7,6 @@ export default function Primary({ ...props }) {
     <StyledIconButton appearance="primary" {...props} />
   );
 }
+
+// Added this for storybook
+Primary.displayName = 'IconButton';

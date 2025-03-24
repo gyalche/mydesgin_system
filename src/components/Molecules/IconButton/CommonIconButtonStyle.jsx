@@ -51,6 +51,9 @@ export function StyledIconButton({
   );
 }
 
+// Added this for storybook
+StyledIconButton.displayName = 'IconButton';
+
 StyledIconButton.defaultProps = {
   appearance: 'primary',
   iconName: 'navigation-users',

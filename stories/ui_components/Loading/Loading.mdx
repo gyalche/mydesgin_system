@@ -1,0 +1,38 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as LoadingStories from './Loading.stories';
+
+<Meta of={LoadingStories} />
+
+# Loading
+
+The `Loading` component is used to indicate that content is being loaded or a process is in progress. It provides visual feedback to users, improving the perceived responsiveness of the application.
+
+### Usage Examples
+  - Page Loading: Display a full-page spinner when fetching data.
+  - Button Loading: Show a loading state inside a button when an action is processing.
+  - Inline Loading: Use a small loader for specific components, like a table or form submission.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Loading } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({onClick}) => {
+  return <Loading />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={LoadingStories.Loading}
+  language="jsx"
+/>
+<Controls of={LoadingStories.Loading} />

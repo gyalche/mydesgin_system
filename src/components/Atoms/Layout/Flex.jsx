@@ -23,8 +23,10 @@ const Flex = styled.div.withConfig({
 })`
   display: flex;
   flex-direction: ${({ direction }) => direction || 'row'};
+  flex-wrap: ${({ wrap }) => wrap || 'nowrap'};
   justify-content: ${({ justifyContent }) => justifyContent || 'flex-start'};
   align-items: ${({ alignItems }) => alignItems || 'flex-start'};
+  text-align: ${({ textAlign }) => textAlign || 'left'};
   width: ${({ w }) => w || '100%'};
   height: ${({ h }) => h || 'auto'};
   min-width: ${({ minW }) => minW || 'unset'};
@@ -50,11 +52,13 @@ const Flex = styled.div.withConfig({
     && `
     pointer-events: none;
     user-select: none;
-    
+
     & * {
       opacity: 0.4;
     }
   `}
 `;
+
+Flex.displayName = 'Flex';
 
 export default Flex;

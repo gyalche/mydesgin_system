@@ -1,0 +1,75 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as SegmentedControlStories from './SegmentedControl.stories';
+
+<Meta of={SegmentedControlStories} />
+
+# Segmented Control
+
+The `SegmentedControl` component provides a horizontal control made of multiple segments, each segment functioning as a separate button. It's commonly used for displaying a few mutually exclusive options, similar to tabs or a small-scale navigation.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { SegmentedControl } from '@d-lighted/receptionist-design-system';
+
+const MyExample = () => {
+  return (
+    <SegmentedControl
+      defaultSegment="1"
+      segments={[
+        {
+          segmentKey: '1',
+          label: 'Option 1',
+          onClick: () => console.log('Option 1 clicked'),
+        },
+        {
+          segmentKey: '2',
+          label: 'Option 2',
+          onClick: () => console.log('Option 2 clicked'),
+        },
+        {
+          segmentKey: '3',
+          label: 'Option 3',
+          onClick: () => console.log('Option 3 clicked'),
+        },
+      ]}
+    />
+  );
+};
+
+export default MyExample;
+`}/>
+
+## Usage
+
+The SegmentedControl component allows users to select one option from a small set of options.
+
+<Canvas
+  of={SegmentedControlStories.SegmentedControls}
+  language="jsx"
+/>
+<Controls of={SegmentedControlStories.SegmentedControls} />
+
+## Disabled Segments
+
+Individual segments can be disabled by setting the `disabled` property to `true` in the segment object.
+
+<Canvas
+  of={SegmentedControlStories.DisabledSegment}
+  language="jsx"
+/>
+
+## Segment format
+
+Each segment object in the segments array should have:
+
+| Name              | Type     | Required | Description |
+|-------------------|----------|----------|-------------|
+| `segmentKey`             | `string`  | ✅       | A unique identifier for the segment. |
+| `label`          | `string`  | ✅       | The text displayed on the segment. |
+| `onClick` | `function`  | ✅       | Function to be called when the segment is clicked. |
+| `disabled` | `boolean` | ❌       |  When true, the segment cannot be clicked. |
+

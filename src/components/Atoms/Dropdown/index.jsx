@@ -6,12 +6,12 @@ const DropdownContainer = styled.div`
   background: var(--rds-color-neutral-0);
   border: ${({ $border }) => $border};
   border-radius: 4px;
-  box-shadow: ${({ $boxShadow }) => $boxShadow};
+  box-shadow: ${({ $boxShadow }) => $boxShadow && `var(--rds-box-shadow-${$boxShadow})`};
   overflow-y: auto;
   overflow-x: ${({ $overflowX }) => $overflowX};
   padding: ${({ $p }) => $p};
   position: absolute;
-  z-index: 10;
+  z-index: var(--rds-z-index-3);
   right: ${({ $right }) => $right};
   margin-top: ${({ $mt }) => $mt};
   margin-right: ${({ $mr }) => $mr};
@@ -97,10 +97,11 @@ Dropdown.defaultProps = {
   ml: '0',
   p: '0',
   border: '1px solid var(--rds-color-neutral-3)',
-  boxShadow: '0 4px 8px 0 rgba(156, 168, 184, 0.48)',
+  boxShadow: 3,
   scroll: true,
   overflowX: 'visible',
-  right: '',
+  right: 'auto',
+  children: undefined,
 };
 
 Dropdown.propTypes = {
@@ -112,7 +113,7 @@ Dropdown.propTypes = {
   mb: PropTypes.string,
   ml: PropTypes.string,
   border: PropTypes.string,
-  boxShadow: PropTypes.string,
+  boxShadow: PropTypes.oneOf([1, 2, 3, 4]),
   right: PropTypes.string,
   p: PropTypes.string,
   scroll: PropTypes.bool,
@@ -121,7 +122,7 @@ Dropdown.propTypes = {
     PropTypes.bool,
     PropTypes.array,
     PropTypes.node,
-  ]).isRequired,
+  ]),
 };
 
 export default Dropdown;

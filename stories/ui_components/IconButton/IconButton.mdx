@@ -1,0 +1,68 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as ButtonStories from './IconButton.stories';
+
+<Meta of={ButtonStories} />
+
+# Icon Button
+
+The `IconButton` component combines an icon and text to provide a clear, action-driven button with visual reinforcement. It enhances usability by making actions more recognizable while maintaining a compact design.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { IconButton } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({onClick}) => {
+  return <IconButton onClick={onClick}text="Button" />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={ButtonStories.Button}
+  language="jsx"
+/>
+<Controls of={ButtonStories.Button} />
+
+## Appearances
+
+Appearances (add link when appearances page is defined) play a important role in our design system. You can see a comparation below.
+
+<Canvas
+  of={ButtonStories.Palette}
+  language="jsx"
+  source={{
+    code: `
+<Layout.Block>
+  <Layout.Item mt="20px">
+    <IconButton iconName="navigation-users" text="Primary" />
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <IconButton.Secondary iconName="navigation-users" text="Secondary" />
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <IconButton.Danger iconName="navigation-users" text="Danger" />
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <IconButton.Warning iconName="navigation-users" text="Warning" />
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <IconButton.Subtle iconName="navigation-users" text="Subtle" />
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <IconButton.Link iconName="navigation-users" text="Link" />
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <IconButton.SubtleLink iconName="navigation-users" text="SubtleLink" />
+  </Layout.Item>
+</Layout.Block>`
+  }}
+/>

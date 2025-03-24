@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 export const Blue = css`
-  background-color: var(--rds-color-teritary-2-subtle);
+  background-color: var(--rds-color-tertiary-2-subtle);
   color: var(--rds-color-tertiary-2-deep);
 `;
 
@@ -32,13 +32,13 @@ export const Teal = css`
 `;
 
 export const Pink = css`
-  background-color: var(--rds-color-teritary-3-subtle);
-  color: var(--rds-color-teritary-3-deep);
+  background-color: var(--rds-color-tertiary-3-subtle);
+  color: var(--rds-color-tertiary-3-deep);
 `;
 
 export const Orange = css`
-  background-color: var(--rds-color-teritary-4-subtle);
-  color: var(--rds-color-teritary-4-deep);
+  background-color: var(--rds-color-tertiary-4-subtle);
+  color: var(--rds-color-tertiary-4-deep);
 `;
 
 export const CommonBadgeStyle = styled.div`
@@ -64,6 +64,9 @@ export const CommonBadgeStyle = styled.div`
   ${props => props.appearance === 'orange' && Orange}
 `;
 
+// Added this for storybook
+CommonBadgeStyle.displayName = 'Badge';
+
 CommonBadgeStyle.propTypes = {
   appearance: PropTypes.oneOf(['blue', 'green', 'yellow', 'red', 'violet', 'teal', 'pink', 'orange']),
   padding: PropTypes.string,
@@ -75,7 +78,7 @@ CommonBadgeStyle.propTypes = {
 };
 
 CommonBadgeStyle.defaultProps = {
-  appearance: false,
+  appearance: 'blue',
   padding: '0 4px',
   fontSize: '12px',
   mt: '0',
