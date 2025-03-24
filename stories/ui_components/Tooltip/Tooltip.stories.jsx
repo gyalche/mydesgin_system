@@ -79,6 +79,7 @@ export const Tooltip = {
       },
       options: [
         'right',
+        'left',
         'topLeft',
         'top',
         'topRight',
