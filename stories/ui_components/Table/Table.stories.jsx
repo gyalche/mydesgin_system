@@ -24,7 +24,6 @@ function TableStories(args) {
       <Layout.Item>
         <TableComponent data={itemsToDisplay} columns={arg.columns} />
         <Pagination
-          {...args}
           totalPages={totalPages}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
@@ -123,6 +122,207 @@ export const TableWithPagination = {
   args: {
     itemsPerPage: 5,
     data: [
+      {
+        effectiveDate: '11/6\n12:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n13:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n14:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n15:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n16:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n17:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n18:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n19:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n20:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n21:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n12:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n13:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n14:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n15:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n16:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n17:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n18:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n19:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n20:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+      {
+        effectiveDate: '11/6\n21:00',
+        receptionCode: '123456',
+        visitor: 'Mister Visitor',
+        personInCharge: 'Mister in Charge',
+        title: 'The meeting title',
+        meetingRoom:
+          'meeting room 123 in building B next to the water fountain but no way am I making this a super long',
+        memo: 'nothing',
+      },
+
       {
         effectiveDate: '11/6\n12:00',
         receptionCode: '123456',

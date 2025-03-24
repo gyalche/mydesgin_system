@@ -6,7 +6,7 @@ const DropdownContainer = styled.div`
   background: var(--rds-color-neutral-0);
   border: ${({ $border }) => $border};
   border-radius: 4px;
-  box-shadow: ${({ $boxShadow }) => $boxShadow && `var(--rds-box-shadow-${$boxShadow || 3}`};
+  box-shadow: ${({ $boxShadow }) => $boxShadow && `var(--rds-box-shadow-${$boxShadow})`};
   overflow-y: auto;
   overflow-x: ${({ $overflowX }) => $overflowX};
   padding: ${({ $p }) => $p};
