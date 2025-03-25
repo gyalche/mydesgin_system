@@ -15,6 +15,8 @@ import Card from 'components/Atoms/Card';
 import DatePicker from 'components/Molecules/DateTimePicker';
 import * as Layout from 'components/Atoms/Layout';
 
+const { Time, DateTime } = DatePicker;
+
 export default {
   title: 'Tools/Form Component Tester',
   tags: ['!dev'],
@@ -93,7 +95,7 @@ const componentConfigs = {
     initialValue: new Date(),
   },
   TimePicker: {
-    component: DatePicker.Time,
+    component: Time,
     fieldName: 'timePickerField',
     initialValue: new Date(),
     props: {
@@ -101,7 +103,7 @@ const componentConfigs = {
     },
   },
   DateTimePicker: {
-    component: DatePicker.DateTime,
+    component: DateTime,
     fieldName: 'dateTimePickerField',
     initialValue: new Date(),
   },
@@ -210,7 +212,7 @@ export const FormComponentTester = {
                   <Layout.Flex gap="24px">
                     <Layout.Item flex="1">
                       <Layout.Flex direction="column" gap="16px">
-                        {selectedComponent === 'RadioButton' ? (
+                        {selectedComponent === 'RadioButton' && (
                           <div>
                             <Typography level="p2" fontWeight="bold">{labelText}</Typography>
                             {helperText && <Typography level="p3" mb="8px">{helperText}</Typography>}
@@ -233,7 +235,41 @@ export const FormComponentTester = {
                               )}
                             />
                           </div>
-                        ) : (
+                        )}
+
+                        {selectedComponent === 'TimePicker' && (
+                          <div>
+                            <Field
+                              name={componentConfig.fieldName}
+                              validate={validator}
+                              render={({ input }) => (
+                                <componentConfig.component
+                                  input={input}
+                                  disabled={disabled}
+                                  {...(componentConfig.props || {})}
+                                />
+                              )}
+                            />
+                          </div>
+                        )}
+
+                        {selectedComponent === 'DatePicker' && (
+                          <div>
+                            <Field
+                              name={componentConfig.fieldName}
+                              validate={validator}
+                              render={({ input }) => (
+                                <componentConfig.component
+                                  input={input}
+                                  disabled={disabled}
+                                  {...(componentConfig.props || {})}
+                                />
+                              )}
+                            />
+                          </div>
+                        )}
+
+                        {selectedComponent !== 'RadioButton' && selectedComponent !== 'TimePicker' && selectedComponent !== 'DatePicker' && (
                           <Field
                             name={componentConfig.fieldName}
                             type={selectedComponent === 'Checkbox' ? 'checkbox' : undefined}
