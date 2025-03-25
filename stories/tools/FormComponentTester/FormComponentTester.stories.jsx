@@ -12,7 +12,7 @@ import Selector from 'components/Molecules/Selector';
 import FormField from 'components/Molecules/FormField';
 import Divider from 'components/Atoms/Divider';
 import Card from 'components/Atoms/Card';
-import DateTimePicker from 'components/Molecules/DateTimePicker';
+import DatePicker from 'components/Molecules/DateTimePicker';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
@@ -88,11 +88,22 @@ const componentConfigs = {
     },
   },
   DatePicker: {
-    component: DateTimePicker.DateTime,
-    fieldName: 'dateTimeField',
-    initialValue: {
-      value: new Date('Dec 20 2025 1:50:00'),
+    component: DatePicker,
+    fieldName: 'datePickerField',
+    initialValue: new Date(),
+  },
+  TimePicker: {
+    component: DatePicker.Time,
+    fieldName: 'timePickerField',
+    initialValue: new Date(),
+    props: {
+      is12Hour: true,
     },
+  },
+  DateTimePicker: {
+    component: DatePicker.DateTime,
+    fieldName: 'dateTimePickerField',
+    initialValue: new Date(),
   },
 };
 
