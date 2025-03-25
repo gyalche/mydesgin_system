@@ -212,7 +212,7 @@ export const FormComponentTester = {
                   <Layout.Flex gap="24px">
                     <Layout.Item flex="1">
                       <Layout.Flex direction="column" gap="16px">
-                        {['RadioButton', 'TimePicker', 'DatePicker'].includes(selectedComponent) && (
+                        {['RadioButton', 'TimePicker', 'DatePicker'].includes(selectedComponent) ? (
                           <div>
                             <Typography level="p2" fontWeight="bold">{labelText}</Typography>
                             {helperText && <Typography level="p3" mb="8px">{helperText}</Typography>}
@@ -235,8 +235,7 @@ export const FormComponentTester = {
                               )}
                             />
                           </div>
-                        )}
-                        {!['RadioButton', 'TimePicker', 'DatePicker'].includes(selectedComponent) && (
+                        ) : (
                           <Field
                             name={componentConfig.fieldName}
                             type={selectedComponent === 'Checkbox' ? 'checkbox' : undefined}
