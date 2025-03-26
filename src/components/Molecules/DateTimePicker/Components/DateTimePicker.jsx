@@ -1,8 +1,8 @@
 import React, {
-  useEffect,
-  useMemo,
-  useRef,
   useState,
+  useEffect,
+  useRef,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,6 +12,11 @@ import TimePicker from './TimePicker';
 import DatePicker from './DatePicker';
 import { DateTimeContainer, NextIcon } from '../styles';
 import { combineDateAndTime } from '../../../../utils/index';
+
+/**
+ * DateTimePicker component
+ * Combines DatePicker and TimePicker components for selecting both date and time
+ */
 
 function DateTimePicker({
   onChange,
@@ -31,8 +36,12 @@ function DateTimePicker({
   const [dateTimeStart, setDateTimeStart] = useState(true);
   const [dateTimeEnd, setDateTimeEnd] = useState(true);
 
-  const [dateTimeStartvalue, setDateTimeStartValue] = useState(Array.isArray(initialValues) ? initialValues[0] : initialValues);
-  const [dateTimeEndvalue, setDateTimeEndValue] = useState(Array.isArray(initialValues) ? initialValues[1] : initialValues);
+  const [dateTimeStartValue, setDateTimeStartValue] = useState(
+    Array.isArray(initialValues) ? initialValues[0] : initialValues,
+  );
+  const [dateTimeEndValue, setDateTimeEndValue] = useState(
+    Array.isArray(initialValues) ? initialValues[1] : initialValues,
+  );
 
   const prevValuesRef = useRef(null);
 
@@ -65,15 +74,15 @@ function DateTimePicker({
   useEffect(() => {
     setIsRange(isRangePicker || (Array.isArray(initialValues || input?.value) && (initialValues?.length > 1 || input?.value?.length > 1)));
     const newValue = isRangePicker || Array.isArray(initialValues || input?.value)
-      ? [dateTimeStartvalue, dateTimeEndvalue]
-      : dateTimeStartvalue;
+      ? [dateTimeStartValue, dateTimeEndValue]
+      : dateTimeStartValue;
 
     if (JSON.stringify(prevValuesRef.current) !== JSON.stringify(newValue)) {
       prevValuesRef.current = newValue;
       onChange(newValue);
       input?.onChange?.(newValue);
     }
-  }, [dateTimeStartvalue, dateTimeEndvalue, isRangePicker, input, initialValues, onChange]);
+  }, [dateTimeStartValue, dateTimeEndValue, isRangePicker, input, initialValues, onChange]);
 
   return (
     <DateTimeContainer>
@@ -88,7 +97,7 @@ function DateTimePicker({
           placeholder={placeholder.date}
           dateTimeStart={dateTimeStart}
           setDateTimeStart={setDateTimeStart}
-          dateTimeDefault={initialValues}
+          dateTimeDefault={initialValue || input?.value}
           handleDateTime={input}
           dateTimeValue={true}
           onlyFuture={true}
@@ -99,7 +108,7 @@ function DateTimePicker({
           disabled={disabled}
           placeholder={placeholder.time}
           isRangePicker={false}
-          dateTimeDefault={initialValues}
+          dateTimeDefault={initialValue || input?.value}
           dateTimeValue={true}
           step={step}
         />
@@ -121,7 +130,7 @@ function DateTimePicker({
               dateTimeEnd={dateTimeEnd}
               setDateTimeEnd={setDateTimeEnd}
               isDateTimeDouble={true}
-              dateTimeDefault={initialValues}
+              dateTimeDefault={initialValue || input?.value}
               dateTimeValue={true}
             />
             <TimePicker
@@ -131,7 +140,7 @@ function DateTimePicker({
               placeholder={placeholder.time}
               isRangePicker={false}
               isDateTimeDouble={true}
-              dateTimeDefault={initialValues}
+              dateTimeDefault={initialValue || input?.value}
               dateTimeValue={true}
               step={step}
             />
@@ -158,7 +167,7 @@ DateTimePicker.propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   ]),
-  step: PropTypes.bool,
+  step: PropTypes.number,
 };
 
 DateTimePicker.defaultProps = {

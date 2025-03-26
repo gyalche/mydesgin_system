@@ -26,6 +26,7 @@ function MonthYearDisplay({
         openDecade={openDecade}
         isDoubleView={isDoubleView && (openMonth || openDecade)}
         onKeyDown={onKeyDown}
+        type="button"
       >
         {yearText}
       </TextAreaYearMonth>
@@ -35,6 +36,7 @@ function MonthYearDisplay({
           data-calendar-btn={true}
           onClick={onMonthClick}
           onKeyDown={onKeyDown}
+          type="button"
         >
           {getLocalizedMonthName(currentMonth, locale)}
         </TextAreaYearMonth>

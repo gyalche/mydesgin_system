@@ -147,11 +147,19 @@ function TimePicker({
 
               <IconWrapper>
                 {endTime ? (
-                  <InputIcon onClick={handleClearEndTime}>
+                  <InputIcon
+                    onClick={handleClearEndTime}
+                    type="button"
+                    aria-label="Clear end time"
+                  >
                     <Icon name="alert-circle-solid-cross" />
                   </InputIcon>
                 ) : (
-                  <InputIcon onClick={toggleDropdown}>
+                  <InputIcon
+                    onClick={toggleDropdown}
+                    type="button"
+                    aria-label="Open time picker"
+                  >
                     <Icon name="global-clock" />
                   </InputIcon>
                 )}

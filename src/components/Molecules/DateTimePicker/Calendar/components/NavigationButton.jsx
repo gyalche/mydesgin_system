@@ -17,6 +17,7 @@ function NavigationButton({
       tabIndex={0}
       onClick={onClick}
       onKeyDown={onKeyDown}
+      type="button"
     >
       <CalendarIcon name={icon} />
     </CalendarIconBtn>

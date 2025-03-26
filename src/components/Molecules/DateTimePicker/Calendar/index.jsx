@@ -153,6 +153,7 @@ function Calendar({
               setModalFocus(true);
               enableKeyboard();
             }}
+            type="button"
           />
           {!openDecade && !openMonth && (
             <DayContainerWrapper>
@@ -190,10 +191,13 @@ function Calendar({
                       isDisabled={(onlyFuture && normalizeDate(dayDate) < normalizeDate(new Date())) || notCurrent}
                       isSaturday={dayOfWeek === 6}
                       isSunday={dayOfWeek === 0}
-                      onClick={!isRangePicker ? () => {
+                      type="button"
+                      onClick={!isRangePicker ? e => {
+                        e.preventDefault();
                         handleSingleDate(dayDate);
                         setModalFocus(false);
-                      } : () => {
+                      } : e => {
+                        e.preventDefault();
                         handleDateRangeClick(dayDate);
                         enableKeyboard();
                         setModalFocus(false);
@@ -250,11 +254,15 @@ function Calendar({
                       isDisabled={(onlyFuture && normalizeDate(dayDate) < normalizeDate(new Date())) || notCurrent}
                       isSaturday={dayOfWeek === 5}
                       isSunday={dayOfWeek === 6}
-                      onClick={!isRangePicker ? () => (handleSingleDate(dayDate))
-                        : () => {
-                          handleDateRangeClick(dayDate);
-                          enableKeyboard();
-                        }}
+                      type="button"
+                      onClick={!isRangePicker ? e => {
+                        e.preventDefault();
+                        handleSingleDate(dayDate);
+                      } : e => {
+                        e.preventDefault();
+                        handleDateRangeClick(dayDate);
+                        enableKeyboard();
+                      }}
                       isInHoverRange={isInHoverRange && isInHoverRange(dayDate)}
                       onMouseEnter={() => handleMouseEnter(dayDate)}
                       onMouseLeave={handleMouseLeave}

@@ -76,6 +76,9 @@ export const useTimePickerKeyboardNavigation = ({
     const setDropdownOpen = isEndInput ? setIsEndTimeDropdownOpen : setIsDropdownOpen;
 
     if (e.key === ENTER) {
+      e.preventDefault();
+      e.stopPropagation();
+
       currentRef?.current?.click();
       if (isOpen) {
         setDropdownOpen(true);
@@ -89,93 +92,102 @@ export const useTimePickerKeyboardNavigation = ({
   };
 
   useEffect(() => {
-    const timeColumns = [HOUR, MINUTE, AMPM];
+    if (isDropdownOpen || isEndTimeDropdownOpen) {
+      const timeColumns = [HOUR, MINUTE, AMPM];
 
-    const updateHighlightedIndex = (column, isEndTime, direction) => {
-      const key = isEndTime ? `${column}End` : column;
-      let maxLength;
-      if (column === HOUR) {
-        maxLength = hours.length;
-      } else if (column === MINUTE) {
-        maxLength = minutes.length;
-      } else {
-        maxLength = AmPmValue.length;
-      }
-
-      setHighlightedIndex(prev => {
-        const newIndex = (prev[key] + direction + maxLength) % maxLength;
-        if (document.getElementById(`${key}-${newIndex}`)) {
-          document.getElementById(`${key}-${newIndex}`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      const updateHighlightedIndex = (column, isEndTime, direction) => {
+        const key = isEndTime ? `${column}End` : column;
+        let maxLength;
+        if (column === HOUR) {
+          maxLength = hours.length;
+        } else if (column === MINUTE) {
+          maxLength = minutes.length;
+        } else {
+          maxLength = AmPmValue.length;
         }
-        return { ...prev, [key]: newIndex };
-      });
-    };
 
-    const handleArrowNavigation = (key, isEndTime) => {
-      if (key === ARROW_DOWN) updateHighlightedIndex(activeColumn, isEndTime, 1);
-      if (key === ARROW_UP) updateHighlightedIndex(activeColumn, isEndTime, -1);
-      if (key === ARROW_RIGHT) {
-        setActiveColumn(prev => timeColumns[(timeColumns.indexOf(prev) + 1) % (is12Hour ? timeColumns.length : timeColumns.length - 1)]);
-      }
-      if (key === ARROW_LEFT) {
-        setActiveColumn(prev => timeColumns[(timeColumns.indexOf(prev) - 1 + timeColumns.length) % timeColumns.length]);
-      }
-    };
-
-    const handleEnterSelection = isEndTime => {
-      const columnKeyMap = {
-        hour: isEndTime ? HOUREND : HOUR,
-        minute: isEndTime ? MINUTEEND : MINUTE,
-        ampm: isEndTime ? AMPMEND : AMPM,
+        setHighlightedIndex(prev => {
+          const newIndex = (prev[key] + direction + maxLength) % maxLength;
+          if (document.getElementById(`${key}-${newIndex}`)) {
+            document.getElementById(`${key}-${newIndex}`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          }
+          return { ...prev, [key]: newIndex };
+        });
       };
 
-      const selectedIndex = highlightedIndex[columnKeyMap[activeColumn]];
-      if (selectedIndex < 0) return;
-
-      if (activeColumn === HOUR) {
-        if (isEndTime) {
-          handleEndHourClick(hours[selectedIndex]);
-        } else {
-          handleHourClick(hours[selectedIndex]);
+      const handleArrowNavigation = (key, isEndTime) => {
+        if (key === ARROW_DOWN) updateHighlightedIndex(activeColumn, isEndTime, 1);
+        if (key === ARROW_UP) updateHighlightedIndex(activeColumn, isEndTime, -1);
+        if (key === ARROW_RIGHT) {
+          setActiveColumn(prev => timeColumns[(timeColumns.indexOf(prev) + 1) % (is12Hour ? timeColumns.length : timeColumns.length - 1)]);
         }
-      } else if (activeColumn === MINUTE) {
-        if (isEndTime) {
-          handleEndMinuteClick(minutes[selectedIndex]);
-        } else {
-          handleMinuteClick(minutes[selectedIndex]);
+        if (key === ARROW_LEFT) {
+          setActiveColumn(prev => timeColumns[(timeColumns.indexOf(prev) - 1 + timeColumns.length) % timeColumns.length]);
         }
-      } else if (activeColumn === AMPM && is12Hour) {
-        if (isEndTime) {
-          handleEndAmPm(AmPmValue[selectedIndex].name);
-        } else {
-          handleAmPm(AmPmValue[selectedIndex].name);
+      };
+
+      const handleEnterSelection = isEndTime => {
+        const columnKeyMap = {
+          hour: isEndTime ? HOUREND : HOUR,
+          minute: isEndTime ? MINUTEEND : MINUTE,
+          ampm: isEndTime ? AMPMEND : AMPM,
+        };
+
+        const selectedIndex = highlightedIndex[columnKeyMap[activeColumn]];
+        if (selectedIndex < 0) return;
+
+        if (activeColumn === HOUR) {
+          if (isEndTime) {
+            handleEndHourClick(hours[selectedIndex]);
+          } else {
+            handleHourClick(hours[selectedIndex]);
+          }
+        } else if (activeColumn === MINUTE) {
+          if (isEndTime) {
+            handleEndMinuteClick(minutes[selectedIndex]);
+          } else {
+            handleMinuteClick(minutes[selectedIndex]);
+          }
+        } else if (activeColumn === AMPM && is12Hour) {
+          if (isEndTime) {
+            handleEndAmPm(AmPmValue[selectedIndex].name);
+          } else {
+            handleAmPm(AmPmValue[selectedIndex].name);
+          }
         }
-      }
-    };
+      };
 
-    const handleKeyDown = e => {
-      const isEndTime = isEndTimeDropdownOpen;
-      const isStartTime = isDropdownOpen;
+      const handleKeyDown = e => {
+        const isEndTime = isEndTimeDropdownOpen;
+        const isStartTime = isDropdownOpen;
 
-      if (!isStartTime && !isEndTime) return;
+        if (!isStartTime && !isEndTime) return;
 
-      switch (e.key) {
-        case ARROW_DOWN:
-        case ARROW_UP:
-        case ARROW_LEFT:
-        case ARROW_RIGHT:
-          handleArrowNavigation(e.key, isEndTime);
-          break;
-        case ENTER:
-          handleEnterSelection(isEndTime);
-          break;
-        default:
-          break;
-      }
-    };
+        // Prevent default for all keyboard events to avoid form submission
+        e.preventDefault();
+        e.stopPropagation();
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+        switch (e.key) {
+          case ARROW_DOWN:
+          case ARROW_UP:
+          case ARROW_LEFT:
+          case ARROW_RIGHT:
+            handleArrowNavigation(e.key, isEndTime);
+            break;
+          case ENTER:
+            handleEnterSelection(isEndTime);
+            break;
+          default:
+            break;
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {};
   }, [isDropdownOpen,
     isEndTimeDropdownOpen,
     highlightedIndex,

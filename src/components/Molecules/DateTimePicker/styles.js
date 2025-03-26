@@ -109,6 +109,7 @@ export const HeaderIcons = styled.div`
 export const CalendarContainer = styled.div`
   width: ${({ isDoubleView }) => (isDoubleView ? '680px' : '340px')};
   height: 320px;
+  height: 320px;
   padding: 10px;
   background-color: var(--rds-color-neutral-0);
 `;
@@ -133,7 +134,9 @@ export const DoubleViewContainer = styled.div`
   ${focusBorderStyle};
 `;
 
-export const Day = styled.button`
+export const Day = styled.button.attrs({
+  type: 'button',
+})`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,11 +181,11 @@ export const Day = styled.button`
   box-shadow: ${({ isSelected }) => isSelected && '0px 2px 4px 0px var(--rds-color-neutral-5)'};
 
   &:hover {
-  background-color: ${({ isDisabled, isSelected, isKeyboardSelect }) => {
-    if (!isDisabled && !isSelected && !isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
-    if (isKeyboardSelect) return 'var(--rds-color-chart-1)';
-    return null;
-  }}
+    background-color: ${({ isDisabled, isSelected, isKeyboardSelect }) => {
+      if (!isDisabled && !isSelected && !isKeyboardSelect) return 'var(--rds-color-primary-1-subtle)';
+      if (isKeyboardSelect) return 'var(--rds-color-chart-1)';
+      return null;
+    }};
   }
 `;
 
@@ -266,7 +269,9 @@ export const TimeInput = styled(Input)`
   }
 `;
 
-export const InputIcon = styled.div`
+export const InputIcon = styled.button.attrs({
+  type: 'button',
+})`
   color: var(--rds-color-neutral-5);
   font-size: 15px;
   border: none;
@@ -329,6 +334,12 @@ export const ScrollColumn = styled.ul`
   overflow-y: auto;
   border-right: 1px solid var(--rds-color-neutral-2);
   scroll-behavior: smooth;
+
+  li {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
 `;
 
 export const StaticColumn = styled.ul`
@@ -336,13 +347,25 @@ export const StaticColumn = styled.ul`
   padding: 0;
   margin: 0;
   width: 50%;
+
+  li {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
 `;
 
-export const TimeOption = styled.li`
+export const TimeOption = styled.button.attrs({
+  type: 'button',
+})`
   padding: 10px;
   cursor: pointer;
   text-align: center;
   font-size: 12px;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: none;
   color: ${({ selected, highlighted }) => {
     if (selected) return 'var(--rds-color-primary-1-dark)';
     if (highlighted) return 'var(--rds-color-neutral-1)';
@@ -365,7 +388,9 @@ export const NextIcon = styled(Icon)`
   color: var(--rds-color-neutral-8);
 `;
 
-export const CalendarIconBtn = styled.button`
+export const CalendarIconBtn = styled.button.attrs({
+  type: 'button',
+})`
   cursor: pointer;
   height: 30px;
   width: 30px;
@@ -399,7 +424,9 @@ export const DateTimeContainer = styled.div`
   align-items: center;
 `;
 
-export const TextAreaYearMonth = styled.button`
+export const TextAreaYearMonth = styled.button.attrs({
+  type: 'button',
+})`
   border: none;
   outline: none;
   background: transparent;
@@ -429,7 +456,9 @@ export const DecadeGrid = styled.div`
   ${focusBorderStyle}
 `;
 
-export const DecadeButton = styled.button`
+export const DecadeButton = styled.button.attrs({
+  type: 'button',
+})`
   font-size: 12px;
   background-color: transparent;
   border-radius: 4px;
@@ -464,7 +493,9 @@ export const DecadeButton = styled.button`
   }
 `;
 
-export const ButtonActive = styled.button`
+export const ButtonActive = styled.button.attrs({
+  type: 'button',
+})`
   z-index: -99999;
   position: absolute;
 `;

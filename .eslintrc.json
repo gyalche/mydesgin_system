@@ -34,6 +34,7 @@
   "rules": {
     "@stylistic/js/quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": false }],
     "max-len": ["error", { "code": 150 }],
+    "indent": "off",
     "@stylistic/js/indent": ["error", 2, { "SwitchCase": 1 }],
     "arrow-body-style": ["error", "as-needed"],
     "@stylistic/js/comma-dangle": ["error", "always-multiline"],

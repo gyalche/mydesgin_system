@@ -1,9 +1,9 @@
-import Date from './Components/DatePicker';
-import Time from './Components/TimePicker';
-import DateTime from './Components/DateTimePicker';
+import DatePickerComponent from './Components/DatePicker';
+import TimePickerComponent from './Components/TimePicker';
+import DateTimePickerComponent from './Components/DateTimePicker';
 
-const DatePicker = Date;
-DatePicker.Time = Time;
-DatePicker.DateTime = DateTime;
+const DatePicker = DatePickerComponent;
+DatePicker.Time = TimePickerComponent;
+DatePicker.DateTime = DateTimePickerComponent;
 
 export default DatePicker;

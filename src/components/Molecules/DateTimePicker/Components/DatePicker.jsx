@@ -173,11 +173,17 @@ function DatePicker({
                   <InputIcon
                     onClick={disabled ? () => {} : clearEndDate}
                     data-testid="icon-button"
+                    type="button"
+                    aria-label="Clear end date"
                   >
                     <Icon name="alert-circle-solid-cross" />
                   </InputIcon>
                 ) : (
-                  <InputIcon onClick={() => (setOpenCalendarEnd(!openCalendarEnd))}>
+                  <InputIcon
+                    onClick={() => (setOpenCalendarEnd(!openCalendarEnd))}
+                    type="button"
+                    aria-label="Open calendar"
+                  >
                     <Icon name="Interface-calendar-dot" />
                   </InputIcon>
                 )}
@@ -305,4 +311,4 @@ DatePicker.defaultProps = {
   dateTimeDefault: null,
 };
 
-export default DatePicker;
+export default React.memo(DatePicker);
