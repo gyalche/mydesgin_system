@@ -11,10 +11,6 @@ export const useDatePickerHandler = ({
   dateTimeValue,
   dateTimeDefault,
   isDateTimeDouble,
-  dateTimeStart,
-  dateTimeEnd,
-  setDateTimeStart,
-  setDateTimeEnd,
 }) => {
   const [startDate, setStartDate] = useState(Array.isArray(input?.value) ? input?.value[0] : input?.value);
   const [endDate, setEndDate] = useState(Array.isArray(input?.value) ? input?.value[1] : input?.value);
@@ -78,8 +74,6 @@ export const useDatePickerHandler = ({
 
   const clearStartDate = () => {
     setStartDate('');
-    if (dateTimeStart) setDateTimeStart(false);
-    if (dateTimeEnd) setDateTimeEnd(false);
   };
 
   const clearStartDateWhenNoDateTime = () => {

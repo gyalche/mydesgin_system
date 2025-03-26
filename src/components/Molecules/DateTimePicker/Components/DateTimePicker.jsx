@@ -33,9 +33,6 @@ function DateTimePicker({
   const initialValues = useMemo(() => input?.value ?? initialValue ?? new Date(), [input, initialValue]);
   const [isRange, setIsRange] = useState(false);
 
-  const [dateTimeStart, setDateTimeStart] = useState(true);
-  const [dateTimeEnd, setDateTimeEnd] = useState(true);
-
   const [dateTimeStartValue, setDateTimeStartValue] = useState(
     Array.isArray(initialValues) ? initialValues[0] : initialValues,
   );
@@ -95,8 +92,6 @@ function DateTimePicker({
           isDoubleView={isDoubleView}
           locale={locale}
           placeholder={placeholder.date}
-          dateTimeStart={dateTimeStart}
-          setDateTimeStart={setDateTimeStart}
           dateTimeDefault={initialValue || input?.value}
           handleDateTime={input}
           dateTimeValue={true}
@@ -127,8 +122,6 @@ function DateTimePicker({
               placeholder={placeholder.date}
               isRangePicker={false}
               isDoubleView={isDoubleView}
-              dateTimeEnd={dateTimeEnd}
-              setDateTimeEnd={setDateTimeEnd}
               isDateTimeDouble={true}
               dateTimeDefault={initialValue || input?.value}
               dateTimeValue={true}

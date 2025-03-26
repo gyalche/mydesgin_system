@@ -28,15 +28,11 @@ function DatePicker({
   onChange,
   disabled,
   placeholder,
-  dateTimeStart,
-  dateTimeEnd,
   input,
   onlyFuture,
   dateTimeValue,
   isDateTimeDouble,
   dateTimeDefault,
-  setDateTimeStart,
-  setDateTimeEnd,
 }) {
   const {
     startDate,
@@ -63,10 +59,6 @@ function DatePicker({
     dateTimeValue,
     dateTimeDefault,
     isDateTimeDouble,
-    dateTimeStart,
-    dateTimeEnd,
-    setDateTimeStart,
-    setDateTimeEnd,
   });
 
   const {
@@ -131,8 +123,6 @@ function DatePicker({
           <IconWrapper>
             <IconWithCalendar
               startDate={startDate}
-              dateTimeStart={dateTimeStart}
-              dateTimeEnd={dateTimeEnd}
               dateTimeValue={dateTimeValue}
               disabled={disabled}
               clearStartDate={clearStartDate}
@@ -276,10 +266,6 @@ DatePicker.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
-  dateTimeStart: PropTypes.bool,
-  dateTimeEnd: PropTypes.bool,
-  setDateTimeStart: PropTypes.bool,
-  setDateTimeEnd: PropTypes.bool,
   input: PropTypes.oneOfType([
     PropTypes.object,
   ]),
@@ -300,10 +286,6 @@ DatePicker.defaultProps = {
   onChange: () => {},
   disabled: false,
   placeholder: 'yyyy/mm/dd',
-  dateTimeStart: false,
-  dateTimeEnd: false,
-  setDateTimeStart: false,
-  setDateTimeEnd: false,
   onlyFuture: true,
   dateTimeValue: false,
   isDateTimeDouble: false,

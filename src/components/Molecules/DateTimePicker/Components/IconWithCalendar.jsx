@@ -7,8 +7,6 @@ import { InputIcon } from '../styles';
 
 function IconWithCalendar({
   startDate,
-  dateTimeStart,
-  dateTimeEnd,
   dateTimeValue,
   disabled,
   clearStartDate,
@@ -57,7 +55,7 @@ function IconWithCalendar({
         </InputIcon>
       );
     }
-  } else if (startDate || dateTimeStart || dateTimeEnd) {
+  } else if (startDate) {
     if (dateTimeValue) {
       icon = (
         <InputIcon
@@ -98,8 +96,6 @@ function IconWithCalendar({
 
 IconWithCalendar.propTypes = {
   startDate: PropTypes.instanceOf(Date),
-  dateTimeStart: PropTypes.bool,
-  dateTimeEnd: PropTypes.bool,
   dateTimeValue: PropTypes.bool,
   disabled: PropTypes.bool,
   clearStartDate: PropTypes.func,
@@ -115,8 +111,6 @@ IconWithCalendar.propTypes = {
 
 IconWithCalendar.defaultProps = {
   startDate: null,
-  dateTimeStart: false,
-  dateTimeEnd: false,
   dateTimeValue: false,
   disabled: false,
   clearStartDate: () => {},
