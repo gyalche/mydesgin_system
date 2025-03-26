@@ -100,7 +100,6 @@ const componentConfigs = {
     initialValue: new Date(),
     props: {
       is12Hour: false,
-      isRangePicker: true,
     },
   },
   DateTimePicker: {
