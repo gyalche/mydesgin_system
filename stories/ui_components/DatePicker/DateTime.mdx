@@ -1,0 +1,79 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as DateTimeStories from './DateTime.stories';
+
+<Meta of={DateTimeStories} />
+
+# DateTimePicker
+
+The `DatePicker.DateTime` component combines date and time selection into a single interface. It provides a comprehensive solution for selecting both date and time values in forms and other UI elements.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { DatePicker } from '@d-lighted/receptionist-design-system';
+
+const MyExample = () => {
+  return <DatePicker.DateTime onChange={(dateTime) => console.log(dateTime)} />;
+};
+
+export default MyExample;
+`}/>
+
+## Features
+
+- Combined date and time selection
+- Date selection with calendar interface
+- Time selection with hour and minute dropdowns
+- 12-hour or 24-hour time format
+- Date and time range selection
+- Double calendar view option
+- Customizable time intervals
+- Keyboard navigation
+- Form integration
+
+## Basic Usage
+
+The basic DateTimePicker allows selection of a single date and time.
+
+<Canvas
+  of={DateTimeStories.DateTime}
+  language="jsx"
+/>
+<Controls of={DateTimeStories.DateTime} />
+
+## Date and Time Range Selection
+
+Enable the `isRangePicker` prop to allow selection of a date and time range with start and end values.
+
+<Canvas
+  of={DateTimeStories.DateTimeRange}
+  language="jsx"
+/>
+
+## 12-Hour Time Format
+
+The `is12Hour` prop enables 12-hour time format with AM/PM selection.
+
+<Canvas
+  of={DateTimeStories.DateTime12Hour}
+  language="jsx"
+/>
+
+## Double View Calendar
+
+The `isDoubleView` prop enables a double calendar view for easier date selection.
+
+<Canvas
+  of={DateTimeStories.DateTimeDoubleView}
+  language="jsx"
+/>
+
+## Accessibility
+
+- Fully keyboard navigable
+- Screen reader friendly
+- Clear visual indicators for selected values
+- Proper ARIA attributes for improved accessibility

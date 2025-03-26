@@ -1,0 +1,76 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as TimeStories from './Time.stories';
+
+<Meta of={TimeStories} />
+
+# TimePicker
+
+The `DatePicker.Time` component allows users to select a time from a dropdown interface. It provides a user-friendly way to input times in forms and other UI elements.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { DatePicker } from '@d-lighted/receptionist-design-system';
+
+const MyExample = () => {
+  return <DatePicker.Time onChange={(time) => console.log(time)} />;
+};
+
+export default MyExample;
+`}/>
+
+## Features
+
+- Time selection with hour and minute dropdowns
+- 12-hour or 24-hour format
+- Time range selection
+- Customizable time intervals
+- Keyboard navigation
+- Form integration
+
+## Basic Usage
+
+The basic TimePicker allows selection of a single time.
+
+<Canvas
+  of={TimeStories.Time}
+  language="jsx"
+/>
+<Controls of={TimeStories.Time} />
+
+## Time Range Selection
+
+Enable the `isRangePicker` prop to allow selection of a time range with start and end times.
+
+<Canvas
+  of={TimeStories.TimeRange}
+  language="jsx"
+/>
+
+## 12-Hour Format
+
+The `is12Hour` prop enables 12-hour time format with AM/PM selection.
+
+<Canvas
+  of={TimeStories.Time12Hour}
+  language="jsx"
+/>
+
+## Custom Time Intervals
+
+The `step` prop allows customization of the minute selection intervals.
+
+<Canvas
+  of={TimeStories.CustomStep}
+  language="jsx"
+/>
+
+## Accessibility
+
+- Fully keyboard navigable
+- Screen reader friendly
+- Clear visual indicators for selected times
+- Proper ARIA attributes for improved accessibility

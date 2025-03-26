@@ -1,0 +1,69 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as DateStories from './Date.stories';
+
+<Meta of={DateStories} />
+
+# DatePicker
+
+The `DatePicker` component allows users to select a date from a calendar interface. It provides a user-friendly way to input dates in forms and other UI elements.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { DatePicker } from '@d-lighted/receptionist-design-system';
+
+const MyExample = () => {
+  return <DatePicker onChange={(date) => console.log(date)} />;
+};
+
+export default MyExample;
+`}/>
+
+## Features
+
+- Single date selection
+- Date range selection
+- Double calendar view for easier date range selection
+- Keyboard navigation
+- Locale support
+- Future date restriction option
+
+## Basic Usage
+
+The basic DatePicker allows selection of a single date.
+
+<Canvas
+  of={DateStories.Date}
+  language="jsx"
+/>
+<Controls of={DateStories.Date} />
+
+## Date Range Selection
+
+Enable the `isRangePicker` prop to allow selection of a date range with start and end dates.
+
+<Canvas
+  of={DateStories.DateRange}
+  language="jsx"
+/>
+
+## Double View Calendar
+
+The `isDoubleView` prop enables a double calendar view for easier date selection.
+
+<Canvas
+  of={DateStories.DoubleView}
+  language="jsx"
+/>
+
+## Double View with Range Selection
+
+Combine `isDoubleView` and `isRangePicker` for an enhanced date range selection experience.
+
+<Canvas
+  of={DateStories.DoubleViewRange}
+  language="jsx"
+/>
