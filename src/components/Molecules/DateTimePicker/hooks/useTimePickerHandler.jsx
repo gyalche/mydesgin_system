@@ -163,6 +163,8 @@ export const useTimePickerHandler = ({
     if (Array.isArray(value)) {
       const [startDate, endDate] = value;
 
+      if (!startDate || !endDate) return;
+
       const startTime = handleDate(startDate);
       const endTimeValue = handleDate(endDate);
 
@@ -180,6 +182,7 @@ export const useTimePickerHandler = ({
       setAmPmEnd(endTimeValue.amPm);
     } else if (value) {
       const startDate = value;
+      if (!startDate) return;
       const startTime = handleDate(startDate);
       setRoundUpMinute(getNearestMinMinute(startDate?.getMinutes(), step));
       setTime(startDate);

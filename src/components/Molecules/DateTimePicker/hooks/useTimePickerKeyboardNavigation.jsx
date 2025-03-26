@@ -101,7 +101,26 @@ export const useTimePickerKeyboardNavigation = ({
       setDropdownOpen(false);
     }
   };
+  // const handleInputKeyDown = (e, isEndInput) => {
+  //   const currentRef = isEndInput ? timeInputRefEnd : timeInputRef;
+  //   const isOpen = isEndInput ? isEndTimeDropdownOpen : isDropdownOpen;
+  //   const setDropdownOpen = isEndInput ? setIsEndTimeDropdownOpen : setIsDropdownOpen;
 
+  //   if (e.key === ENTER) {
+  //     e.stopPropagation();
+  //     e.preventDefault();
+
+  //     currentRef?.current?.click();
+  //     if (isOpen) {
+  //       setDropdownOpen(true);
+  //     }
+  //   }
+  //   if (e.key === TAB) {
+  //     if (isOpen) {
+  //       setDropdownOpen(false);
+  //     }
+  //   }
+  // };
   useEffect(() => {
     if (isDropdownOpen || isEndTimeDropdownOpen) {
       const timeColumns = [HOUR, MINUTE, AMPM];
