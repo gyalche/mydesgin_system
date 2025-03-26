@@ -99,7 +99,7 @@ const componentConfigs = {
     fieldName: 'timePickerField',
     initialValue: new Date(),
     props: {
-      is12Hour: true,
+      is12Hour: false,
     },
   },
   DateTimePicker: {
@@ -123,7 +123,7 @@ export const FormComponentTester = {
     selectedComponent: {
       control: 'select',
       options: Object.keys(componentConfigs),
-      defaultValue: 'Input',
+      defaultValue: 'TimePicker',
     },
 
     // Validation controls
@@ -159,7 +159,7 @@ export const FormComponentTester = {
 
   render: args => {
     const {
-      selectedComponent = 'Input', // Default to 'Input' if not specified
+      selectedComponent = 'DateTimePicker', // Default to 'Input' if not specified
       validationState,
       errorMessage,
       labelText,

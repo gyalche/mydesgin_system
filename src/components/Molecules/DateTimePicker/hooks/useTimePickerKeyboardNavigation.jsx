@@ -76,18 +76,13 @@ export const useTimePickerKeyboardNavigation = ({
     const setDropdownOpen = isEndInput ? setIsEndTimeDropdownOpen : setIsDropdownOpen;
 
     if (e.key === ENTER) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      currentRef?.current?.click();
-      if (isOpen) {
+      if (!isOpen) {
+        e.preventDefault();
+        currentRef?.current?.click();
         setDropdownOpen(true);
       }
-    }
-    if (e.key === TAB) {
-      if (isOpen) {
-        setDropdownOpen(false);
-      }
+    } else if (e.key === TAB && isOpen) {
+      setDropdownOpen(false);
     }
   };
 
