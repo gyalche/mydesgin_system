@@ -33,9 +33,14 @@ export const useTimePickerKeyboardNavigation = ({
   handleEndHourClick,
   handleEndMinuteClick,
   handleEndAmPm,
+  currentSelectedTimes,
 }) => {
+  const {
+    selectedHour, selectedMinute, selectedHourEnd, selectedMinuteEnd, selectedAmPm, selectedAmPmEnd,
+  } = currentSelectedTimes;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEndTimeDropdownOpen, setIsEndTimeDropdownOpen] = useState(false);
+
   const [highlightedIndex, setHighlightedIndex] = useState({
     hour: -1,
     minute: -1,
@@ -67,7 +72,19 @@ export const useTimePickerKeyboardNavigation = ({
   };
 
   useEffect(() => {
-    if (isEndTimeDropdownOpen || isDropdownOpen) setActiveColumn('hour');
+    if (isDropdownOpen || isEndTimeDropdownOpen) {
+      setActiveColumn('hour');
+      setHighlightedIndex(prev => ({
+        ...prev,
+        hour: selectedHour !== null ? hours.findIndex(hour => String(hour) === String(selectedHour)) : 0,
+        minute: selectedMinute !== null ? minutes.findIndex(minute => String(minute) === String(selectedMinute)) : 0,
+        ampm: is12Hour && AmPmValue.length > 0 ? AmPmValue.findIndex(ampm => ampm.name === selectedAmPm) : -1,
+        hourEnd: selectedHourEnd !== null ? hours.findIndex(hour => String(hour) === String(selectedHourEnd)) : 0,
+        minuteEnd: selectedMinuteEnd !== null ? minutes.findIndex(minute => String(minute) === String(selectedMinuteEnd)) : 0,
+        ampmEnd: is12Hour && AmPmValue.length > 0 ? AmPmValue.findIndex(ampm => ampm.name === selectedAmPmEnd) : -1,
+      }));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDropdownOpen, isEndTimeDropdownOpen]);
 
   const handleInputKeyDown = (e, isEndInput) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -25,6 +25,31 @@ function TimeDropdown({
   activeColumn,
   isEndTime,
 }) {
+  const timeOptionRefs = useRef([]);
+  const minuteOptionRefs = useRef([]);
+
+  useEffect(() => {
+    if (activeColumn === 'hour' && selectedHour !== null) {
+      const selectedIndex = hours.findIndex(hour => String(hour) === String(selectedHour));
+      if (selectedIndex !== -1 && timeOptionRefs.current[selectedIndex]) {
+        timeOptionRefs.current[selectedIndex].scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+      }
+    }
+    if (activeColumn === 'minute' && roundUpMinute !== null) {
+      const selectedIndex = minutes.findIndex(minute => String(minute) === String(roundUpMinute));
+      if (selectedIndex !== -1 && minuteOptionRefs.current[selectedIndex]) {
+        minuteOptionRefs.current[selectedIndex].scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <HourMinuteWrapper>
       <ScrollColumn>
@@ -35,6 +60,7 @@ function TimeDropdown({
             onClick={() => handleHourClick(hour)}
             selected={String(hour) === String(selectedHour)}
             highlighted={highlightedHourIndex === index && activeColumn === 'hour'}
+            ref={el => { timeOptionRefs.current[index] = el; }}
           >
             {hour}
           </TimeOption>
@@ -48,6 +74,7 @@ function TimeDropdown({
             onClick={() => handleMinuteClick(minute)}
             selected={String(minute) === String(roundUpMinute)}
             highlighted={highlightedMinuteIndex === index && activeColumn === 'minute'}
+            ref={el => { minuteOptionRefs.current[index] = el; }}
           >
             {String(minute).padStart(2, '0')}
           </TimeOption>

@@ -72,6 +72,16 @@ function TimePicker({
     isDateTimeDouble,
     dateTimeDefault,
   });
+
+  const currentSelectedTimes = {
+    selectedHour,
+    selectedMinute,
+    selectedHourEnd,
+    selectedMinuteEnd,
+    selectedAmPm: amPm,
+    selectedAmPmEnd: amPmEnd,
+  };
+
   const {
     isDropdownOpen,
     isEndTimeDropdownOpen,
@@ -95,6 +105,7 @@ function TimePicker({
     handleEndHourClick,
     handleEndMinuteClick,
     handleEndAmPm,
+    currentSelectedTimes,
   });
   const timeValue = `${selectedHour || 'hh'}:${selectedMinute !== '' ? String(selectedMinute).padStart(2, '0') : 'mm'} ${amPm}`;
   const timeValueEnd = `${selectedHourEnd || 'hh'}:${selectedMinuteEnd !== '' ? String(selectedMinuteEnd).padStart(2, '0') : 'mm'} ${amPmEnd}`;
