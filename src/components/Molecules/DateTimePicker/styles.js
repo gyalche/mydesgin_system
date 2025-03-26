@@ -108,7 +108,7 @@ export const HeaderIcons = styled.div`
 
 export const CalendarContainer = styled.div`
   width: ${({ isDoubleView }) => (isDoubleView ? '680px' : '340px')};
-  height: 320px; 
+  height: 320px;
   padding: 10px;
   background-color: var(--rds-color-neutral-0);
 `;
@@ -414,11 +414,6 @@ export const TextAreaYearMonth = styled.button`
   &:focus {
     background-color: var(--rds-color-neutral-1)};
   }
-
-  &:hover {
-    background-color: ${({ openDecade }) => !openDecade && 'var(--rds-color-neutral-1)'};
-    color: black;
-  }
 `;
 
 export const DecadeGrid = styled.div`
@@ -456,13 +451,13 @@ export const DecadeButton = styled.button`
     if (!keyboardSelect && !disabled && !isFocused) return 'var(--rds-color-neutral-1)';
     if (isFocused) return 'var(--rds-color-neutral-2)';
     return null;
-  }}; 
+  }};
   }
 
   &:focus {
     outline: none;
   }
-  
+
   &:active {
     color: var(--rds-color-primary-1-normal);
     border: 1px solid var(--rds-color-primary-1-normal);
