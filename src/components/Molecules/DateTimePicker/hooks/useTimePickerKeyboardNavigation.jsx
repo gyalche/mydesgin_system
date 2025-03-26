@@ -40,7 +40,6 @@ export const useTimePickerKeyboardNavigation = ({
   } = currentSelectedTimes;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEndTimeDropdownOpen, setIsEndTimeDropdownOpen] = useState(false);
-
   const [highlightedIndex, setHighlightedIndex] = useState({
     hour: -1,
     minute: -1,

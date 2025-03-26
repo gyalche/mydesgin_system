@@ -162,7 +162,7 @@ export const FormComponentTester = {
 
   render: args => {
     const {
-      selectedComponent = 'TimePicker', // Default to 'Input' if not specified
+      selectedComponent = 'Input', // Default to 'Input' if not specified
       validationState,
       errorMessage,
       labelText,
