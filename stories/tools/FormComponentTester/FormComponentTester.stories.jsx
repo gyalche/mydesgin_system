@@ -94,13 +94,13 @@ const componentConfigs = {
     fieldName: 'datePickerField',
     initialValue: new Date('Dec 20 2025 15:50:00'),
     props: {
-      isRangePicker: true,
+      isRangePicker: false,
     },
   },
   TimePicker: {
     component: Time,
     fieldName: 'timePickerField',
-    initialValue: new Date(),
+    initialValue: new Date('Dec 20 2025 12:30:00'),
     props: {
       is12Hour: true,
     },
@@ -165,7 +165,7 @@ export const FormComponentTester = {
 
   render: args => {
     const {
-      selectedComponent = 'DatePicker', // Default to 'Input' if not specified
+      selectedComponent = 'Input', // Default to 'Input' if not specified
       validationState,
       errorMessage,
       labelText,

@@ -27,10 +27,24 @@ function TimeDropdown({
 }) {
   const timeOptionRefs = useRef([]);
   const minuteOptionRefs = useRef([]);
+  const latestValues = useRef({});
 
   useEffect(() => {
-    if (activeColumn === 'hour' && selectedHour !== null) {
-      const selectedIndex = hours.findIndex(hour => String(hour) === String(selectedHour));
+    latestValues.current = {
+      hours, minutes, selectedHour, roundUpMinute,
+    };
+  }, [hours, minutes, selectedHour, roundUpMinute]);
+
+  useEffect(() => {
+    const {
+      hours: currentHour,
+      minutes: currentMinute,
+      selectedHour: currentSelectedHour,
+      roundUpMinute: currentRoundUpMinute,
+    } = latestValues.current;
+
+    if (activeColumn === 'hour' && currentSelectedHour !== null) {
+      const selectedIndex = currentHour.findIndex(hour => String(hour) === String(currentSelectedHour));
       if (selectedIndex !== -1 && timeOptionRefs.current[selectedIndex]) {
         timeOptionRefs.current[selectedIndex].scrollIntoView({
           behavior: 'smooth',
@@ -38,8 +52,9 @@ function TimeDropdown({
         });
       }
     }
-    if (activeColumn === 'minute' && roundUpMinute !== null) {
-      const selectedIndex = minutes.findIndex(minute => String(minute) === String(roundUpMinute));
+
+    if (activeColumn === 'minute' && currentRoundUpMinute !== null) {
+      const selectedIndex = currentMinute.findIndex(minute => String(minute) === String(currentRoundUpMinute));
       if (selectedIndex !== -1 && minuteOptionRefs.current[selectedIndex]) {
         minuteOptionRefs.current[selectedIndex].scrollIntoView({
           behavior: 'smooth',
@@ -47,8 +62,7 @@ function TimeDropdown({
         });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [activeColumn]);
 
   return (
     <HourMinuteWrapper>

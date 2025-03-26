@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import useClickOutside from '../../../../hooks/useClickOutside';
 import closeOpenModal from '../../../../hooks/closeOpenModal';
@@ -49,10 +49,12 @@ export const useTimePickerKeyboardNavigation = ({
     ampmEnd: -1,
   });
   const [activeColumn, setActiveColumn] = useState('hour');
+  const latestValues = useRef({});
 
   useClickOutside(timePickerRef, () => {
     setIsDropdownOpen(false);
     setIsEndTimeDropdownOpen(false);
+    setActiveColumn('hour');
   });
 
   closeOpenModal(() => {
@@ -71,20 +73,46 @@ export const useTimePickerKeyboardNavigation = ({
   };
 
   useEffect(() => {
+    latestValues.current = {
+      hours,
+      minutes,
+      selectedHour,
+      selectedMinute,
+      selectedHourEnd,
+      selectedMinuteEnd,
+      is12Hour,
+      AmPmValue,
+      selectedAmPm,
+      selectedAmPmEnd,
+    };
+  }, [hours, minutes, selectedHour, selectedMinute, selectedHourEnd, selectedMinuteEnd, is12Hour, AmPmValue, selectedAmPm, selectedAmPmEnd]);
+
+  useEffect(() => {
+    const {
+      hours: totalHours,
+      minutes: totalMinutes,
+      selectedHour: currentSelectedHour,
+      selectedMinute: currentSelectedMinute,
+      selectedHourEnd: currentSelectedHourEnd,
+      selectedMinuteEnd: currentSelectedMinuteEnd,
+      is12Hour: is12HourFormat,
+      AmPmValue: selecteAmPmValue,
+      selectedAmPm: currentSelectedAmPm,
+      selectedAmPmEnd: currentSelectedAmPmEnd,
+    } = latestValues.current;
+
     if (isDropdownOpen || isEndTimeDropdownOpen) {
-      setActiveColumn('hour');
       setHighlightedIndex(prev => ({
         ...prev,
-        hour: selectedHour !== null ? hours.findIndex(hour => String(hour) === String(selectedHour)) : 0,
-        minute: selectedMinute !== null ? minutes.findIndex(minute => String(minute) === String(selectedMinute)) : 0,
-        ampm: is12Hour && AmPmValue.length > 0 ? AmPmValue.findIndex(ampm => ampm.name === selectedAmPm) : -1,
-        hourEnd: selectedHourEnd !== null ? hours.findIndex(hour => String(hour) === String(selectedHourEnd)) : 0,
-        minuteEnd: selectedMinuteEnd !== null ? minutes.findIndex(minute => String(minute) === String(selectedMinuteEnd)) : 0,
-        ampmEnd: is12Hour && AmPmValue.length > 0 ? AmPmValue.findIndex(ampm => ampm.name === selectedAmPmEnd) : -1,
+        hour: currentSelectedHour !== null ? totalHours.findIndex(hour => String(hour) === String(currentSelectedHour)) : 0,
+        minute: currentSelectedMinute !== null ? totalMinutes.findIndex(minute => String(minute) === String(currentSelectedMinute)) : 0,
+        ampm: is12HourFormat && selecteAmPmValue.length > 0 ? selecteAmPmValue.findIndex(ampm => ampm.name === currentSelectedAmPm) : -1,
+        hourEnd: currentSelectedHourEnd !== null ? totalHours.findIndex(hour => String(hour) === String(currentSelectedHourEnd)) : 0,
+        minuteEnd: currentSelectedMinuteEnd !== null ? totalMinutes.findIndex(minute => String(minute) === String(currentSelectedMinuteEnd)) : 0,
+        ampmEnd: is12HourFormat && selecteAmPmValue.length > 0 ? selecteAmPmValue.findIndex(ampm => ampm.name === currentSelectedAmPmEnd) : -1,
       }));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDropdownOpen, isEndTimeDropdownOpen]);
+  }, [isDropdownOpen, isEndTimeDropdownOpen, activeColumn]);
 
   const handleInputKeyDown = (e, isEndInput) => {
     const currentRef = isEndInput ? timeInputRefEnd : timeInputRef;
@@ -101,26 +129,7 @@ export const useTimePickerKeyboardNavigation = ({
       setDropdownOpen(false);
     }
   };
-  // const handleInputKeyDown = (e, isEndInput) => {
-  //   const currentRef = isEndInput ? timeInputRefEnd : timeInputRef;
-  //   const isOpen = isEndInput ? isEndTimeDropdownOpen : isDropdownOpen;
-  //   const setDropdownOpen = isEndInput ? setIsEndTimeDropdownOpen : setIsDropdownOpen;
 
-  //   if (e.key === ENTER) {
-  //     e.stopPropagation();
-  //     e.preventDefault();
-
-  //     currentRef?.current?.click();
-  //     if (isOpen) {
-  //       setDropdownOpen(true);
-  //     }
-  //   }
-  //   if (e.key === TAB) {
-  //     if (isOpen) {
-  //       setDropdownOpen(false);
-  //     }
-  //   }
-  // };
   useEffect(() => {
     if (isDropdownOpen || isEndTimeDropdownOpen) {
       const timeColumns = [HOUR, MINUTE, AMPM];
