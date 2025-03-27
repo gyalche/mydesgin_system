@@ -325,6 +325,7 @@ function Calendar({
           enableFocus={modalFocus || undefined}
           tabCount={tabCount}
           setModalFocus={setModalFocus}
+          isDoubleView={isDoubleView && isRangePicker}
         />
       )}
     </CalendarContainer>

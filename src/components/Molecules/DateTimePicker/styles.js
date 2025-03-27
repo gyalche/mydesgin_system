@@ -445,15 +445,16 @@ export const TextAreaYearMonth = styled.button.attrs({
 
 export const DecadeGrid = styled.div`
   display: grid;
-  grid-template-columns:${({ isDoubleView }) => (isDoubleView ? 'auto auto auto auto' : 'auto auto auto')};
+  grid-template-columns: ${({ isDoubleView }) => (isDoubleView ? 'auto auto auto auto' : 'auto auto auto')};
   place-items: center;
   gap: 10px;
   padding: 0;
   border-radius: 8px;
   overflow: scroll;
-  margin-top: -6px;
+  margin-top: ${({ isDoubleView }) => (isDoubleView ? '-280px' : '-6px')};
   background-color: var(--rds-color-neutral-0);
   ${focusBorderStyle}
+  
 `;
 
 export const DecadeButton = styled.button.attrs({

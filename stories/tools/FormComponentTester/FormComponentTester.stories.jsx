@@ -164,7 +164,7 @@ export const FormComponentTester = {
 
   render: args => {
     const {
-      selectedComponent = 'Input', // Default to 'Input' if not specified
+      selectedComponent = 'DateTimePicker', // Default to 'Input' if not specified
       validationState,
       errorMessage,
       labelText,
@@ -172,7 +172,6 @@ export const FormComponentTester = {
       disabled,
       width,
     } = args;
-
     // Get the selected component configuration
     const componentConfig = componentConfigs[selectedComponent] || componentConfigs.Input;
 

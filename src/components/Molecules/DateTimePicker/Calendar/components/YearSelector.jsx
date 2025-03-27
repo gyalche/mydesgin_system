@@ -19,6 +19,7 @@ function YearSelector({
   enableFocus,
   setModalFocus,
   enableKeyboard,
+  isDoubleView,
 }) {
   const { selectedYearIndex, buttonRefs, handleYearSelection } = useYearSelector({
     yearsInDecade,
@@ -37,7 +38,7 @@ function YearSelector({
   });
 
   return (
-    <DecadeGrid focus={enableFocus}>
+    <DecadeGrid focus={enableFocus} isDoubleView={isDoubleView}>
       <ButtonActive data-calendar-btn={true} />
       <DecadeButton disabled={true}>{selectedDecade - 1}</DecadeButton>
       {yearsInDecade.map((year, index) => (
@@ -76,6 +77,7 @@ YearSelector.propTypes = {
   enableFocus: PropTypes.bool,
   setModalFocus: PropTypes.bool,
   enableKeyboard: PropTypes.func,
+  isDoubleView: PropTypes.bool,
 };
 
 YearSelector.defaultProps = {
@@ -87,5 +89,6 @@ YearSelector.defaultProps = {
   enableFocus: false,
   setModalFocus: false,
   enableKeyboard: null,
+  isDoubleView: false,
 };
 export default YearSelector;

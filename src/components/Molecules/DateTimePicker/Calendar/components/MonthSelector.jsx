@@ -14,6 +14,7 @@ function MonthSelector({
   enableFocus,
   tabCount,
   setModalFocus,
+  isDoubleView,
 }) {
   const {
     focusedButton, buttonRefs, handleMonthSelect, handleKeyDown,
@@ -31,7 +32,7 @@ function MonthSelector({
   }, [buttonRefs, focusedButton]);
 
   return (
-    <DecadeGrid focus={enableFocus}>
+    <DecadeGrid focus={enableFocus} isDoubleView={isDoubleView}>
       <ButtonActive data-calendar-btn={true} />
       {Array.from({ length: 12 }, (_, index) => (
         <DecadeButton
@@ -59,6 +60,7 @@ MonthSelector.defaultProps = {
   enableFocus: false,
   tabCount: 0,
   setModalFocus: () => {},
+  isDoubleView: false,
 };
 MonthSelector.propTypes = {
   locale: PropTypes.string.isRequired,
@@ -69,6 +71,7 @@ MonthSelector.propTypes = {
   enableFocus: PropTypes.bool,
   tabCount: PropTypes.number,
   setModalFocus: PropTypes.func,
+  isDoubleView: PropTypes.bool,
 };
 
 export default MonthSelector;
