@@ -101,18 +101,47 @@ export const useTimePickerKeyboardNavigation = ({
       selectedAmPmEnd: currentSelectedAmPmEnd,
     } = latestValues.current;
 
-    if (isDropdownOpen || isEndTimeDropdownOpen) {
-      setHighlightedIndex(prev => ({
-        ...prev,
-        hour: currentSelectedHour !== null ? totalHours.findIndex(hour => String(hour) === String(currentSelectedHour)) : 0,
-        minute: currentSelectedMinute !== null ? totalMinutes.findIndex(minute => String(minute) === String(currentSelectedMinute)) : 0,
-        ampm: is12HourFormat && selecteAmPmValue.length > 0 ? selecteAmPmValue.findIndex(ampm => ampm.name === currentSelectedAmPm) : -1,
-        hourEnd: currentSelectedHourEnd !== null ? totalHours.findIndex(hour => String(hour) === String(currentSelectedHourEnd)) : 0,
-        minuteEnd: currentSelectedMinuteEnd !== null ? totalMinutes.findIndex(minute => String(minute) === String(currentSelectedMinuteEnd)) : 0,
-        ampmEnd: is12HourFormat && selecteAmPmValue.length > 0 ? selecteAmPmValue.findIndex(ampm => ampm.name === currentSelectedAmPmEnd) : -1,
-      }));
-    }
-  }, [isDropdownOpen, isEndTimeDropdownOpen, activeColumn]);
+    const hourIndex = currentSelectedHour !== null
+      ? totalHours.findIndex(hour => String(hour) === String(currentSelectedHour))
+      : -1;
+
+    const minuteIndex = currentSelectedMinute !== null
+      ? totalMinutes.findIndex(minute => String(minute) === String(currentSelectedMinute))
+      : -1;
+
+    const ampmIndex = is12HourFormat && selecteAmPmValue.length > 0
+      ? selecteAmPmValue.findIndex(ampm => ampm.name === currentSelectedAmPm)
+      : -1;
+
+    const hourEndIndex = currentSelectedHourEnd !== null
+      ? totalHours.findIndex(hour => String(hour) === String(currentSelectedHourEnd))
+      : -1;
+
+    const minuteEndIndex = currentSelectedMinuteEnd !== null
+      ? totalMinutes.findIndex(minute => String(minute) === String(currentSelectedMinuteEnd))
+      : -1;
+
+    const ampmEndIndex = is12HourFormat && selecteAmPmValue.length > 0
+      ? selecteAmPmValue.findIndex(ampm => ampm.name === currentSelectedAmPmEnd)
+      : -1;
+
+    setHighlightedIndex(prev => {
+      const newIndex = {
+        hour: hourIndex,
+        minute: minuteIndex,
+        ampm: ampmIndex,
+        hourEnd: hourEndIndex,
+        minuteEnd: minuteEndIndex,
+        ampmEnd: ampmEndIndex,
+      };
+
+      const hasChanged = Object.keys(newIndex).some(
+        key => newIndex[key] !== prev[key],
+      );
+
+      return hasChanged ? newIndex : prev;
+    });
+  }, [selectedHour, selectedMinute, selectedHourEnd, selectedMinuteEnd, selectedAmPm, selectedAmPmEnd]);
 
   const handleInputKeyDown = (e, isEndInput) => {
     const currentRef = isEndInput ? timeInputRefEnd : timeInputRef;

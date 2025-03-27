@@ -95,7 +95,6 @@ function DatePicker({
     setEndDate,
     hoveredDate,
   });
-
   return (
     <DatePickerContainer>
       <InputContainer>

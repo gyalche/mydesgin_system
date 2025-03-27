@@ -12,8 +12,21 @@ export const useDatePickerHandler = ({
   dateTimeDefault,
   isDateTimeDouble,
 }) => {
-  const [startDate, setStartDate] = useState(Array.isArray(input?.value) ? input?.value[0] : input?.value);
-  const [endDate, setEndDate] = useState(Array.isArray(input?.value) ? input?.value[1] : input?.value);
+  const getEffectiveInitialValue = () => {
+    if (input?.value !== undefined) return input.value;
+    return initialValue;
+  };
+
+  const [startDate, setStartDate] = useState(() => {
+    const value = getEffectiveInitialValue();
+    return Array.isArray(value) ? value[0] : value;
+  });
+
+  const [endDate, setEndDate] = useState(() => {
+    const value = getEffectiveInitialValue();
+    return Array.isArray(value) ? value[1] : null;
+  });
+
   const [dateRange, setDateRange] = useState(null);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [displayErrorFirst, setDisplayErrorFirst] = useState(false);

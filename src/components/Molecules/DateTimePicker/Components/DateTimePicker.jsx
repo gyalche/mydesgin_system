@@ -30,20 +30,24 @@ function DateTimePicker({
   initialValue,
   step,
 }) {
-  const initialValues = useMemo(() => input?.value ?? initialValue ?? new Date(), [input, initialValue]);
+  const initialValues = useMemo(() => input?.value ?? initialValue, [input, initialValue]);
   const [isRange, setIsRange] = useState(false);
 
-  const [dateTimeStartValue, setDateTimeStartValue] = useState(
-    Array.isArray(initialValues) ? initialValues[0] : initialValues,
-  );
-  const [dateTimeEndValue, setDateTimeEndValue] = useState(
-    Array.isArray(initialValues) ? initialValues[1] : initialValues,
-  );
+  const [dateTimeStartValue, setDateTimeStartValue] = useState(() => {
+    if (Array.isArray(initialValues)) return initialValues[0] ?? new Date();
+    return initialValues ?? new Date();
+  });
+  const [dateTimeEndValue, setDateTimeEndValue] = useState(() => {
+    if (Array.isArray(initialValues)) return initialValues[1] ?? new Date();
+    return null;
+  });
 
   const prevValuesRef = useRef(null);
 
   const handleChange = (value, type) => {
     setDateTimeStartValue(prevValue => {
+      if (!prevValue) return value;
+
       if (type === 'date') {
         return combineDateAndTime(value, prevValue);
       }
@@ -58,6 +62,7 @@ function DateTimePicker({
 
   const handleChangeEnd = (value, type) => {
     setDateTimeEndValue(prevValue => {
+      if (!prevValue) return value;
       if (type === 'date') {
         return combineDateAndTime(value, prevValue);
       }

@@ -108,7 +108,7 @@ const componentConfigs = {
   DateTimePicker: {
     component: DateTime,
     fieldName: 'dateTimePickerField',
-    initialValue: new Date('Dec 20 2025 15:50:00'),
+    initialValue: new Date(),
     props: {
       step: 2,
     },
@@ -131,7 +131,6 @@ export const FormComponentTester = {
       options: Object.keys(componentConfigs),
       defaultValue: 'Input',
     },
-
     // Validation controls
     validationState: {
       control: 'select',
@@ -218,7 +217,7 @@ export const FormComponentTester = {
                   <Layout.Flex gap="24px">
                     <Layout.Item flex="1">
                       <Layout.Flex direction="column" gap="16px">
-                        {['RadioButton', 'TimePicker', 'DatePicker', 'DateTimePicker'].includes(selectedComponent) ? (
+                        {['RadioButton', 'TimePicker', 'DateTimePicker'].includes(selectedComponent) ? (
                           <div>
                             <Typography level="p2" fontWeight="bold">{labelText}</Typography>
                             {helperText && <Typography level="p3" mb="8px">{helperText}</Typography>}
