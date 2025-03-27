@@ -27,10 +27,10 @@ function DateTimePicker({
   locale,
   placeholder,
   input,
-  initialValue,
+  value,
   step,
 }) {
-  const initialValues = useMemo(() => input?.value ?? initialValue, [input, initialValue]);
+  const initialValues = useMemo(() => input?.value ?? value, [input, value]);
   const [isRange, setIsRange] = useState(false);
 
   const [dateTimeStartValue, setDateTimeStartValue] = useState(() => {
@@ -44,30 +44,30 @@ function DateTimePicker({
 
   const prevValuesRef = useRef(null);
 
-  const handleChange = (value, type) => {
+  const handleChange = (values, type) => {
     setDateTimeStartValue(prevValue => {
-      if (!prevValue) return value;
+      if (!prevValue) return values;
 
       if (type === 'date') {
-        return combineDateAndTime(value, prevValue);
+        return combineDateAndTime(values, prevValue);
       }
 
       if (type === 'time') {
-        return combineDateAndTime(prevValue, value);
+        return combineDateAndTime(prevValue, values);
       }
 
       return prevValue;
     });
   };
 
-  const handleChangeEnd = (value, type) => {
+  const handleChangeEnd = (values, type) => {
     setDateTimeEndValue(prevValue => {
-      if (!prevValue) return value;
+      if (!prevValue) return values;
       if (type === 'date') {
-        return combineDateAndTime(value, prevValue);
+        return combineDateAndTime(values, prevValue);
       }
       if (type === 'time') {
-        return combineDateAndTime(prevValue, value);
+        return combineDateAndTime(prevValue, values);
       }
       return prevValue;
     });
@@ -91,24 +91,24 @@ function DateTimePicker({
       <Layout.Flex alignItems="center" gap="6px">
         <DatePicker
           data-testid="first-input"
-          onChange={value => handleChange(value, 'date')}
+          onChange={data => handleChange(data, 'date')}
           disabled={disabled}
           isRangePicker={false}
           isDoubleView={isDoubleView}
           locale={locale}
           placeholder={placeholder.date}
-          dateTimeDefault={initialValue || input?.value}
+          dateTimeDefault={value || input?.value}
           handleDateTime={input}
           dateTimeValue={true}
           onlyFuture={true}
         />
         <TimePicker
           is12Hour={is12Hour}
-          onChange={value => handleChange(value, 'time')}
+          onChange={data => handleChange(data, 'time')}
           disabled={disabled}
           placeholder={placeholder.time}
           isRangePicker={false}
-          dateTimeDefault={initialValue || input?.value}
+          dateTimeDefault={value || input?.value}
           dateTimeValue={true}
           step={step}
         />
@@ -121,24 +121,24 @@ function DateTimePicker({
           <Layout.Flex alignItems="center" gap="6px" ml="-1px">
             <DatePicker
               data-testid="second-input"
-              onChange={value => handleChangeEnd(value, 'date')}
+              onChange={data => handleChangeEnd(data, 'date')}
               disabled={disabled}
               locale={locale}
               placeholder={placeholder.date}
               isRangePicker={false}
               isDoubleView={isDoubleView}
               isDateTimeDouble={true}
-              dateTimeDefault={initialValue || input?.value}
+              dateTimeDefault={value || input?.value}
               dateTimeValue={true}
             />
             <TimePicker
               is12Hour={is12Hour}
-              onChange={value => handleChangeEnd(value, 'time')}
+              onChange={data => handleChangeEnd(data, 'time')}
               disabled={disabled}
               placeholder={placeholder.time}
               isRangePicker={false}
               isDateTimeDouble={true}
-              dateTimeDefault={initialValue || input?.value}
+              dateTimeDefault={value || input?.value}
               dateTimeValue={true}
               step={step}
             />
@@ -161,10 +161,7 @@ DateTimePicker.propTypes = {
     time: PropTypes.string,
   }),
   input: PropTypes.oneOfType([PropTypes.object]),
-  initialValue: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  ]),
+  value: PropTypes.instanceOf(Date),
   step: PropTypes.number,
 };
 
@@ -179,7 +176,7 @@ DateTimePicker.defaultProps = {
     date: 'yyyy/mm/dd',
     time: 'hh:mm',
   },
-  initialValue: null,
+  value: null,
   step: 15,
   input: {},
 };

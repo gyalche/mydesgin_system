@@ -171,7 +171,7 @@ export const Day = styled.button.attrs({
   }) => {
     if (isSelected) return 'var(--rds-color-neutral-0)';
     if (isDisabled) return 'var(--rds-color-neutral-4)';
-    if (isSaturday && !isDisabled) return 'var(--rds-color-teritary-2-normal)';
+    if (isSaturday && !isDisabled) return 'var(--rds-color-tertiary-2-normal)';
     if (isSunday && !isDisabled) return 'var(--rds-color-secondary-3-normal)';
     if (currentDate && !isKeyboardSelect) return 'var(--rds-color-primary-1-normal)';
     if (isKeyboardSelect && !isSaturday && !isSunday && isKeyboardSelect !== currentDate) return 'var(--rds-color-neutral-0)';

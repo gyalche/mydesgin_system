@@ -23,7 +23,7 @@ import IconWithCalendar from './IconWithCalendar';
 function DatePicker({
   isDoubleView,
   isRangePicker,
-  initialValue,
+  value,
   locale,
   onChange,
   disabled,
@@ -55,7 +55,7 @@ function DatePicker({
     onlyFuture,
     input,
     onChange,
-    initialValue,
+    value,
     dateTimeValue,
     dateTimeDefault,
     isDateTimeDouble,
@@ -257,10 +257,7 @@ function DatePicker({
 DatePicker.propTypes = {
   isDoubleView: PropTypes.bool,
   isRangePicker: PropTypes.bool,
-  initialValue: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    PropTypes.instanceOf(Date),
-  ]),
+  value: PropTypes.instanceOf(Date),
   locale: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
@@ -280,7 +277,7 @@ DatePicker.propTypes = {
 DatePicker.defaultProps = {
   isDoubleView: false,
   isRangePicker: false,
-  initialValue: null,
+  value: null,
   locale: 'ja-JP',
   onChange: () => {},
   disabled: false,

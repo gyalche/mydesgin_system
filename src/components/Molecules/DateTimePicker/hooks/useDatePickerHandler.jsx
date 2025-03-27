@@ -7,24 +7,24 @@ export const useDatePickerHandler = ({
   onlyFuture,
   input,
   onChange,
-  initialValue,
+  value,
   dateTimeValue,
   dateTimeDefault,
   isDateTimeDouble,
 }) => {
   const getEffectiveInitialValue = () => {
     if (input?.value !== undefined) return input.value;
-    return initialValue;
+    return value;
   };
 
   const [startDate, setStartDate] = useState(() => {
-    const value = getEffectiveInitialValue();
-    return Array.isArray(value) ? value[0] : value;
+    const values = getEffectiveInitialValue();
+    return Array.isArray(values) ? values[0] : values;
   });
 
   const [endDate, setEndDate] = useState(() => {
-    const value = getEffectiveInitialValue();
-    return Array.isArray(value) ? value[1] : null;
+    const values = getEffectiveInitialValue();
+    return Array.isArray(values) ? values[1] : null;
   });
 
   const [dateRange, setDateRange] = useState(null);
@@ -112,15 +112,15 @@ export const useDatePickerHandler = ({
   };
 
   useEffect(() => {
-    if (Array.isArray(initialValue) && isRangePicker) {
-      setStartDate(prev => (prev !== initialValue[0] ? initialValue[0] : prev));
-      setEndDate(prev => (prev !== initialValue[1] ? initialValue[1] : prev));
-      setDateRange(prev => (prev !== initialValue ? initialValue : prev));
+    if (Array.isArray(value) && isRangePicker) {
+      setStartDate(prev => (prev !== value[0] ? value[0] : prev));
+      setEndDate(prev => (prev !== value[1] ? value[1] : prev));
+      setDateRange(prev => (prev !== value ? value : prev));
     } else if (!isRangePicker) {
-      setStartDate(prev => (prev !== initialValue ? initialValue || input?.value : prev));
+      setStartDate(prev => (prev !== value ? value || input?.value : prev));
       setEndDate(null);
     }
-  }, [initialValue, input?.value, isRangePicker]);
+  }, [value, input?.value, isRangePicker]);
 
   useEffect(() => {
     if (dateTimeValue) {

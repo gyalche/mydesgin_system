@@ -8,7 +8,7 @@ export const useTimePickerHandler = ({
   onChange,
   input,
   is12Hour,
-  initialValue,
+  value,
   isDateTimeDouble,
   dateTimeDefault,
 }) => {
@@ -70,11 +70,11 @@ export const useTimePickerHandler = ({
     });
   }, [handleFirstTimeSelection, selectedHour, amPm]);
 
-  const handleAmPm = useCallback(value => {
+  const handleAmPm = useCallback(values => {
     handleFirstTimeSelection({
       hour: selectedHour,
       minute: selectedMinute,
-      amPm: value,
+      amPm: values,
     });
   }, [handleFirstTimeSelection, selectedHour, selectedMinute]);
 
@@ -97,10 +97,10 @@ export const useTimePickerHandler = ({
     input?.onChange?.([time, updatedTime]);
   }, [selectedHourEnd, amPmEnd, time, step, onChange, input]);
 
-  const handleEndAmPm = useCallback(value => {
-    const timeString = `${selectedHourEnd}:${selectedMinuteEnd || currentMinute}:00 ${value}`;
+  const handleEndAmPm = useCallback(values => {
+    const timeString = `${selectedHourEnd}:${selectedMinuteEnd || currentMinute}:00 ${values}`;
     const updatedTime = createDateFromTime(timeString);
-    setAmPmEnd(value);
+    setAmPmEnd(values);
     setEndTime(updatedTime);
     onChange([time, updatedTime]);
     input?.onChange?.([time, updatedTime]);
@@ -159,9 +159,9 @@ export const useTimePickerHandler = ({
     };
   }, [is12Hour]);
 
-  const updateTimeValues = useCallback(value => {
-    if (Array.isArray(value)) {
-      const [startDate, endDate] = value;
+  const updateTimeValues = useCallback(values => {
+    if (Array.isArray(values)) {
+      const [startDate, endDate] = values;
 
       if (!startDate || !endDate) return;
 
@@ -180,8 +180,8 @@ export const useTimePickerHandler = ({
       setSelectedHourEnd(endTimeValue.hour);
       setSelectedMinuteEnd(endTimeValue.minute);
       setAmPmEnd(endTimeValue.amPm);
-    } else if (value) {
-      const startDate = value;
+    } else if (values) {
+      const startDate = values;
       if (!startDate) return;
       const startTime = handleDate(startDate);
       setRoundUpMinute(getNearestMinMinute(startDate?.getMinutes(), step));
@@ -193,7 +193,7 @@ export const useTimePickerHandler = ({
   }, [handleDate, step]);
 
   useEffect(() => {
-    updateTimeValues(input?.value || initialValue);
+    updateTimeValues(input?.value || value);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [is12Hour, step, updateTimeValues]);
 

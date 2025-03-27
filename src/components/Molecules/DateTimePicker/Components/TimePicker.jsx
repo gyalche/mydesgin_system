@@ -23,7 +23,7 @@ import TimeDropdown from './TimeDropDown';
 function TimePicker({
   is12Hour,
   step,
-  initialValue,
+  value,
   onChange,
   disabled,
   placeholder,
@@ -68,7 +68,7 @@ function TimePicker({
     onChange,
     input,
     is12Hour,
-    initialValue,
+    value,
     isDateTimeDouble,
     dateTimeDefault,
   });
@@ -234,10 +234,7 @@ function TimePicker({
 TimePicker.propTypes = {
   is12Hour: PropTypes.bool,
   step: PropTypes.number,
-  initialValue: PropTypes.oneOfType([
-    PropTypes.arrayOf(Date),
-    PropTypes.instanceOf(Date),
-  ]),
+  value: PropTypes.instanceOf(Date),
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -256,7 +253,7 @@ TimePicker.propTypes = {
 TimePicker.defaultProps = {
   is12Hour: false,
   step: 15,
-  initialValue: null,
+  value: null,
   onChange: () => {},
   disabled: false,
   placeholder: 'hh:mm',
