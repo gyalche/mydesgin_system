@@ -26,12 +26,12 @@ export default {
 const componentConfigs = {
   Input: {
     component: Input,
-    // initialValue: 'Example input text',
+    initialValue: 'Example input text',
     fieldName: 'inputField',
   },
   TextArea: {
     component: TextArea,
-    // initialValue: 'Example multi-line text content',
+    initialValue: 'Example multi-line text content',
     fieldName: 'textAreaField',
   },
   Checkbox: {
@@ -175,9 +175,17 @@ export const FormComponentTester = {
     const componentConfig = componentConfigs[selectedComponent];
 
     // Create initial values object
-    const initialValues = {
+    let initialValues = {
       [componentConfig.fieldName]: componentConfig.initialValue,
     };
+
+    if (['DatePicker', 'TimePicker', 'DateTimePicker'].includes(selectedComponent)) {
+      initialValues = {
+        ...initialValues,
+        Input: null,
+        TextArea: null,
+      };
+    }
 
     // Create validator based on validation state
     const validator = createValidator(validationState, errorMessage);
