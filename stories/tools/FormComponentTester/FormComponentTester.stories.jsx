@@ -26,12 +26,12 @@ export default {
 const componentConfigs = {
   Input: {
     component: Input,
-    initialValue: '',
+    // initialValue: 'Example input text',
     fieldName: 'inputField',
   },
   TextArea: {
     component: TextArea,
-    initialValue: 'Example multi-line text content',
+    // initialValue: 'Example multi-line text content',
     fieldName: 'textAreaField',
   },
   Checkbox: {
@@ -129,7 +129,6 @@ export const FormComponentTester = {
     selectedComponent: {
       control: 'select',
       options: Object.keys(componentConfigs),
-      // defaultValue: 'Input',
     },
     // Validation controls
     validationState: {
@@ -207,6 +206,7 @@ export const FormComponentTester = {
             <Divider />
 
             <Form
+              key={selectedComponent}
               onSubmit={onSubmit}
               initialValues={initialValues}
               render={({
