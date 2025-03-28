@@ -26,7 +26,7 @@ export default {
 const componentConfigs = {
   Input: {
     component: Input,
-    initialValue: 'Example input text',
+    initialValue: '',
     fieldName: 'inputField',
   },
   TextArea: {
@@ -129,7 +129,7 @@ export const FormComponentTester = {
     selectedComponent: {
       control: 'select',
       options: Object.keys(componentConfigs),
-      defaultValue: 'Input',
+      // defaultValue: 'Input',
     },
     // Validation controls
     validationState: {
@@ -164,7 +164,7 @@ export const FormComponentTester = {
 
   render: args => {
     const {
-      selectedComponent = 'DateTimePicker', // Default to 'Input' if not specified
+      selectedComponent = 'Input', // Default to 'Input' if not specified
       validationState,
       errorMessage,
       labelText,
@@ -173,7 +173,7 @@ export const FormComponentTester = {
       width,
     } = args;
     // Get the selected component configuration
-    const componentConfig = componentConfigs[selectedComponent] || componentConfigs.Input;
+    const componentConfig = componentConfigs[selectedComponent];
 
     // Create initial values object
     const initialValues = {
