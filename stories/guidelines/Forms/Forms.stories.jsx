@@ -12,6 +12,7 @@ import Selector from 'components/Molecules/Selector';
 import FormField from 'components/Molecules/FormField';
 import Divider from 'components/Atoms/Divider';
 import Card from 'components/Atoms/Card';
+import DatePicker from 'components/Molecules/DateTimePicker';
 import * as Layout from 'components/Atoms/Layout';
 
 export default {
@@ -86,8 +87,11 @@ export const ReactFinalFormExample = {
           <Form
             onSubmit={onSubmit}
             initialValues={{
+              fullName: 'Yamada Taro',
+              email: 'yamada.taro@receptionist.co.jp',
               contactPreference: 'email',
-              department: 'engineering',
+              department: departmentOptions[0],
+              birthday: new Date('2017/1/1'),
             }}
             validate={values => {
               const errors = {};
@@ -148,6 +152,17 @@ export const ReactFinalFormExample = {
                       options={departmentOptions}
                       w="100%"
                     />
+                    <div>
+                      <Field
+                        name="birthday"
+                        component={FormField}
+                        customField={DatePicker}
+                        onlyFuture={false}
+                        labelText="Birthday"
+                        helperText="Select your DOB"
+                        w="100%"
+                      />
+                    </div>
                   </Layout.Flex>
 
                   <Divider />
