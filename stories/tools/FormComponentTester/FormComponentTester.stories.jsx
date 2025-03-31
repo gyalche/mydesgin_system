@@ -175,17 +175,10 @@ export const FormComponentTester = {
     const componentConfig = componentConfigs[selectedComponent];
 
     // Create initial values object
-    let initialValues = {
-      [componentConfig.fieldName]: componentConfig.initialValue,
-    };
-
-    if (['DatePicker', 'TimePicker', 'DateTimePicker'].includes(selectedComponent)) {
-      initialValues = {
-        ...initialValues,
-        Input: null,
-        TextArea: null,
-      };
-    }
+    const initialValues = Object.keys(componentConfigs).reduce((acc, key) => {
+      acc[componentConfigs[key].fieldName] = key === selectedComponent ? componentConfigs[key].initialValue : undefined;
+      return acc;
+    }, {});
 
     // Create validator based on validation state
     const validator = createValidator(validationState, errorMessage);
