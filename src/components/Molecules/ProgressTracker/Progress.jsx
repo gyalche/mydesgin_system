@@ -47,6 +47,8 @@ function ProgressTracker({ steps, currentStep }) {
   );
 }
 
+ProgressTracker.displayName = 'ProgressTracker';
+
 ProgressTracker.propTypes = {
   steps: PropTypes.arrayOf(
     PropTypes.shape({

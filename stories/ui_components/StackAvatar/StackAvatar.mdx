@@ -1,0 +1,99 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as AvatarStories from './StackAvatar.stories';
+
+<Meta of={AvatarStories} />
+
+# StackAvatar
+
+The `StackAvatar` component represents a user or entity with an image, initials, or an icon. It is commonly used in profiles, comments, chat applications, and dashboards to visually identify individuals or groups.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { StackAvatar } from '@d-lighted/receptionist-design-system';
+import img from 'assets/avatar_img.jpg';
+
+const MyExample = (props) => {
+  const users = [{ name: 'John Doe', img }];
+
+  return <StackAvatar field={users} maxElementsToShow={5} editable={true} />;
+};
+
+export default MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={AvatarStories.StackAvatars}
+  language="jsx"
+/>
+<Controls of={AvatarStories.StackAvatars} />
+
+## Custom Dropdown
+
+You can customize the dropdown by providing a custom component via the `onEditComponent` prop. The custom component will receive the following props:
+
+- `editFields`: Array of user objects to display in the dropdown
+- `usersList`: Array of currently selected users
+- `handleDropDownOnChange`: Function to call when a user is selected/deselected
+- `isLoading`: Boolean indicating if data is being loaded
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { StackAvatar } from '@d-lighted/receptionist-design-system';
+
+// Custom dropdown component
+function CustomDropdownComponent({ editFields, usersList, handleDropDownOnChange, isLoading }) {
+  if (isLoading) {
+    return <p>Loading custom users...</p>;
+  }
+
+  if (!editFields?.length) {
+    return <p>No users available</p>;
+  }
+
+  return (
+    <ul style={{ padding: '10px', listStyle: 'none' }}>
+      {editFields.map(user => (
+        <div
+          key={user.name}
+          onClick={() => handleDropDownOnChange(user)}
+          style={{ cursor: 'pointer', padding: '5px' }}
+        >
+          {user.name}
+        </div>
+      ))}
+    </ul>
+  );
+}
+
+const MyExample = () => {
+  return (
+    <StackAvatar
+      fields={[{ name: 'John Doe', img: '' }]}
+      editFields={[
+        { name: 'John Doe', img: '' },
+        { name: 'Jane Smith', img: '' },
+        { name: 'Bob Johnson', img: '' }
+      ]}
+      maxElementsToShow={5}
+      editable={true}
+      onEditComponent={CustomDropdownComponent}
+    />
+  );
+};
+`}/>
+
+<Canvas
+  of={AvatarStories.StackAvatarsWithCustomDropdown}
+  sourceState="none"
+/>

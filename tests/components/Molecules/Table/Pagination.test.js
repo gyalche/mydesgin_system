@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import expect from 'expect';
 import { render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@storybook/testing-library';
+import { userEvent, fireEvent } from '@storybook/test';
 
 import Table from 'src/components/Molecules/Table';
 
@@ -50,7 +50,7 @@ it('should go to the next page when next button is clicked', async () => {
     );
     expect(secondPageBtn).toHaveStyleRule(
       'color',
-      'var(--rds-color-primary-1-dark)'
+      'var(--rds-color-primary-1-intense)'
     );
   });
 });
@@ -75,7 +75,7 @@ it('should go to the previous page when previous button is clicked', async () =>
     );
     expect(firstPageBtn).toHaveStyleRule(
       'color',
-      'var(--rds-color-primary-1-dark)'
+      'var(--rds-color-primary-1-intense)'
     );
   });
 });
@@ -99,7 +99,7 @@ it('should change page number after clicking the page number button', async () =
     );
     expect(secondPageBtn).toHaveStyleRule(
       'color',
-      'var(--rds-color-primary-1-dark)'
+      'var(--rds-color-primary-1-intense)'
     );
   });
 });
@@ -109,4 +109,12 @@ it('should display ellipses when there are more than 7 pages', () => {
   const ellipsesStart = screen.getByText('...');
 
   expect(ellipsesStart).toBeInTheDocument();
+});
+
+it('should apply proper style on hover', () => {
+  render(<TestComponent totalPage={6} />);
+  const page = screen.getByText(1);
+  fireEvent.mouseOver(page);
+
+  expect(page).toHaveStyleRule('background-color: var(--rds-color-neutral-1)');
 });

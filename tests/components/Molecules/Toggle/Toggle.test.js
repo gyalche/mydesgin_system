@@ -1,17 +1,18 @@
 import React from 'react';
 import expect from 'expect';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@storybook/testing-library';
-
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
+import { userEvent } from '@storybook/test';
 import Toggle from 'src/components/Molecules/Toggle';
 import { Icon } from 'src/components/Atoms';
 
 it('should change width when w has value', () => {
-  const width = 80;
+  const width = '80px';
   render(<Toggle w={width} />);
   const toggle = screen.getByTestId('switch-wrapper');
 
-  expect(toggle).toHaveStyleRule('width', `${width}px`);
+  expect(toggle).toHaveStyleRule('width', `${width}`);
 });
 
 it('should change colors according to colors prop', () => {
@@ -40,7 +41,7 @@ it('should change background color on hover', () => {
     'var(--rds-color-primary-1-dark)',
     {
       modifier: ':hover:before',
-    }
+    },
   );
 
   expect(toggle).toHaveStyleRule(
@@ -48,7 +49,7 @@ it('should change background color on hover', () => {
     'var(--rds-color-neutral-6)',
     {
       modifier: ':hover:after',
-    }
+    },
   );
 });
 

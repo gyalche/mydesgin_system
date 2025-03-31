@@ -1,0 +1,49 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as AvatarStories from './Avatar.stories';
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+The `Avatar` component represents a user or entity with an image, initials, or an icon. It is commonly used in profiles, comments, chat applications, and dashboards to visually identify individuals or groups.
+
+### Usage Examples
+  - User Profiles: Display a user’s profile picture in account settings or comments.
+  - Team Members: Show avatars for team members in a list or card layout.
+  - System Entities: Represent organizations, bots, or placeholders when no image is available.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Avatar } from '@d-lighted/receptionist-design-system';
+import img from 'assets/avatar_img.jpg';
+
+const MyExample = (props) => {
+  return <Avatar src={img} />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={AvatarStories.Avatar}
+  language="jsx"
+/>
+<Controls of={AvatarStories.Avatar} />
+
+## Appearances
+
+Avatars include some color combinations assigned based on the first letter of the inputted
+
+<Canvas
+  of={AvatarStories.Palette}
+  layout="fullscreen"
+  sourceState="none"
+/>

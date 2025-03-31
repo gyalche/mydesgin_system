@@ -27,6 +27,8 @@ function UserCard({ account }) {
   );
 }
 
+UserCard.displayName = 'UserCard';
+
 UserCard.propTypes = {
   account: PropTypes.shape({
     name: PropTypes.string,

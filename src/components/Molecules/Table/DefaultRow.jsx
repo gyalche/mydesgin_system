@@ -21,6 +21,7 @@ const Row = styled.tr`
   letter-spacing: 0px;
   text-align: left;
   width: 100%;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--rds-color-neutral-3);
 
   &:last-child {

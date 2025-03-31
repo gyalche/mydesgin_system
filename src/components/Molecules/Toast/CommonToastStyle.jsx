@@ -59,7 +59,7 @@ export const CloseIcon = styled(Icon)`
 `;
 
 export const ToastButton = styled(Button.Subtle)`
-  background-color: var(--rds-neutral-0);
+  background-color: var(--rds-color-neutral-0);
   margin-top: ${({ $withDescription }) => !$withDescription && '4px'};
   max-width: calc(100% / 3);
   white-space: nowrap;
@@ -102,7 +102,7 @@ export const ToastsWrapper = styled.div`
   flex-direction: column;
   gap: 10px;
   position: fixed;
-  z-index: 9999;
+  z-index: var(--rds-z-index-4);
   ${({ $placement }) => getToastsPlacementStyles($placement)};
 `;
 
@@ -121,11 +121,11 @@ export const CommonToastStyle = styled.div`
     ? 'fadeOut 1s forwards'
     : `${handlePlacement($placement)} 0.2s ease forwards`)};
   border-radius: 4px;
-  box-shadow: 0px 4px 8px 0px var(--rds-color-neutral-3);
+  box-shadow: var(--rds-box-shadow-3);
   display: flex;
   font-weight: 700;
   width: 488px;
-  z-index: 9999;
+  z-index: var(--rds-z-index-4);
 
   @keyframes slideUp {
     0% {

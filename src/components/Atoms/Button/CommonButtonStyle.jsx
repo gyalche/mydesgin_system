@@ -22,7 +22,7 @@ export const secondaryStyles = css`
   border: 1px solid var(--rds-color-primary-1-dark);
   color: var(--rds-color-primary-1-dark);
   height: ${({ compact }) => (compact ? '32px' : '40px')};
-  
+
   &:hover {
     background-color: var(--rds-color-neutral-1);
     border-color: var(--rds-color-primary-1-deep);
@@ -39,7 +39,7 @@ export const warningStyles = css`
   border: 1px solid var(--rds-color-tertiary-1-dark);
   color: var(--rds-color-neutral-0);
   height: ${({ compact }) => (compact ? '32px' : '40px')};
-  
+
   &:hover {
     background-color: var(--rds-color-tertiary-1-deep);
     border-color: var(--rds-color-tertiary-1-deep)
@@ -56,7 +56,7 @@ export const dangerStyles = css`
   border: 1px solid var(--rds-color-secondary-3-dark);
   color: var(--rds-color-neutral-0);
   height: ${({ compact }) => (compact ? '32px' : '40px')};
-  
+
   &:hover {
     background-color: var(--rds-color-secondary-3-deep);
     border-color: var(--rds-color-secondary-3-deep)
@@ -73,7 +73,7 @@ export const subtleStyles = css`
   border: none;
   color: var(--rds-color-neutral-9);
   height: ${({ compact }) => (compact ? '32px' : '40px')};
-  
+
   &:hover {
     background-color: var(--rds-color-neutral-2);
     color: var(--rds-color-neutral-10);
@@ -113,7 +113,7 @@ export const subtleLinkStyles = css`
   font-weight: 300;
   padding: 0;
   height: ${({ compact }) => (compact ? '24px' : '32px')};
-  
+
   &:hover {
     background-color: transparent;
     color: var(--rds-color-neutral-10);
@@ -159,6 +159,8 @@ export const CommonButtonStyle = styled.button.withConfig({
   ${props => props.appearance === 'subtleLink' && subtleLinkStyles}
 `;
 
+CommonButtonStyle.displayName = 'Button';
+
 CommonButtonStyle.propTypes = {
   appearance: PropTypes.oneOf(['primary', 'secondary', 'warning', 'danger', 'subtle', 'link', 'subtleLink']),
   compact: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -170,7 +172,7 @@ CommonButtonStyle.propTypes = {
 };
 
 CommonButtonStyle.defaultProps = {
-  appearance: false,
+  appearance: 'primary',
   compact: false,
   w: 'auto',
   mt: '0',

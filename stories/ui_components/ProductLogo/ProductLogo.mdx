@@ -1,0 +1,43 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as ProductLogoStories from './ProductLogo.stories';
+
+<Meta of={ProductLogoStories} />
+
+# Product Logo
+
+The `ProductLogo` component ensures that company product logos are displayed consistently across the application. It automatically applies the correct format, size, and styling required for headers and other UI placements.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { ProductLogo } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <ProductLogo product="Receptionist" />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={ProductLogoStories.ProductLogo}
+  language="jsx"
+/>
+<Controls of={ProductLogoStories.ProductLogo} />
+
+## Available logos
+
+The following logos represent our supported company products.
+
+<Canvas
+  of={ProductLogoStories.Palette}
+  language="jsx"
+  sourceState="none"
+/>

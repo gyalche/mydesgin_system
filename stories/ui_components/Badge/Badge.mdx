@@ -1,0 +1,76 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as BadgeStories from './Badge.stories';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+The `Badge` component is used to display small status indicators, labels, or counts in a compact format. It helps highlight important information without overwhelming the UI.
+
+### Usage Examples
+  - Status Indicators: Show labels like "Active", "Pending", or "Offline".
+  - Counters: Display notifications or unread message counts (e.g., 5).
+  - Category Tags: Label items with categories such as "New", "Sale", or "Beta".
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Badge } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Badge>Badge</Badge>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={BadgeStories.Badge}
+  language="jsx"
+/>
+<Controls of={BadgeStories.Badge} />
+
+## Appearances
+
+Appearances (add link when appearances page is defined) play a important role in our design system. You can see a comparation below.
+
+<Canvas
+  of={BadgeStories.Palette}
+  language="jsx"
+  source={{
+    code: `
+<Layout.Block>
+  <Layout.Item mt="20px">
+    <Badge.Blue>Blue</Badge.Blue>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Green>Green</Badge.Green>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Yellow>Yellow</Badge.Yellow>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Red>Red</Badge.Red>
+  </Layout.Item>
+  <Badge.Item mt="20px">
+    <Badge.Violet>Violet</Badge.Violet>
+  </Badge.Item>
+  <Layout.Item mt="20px">
+    <Badge.Teal>Teal</Badge.Teal>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Pink>Pink</Badge.Pink>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Orange>Orange</Badge.Orange>
+  </Layout.Item>
+</Layout.Block>`
+  }}
+/>

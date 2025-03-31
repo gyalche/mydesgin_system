@@ -32,7 +32,6 @@ function CommonFormField({
   input,
   meta,
   disabled,
-  placeholder,
   labelText,
   isLeftSideLabel,
   helperText,
@@ -50,7 +49,7 @@ function CommonFormField({
   };
 
   return (
-    <MainContainer $isLeftSideLabel={isLeftSideLabel} w={inputProps.w}>
+    <MainContainer $isLeftSideLabel={isLeftSideLabel} {...inputProps}>
       <TopContainer $isLeftSideLabel={isLeftSideLabel}>
         <InputLabel disabled={disabled} $isLeftSideLabel={isLeftSideLabel}>
           {labelText}
@@ -60,7 +59,6 @@ function CommonFormField({
       <BottomContainer>
         <CustomField
           {...input}
-          placeholder={placeholder}
           disabled={disabled}
           isInvalid={error && touched}
           {...inputProps}
@@ -76,10 +74,11 @@ CommonFormField.propTypes = {
   tooltip: PropTypes.elementType,
   input: PropTypes.shape({
     name: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
+    checked: PropTypes.bool,
   }),
   meta: PropTypes.shape({
     touched: PropTypes.bool,
@@ -89,35 +88,18 @@ CommonFormField.propTypes = {
   labelText: PropTypes.string,
   helperText: PropTypes.string,
   validText: PropTypes.string,
-  placeholder: PropTypes.string,
   disabled: PropTypes.bool,
-  // Input and TextArea props
-  w: PropTypes.string,
-  h: PropTypes.string,
-  mt: PropTypes.string,
-  mr: PropTypes.string,
-  mb: PropTypes.string,
-  ml: PropTypes.string,
-  compact: PropTypes.bool,
 };
 
 CommonFormField.defaultProps = {
   isLeftSideLabel: false,
   tooltip: null,
   disabled: false,
-  w: '416px',
-  compact: false,
   meta: {},
   input: {},
   labelText: '',
   helperText: '',
   validText: '',
-  placeholder: '',
-  h: 'auto',
-  mt: '0px',
-  mr: '0px',
-  mb: '0px',
-  ml: '0px',
 };
 
 export default CommonFormField;

@@ -16,6 +16,7 @@ const SelectorContainer = styled.div`
   margin-right: ${({ $mr }) => $mr};
   margin-bottom: ${({ $mb }) => $mb};
   margin-left: ${({ $ml }) => $ml};
+  position: relative;
 `;
 
 const SelectorList = styled.ul`

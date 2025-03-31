@@ -32,6 +32,8 @@ function Item({
   );
 }
 
+Item.displayName = 'Item';
+
 Item.defaultProps = {
   as: 'a',
   icon: null,

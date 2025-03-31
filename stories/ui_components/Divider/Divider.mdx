@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as DividerStories from './Divider.stories';
+
+<Meta of={DividerStories} />
+
+# Divider
+
+The `Divider` component is used to visually separate content within a layout. It helps improve readability and organization by creating distinct sections without overwhelming the UI.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Badge } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Divider />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={DividerStories.Divider}
+  language="jsx"
+/>
+<Controls of={DividerStories.Divider} />

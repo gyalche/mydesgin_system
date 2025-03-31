@@ -1,0 +1,157 @@
+import { Canvas, Meta, Controls, Source, ArgTypes } from '@storybook/blocks';
+
+import * as LayoutStories from './Layout.stories';
+
+<Meta of={LayoutStories} />
+
+# Layout
+
+The layout components provide a structured framework for organizing content across an application. They ensure consistent spacing, alignment, responsiveness while maintaining flexibility for different UI needs, and a good code readability.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Layout } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Layout.Block>My content</Layout.Block>;
+};
+
+export MyExample;
+`}/>
+
+# Block
+
+The layout `Block` component is a versatile, ready-to-use `<div>` element styled with `display: block`. It serves as a foundational building block for structuring layouts while ensuring consistent spacing, and alignment.
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={LayoutStories.Block}
+  language="jsx"
+/>
+<Controls of={LayoutStories.Block} />
+
+# Flex
+
+The layout `Flex` component is a versatile, ready-to-use `<div>` element styled with `display: flex`. It serves as a foundational building flex for structuring responsive layouts while ensuring consistent spacing, alignment, and a good set of distribution options.
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={LayoutStories.Flex}
+  language="jsx"
+/>
+<Controls of={LayoutStories.Flex} />
+
+# Item
+
+The layout `Item` component is designed to be used inside layout `Block` and layout `Flex` components, providing a flexible and consistent way to structure individual elements within a layout.
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<ArgTypes of={LayoutStories.Item} />
+
+# Example
+
+The following examples demonstrate how to use the Layout components to create flexible, responsive, and well-structured UIs.
+
+<Canvas
+  of={LayoutStories.Samples}
+  language="jsx"
+  source={{
+    code: `
+<Layout.Block>
+  <Layout.Flex mb="20px">
+    <Layout.Item flex="0" bgColor="red">
+      0
+    </Layout.Item>
+    <Layout.Item flex="2" bgColor="green">
+      2
+    </Layout.Item>
+    <Layout.Item flex="0" bgColor="blue">
+      0
+    </Layout.Item>
+  </Layout.Flex>
+  <Layout.Flex mb="20px" disabled={true}>
+    <Layout.Item flex="0" bgColor="red">
+      0
+    </Layout.Item>
+    <Layout.Item flex="2" bgColor="green">
+      2
+    </Layout.Item>
+    <Layout.Item flex="0" bgColor="blue">
+      0
+    </Layout.Item>
+  </Layout.Flex>
+  <Layout.Flex mb="20px">
+    <Layout.Item flex="0" bgColor="red" minW="300px">
+      0 (min-width: 300px)
+    </Layout.Item>
+    <Layout.Item flex="2" bgColor="green">
+      2
+    </Layout.Item>
+    <Layout.Item flex="0" bgColor="blue">
+      0
+    </Layout.Item>
+  </Layout.Flex>
+  <Layout.Flex mb="20px">
+    <Layout.Item flex="2" bgColor="red">
+      2
+    </Layout.Item>
+    <Layout.Item flex="4" bgColor="green">
+      4
+    </Layout.Item>
+    <Layout.Item flex="6" bgColor="blue">
+      6
+    </Layout.Item>
+  </Layout.Flex>
+  <Layout.Flex>
+    <Layout.Item flex="1" bgColor="red">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="green">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="blue">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="cyan">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="magenta">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="yellow">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="red">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="green">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="blue">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="cyan">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="magenta">
+      1
+    </Layout.Item>
+    <Layout.Item flex="1" bgColor="yellow">
+      1
+    </Layout.Item>
+  </Layout.Flex>
+</Layout.Block>`
+  }}
+/>

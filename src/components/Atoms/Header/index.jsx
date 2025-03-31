@@ -12,7 +12,7 @@ const HeaderContainer = styled.header`
   height: 48px;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: var(--rds-z-index-4);
   display: flex;
   align-items: center;
 `;

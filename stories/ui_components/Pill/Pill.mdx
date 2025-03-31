@@ -1,0 +1,71 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as PillStories from './Pill.stories';
+
+<Meta of={PillStories} />
+
+# Pill
+
+The `Pill` component is a small, rounded element used to display status, categories, tags, or counts in a compact and visually distinct way. Pills help highlight key information in a non-intrusive manner.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Pill } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Pill>Pill</Pill>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={PillStories.Pill}
+  language="jsx"
+/>
+<Controls of={PillStories.Pill} />
+
+## Appearances
+
+Appearances (add link when appearances page is defined) play a important role in our design system. You can see a comparation below.
+
+<Canvas
+  of={PillStories.Palette}
+  language="jsx"
+  source={{
+    code: `
+<Layout.Block>
+  <Layout.Item mt="20px">
+    <Badge.Blue>Blue</Badge.Blue>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Green>Green</Badge.Green>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Yellow>Yellow</Badge.Yellow>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Red>Red</Badge.Red>
+  </Layout.Item>
+  <Badge.Item mt="20px">
+    <Badge.Violet>Violet</Badge.Violet>
+  </Badge.Item>
+  <Layout.Item mt="20px">
+    <Badge.Teal>Teal</Badge.Teal>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Pink>Pink</Badge.Pink>
+  </Layout.Item>
+  <Layout.Item mt="20px">
+    <Badge.Orange>Orange</Badge.Orange>
+  </Layout.Item>
+</Layout.Block>`
+  }}
+/>

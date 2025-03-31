@@ -9,7 +9,7 @@ function ProductLogo({ product, ...rest }) {
   if (!ProductComponent) {
     throw new Error(`${product} does not exist.`);
   }
-
+  // FIXME: support setting color of logo
   return <ProductComponent {...rest} />;
 }
 

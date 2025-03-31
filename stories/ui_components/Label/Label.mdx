@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as LabelStories from './Label.stories';
+
+<Meta of={LabelStories} />
+
+# Label
+
+The `Label` component is used to provide descriptive text for form elements, helping users understand the purpose of input fields, checkboxes, or radio buttons. Labels enhance accessibility by making the UI more readable and interactive.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Label } from '@d-lighted/receptionist-design-system';
+
+const MyExample = ({onClick}) => {
+  return <Label>Label</Label>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={LabelStories.Label}
+  language="jsx"
+/>
+<Controls of={LabelStories.Label} />

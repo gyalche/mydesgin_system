@@ -1,0 +1,40 @@
+import { Canvas, Meta, Controls, Source, ArgTypes } from '@storybook/blocks';
+
+import * as TabsStories from './Tabs.stories';
+import * as TabStories from './Tab.stories';
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+The `Tabs` component allows users to switch between different sections of content within the same view. It enhances navigation by keeping related content grouped together while maintaining a clean and organized UI.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Badge } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Badge>Badge</Badge>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={TabsStories.Tabs}
+  language="jsx"
+/>
+<Controls of={TabsStories.Tabs} />
+
+# Tab
+
+The `Tab` subcomponent represents an individual selectable item within a Tabs container. Each Tab corresponds to a specific section of content, allowing users to switch between different views seamlessly.
+
+<ArgTypes of={TabStories.Tab} />

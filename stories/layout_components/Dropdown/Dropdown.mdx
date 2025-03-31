@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as DropdownStories from './Dropdown.stories';
+
+<Meta of={DropdownStories} />
+
+# Dropdown
+
+The `Dropdown` component is a versatile UI element that displays content in a floating panel when triggered. While it is commonly used for selecting options, it is designed to support various types of content, making it adaptable for different use cases.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Dropdown } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Dropdown>My dropdown content</Dropdown>;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={DropdownStories.Dropdown}
+  language="jsx"
+/>
+<Controls of={DropdownStories.Dropdown} />

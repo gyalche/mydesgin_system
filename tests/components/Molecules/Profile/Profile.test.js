@@ -3,7 +3,7 @@ import expect from 'expect';
 import { render, screen, waitFor } from '@testing-library/react';
 
 import Profile from 'src/components/Molecules/Profile';
-import { userEvent } from '@storybook/testing-library';
+import { userEvent } from '@storybook/test';
 
 const TestProfile = () => {
   const account = {
@@ -63,7 +63,7 @@ it('should close dropdown when clicked outside', async () => {
   });
 
   userEvent.click(document.body);
-  
+
   await waitFor(() => {
     const profileDropdown = screen.getByTestId('dropdown');
     expect(profileDropdown).toHaveStyleRule('visibility', 'hidden');

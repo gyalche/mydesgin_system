@@ -1,0 +1,72 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as DialogStories from './Dialog.stories';
+
+<Meta of={DialogStories} />
+
+# Dialog
+
+The `Dialog` component provides a way to create modal or non-modal dialog boxes for displaying information, alerts, or requesting user input. Dialogs are overlaid on the main content and can be used to focus user attention on important information or actions.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Dialog, Button, Icon, Layout } from '@d-lighted/receptionist-design-system';
+
+const MyExample = () => {
+  const dialogRef = React.useRef();
+
+  const buttons = [
+    {
+      text: 'Cancel',
+      button: Button,
+      onClick: 'close',
+    },
+    {
+      text: 'Confirm',
+      button: Button,
+      onClick: () => console.log('Confirmed'),
+    },
+  ];
+
+  const handleOpenDialog = () => {
+    dialogRef.current.show();
+  };
+
+  return (
+    <>
+      <Button onClick={handleOpenDialog}>Open Dialog</Button>
+      <Dialog buttons={buttons} ref={dialogRef} showClose={true}>
+        <Layout.Flex direction="column" gap="16px">
+          <h3>Dialog Title</h3>
+          <p>This is the dialog content. You can add any components or text here.</p>
+        </Layout.Flex>
+      </Dialog>
+    </>
+  );
+};
+
+export default MyExample;
+`}/>
+
+## Basic Dialog
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={DialogStories.Dialog}
+  language="jsx"
+/>
+<Controls of={DialogStories.Dialog} />
+
+## Dialog Alert
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={DialogStories.DialogAlert}
+  language="jsx"
+/>
+<Controls of={DialogStories.DialogAlert} />

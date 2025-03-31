@@ -1,0 +1,56 @@
+import { Canvas, Meta, Controls, Source, ArgTypes } from '@storybook/blocks';
+
+import * as SelectorStories from './Selector.stories';
+import * as DisplayStories from './Display.stories';
+import * as OptionStories from './Option.stories';
+
+<Meta of={SelectorStories} />
+
+# Selector
+
+The `Selector` component is an enhanced dropdown used for choosing options from a predefined list. It is designed to be versatile and customizable, supporting rich UI elements beyond simple text selections.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Selector } from '@d-lighted/receptionist-design-system';
+
+const MyExample = (props) => {
+  return <Selector {...props} />;
+};
+
+export MyExample;
+`}/>
+
+## Usage
+
+The props declared inside the component allow customizing several options.
+
+<Canvas
+  of={SelectorStories.Selector}
+  language="jsx"
+/>
+<Controls of={SelectorStories.Selector} />
+
+# Display
+
+The selector `Display` component is a subcomponent of the Selector component, responsible for presenting the selected value(s) to the user. It serves as the visible part of the selector, before the dropdown is opened, ensuring clarity and consistency in how selected options are displayed.
+
+## Usage
+
+The props declared inside the subcomponent allow customizing several options. This specification can be used to declare and use new `Display` components within the parent `Selector` component.
+
+<ArgTypes of={DisplayStories.Selector} />
+
+# Option
+
+The selector `Option` component is a subcomponent of the Selector component, responsible for rendering each selectable item inside the dropdown. It provides a consistent UI for list items while supporting various customization options like icons, avatars, and descriptions.
+
+## Usage
+
+The props declared inside the subcomponent allow customizing several options. This specification can be used to declare and use new `Option` components within the parent `Selector` component.
+
+<ArgTypes of={OptionStories.Selector} />
+
