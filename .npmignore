@@ -23,3 +23,5 @@ storybook-static
 tests
 jsconfig.json
 tsconfig.json
+vite.config.js
+memory-bank/
