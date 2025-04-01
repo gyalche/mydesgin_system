@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { Icon } from 'components/Atoms';
 import * as Layout from 'components/Atoms/Layout';
 
+import { ENTER } from '../../../constant/keyCodes';
+
 const PaginationContainer = styled(Layout.Flex).attrs(() => ({ justifyContent: 'left', mt: '20px' }))``;
 
 const PaginationList = styled(Layout.Flex).attrs(() => ({
@@ -85,7 +87,7 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
   };
 
   const handleKeyDown = (event, page, paginationControl) => {
-    if (event.key === 'Enter') {
+    if (event.key === ENTER) {
       if (paginationControl === 'isPrevious') {
         handlePreviousChange();
         return;

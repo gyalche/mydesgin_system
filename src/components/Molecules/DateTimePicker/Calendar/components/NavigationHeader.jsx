@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { CalendarHeader, HeaderIcons, CalendarMonths } from '../../styles';
 import NavigationButton from './NavigationButton';
 import MonthYearDisplay from './MonthYearDisplay';
+import { ENTER } from '../../../../../constant/keyCodes';
 
 function CalendarNavigation({
   isDoubleView,
@@ -27,7 +28,7 @@ function CalendarNavigation({
   setModalFocus,
 }) {
   const stopPropagatingOnEnter = e => {
-    if (e.key === 'Enter') e.stopPropagation();
+    if (e.key === ENTER) e.stopPropagation();
   };
 
   const handleYearClick = () => {
