@@ -81,6 +81,11 @@ export const ReactFinalFormExample = {
       return undefined;
     };
 
+    const getSelectorValue = value => {
+      const selectedValue = departmentOptions?.find(val => val.value === value);
+      return selectedValue;
+    };
+
     return (
       <Layout.Flex justifyContent="center" alignItems="center">
         <Card padding="24px" w="480px">
@@ -90,7 +95,7 @@ export const ReactFinalFormExample = {
               fullName: 'Yamada Taro',
               email: 'yamada.taro@receptionist.co.jp',
               contactPreference: 'email',
-              department: departmentOptions[0],
+              department: getSelectorValue('engineering'),
               birthday: new Date('2017/1/1'),
             }}
             validate={values => {
