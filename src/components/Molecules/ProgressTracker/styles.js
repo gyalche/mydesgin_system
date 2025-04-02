@@ -1,6 +1,7 @@
 import styled, { keyframes, css } from 'styled-components';
 
 import { Icon } from 'components/Atoms';
+import { Flex } from 'components/Atoms/Layout';
 
 // Animation for the line to grow
 const growLine = keyframes`
@@ -12,11 +13,10 @@ const growLine = keyframes`
   }
 `;
 
-export const TrackerContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+export const TrackerContainer = styled(Flex).attrs(() => ({
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}))``;
 
 export const StepContainer = styled.div`
   display: flex;
@@ -28,10 +28,13 @@ export const StepLineWrapper = styled.div`
 `;
 
 // Step Circle for each step
-export const StepCircle = styled.div`
-  width: 18px;
-  height: 18px;
-  border-radius: 18px;
+export const StepCircle = styled(Flex).attrs(() => ({
+  w: '18px',
+  h: '18px',
+  borderRadius: '18px',
+  alignItems: 'center',
+  justifyContent: 'center',
+}))`
   background-color: ${({ isActive, complete }) => {
     if (complete) return 'var(--rds-color-primary-1-deep)';
     if (isActive) return 'var(--rds-color-primary-1-dark)';
@@ -41,9 +44,6 @@ export const StepCircle = styled.div`
   border: ${({ complete }) => (complete ? '1px solid var(--rds-color-primary-1-deep)' : '1px solid var(--rds-color-primary-1-dark)')};
   font-size: 12px;
   transition: background-color 0.7s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   & > * {
     margin-top: -2px;
   }
