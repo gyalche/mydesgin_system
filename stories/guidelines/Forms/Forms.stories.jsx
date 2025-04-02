@@ -157,17 +157,15 @@ export const ReactFinalFormExample = {
                       options={departmentOptions}
                       w="100%"
                     />
-                    <div>
-                      <Field
-                        name="birthday"
-                        component={FormField}
-                        customField={DatePicker}
-                        onlyFuture={false}
-                        labelText="Birthday"
-                        helperText="Select your DOB"
-                        w="100%"
-                      />
-                    </div>
+
+                    <Field
+                      name="birthday"
+                      component={FormField}
+                      customField={DatePicker}
+                      onlyFuture={false}
+                      labelText="Birthday"
+                      helperText="Select your date of birth"
+                    />
                   </Layout.Flex>
 
                   <Divider />

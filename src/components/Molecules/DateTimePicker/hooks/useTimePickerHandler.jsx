@@ -192,10 +192,14 @@ export const useTimePickerHandler = ({
     }
   }, [handleDate, step]);
 
+  const updateTimeValuesMemoized = useCallback(
+    val => updateTimeValues(val),
+    [updateTimeValues],
+  );
+
   useEffect(() => {
-    updateTimeValues(input?.value || value);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [is12Hour, step, updateTimeValues]);
+    updateTimeValuesMemoized(input?.value || value);
+  }, [input?.value, is12Hour, step, updateTimeValuesMemoized, value]);
 
   useEffect(() => {
     if ((input?.value || dateTimeDefault) && !isDateTimeDouble) {

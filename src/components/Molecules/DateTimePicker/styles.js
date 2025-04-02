@@ -1,17 +1,18 @@
 import styled, { css } from 'styled-components';
 
 import { Icon, Input } from 'components/Atoms';
+import { Flex } from 'components/Atoms/Layout';
 
 export const focusBorderStyle = css`
   transition: ${({ focus }) => (focus ? 'background-color 0.3s ease' : 'border 0.3s ease, background-color 0.3s ease')};
   background-color: ${({ focus }) => (focus ? 'var(--rds-color-neutral-1)' : 'transparent')};
 `;
 
-export const DatePickerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
+export const DatePickerContainer = styled(Flex).attrs(() => ({
+  direction: 'column',
+  gap: '20px',
+  alignItems: 'center',
+}))`
   padding: 2px;
   border-radius: 8px;
 `;

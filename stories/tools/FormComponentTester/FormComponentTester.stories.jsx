@@ -129,6 +129,7 @@ export const FormComponentTester = {
     selectedComponent: {
       control: 'select',
       options: Object.keys(componentConfigs),
+      defaultValue: 'Input',
     },
     // Validation controls
     validationState: {
@@ -172,7 +173,7 @@ export const FormComponentTester = {
       width,
     } = args;
     // Get the selected component configuration
-    const componentConfig = componentConfigs[selectedComponent];
+    const componentConfig = componentConfigs[selectedComponent] || componentConfigs.Input;
 
     // Create initial values object
     const initialValues = Object.keys(componentConfigs).reduce((acc, key) => {
