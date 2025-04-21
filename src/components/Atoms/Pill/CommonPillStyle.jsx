@@ -46,13 +46,11 @@ export const Orange = css`
 `;
 
 export const CommonPillStyle = styled.div`
-  align-items: center;
   background-color: var(--rds-color-neutral-2);
   border-radius: 8px;
   color: var(--rds-color-neutral-10);
   font-size: ${({ fontSize }) => fontSize || '12px'};
   font-weight: 700;
-  justify-content: center;
   line-height: 14.4px;
   padding: 0 6px;
   ${props => props.appearance === 'danger' && Danger}
