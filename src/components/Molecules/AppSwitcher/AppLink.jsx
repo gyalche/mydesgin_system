@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import * as Logo from 'components/Atoms/Logo';
+import { Layout } from 'components/Atoms';
 
 const ProductLogo = styled.div`
   width: 32px;
@@ -23,15 +24,6 @@ const DropDownProductSubtitle = styled.span`
   font-weight: 400;
   color: var(--rds-color-neutral-7);
   display: flex;
-`;
-
-const TextContainer = styled.div`
-  display: block;
-`;
-
-const LinkContainer = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const DropDownItem = styled.a`
@@ -74,17 +66,17 @@ function AppLink({
       onClick={isActive ? () => onClick() : null}
       target="_blank"
     >
-      <LinkContainer>
+      <Layout.Flex alignItems="center">
         <ProductLogo>
           {logo}
         </ProductLogo>
-        <TextContainer>
+        <Layout.Block cursor="pointer">
           <DropDownProductTitle>
             {productName}
           </DropDownProductTitle>
           {description && <DropDownProductSubtitle>{description}</DropDownProductSubtitle>}
-        </TextContainer>
-      </LinkContainer>
+        </Layout.Block>
+      </Layout.Flex>
     </DropDownItem>
   );
 }
