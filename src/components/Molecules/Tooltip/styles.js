@@ -1,5 +1,6 @@
-import { Flex } from 'components/Atoms/Layout';
 import styled from 'styled-components';
+
+import { Flex } from 'components/Atoms/Layout';
 
 export const Wrapper = styled.div`
  display: inline-grid;
