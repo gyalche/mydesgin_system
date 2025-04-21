@@ -42,13 +42,11 @@ export const Orange = css`
 `;
 
 export const CommonBadgeStyle = styled.div`
-  align-items: center;
   background-color: var(--rds-color-neutral-2);
   border-radius: 4px;
   color: var(--rds-color-neutral-10);
   font-size: ${({ fontSize }) => fontSize};
   font-weight: 700;
-  justify-content: center;
   margin-right:${({ mr }) => mr};
   margin-left:${({ ml }) => ml};
   margin-top:${({ mt }) => mt};
