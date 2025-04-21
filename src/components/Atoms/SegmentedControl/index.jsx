@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Typography from '../Typography';
+import { Flex } from '../Layout';
 
-const SegmentContainer = styled.div`
-  display: flex;
+const SegmentContainer = styled(Flex).attrs(() => ({
+  justifyContent: 'center',
+  gap: '4px',
+  borderRadius: '40px',
+}))`
   background-color: var(--rds-color-neutral-3);
-  border-radius: 40px;
-  gap: 4px;
-  justify-content: center;
 `;
 
 const Segment = styled.div`
