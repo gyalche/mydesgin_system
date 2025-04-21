@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { Flex } from 'components/Atoms/Layout';
+
 import Icon from '../../Atoms/Icon';
 import Typography from '../../Atoms/Typography';
 
@@ -12,11 +14,11 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   width: 0;
 `;
 
-const CheckboxContainer = styled.div`
+const CheckboxContainer = styled(Flex).attrs(() => ({
+  alignItems: 'center',
+  cursor: 'pointer',
+}))`
   font-size: 24px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
   color: ${({ isChecked, disabled }) => {
     if (disabled) return 'var(--rds-color-neutral-5)';
     if (isChecked) return 'var(--rds-color-primary-1-normal)';

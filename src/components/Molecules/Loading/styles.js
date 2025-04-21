@@ -9,15 +9,6 @@ const checkSize = {
   small: '16px',
 };
 
-export const LoadingContainer = styled.div`
-  width: 100%;
-  display: flex;
-  aling-items: center;
-  justify-content: center;
-  border: 1px solid;
-  height: 100%;
-`;
-
 export const LoadingIcon = styled(Icon)`
   ${({ size }) => `
     font-size: ${checkSize[size]};

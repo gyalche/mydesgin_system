@@ -1,3 +1,4 @@
+import { Flex } from 'components/Atoms/Layout';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -69,8 +70,8 @@ export const TextSubMessage = styled.div`
   text-edge: cap;
 `;
 
-export const HelpLink = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  margin-top: 8px;
+export const HelpLink = styled(Flex).attrs(() => ({
+  direction: 'row-reverse',
+  mt: '8px',
+}))`
 `;

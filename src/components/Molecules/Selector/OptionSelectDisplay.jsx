@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { Typography } from 'components/Atoms';
+import { Flex } from 'components/Atoms/Layout';
 
 import { SelectorIcon } from './DefaultDisplay';
 
-const ValueWrapper = styled.div`
-  align-items: center;
-
+const ValueWrapper = styled(Flex).attrs(props => ({
+  h: props?.$h,
+  alignItems: 'center',
+  border: 'none',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  justifyContent: 'space-between',
+}))`
   background: ${({ $isOpen }) => ($isOpen
     ? 'var(--rds-color-neutral-1)'
     : 'var(--rds-color-neutral-0)')};
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  height: ${({ $h }) => $h};
-  justify-content: space-between;
   padding: 0 8px;
 
   &:focus {

@@ -3,20 +3,21 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Icon from 'components/Atoms/Icon';
+import { Flex } from 'components/Atoms/Layout';
 
 import AppLink from './AppLink';
 
-const IconContainer = styled.div`
-  height: 32px;
-  width: 32px;
+const IconContainer = styled(Flex).attrs(() => ({
+  h: '32px',
+  w: '32px',
+  cursor: 'pointer',
+  justifyContent: 'center',
+  wrap: 'wrap',
+  borderRadius: '4px',
+}))`
   font-size: 24px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   background-color: ${props => (props.$open ? 'var(--rds-color-neutral-3)' : 'transparent')};
   box-shadow: ${props => (props.$open ? 'var(--rds-box-shadow-2)' : 'none')};
-  border-radius: 4px;
 
   &:hover {
     background-color: var(--rds-color-neutral-2);

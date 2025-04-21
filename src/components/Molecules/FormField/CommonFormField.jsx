@@ -4,20 +4,18 @@ import styled from 'styled-components';
 
 import Status from 'components/Molecules/Status';
 import Label from 'components/Atoms/Label';
+import { Flex } from 'components/Atoms/Layout';
+import { Layout } from 'components/Atoms';
 
-const MainContainer = styled.div`
-  width: ${({ w }) => w};
-  display: flex;
-  flex-direction: ${({ $isLeftSideLabel }) => ($isLeftSideLabel ? 'row' : 'column')};
+const MainContainer = styled(Flex).attrs(props => ({
+  w: props.w,
+  direction: props.$isLeftSideLabel ? 'row' : 'column',
+}))`
 `;
 
-const TopContainer = styled.div`
-  margin-right: ${({ $isLeftSideLabel }) => ($isLeftSideLabel ? '8px' : '')};
-  display: flex;
-`;
-
-const BottomContainer = styled.div`
-  display: block;
+const TopContainer = styled(Flex).attrs(props => ({
+  mr: props.$isLeftSideLabel ? '8px' : '0px',
+}))`
 `;
 
 const InputLabel = styled(Label)`
@@ -56,7 +54,7 @@ function CommonFormField({
         </InputLabel>
         {Tooltip && <Tooltip />}
       </TopContainer>
-      <BottomContainer>
+      <Layout.Block>
         <CustomField
           {...input}
           disabled={disabled}
@@ -64,7 +62,7 @@ function CommonFormField({
           {...inputProps}
         />
         {getStatusComponent()}
-      </BottomContainer>
+      </Layout.Block>
     </MainContainer>
   );
 }

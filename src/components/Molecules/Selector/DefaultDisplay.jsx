@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Icon from 'components/Atoms/Icon';
+import { Flex } from 'components/Atoms/Layout';
 
-const ValueWrapper = styled.div`
-  align-items: center;
+const ValueWrapper = styled(Flex).attrs(props => ({
+  h: props.$h,
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  border: '1px solid var(--rds-color-neutral-3)',
+  borderRadius: '4px',
+  cursor: 'pointer',
+}))`
   background: var(--rds-color-neutral-0);
-  border: 1px solid var(--rds-color-neutral-3);
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  height: ${({ $h }) => $h};
-  justify-content: space-between;
   padding: 0 8px;
 
   &:focus {
