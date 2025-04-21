@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Tab from './Tab';
+import { Flex } from '../Layout';
 
 const TabsContainer = styled.div`
   margin-top: ${({ mt }) => mt};
@@ -23,11 +24,11 @@ const secondaryStyles = css`
   background-color: var(--rds-color-neutral-0);
 `;
 
-const TabList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${({ gap }) => gap};
-  margin-bottom: ${({ mb }) => mb};
+const TabList = styled(Flex).attrs(props => ({
+  wrap: 'wrap',
+  gap: props.gap,
+  mb: props.mb,
+}))`
 `;
 
 const TabItemContainer = styled.div`
