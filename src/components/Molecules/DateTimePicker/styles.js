@@ -17,11 +17,11 @@ export const DatePickerContainer = styled(Flex).attrs(() => ({
   border-radius: 8px;
 `;
 
-export const InputContainer = styled.div`
-  display: flex;
-  gap: 3px;
-  align-items: center;
-  justify-content: center;
+export const InputContainer = styled(Flex).attrs(() => ({
+  gap: '3px',
+  alignItems: 'center',
+  justifyContent: 'center',
+}))`
 `;
 
 export const InputWrapper = styled.div`
@@ -54,35 +54,36 @@ export const InputFieldStyle = styled(Input)`
   }
 `;
 
-export const IconWrapper = styled.div`
+export const IconWrapper = styled(Flex).attrs(() => ({
+  alignItems: 'center',
+  justifyContent: 'center',
+  w: '24px',
+  h: '16px',
+}))`
   right: 4px;
   position: absolute;
   top: 20px;
   transform: translateY(-50%);
-  width: 24px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
-export const CalendarHeader = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+export const CalendarHeader = styled(Flex).attrs(() => ({
+  w: '100%',
+  justifyContent: 'space-between',
+  mb: '10px',
+  mt: '10px',
+}))`
   font-size: 16px;
   font-weight: bold;
   color: var(--rds-color-neutral-8);
   padding: 12px 12px 0 12px;
   position: relative;
-  margin-top: 10px;
 `;
 
-export const WeekdayHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const WeekdayHeader = styled(Flex).attrs(() => ({
+  alignItems: 'center',
+  justifyContent: 'center',
+  pb: '10px',
+}))`
   font-size: 12px;
   font-weight: 700;
   color: ${({ isSaturday, isSunday }) => {
@@ -95,7 +96,6 @@ export const WeekdayHeader = styled.div`
         return 'var(--rds-color-neutral-7)';
     }
   }};
-  padding-bottom: 10px;
 `;
 
 export const HeaderIcons = styled.div`
@@ -125,13 +125,12 @@ export const DaysContainer = styled.div`
   ${focusBorderStyle};
 `;
 
-export const DoubleViewContainer = styled.div`
-  display: flex;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -4px;
+export const DoubleViewContainer = styled(Flex).attrs(() => ({
+  borderRadius: '10px',
+  alignItems: 'center',
+  justifyContent: 'center',
+  mt: '-4px',
+}))`
   ${focusBorderStyle};
 `;
 
@@ -220,41 +219,41 @@ export const CalendarWrapperEnd = styled(CalendarWrapper)`
   margin-left: ${({ isDoubleView }) => (isDoubleView ? '407px' : '377px')};
 `;
 
-export const Calendars = styled.div`
-  display: flex;
-  gap: 5px;
-  border-radius: 4px;
+export const Calendars = styled(Flex).attrs(() => ({
+  gap: '5px',
+  borderRadius: '4px',
+}))`
 `;
 
-export const CalendarMonths = styled.div`
+export const CalendarMonths = styled(Flex).attrs(() => ({
+  gap: '5px',
+  alignItems: 'center',
+  justifyContent: 'center',
+  mt: '-19px',
+}))`
   color: var(--rds-color-neutral-9);
   text-align: center;
   font-size: 17px;
   font-weight: 700;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-  margin-top: -19px;
 `;
 
-export const TimePickerContainer = styled.div`
-  display: flex;
+export const TimePickerContainer = styled(Flex).attrs(() => ({
+  direction: 'column',
+  gap: '20px',
+  alignItems: 'center',
+  borderRadius: '8px',
+}))`
   position: relative;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  border-radius: 8px;
 `;
 
-export const TimeInputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--rds-color-neutral-3);
-  border-radius: 4px;
-  width: ${({ is12Hour }) => (is12Hour ? '120px' : '100px')};
-  height: 40px;
-  gap: 2px;
+export const TimeInputWrapper = styled(Flex).attrs(props => ({
+  alignItems: 'center',
+  border: '1px solid var(--rds-color-neutral-3)',
+  borderRadius: '4px',
+  h: '40px',
+  gap: '2px',
+  width: props.is12Hour ? '120px' : '100px',
+}))`
 `;
 
 export const TimeInput = styled(Input)`
@@ -311,19 +310,6 @@ export const EndDropDown = styled(Dropdown)`
     if (!is12Hour) return '130px';
     return '50px';
   }};
-`;
-
-export const DropdownHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 7px 5px;
-  border-bottom: 1px solid var(--rds-color-neutral-2);
-`;
-
-export const HourMinuteWrapper = styled.div`
-  display: flex;
 `;
 
 export const ScrollColumn = styled.ul`
@@ -417,12 +403,6 @@ export const CalendarIconBtn = styled.button.attrs({
 export const CalendarIcon = styled(Icon)`
   font-size: 24px;
   margin-top: 5px;
-`;
-
-export const DateTimeContainer = styled.div`
-  display: flex;
-  gap: 4px;
-  align-items: center;
 `;
 
 export const TextAreaYearMonth = styled.button.attrs({

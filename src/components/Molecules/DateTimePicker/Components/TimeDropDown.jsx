@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import { Layout } from 'components/Atoms';
+
 import {
   TimeOption,
   ScrollColumn,
   StaticColumn,
-  HourMinuteWrapper,
 } from '../styles';
 
 function TimeDropdown({
@@ -65,7 +66,7 @@ function TimeDropdown({
   }, [activeColumn]);
 
   return (
-    <HourMinuteWrapper>
+    <Layout.Flex>
       <ScrollColumn>
         {hours?.map((hour, index) => (
           <TimeOption
@@ -109,7 +110,7 @@ function TimeDropdown({
           ))}
         </StaticColumn>
       )}
-    </HourMinuteWrapper>
+    </Layout.Flex>
   );
 }
 

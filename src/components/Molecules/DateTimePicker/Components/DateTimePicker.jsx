@@ -10,8 +10,8 @@ import { Layout } from 'components/Atoms';
 
 import TimePicker from './TimePicker';
 import DatePicker from './DatePicker';
-import { DateTimeContainer, NextIcon } from '../styles';
 import { combineDateAndTime } from '../../../../utils/index';
+import { NextIcon } from '../styles';
 
 /**
  * DateTimePicker component
@@ -87,7 +87,7 @@ function DateTimePicker({
   }, [dateTimeStartValue, dateTimeEndValue, isRangePicker, input, initialValues, onChange]);
 
   return (
-    <DateTimeContainer>
+    <Layout.Flex alignItems="center" gap="4px">
       <Layout.Flex alignItems="center" gap="6px">
         <DatePicker
           data-testid="first-input"
@@ -145,7 +145,7 @@ function DateTimePicker({
           </Layout.Flex>
         </>
       )}
-    </DateTimeContainer>
+    </Layout.Flex>
   );
 }
 
