@@ -1,4 +1,5 @@
 import ProfileComponent from 'components/Molecules/Profile';
+import Divider from 'components/Atoms/Divider';
 import * as Layout from 'components/Atoms/Layout';
 
 const meta = {
@@ -50,7 +51,7 @@ export const Profile = {
           icon="action-logout"
           onClick={() => alert('test')}
         />
-        <ProfileComponent.Separator />
+        <Divider />
         <ProfileComponent.Header text="Company Name" />
         <ProfileComponent.Item
           as="a"
