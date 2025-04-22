@@ -3,6 +3,7 @@ import * as Layout from 'components/Atoms/Layout';
 import ProductLogo from 'components/Atoms/ProductLogo';
 import AppSwitcher from 'components/Molecules/AppSwitcher';
 import Profile from 'components/Molecules/Profile';
+import Divider from 'components/Atoms/Divider';
 
 const meta = {
   title: 'Layout Components/Header',
@@ -95,7 +96,7 @@ export const Header = {
           onClick={() => {}}
           text="ログアウト"
         />
-        <Profile.Separator />
+        <Divider />
         <Profile.Header text="Company Name" />
         <Profile.Item
           icon="global-circle-question"
