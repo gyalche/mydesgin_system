@@ -1,0 +1,60 @@
+import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+
+import * as NotificationStories from './Notification.stories';
+
+<Meta of={NotificationStories} />
+
+# Notification
+
+The `Notification` component provides a dropdown menu for displaying notifications to users. It's typically used in headers or navigation bars to show alerts, messages, or updates.
+
+<Source
+  dark
+  language="jsx"
+  code={`
+import * as React from 'react';
+import { Notification, Header } from '@d-lighted/receptionist-design-system';
+
+const MyComponent = () => {
+  const notifications = [
+    {
+      title: 'New appointment',
+      category: 'important',
+      date: '4th April 2025',
+    },
+    {
+      title: 'Meeting reminder',
+      category: 'important',
+      date: '4th April 2025',
+      link: 'https://example.com/meeting',
+    }
+  ];
+
+  return (
+    <Header rightContent={<Notification notifications={notifications} />} />
+  );
+};
+
+export default MyComponent;
+`}/>
+
+## Usage
+
+The Notification component displays a bell icon that, when clicked, shows a dropdown with notification items.
+
+<Canvas
+  of={NotificationStories.NotificationMenu}
+  language="jsx"
+/>
+<Controls of={NotificationStories.NotificationMenu} />
+
+## Notification object
+
+Each notification object in the notifications array should have:
+
+| Name              | Type     | Required | Description |
+|-------------------|----------|----------|-------------|
+| `title`             | `string`  | ✅       | The main text of the notification. |
+| `category`          | `string`  | ✅       | The category of the notification (e.g., 'important'). |
+| `date` | `string`  | ✅        | When the notification was created or is relevant for. |
+| `link` | `string` | ❌       | A URL that the notification can link to. |
