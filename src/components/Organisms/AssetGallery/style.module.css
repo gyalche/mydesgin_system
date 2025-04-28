@@ -1,0 +1,102 @@
+.container {
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-height: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.categoryTitle {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.card {
+  border: 1px solid #A8A19D;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  background-color: transparent;
+  width: 100%;
+  min-height: 120px;
+  box-sizing: border-box;
+}
+
+.card:focus {
+  outline: none;
+}
+
+.itemWrapper {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itemName {
+  font-size: 14px;
+  text-align: center;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+
+.searchBar {
+  width: 100%;
+  padding: 10px;
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  border: 1px solid #A8A19D;
+  border-radius: 4px;
+  position: sticky;
+  top: 0;
+  background-color: #DDD9D6;
+  color: black;
+  z-index: 1;
+}
+
+.searchBar::placeholder {
+  color: black;
+  opacity: 0.7;
+}
+
+.copied {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #0098BB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 16px;
+}

@@ -1,61 +1,121 @@
 import { Canvas, Meta, Controls, Source } from '@storybook/blocks';
+import { ContentBlock, SmallContentBlock } from './Tag.mdx.styles';
 
 import * as TagStories from './Tag.stories';
 
-<Meta of={TagStories} />
+<Meta title="ui_components/Tag" of={TagStories} />
 
 # Tag
 
-The `Tag` component is used to display categorical labels, metadata, or filters in a compact and visually distinct format. It helps organize content and provide contextual information at a glance.
+The `Tag` component displays interactive content with remove functionality. It's commonly used in interfaces to show selected items, filters, or categories that users can interact with.
 
-<Source
-  dark
-  language="jsx"
-  code={`
-import * as React from 'react';
-import { Tag } from '@d-lighted/receptionist-design-system';
+<ContentBlock>
+  <Source
+    dark
+    language="jsx"
+    code={`
+import { Tag } from 'components/Atoms';
 
-const MyExample = (props) => {
-  return <Tag content="Tag" />;
+const MyComponent = () => {
+  const handleRemoveTag = () => {
+    console.log('Tag removed');
+    // Your logic to remove the tag
+  };
+
+  return <Tag name="Filter" onClick={handleRemoveTag} />;
 };
 
-export MyExample;
+export default MyComponent;
 `}/>
+</ContentBlock>
+
+<SmallContentBlock>
+  <Source
+    dark
+    language="jsx"
+    code={`
+// Example of using a graphic with a Tag
+import { Tag } from 'components/Atoms';
+import { Zoom } from 'components/Atoms/Logo';
+import styled from 'styled-components';
+
+// Styled wrapper for logos
+const LogoWrapper = styled.div\`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+\`;
+
+const TagWithGraphic = () => (
+  <Tag 
+    name="Zoom" 
+    onClick={() => {}} 
+    graphic={
+      <LogoWrapper>
+        <Zoom />
+      </LogoWrapper>
+    } 
+  />
+);
+`}/>
+</SmallContentBlock>
+
+<SmallContentBlock>
+  <Source
+    dark
+    language="jsx"
+    code={`
+// Example of text truncation with ellipsis
+import { Tag } from 'components/Atoms';
+
+const TagWithLongText = () => (
+  <div style={{ width: '250px', border: '1px dashed #ccc', padding: '10px' }}>
+    <p>Tag in a constrained container:</p>
+    <Tag 
+      name="This is a very long tag name that will be automatically truncated with an ellipsis" 
+      onClick={() => {}} 
+    />
+  </div>
+);
+`}/>
+</SmallContentBlock>
 
 ## Usage
 
-The props declared inside the component allow customizing several options.
+The Tag component provides a consistent way to display interactive tags with optional graphics and various states.
 
-<Canvas
-  of={TagStories.Tag}
-  language="jsx"
-/>
-<Controls of={TagStories.Tag} />
+<ContentBlock>
+  <Canvas of={TagStories.TagComponent} />
+  <Controls of={TagStories.TagComponent} />
+</ContentBlock>
 
-## Example
+## Usage Examples
 
-Inside the content we can add text and other components like icons.
+The Tag component can be used in various ways to display different types of tags.
 
-<Canvas
-  of={TagStories.Palette}
-  language="jsx"
-  source={{
-    code: `
-<Layout.Flex direction="column">
-  <Layout.Item mt="20px">
-    <TagComponent content="Content 1" onCloseClick={() => {}} />
-  </Layout.Item>
-  <Layout.Item mt="20px">
-    <TagComponent
-      content={(
-        <Layout.Flex>
-          <Avatar name="D" size="small" />
-          <span style={{ marginLeft: '8px' }}>Effect</span>
-        </Layout.Flex>
-      )}
-      onCloseClick={() => {}}
-    />
-  </Layout.Item>
-</Layout.Flex>`
-  }}
-/>
+<ContentBlock>
+  <Canvas of={TagStories.UsageExamples} />
+</ContentBlock>
+
+## Appearances
+
+Tags have different appearances based on their state and configuration.
+
+<ContentBlock>
+  <Canvas of={TagStories.Appearances} />
+</ContentBlock>
+
+## Width Behavior
+
+Tags only take up as much width as their content requires, making them efficient for space usage.
+
+<ContentBlock>
+  <Canvas of={TagStories.WidthBehavior} />
+</ContentBlock>

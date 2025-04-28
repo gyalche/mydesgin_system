@@ -1,77 +1,65 @@
 import React from 'react';
 import expect from 'expect';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import CommonTagStyle from 'src/components/Atoms/Tag';
+import { render, screen, fireEvent } from '@testing-library/react';
 
-describe('CommonTagStyle Component', () => {
-  it('renders correctly with default props', () => {
-    render(<CommonTagStyle content="Tag" icon="close" appearance="normal" />);
+import Tag from 'components/Atoms/Tag';
+
+describe('Tag Component', () => {
+  it('renders correctly with default props', async () => {
+    render(<Tag name="Tag" onClick={() => {}} />);
 
     const label = screen.getByText('Tag');
-    const icon = screen.findByRole('img', { name: /close/i });
-
     expect(label).toBeInTheDocument();
-    waitFor(() => {
-      expect(icon).toBeInTheDocument();
-    });
+    const removeButton = screen.getByLabelText('Remove Tag');
+    expect(removeButton).toBeInTheDocument();
   });
 
-  it('applies the correct appearance style for normal state', () => {
-    render(<CommonTagStyle content="Tag" icon="close" appearance="normal" />);
+  it('applies the correct style for normal state', () => {
+    render(<Tag name="Tag" onClick={() => {}} />);
 
-    const container = screen.getByText('Tag').parentElement;
-
-    expect(container).toHaveStyle('background-color: var(--rds-color-neutral-0)');
-    expect(container).toHaveStyle('border: 1px solid var(--rds-color-neutral-3)');
-    expect(container).toHaveStyle('color: var(--rds-color-neutral-10)');
+    const container = screen.getByText('Tag').closest('div');
+    // Using jest-styled-components to test styles
+    expect(container).toHaveStyleRule('background-color', '#FFFFFF');
+    expect(container).toHaveStyleRule('border', '1px solid #A8A19D');
+    expect(container).toHaveStyleRule('color', '#333');
   });
 
-  it('applies the correct appearance style for disabled state', () => {
-    render(<CommonTagStyle content="Tag" icon="close" appearance="disabled" />);
+  it('applies the correct style for disabled state', () => {
+    render(<Tag name="Tag" onClick={() => {}} disabled={true} />);
 
-    const container = screen.getByText('Tag').parentElement;
-
-    expect(container).toHaveStyle('background-color: var(--rds-color-neutral-2)');
-    expect(container).toHaveStyle('border: 1px solid var(--rds-color-neutral-3)');
-    expect(container).toHaveStyle('color: var(--rds-color-neutral-5)');
+    const container = screen.getByText('Tag').closest('div');
+    // Using jest-styled-components to test styles
+    expect(container).toHaveStyleRule('background-color', '#F5F5F5');
+    expect(container).toHaveStyleRule('color', '#A8A19D');
   });
 
-  it('calls onCloseClick when icon is clicked', () => {
+  it('calls onClick when close icon is clicked', () => {
     const handleClick = jest.fn();
-    render(<CommonTagStyle content="Tag" icon="close" appearance="normal" onCloseClick={handleClick} />);
+    render(<Tag name="Tag" onClick={handleClick} />);
 
-    const icon = screen.findByRole('img', { name: /close/i });
-    waitFor(() => {
-      fireEvent.click(icon);
-      expect(handleClick).toHaveBeenCalledTimes(1);
-    });
+    const removeButton = screen.getByLabelText('Remove Tag');
+    fireEvent.click(removeButton);
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('renders without crashing when onCloseClick is not provided', () => {
-    render(<CommonTagStyle content="Tag" icon="close" appearance="normal" />);
-
-    const icon = screen.findByRole('img', { name: /close/i });
-
-    waitFor(() => {
-      fireEvent.click(icon);
-
-      // No errors should be thrown
-      expect(icon).toBeInTheDocument();
-    });
+  it('renders without crashing when onClick is not provided', () => {
+    render(<Tag name="Tag" />);
+    // No remove button should be rendered when onClick is not provided
+    const removeButton = screen.queryByLabelText('Remove Tag');
+    expect(removeButton).not.toBeInTheDocument();
   });
 
-  it('renders with the correct value prop', () => {
-    render(<CommonTagStyle content="Test Label" icon="close" appearance="normal" />);
+  it('renders with the correct name prop', () => {
+    render(<Tag name="Test Label" />);
 
     const label = screen.getByText('Test Label');
     expect(label).toBeInTheDocument();
   });
 
-  it('renders with a different icon name when passed as a prop', async() => {
-    render(<CommonTagStyle content="Tag" icon="check" appearance="normal" />);
-    const icon = screen.findByRole('img', { name: /check/i });
-    waitFor(()=>{
-      expect(icon).toHaveAttribute('name', 'check');
-    });
+  it('renders with a graphic when provided', () => {
+    const testGraphic = <div data-testid="test-graphic">Icon</div>;
+    render(<Tag name="Tag" graphic={testGraphic} />);
+    const graphic = screen.getByTestId('test-graphic');
+    expect(graphic).toBeInTheDocument();
   });
 });
