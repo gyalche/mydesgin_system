@@ -10,6 +10,7 @@ export { default as MicrosoftOutlook } from "./MicrosoftOutlook";
 export { default as MicrosoftTeams } from "./MicrosoftTeams";
 export { default as Microsoft365 } from "./Microsoft365";
 export { default as ReceptionistDiscovery } from "./ReceptionistDiscovery";
+export { default as ReceptionistIvr } from "./ReceptionistIvr";
 export { default as ReceptionistRooms } from "./ReceptionistRooms";
 export { default as ReceptionistSafetycheck } from "./ReceptionistSafetycheck";
 export { default as ReceptionistScheduling } from "./ReceptionistScheduling";

@@ -6,6 +6,7 @@ export { default as FormField } from './FormField';
 export { default as IconButton } from './IconButton';
 export { default as InlineAlert } from './InlineAlert';
 export { default as Loading } from './Loading';
+export { default as Notification } from './Notification';
 export { default as Profile } from './Profile';
 export { default as ProgressTracker } from './ProgressTracker';
 export { default as RadioButton } from './RadioButton';
