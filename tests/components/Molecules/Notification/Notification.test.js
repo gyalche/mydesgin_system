@@ -3,7 +3,7 @@ import expect from 'expect';
 import { render, screen, waitFor } from '@testing-library/react';
 
 import Notification from 'src/components/Molecules/Notification';
-import { userEvent } from '@storybook/testing-library';
+import { userEvent } from '@storybook/test';
 
 const TestNotification = () => {
   const notifications = [
