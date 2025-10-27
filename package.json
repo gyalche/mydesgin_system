@@ -1,12 +1,12 @@
 {
-  "name": "@d-lighted/receptionist-design-system",
+  "name": "@d-lighted/sherpa-design-system",
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "version": "0.4.0",
-  "description": "",
-  "main": "dist/receptionist-designsystem.js",
-  "module": "dist/receptionist-designsystem.js",
+  "version": "0.4.1",
+  "description": "Sherpa Design System for React applications",
+  "main": "dist/sherpa-designsystem.js",
+  "module": "dist/sherpa-designsystem.js",
   "devDependencies": {
     "@babel/cli": "7.22.9",
     "@babel/core": "7.22.9",
@@ -100,12 +100,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/d-lighted/receptionist-design-system.git"
+    "url": "git+https://github.com/d-lighted/sherpa-design-system.git"
   },
   "bugs": {
-    "url": "https://github.com/d-lighted/receptionist-design-system/issues"
+    "url": "https://github.com/d-lighted/sherpa-design-system/issues"
   },
-  "homepage": "https://github.com/d-lighted/receptionist-design-system#readme",
+  "homepage": "https://github.com/d-lighted/sherpa-design-system#readme",
   "dependencies": {
     "downshift": "8.1.0"
   }

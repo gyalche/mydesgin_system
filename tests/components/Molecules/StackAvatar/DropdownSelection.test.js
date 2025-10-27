@@ -63,10 +63,13 @@ describe('StackAvatar Component', () => {
       { img: 'avatar5.jpg', name: 'User5' },
     ];
 
-    render(<StackAvatar {...defaultProps} fields={manyUsers} maxElementsToShow={3} />);
+    const { container } = render(
+      <StackAvatar {...defaultProps} fields={manyUsers} maxElementsToShow={3} />,
+    );
 
-    // Should only show 3 avatars
-    const avatarContainers = document.querySelectorAll('.style__AvatarBorder-sc-1sa4baa-7');
+    const stackedUsers = container.firstChild?.firstChild;
+    const avatarContainers = stackedUsers ? Array.from(stackedUsers.children) : [];
+
     expect(avatarContainers).toHaveLength(3);
   });
 

@@ -113,10 +113,9 @@ describe('Avatar Component', () => {
   });
 
   it('handles empty name gracefully', () => {
-    render(<Avatar name="" />);
+    const { container } = render(<Avatar name="" />);
     // Should not crash, but might not display anything
     // Instead of looking for a specific element, just check that the component rendered
-    const avatar = document.querySelector('.Avatar__CommonAvatarStyle-sc-qk0gub-0');
-    expect(avatar).toBeInTheDocument();
+    expect(container.firstChild).toBeInTheDocument();
   });
 });

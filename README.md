@@ -1,44 +1,44 @@
-# Receptionist Design System
+# Sherpa Design System
 
-This Design System is to be used in most Receptionist products, it's a bridge in between development and design teams. And it’s made using thinking in using Storybook so everybody can check it's possibilities.
+The Sherpa Design System bridges design and engineering by centralising reusable UI components, visual guidelines, and tooling powered by Storybook.
 
-### How to install the last version
-```
-npm install -s @d-lighted/receptionist-design-system
+## Installation
+
+```sh
+npm install @d-lighted/sherpa-design-system
 ```
 
-### To start the storybook from this project
-```
+## Storybook
+
+```sh
 npm run storybook:run
 ```
 
-The Storybook is also available [online](https://storybook.receptionist.jp/).
+## Working Locally
 
----
-## To make the package available locally
-If you made changes to the Design System and you want to test it locally on another app without publishing the npm package, this section will explain how to do so. [[Documentation](https://d-lighted.atlassian.net/wiki/spaces/Engineers/pages/2733047818/development+local+package)]
+Use npm link to test local changes in another project. See the [internal documentation](https://d-lighted.atlassian.net/wiki/spaces/Engineers/pages/2733047818/development+local+package) for more details.
 
-1. make sure the **npm package** is uninstalled
-```
-npm uninstall @d-lighted/receptionist-design-system
-```
-2. Inside the **Receptionist Design System folder** do this:
-```
-npm link
-```
-3. When successful go into the folder of the **Project** that will use the package
-```
-npm link receptionist-design-system
-```
-4. After Testing the changes do the following in the **Project folder**
-```
-npm unlink receptionist-design-system
-```
-5. After Testing the changes do the following in the **Receptionist Design System folder**
-```
-npm unlink
-```
-6. Reinstall the npm package
-```
-npm i
-```
+1. Remove any installed npm version of the package.
+   ```sh
+   npm uninstall @d-lighted/sherpa-design-system
+   ```
+2. From the Sherpa Design System folder link the package.
+   ```sh
+   npm link
+   ```
+3. Inside the consumer project link to the local package.
+   ```sh
+   npm link @d-lighted/sherpa-design-system
+   ```
+4. After testing, unlink the package in the consumer project.
+   ```sh
+   npm unlink @d-lighted/sherpa-design-system
+   ```
+5. Back in the Sherpa Design System folder unlink the local package.
+   ```sh
+   npm unlink
+   ```
+6. Reinstall dependencies as needed.
+   ```sh
+   npm install
+   ```

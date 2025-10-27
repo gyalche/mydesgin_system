@@ -6,13 +6,13 @@ import * as FormsStories from './Forms.stories.jsx';
 
 # Forms with React Final Form
 
-This guideline demonstrates how to use [React Final Form](https://final-form.org/react) with the Receptionist Design System components to create forms with validation, error handling, and submission.
+This guideline demonstrates how to use [React Final Form](https://final-form.org/react) with the Sherpa Design System components to create forms with validation, error handling, and submission.
 
 > ⚠️ **Note:** The expressions and examples in these guidelines have not been thoroughly tested and are subject to change.
 
 ## Introduction
 
-React Final Form is a lightweight form library that provides form state management, validation, and submission handling. It works well with the Receptionist Design System components because many of them already have an `input` prop that accepts the field props from React Final Form.
+React Final Form is a lightweight form library that provides form state management, validation, and submission handling. It works well with the Sherpa Design System components because many of them already have an `input` prop that accepts the field props from React Final Form.
 
 ## Basic Setup
 
@@ -32,7 +32,7 @@ Then import the necessary components:
   language="jsx"
   code={`
 import { Form, Field } from 'react-final-form';
-import { Input, TextArea, Checkbox, RadioButton, Toggle, Selector, FormField } from '@d-lighted/receptionist-design-system';
+import { Input, TextArea, Checkbox, RadioButton, Toggle, Selector, FormField } from '@d-lighted/sherpa-design-system';
 `}/>
 
 ## Form Structure
@@ -62,7 +62,7 @@ A basic form with React Final Form consists of:
 
 ## Using Input Components
 
-There are two main ways to use React Final Form with the Receptionist Design System components:
+There are two main ways to use React Final Form with the Sherpa Design System components:
 
 1. Using the Field render prop pattern (passing a render function as children)
 2. Using the Field component prop (creating a custom component that receives field props)
@@ -470,7 +470,7 @@ const onSubmit = async values => {
 
 ## Complete Example
 
-Below is a complete example of a form using React Final Form with the Receptionist Design System components:
+Below is a complete example of a form using React Final Form with the Sherpa Design System components:
 
 <Canvas
   of={FormsStories.ReactFinalFormExample}

@@ -11,6 +11,8 @@ import {
 import Tooltip from 'components/Molecules/Tooltip';
 import IconButton from 'components/Molecules/IconButton';
 
+const triggerTestId = 'tooltip-trigger';
+
 // Mock createPortal to render content in place instead of in a portal
 jest.mock('react-dom', () => {
   const originalReactDOM = jest.requireActual('react-dom');
@@ -28,14 +30,19 @@ it('should render the correct header, message and subMessage', async () => {
   const message = 'Tooltip Message';
   const subMessage = 'Tooltip Sub Message';
 
-  const { container } = render(
-    <Tooltip header={header} message={message} subMessage={subMessage}>
+  render(
+    <Tooltip
+      data-testid={triggerTestId}
+      header={header}
+      message={message}
+      subMessage={subMessage}
+    >
       test
     </Tooltip>,
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -60,14 +67,18 @@ it('should change background color and font color', async () => {
   const bgColor = 'var(--rds-color-primary-1-normal)';
   const fontColor = 'var(--rds-color-neutral-11)';
 
-  const { container } = render(
-    <Tooltip bgColor={bgColor} fontColor={fontColor}>
+  render(
+    <Tooltip
+      data-testid={triggerTestId}
+      bgColor={bgColor}
+      fontColor={fontColor}
+    >
       test
     </Tooltip>,
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -95,14 +106,14 @@ it('should change background color and font color', async () => {
 it('should render with custom width', async () => {
   const customWidth = '300px';
 
-  const { container } = render(
-    <Tooltip width={customWidth}>
+  render(
+    <Tooltip data-testid={triggerTestId} width={customWidth}>
       test
     </Tooltip>,
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -131,8 +142,9 @@ it('should render link with custom text and icon', async () => {
     </div>
   ));
 
-  const { container } = render(
+  render(
     <Tooltip
+      data-testid={triggerTestId}
       linkURL={linkURL}
       btnText={btnText}
       iconName={iconName}
@@ -142,7 +154,7 @@ it('should render link with custom text and icon', async () => {
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -174,8 +186,9 @@ it('should call onHelpLinkClick when link is clicked', async () => {
     </button>
   ));
 
-  const { container } = render(
+  render(
     <Tooltip
+      data-testid={triggerTestId}
       linkURL={linkURL}
       onHelpLinkClick={onHelpLinkClick}
     >
@@ -184,7 +197,7 @@ it('should call onHelpLinkClick when link is clicked', async () => {
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -205,13 +218,13 @@ it('should call onHelpLinkClick when link is clicked', async () => {
 });
 
 it('should show tooltip on mouseEnter and hide on mouseLeave', async () => {
-  const { container } = render(
-    <Tooltip message="Test message">
+  render(
+    <Tooltip data-testid={triggerTestId} message="Test message">
       test
     </Tooltip>,
   );
 
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Initially the tooltip should not be visible
   expect(screen.queryByText('Test message')).not.toBeInTheDocument();
@@ -240,13 +253,13 @@ it('should show tooltip on mouseEnter and hide on mouseLeave', async () => {
 });
 
 it('should keep tooltip visible when hovering over the tooltip itself', async () => {
-  const { container } = render(
-    <Tooltip message="Test message">
+  render(
+    <Tooltip data-testid={triggerTestId} message="Test message">
       test
     </Tooltip>,
   );
 
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Show tooltip on mouseEnter
   act(() => {
@@ -262,10 +275,14 @@ it('should keep tooltip visible when hovering over the tooltip itself', async ()
   });
 
   // Simulate leaving the trigger but entering the tooltip
+  const displayText = tooltipElement.closest('[data-testid="tooltip-display-text"]');
+  const anchorElement = displayText?.parentElement;
+  expect(anchorElement).not.toBeNull();
+
   act(() => {
     fireEvent.mouseLeave(contentWrapper);
     // Before the hide timeout completes, enter the tooltip
-    fireEvent.mouseEnter(tooltipElement.closest('.styles__Anchor-sc-1dgig57-2'));
+    fireEvent.mouseEnter(anchorElement);
     jest.runAllTimers();
   });
 
@@ -279,14 +296,18 @@ it('should keep tooltip visible when hovering over the tooltip itself', async ()
 it('should position tooltip with top placement', async () => {
   const placement = 'top';
 
-  const { container } = render(
-    <Tooltip placement={placement} message={`Tooltip with ${placement} placement`}>
+  render(
+    <Tooltip
+      data-testid={triggerTestId}
+      placement={placement}
+      message={`Tooltip with ${placement} placement`}
+    >
       test
     </Tooltip>,
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -305,7 +326,8 @@ it('should position tooltip with top placement', async () => {
 
     // Instead of checking for $placement attribute (which is a styled-component prop),
     // we can verify the tooltip is positioned correctly by checking its parent's style
-    const anchorElement = tooltipText.closest('.styles__Anchor-sc-1dgig57-2');
+    const displayText = tooltipText.closest('[data-testid="tooltip-display-text"]');
+    const anchorElement = displayText?.parentElement;
     expect(anchorElement).toHaveAttribute('style');
     expect(anchorElement.style.left).toBeDefined();
     expect(anchorElement.style.top).toBeDefined();
@@ -315,14 +337,18 @@ it('should position tooltip with top placement', async () => {
 it('should position tooltip with right placement', async () => {
   const placement = 'right';
 
-  const { container } = render(
-    <Tooltip placement={placement} message={`Tooltip with ${placement} placement`}>
+  render(
+    <Tooltip
+      data-testid={triggerTestId}
+      placement={placement}
+      message={`Tooltip with ${placement} placement`}
+    >
       test
     </Tooltip>,
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -337,7 +363,8 @@ it('should position tooltip with right placement', async () => {
 
     // We can't easily test exact positioning in JSDOM, but we can verify
     // that the tooltip is positioned correctly by checking its parent's style
-    const anchorElement = tooltipText.closest('.styles__Anchor-sc-1dgig57-2');
+    const displayText = tooltipText.closest('[data-testid="tooltip-display-text"]');
+    const anchorElement = displayText?.parentElement;
     expect(anchorElement).toHaveAttribute('style');
     expect(anchorElement.style.left).toBeDefined();
     expect(anchorElement.style.top).toBeDefined();
@@ -347,14 +374,18 @@ it('should position tooltip with right placement', async () => {
 it('should position tooltip with bottom placement', async () => {
   const placement = 'bottom';
 
-  const { container } = render(
-    <Tooltip placement={placement} message={`Tooltip with ${placement} placement`}>
+  render(
+    <Tooltip
+      data-testid={triggerTestId}
+      placement={placement}
+      message={`Tooltip with ${placement} placement`}
+    >
       test
     </Tooltip>,
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -369,7 +400,8 @@ it('should position tooltip with bottom placement', async () => {
 
     // We can't easily test exact positioning in JSDOM, but we can verify
     // that the tooltip is positioned correctly by checking its parent's style
-    const anchorElement = tooltipText.closest('.styles__Anchor-sc-1dgig57-2');
+    const displayText = tooltipText.closest('[data-testid="tooltip-display-text"]');
+    const anchorElement = displayText?.parentElement;
     expect(anchorElement).toHaveAttribute('style');
     expect(anchorElement.style.left).toBeDefined();
     expect(anchorElement.style.top).toBeDefined();
@@ -379,14 +411,18 @@ it('should position tooltip with bottom placement', async () => {
 it('should position tooltip with left placement', async () => {
   const placement = 'left';
 
-  const { container } = render(
-    <Tooltip placement={placement} message={`Tooltip with ${placement} placement`}>
+  render(
+    <Tooltip
+      data-testid={triggerTestId}
+      placement={placement}
+      message={`Tooltip with ${placement} placement`}
+    >
       test
     </Tooltip>,
   );
 
   // Find the content wrapper and trigger mouseEnter to show the tooltip
-  const contentWrapper = container.querySelector('.styles__ContentWrapper-sc-1dgig57-1');
+  const contentWrapper = screen.getByTestId(triggerTestId);
 
   // Use act to wrap state updates
   act(() => {
@@ -401,7 +437,8 @@ it('should position tooltip with left placement', async () => {
 
     // We can't easily test exact positioning in JSDOM, but we can verify
     // that the tooltip is positioned correctly by checking its parent's style
-    const anchorElement = tooltipText.closest('.styles__Anchor-sc-1dgig57-2');
+    const displayText = tooltipText.closest('[data-testid="tooltip-display-text"]');
+    const anchorElement = displayText?.parentElement;
     expect(anchorElement).toHaveAttribute('style');
     expect(anchorElement.style.left).toBeDefined();
     expect(anchorElement.style.top).toBeDefined();
