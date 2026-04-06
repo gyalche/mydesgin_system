@@ -1,0 +1,49 @@
+0 verbose cli /opt/homebrew/Cellar/node/24.2.0/bin/node /opt/homebrew/bin/npm
+1 info using npm@11.3.0
+2 info using node@v24.2.0
+3 silly config load:file:/opt/homebrew/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/dawasherpa/Desktop/RECEPTIONIST/receptionist-design-system/.npmrc
+5 silly config load:file:/Users/dawasherpa/.npmrc
+6 silly config load:file:/opt/homebrew/etc/npmrc
+7 verbose title npm publish
+8 verbose argv "publish"
+9 verbose logfile logs-max:10 dir:/Users/dawasherpa/Desktop/RECEPTIONIST/receptionist-design-system/.npm-cache/_logs/2025-10-29T04_55_32_605Z-
+10 verbose logfile /Users/dawasherpa/Desktop/RECEPTIONIST/receptionist-design-system/.npm-cache/_logs/2025-10-29T04_55_32_605Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose publish [ '.' ]
+13 http fetch GET https://registry.npmjs.org/npm attempt 1 failed with ENOTFOUND
+14 silly packumentCache heap:2348810240 maxSize:587202560 maxEntrySize:293601280
+15 notice
+16 notice 📦  @d-lighted/sherpa-design-system@0.4.1
+17 notice Tarball Contents
+18 notice 956B .npm-cache/_logs/2025-10-29T04_55_32_605Z-debug-0.log
+18 notice 0B .npm-cache/_update-notifier-last-checked
+18 notice 1.1kB README.md
+18 notice 173.8kB dist/sherpa-designsystem.css
+18 notice 610.1kB dist/sherpa-designsystem.js
+18 notice 4.2kB package.json
+19 notice Tarball Details
+20 notice name: @d-lighted/sherpa-design-system
+21 notice version: 0.4.1
+22 notice filename: d-lighted-sherpa-design-system-0.4.1.tgz
+23 notice package size: 189.9 kB
+24 notice unpacked size: 790.2 kB
+25 notice shasum: 468bc137ffb69446be408f5d6ac068b5d8c1949e
+26 notice integrity: sha512-QEON/BfVRQnho[...]jPnLG+7rZ7RXg==
+27 notice total files: 6
+28 notice
+29 verbose stack Error: This command requires you to be logged in to https://npm.pkg.github.com/d-lighted
+29 verbose stack     at #publish (/opt/homebrew/lib/node_modules/npm/lib/commands/publish.js:157:29)
+29 verbose stack     at async Publish.exec (/opt/homebrew/lib/node_modules/npm/lib/commands/publish.js:46:5)
+29 verbose stack     at async Npm.exec (/opt/homebrew/lib/node_modules/npm/lib/npm.js:208:9)
+29 verbose stack     at async module.exports (/opt/homebrew/lib/node_modules/npm/lib/cli/entry.js:67:5)
+30 error code ENEEDAUTH
+31 error need auth This command requires you to be logged in to https://npm.pkg.github.com/d-lighted
+32 error need auth You need to authorize this machine using `npm adduser`
+33 verbose cwd /Users/dawasherpa/Desktop/RECEPTIONIST/receptionist-design-system
+34 verbose os Darwin 24.6.0
+35 verbose node v24.2.0
+36 verbose npm  v11.3.0
+37 verbose exit 1
+38 verbose code 1
+39 error A complete log of this run can be found in: /Users/dawasherpa/Desktop/RECEPTIONIST/receptionist-design-system/.npm-cache/_logs/2025-10-29T04_55_32_605Z-debug-0.log
