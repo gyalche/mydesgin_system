@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 SLACK_URL="${SLACK_URL:-}"
 BOTNAME="frontend-deploy"
 EMOJI=":rocket:"
 APPNAME="Design System"
 
-target_env=$1
+target_env="${1:-}"
 
-if [[ ${target_env} != "prod" ]] && [[ ${target_env} != "staging" ]] && [[ ${target_env} != "testing" ]]; then
+if [[ -z "${target_env}" ]]; then
   echo "Specify stage"
   exit 1
 fi
@@ -17,23 +19,22 @@ if [[ -z "$SLACK_URL" ]]; then
   exit 1
 fi
 
-# s3 bucket
 case "$target_env" in
-  "prod")      s3_bucket="storybook.receptionist.jp" ;;
-esac
-
-# cloudfront distribution
-case "$target_env" in
-  "prod")      dist_id="E1R7O1G5RGY6HL" ;;
-esac
-
-case "$target_env" in
-  "prod")      CHANNEL="#infra-design-system" ;;
+  "prod")
+    s3_bucket="storybook.receptionist.jp"
+    dist_id="E1R7O1G5RGY6HL"
+    CHANNEL="#infra-design-system"
+    ;;
+  *)
+    echo "Unsupported stage: $target_env"
+    exit 1
+    ;;
 esac
 
 function notifiy_slack() {
   person=$(whoami)
-  branch=$(git branch | grep \*)
+  user="${USER:-$person}"
+  branch=$(git branch --show-current)
   payload=$(cat <<-EOF
     {
       "channel": "$CHANNEL",
@@ -68,7 +69,7 @@ function notifiy_slack() {
 EOF
 )
 
-  curl -X POST --data-urlencode "payload=$payload" $SLACK_URL
+  curl -X POST --data-urlencode "payload=$payload" "$SLACK_URL"
 }
 
 function build() {
@@ -98,7 +99,7 @@ function error() {
   echo "ERROR HAPPEND IN $1"
   text="$APPNAME web deploy :failed in $1"
   notifiy_slack "error" "$text" "danger"
-  exit 0
+  exit 1
 }
 
 build || error "build"
