@@ -12,7 +12,7 @@ if [[ ${target_env} != "prod" ]] && [[ ${target_env} != "staging" ]] && [[ ${tar
   exit 1
 fi
 
-if [[ -z "" ]]; then
+if [[ -z "$SLACK_URL" ]]; then
   echo "Set SLACK_URL before running this script"
   exit 1
 fi
