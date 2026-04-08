@@ -1,0 +1,28 @@
+{
+  "name": "@hamro-design-system/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "**/*.css.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "dev": "tsup src/index.ts --format esm --dts --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@vanilla-extract/css": "^1.15.3"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.6.3"
+  }
+}

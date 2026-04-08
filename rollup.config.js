@@ -15,16 +15,29 @@ const projectRootDir = path.resolve(__dirname);
 
 export default {
   input: 'src/index.js',
-  output: {
-    file: pkg.module,
-    format: 'es',
-    sourcemap: dev,
-    globals: {
-      react: 'React',
-      'styled-components': 'styled',
-      'prop-types': 'PropTypes',
+  output: [
+    {
+      file: pkg.module,
+      format: 'es',
+      sourcemap: dev,
+      globals: {
+        react: 'React',
+        'styled-components': 'styled',
+        'prop-types': 'PropTypes',
+      },
     },
-  },
+    {
+      file: pkg.main,
+      format: 'cjs',
+      sourcemap: dev,
+      exports: 'named',
+      globals: {
+        react: 'React',
+        'styled-components': 'styled',
+        'prop-types': 'PropTypes',
+      },
+    },
+  ],
   plugins: [
     peerDepsExternal(),
     includePaths({ paths: ['./'] }),
@@ -43,7 +56,7 @@ export default {
     postcss({
       modules: true,
       sourceMap: dev,
-      extract: true,
+      extract: 'styles.css',
       plugins: [
         discardComments({
           removeAll: true,

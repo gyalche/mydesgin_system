@@ -1,12 +1,33 @@
 {
-  "name": "@d-lighted/sherpa-design-system",
+  "name": "hamro-design-system",
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "version": "0.4.1",
-  "description": "Sherpa Design System for React applications",
-  "main": "dist/sherpa-designsystem.js",
-  "module": "dist/sherpa-designsystem.js",
+  "version": "0.4.2",
+  "description": "Hamro Design System for React applications",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "@babel/cli": "7.22.9",
     "@babel/core": "7.22.9",
@@ -95,6 +116,8 @@
     "storybook:deploy": "npx rimraf storybook-static && sh ./deploy_storybook.sh prod",
     "storybook:build": "storybook build",
     "storybook:run": "storybook dev -p 6006",
+    "pack:check": "npm run build:prod && npm pack --dry-run",
+    "prepublishOnly": "npm run build:prod && npm run test:silent",
     "test": "jest",
     "test:silent": "jest --silent"
   },

@@ -5,3 +5,9 @@ node_modules
 storybook-static/
 .DS_Store
 memory-bank/
+.turbo/
+coverage/
+playwright-report/
+test-results/
+.next/
+.tmp/

@@ -1,0 +1,10 @@
+{
+  "name": "@hamro-design-system/config-eslint",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "base.cjs",
+    "react-library.cjs",
+    "next-app.cjs"
+  ]
+}
