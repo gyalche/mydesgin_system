@@ -1,4 +1,4 @@
 {
-  "extends": "@hamro-design-system/config-typescript/react-library.json",
+  "extends": "../config-typescript/react-library.json",
   "include": ["src"]
 }
