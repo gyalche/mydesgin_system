@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { docsNavigation } from '../lib/docs';
+import { topNavigation } from '../lib/docs';
+import { ThemeToggle } from './theme-toggle';
 
 export function SiteHeader() {
   return (
@@ -13,14 +14,19 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="site-nav" aria-label="Main navigation">
-          {docsNavigation.map((item) => (
+          {topNavigation.map((item) => (
             <Link key={item.href} href={item.href}>
               {item.label}
             </Link>
           ))}
         </nav>
+        <div className="site-header__actions">
+          <Link className="site-search-link" href="/components">
+            Search components
+          </Link>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
 }
-

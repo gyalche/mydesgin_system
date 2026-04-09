@@ -3,10 +3,11 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Hamro Design System for React applications",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
@@ -14,6 +15,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs",
       "default": "./dist/index.mjs"
@@ -102,8 +104,12 @@
     "styled-components": "^6.0.3"
   },
   "scripts": {
+    "dev": "pnpm --filter @hamro-design-system/docs dev",
+    "dev:docs": "pnpm --filter @hamro-design-system/docs dev",
+    "build:docs": "pnpm --filter @hamro-design-system/docs build",
     "build:dev": "rimraf dist && NODE_ENV=development rollup -c rollup.config.js --bundleConfigAsCjs",
-    "build:prod": "rimraf dist && rollup -c rollup.config.js --bundleConfigAsCjs",
+    "build:prod": "rimraf dist && rollup -c rollup.config.js --bundleConfigAsCjs && npm run build:types",
+    "build:types": "tsc -p tsconfig.types.json",
     "lint": "eslint \"./{src,stories}/**/*.{jsx,js}\"",
     "lint:fix": "eslint \"./{src,stories}/**/*.{jsx,js}\" --fix",
     "prepare": "husky install",

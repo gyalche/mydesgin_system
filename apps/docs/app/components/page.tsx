@@ -1,6 +1,7 @@
+import { ComponentCard } from '../../components/component-card';
 import { ContentSection } from '../../components/content-blocks';
 import { DocsLayout } from '../../components/docs-layout';
-import { componentRoadmap } from '../../lib/docs';
+import { componentCatalog, componentRoadmap } from '../../lib/docs';
 
 export default function ComponentsPage() {
   return (
@@ -38,6 +39,17 @@ export default function ComponentsPage() {
       </ContentSection>
 
       <ContentSection
+        title="Component catalog"
+        description="Each component should present install and import actions directly, so developers can copy what they need without hunting through generic setup pages."
+      >
+        <div className="component-grid">
+          {componentCatalog.map((component) => (
+            <ComponentCard key={component.name} {...component} />
+          ))}
+        </div>
+      </ContentSection>
+
+      <ContentSection
         title="Accessibility boundary"
         description="Use Radix primitives for complex interactive building blocks rather than re-implementing overlay behavior from scratch."
       >
@@ -50,4 +62,3 @@ export default function ComponentsPage() {
     </DocsLayout>
   );
 }
-

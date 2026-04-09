@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { docsNavigation } from '../lib/docs';
+import { DocsNav } from './docs-nav';
 
 interface DocsLayoutProps {
   children: React.ReactNode;
@@ -21,14 +20,11 @@ export function DocsLayout({ children, description, title }: DocsLayoutProps) {
       <section className="page-section docs-page__body">
         <aside className="docs-sidebar">
           <div className="panel docs-sidebar__panel">
-            <strong>Navigate</strong>
-            <nav className="docs-sidebar__nav" aria-label="Documentation navigation">
-              {docsNavigation.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            <div className="docs-sidebar__heading">
+              <strong>Library docs</strong>
+              <span>Installation, foundations, components, and ecosystem guidance.</span>
+            </div>
+            <DocsNav />
           </div>
         </aside>
         <div className="docs-content">{children}</div>
@@ -36,4 +32,3 @@ export function DocsLayout({ children, description, title }: DocsLayoutProps) {
     </main>
   );
 }
-

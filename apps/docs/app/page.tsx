@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { productPillars } from '../lib/docs';
 
 const featureCards = [
   {
@@ -62,29 +63,30 @@ export default function HomePage() {
         <section className="page-section hero">
           <div className="hero__grid">
             <div>
-              <div className="eyebrow">Library platform, not a component dump</div>
-              <h1>Deploy Hamro like a real UI product.</h1>
+              <div className="eyebrow">Premium React UI platform</div>
+              <h1>Build product-grade interfaces with Hamro.</h1>
               <p>
-                Hamro Design System should feel installable, documented, themed, and
-                dependable. The package goes to npm. The docs go to Vercel. Storybook
-                supports engineering review, not the whole public experience.
+                Hamro Design System is a serious UI library platform for React, Next.js,
+                and TypeScript. It combines a reusable package, a theming system,
+                templates, design resources, and polished documentation into one product.
               </p>
               <div className="hero__actions">
-                <a className="button-link button-link--primary" href="#launch">See Deployment Path</a>
-                <Link className="button-link" href="/getting-started">Open Documentation</Link>
+                <Link className="button-link button-link--primary" href="/components">Browse Components</Link>
+                <Link className="button-link" href="/getting-started">Get Started</Link>
+                <Link className="button-link" href="/templates">See Templates</Link>
               </div>
               <div className="hero__meta">
                 <div className="stat">
-                  <strong>1</strong>
-                  npm package as the consumer contract
+                  <strong>UI</strong>
+                  Reusable component package for real apps
                 </div>
                 <div className="stat">
-                  <strong>2</strong>
-                  Public docs plus Storybook companion
+                  <strong>Theme</strong>
+                  Token-driven customization and dark mode
                 </div>
                 <div className="stat">
-                  <strong>3</strong>
-                  Release workflow with stable API discipline
+                  <strong>Ecosystem</strong>
+                  Templates, design kit, and roadmap
                 </div>
               </div>
             </div>
@@ -94,9 +96,19 @@ export default function HomePage() {
               <div className="code-block">
                 <code>{`npm install hamro-design-system\n\nimport 'hamro-design-system/styles.css';`}</code>
               </div>
+              <div className="hero-mini-grid">
+                <div className="hero-mini-card">
+                  <span>Button</span>
+                  <strong>Copy install and import commands from each component card</strong>
+                </div>
+                <div className="hero-mini-card">
+                  <span>Platform</span>
+                  <strong>Docs, templates, design resources, and showcase under one system</strong>
+                </div>
+              </div>
               <p className="list-note" style={{ marginTop: 14 }}>
-                Package publishing is the first deployment. Public docs make it usable at
-                scale.
+                Package publishing is only one part. The public docs and ecosystem
+                presentation make the library feel premium.
               </p>
             </aside>
           </div>
@@ -104,20 +116,55 @@ export default function HomePage() {
 
         <section className="page-section" id="why">
           <div className="section-heading">
-            <h2>What makes a library feel real</h2>
+            <h2>Product pillars</h2>
             <p>
-              MUI and Mantine are not just component bundles. They ship a stable package
-              contract, public docs, live examples, and enough operational discipline
-              that teams trust them in production.
+              A premium UI platform is more than a list of components. Hamro needs clear
+              product surfaces, strong customization, and enough ecosystem depth that
+              teams can adopt it with confidence.
             </p>
           </div>
           <div className="feature-grid">
-            {featureCards.map((card) => (
+            {productPillars.map((card) => (
               <article className="feature-card" key={card.title}>
                 <h3>{card.title}</h3>
-                <p>{card.body}</p>
+                <p>{card.description}</p>
+                <Link className="feature-link" href={card.href}>
+                  Explore
+                </Link>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="page-section" id="products">
+          <div className="section-heading">
+            <h2>A platform with multiple entry points</h2>
+            <p>
+              Developers should be able to approach Hamro from the angle they need:
+              package install, component exploration, themed customization, templates,
+              or design resources.
+            </p>
+          </div>
+          <div className="product-showcase">
+            <article className="product-showcase__lead">
+              <span className="eyebrow">Core package</span>
+              <h3>hamro-design-system</h3>
+              <p>
+                The stable npm entry point for current adoption. Clean exports, global
+                styles, and component imports that work in consumer apps today.
+              </p>
+              <div className="code-block">
+                <code>{`npm install hamro-design-system\nimport 'hamro-design-system/styles.css';`}</code>
+              </div>
+            </article>
+            <div className="product-showcase__grid">
+              {featureCards.map((card) => (
+                <article className="stack-card" key={card.title}>
+                  <h3>{card.title}</h3>
+                  <p>{card.body}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -145,10 +192,10 @@ export default function HomePage() {
 
         <section className="page-section" id="docs">
           <div className="section-heading">
-            <h2>Docs should be the front door</h2>
+            <h2>Documentation should sell trust</h2>
             <p>
               Storybook is still valuable, but the docs site should lead with product
-              positioning, setup guidance, architecture, and component guidance that real
+              positioning, architecture, setup guidance, and component guidance that real
               teams can navigate quickly.
             </p>
           </div>
@@ -205,4 +252,3 @@ export default function HomePage() {
       </main>
   );
 }
-

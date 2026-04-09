@@ -1,7 +1,7 @@
 import { forwardRef, type ButtonHTMLAttributes, type ElementRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cn } from '@hamro-design-system/utils';
-import { buttonRecipe } from './button.css';
+import { getButtonStyles } from './button.styles';
 
 type NativeButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -19,6 +19,7 @@ export const Button = forwardRef<ElementRef<'button'>, ButtonProps>(function But
     className,
     fullWidth,
     size = 'md',
+    style,
     tone = 'brand',
     type = 'button',
     variant = 'solid',
@@ -31,8 +32,12 @@ export const Button = forwardRef<ElementRef<'button'>, ButtonProps>(function But
   return (
     <Comp
       {...props}
-      className={cn(buttonRecipe({ variant, size, tone, fullWidth }), className)}
+      className={cn(className)}
       ref={ref}
+      style={{
+        ...getButtonStyles({ fullWidth, size, tone, variant }),
+        ...style,
+      }}
       type={asChild ? undefined : type}
     />
   );

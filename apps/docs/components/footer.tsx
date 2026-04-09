@@ -3,9 +3,8 @@ export function SiteFooter() {
     <footer className="footer">
       <div className="footer-inner">
         <span>Hamro Design System</span>
-        <span>npm package + public docs + repeatable releases</span>
+        <span>Typed UI package, semantic themes, premium docs, and roadmap-ready product architecture.</span>
       </div>
     </footer>
   );
 }
-

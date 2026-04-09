@@ -30,8 +30,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
     "@hamro-design-system/tokens": "workspace:*",
-    "@hamro-design-system/utils": "workspace:*",
-    "@vanilla-extract/recipes": "^0.5.4"
+    "@hamro-design-system/utils": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/react": "^16.2.0",
