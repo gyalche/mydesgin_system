@@ -3,8 +3,8 @@ import { create } from '@storybook/theming/create';
 export default create({
   base: 'light',
   brandTitle: 'Hamro Design System',
-  brandUrl: 'https://receptionist.jp',
-  brandImage: 'https://receptionist.jp/wp-content/themes/receptionist.jp/img/img-logo-reception.svg',
+  brandUrl: '/',
+  brandImage: null,
   brandTarget: '_self',
 
   // Typography
